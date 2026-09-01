@@ -1,4 +1,4 @@
-import { Box, BoxProps, Skeleton, SkeletonProps,styled } from '@mui/material';
+import { Box, BoxProps, Skeleton, SkeletonProps, styled } from '@mui/material';
 
 // 1. Changed to a vertical layout column with standard card boundaries
 export const CardContainer = styled(Box)<BoxProps>(({ theme }) => ({

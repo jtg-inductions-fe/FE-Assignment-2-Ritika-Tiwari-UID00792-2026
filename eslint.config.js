@@ -76,7 +76,7 @@ export default tseslint.config(
                 },
                 {
                     selector: 'function',
-                    format: ['camelCase','PascalCase'],
+                    format: ['camelCase', 'PascalCase'],
                 },
                 {
                     selector: 'typeLike',
