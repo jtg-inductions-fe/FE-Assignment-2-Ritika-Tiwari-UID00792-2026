@@ -5,10 +5,7 @@ import { RouterProvider } from 'react-router-dom';
 import { AppRoutes } from 'routes/AppRoutes';
 
 import { CssBaseline, ThemeProvider } from '@mui/material';
-
 import { theme } from '@theme';
-
-import App from './App';
 
 const rootElement = document.getElementById('root') as HTMLElement;
 
