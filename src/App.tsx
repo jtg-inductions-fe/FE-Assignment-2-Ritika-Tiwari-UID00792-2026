@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Box, Button } from '@mui/material';
 
 import { ConfirmationDialog, NullStateCard, Snackbar } from '@components';
+import { ResponsiveContainer } from 'components/Layout/ResponsiveContainer.component';
 
 export function App() {
     // This is for the demo purpose
@@ -19,16 +20,17 @@ export function App() {
     };
 
     return (
-        <Box
-            display="flex"
-            flexDirection="column"
-            justifyContent="center"
-            alignItems="center"
-            minHeight="50vh"
-        >
-            <Button onClick={() => setIsDialogOpen(true)}>
-                Open Confirmation Dialog
-            </Button>
+        <ResponsiveContainer>
+            <Box
+                display="flex"
+                flexDirection="column"
+                justifyContent="center"
+                alignItems="center"
+                minHeight="50vh"
+            >
+                <Button onClick={() => setIsDialogOpen(true)}>
+                    Open Confirmation Dialog
+                </Button>
 
             <ConfirmationDialog
                 open={isDialogOpen}
@@ -53,5 +55,6 @@ export function App() {
                 state="error"
             ></Snackbar>
         </Box>
+        </ResponsiveContainer>
     );
 }
