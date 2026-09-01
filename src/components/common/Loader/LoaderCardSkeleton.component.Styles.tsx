@@ -5,7 +5,7 @@ import {
     CardBody,
     CardContainer,
     TextSkeleton,
-} from './loader.style';
+} from './LoaderCardSkeleton.component';
 
 export const CardLoadingSkeleton: FC = () => (
     <CardContainer>
@@ -17,7 +17,7 @@ export const CardLoadingSkeleton: FC = () => (
             animation="wave"
         />
 
-        {/* 2. Card Content Text Block stacked directly below */}
+        {/* Card Content Text Block stacked directly below */}
         <CardBody>
             {/* Title */}
             <TextSkeleton

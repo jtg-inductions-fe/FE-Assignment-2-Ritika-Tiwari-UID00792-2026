@@ -1,6 +1,6 @@
 import { Box, BoxProps, Skeleton, SkeletonProps, styled } from '@mui/material';
 
-// 1. Changed to a vertical layout column with standard card boundaries
+// Changed to a vertical layout column with standard card boundaries
 export const CardContainer = styled(Box)<BoxProps>(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
@@ -12,7 +12,7 @@ export const CardContainer = styled(Box)<BoxProps>(({ theme }) => ({
     backgroundColor: theme.palette.background.paper,
 }));
 
-// 2. Structural container holding text lines below the header/media section
+// Structural container holding text lines below the header/media section
 export const CardBody = styled(Box)<BoxProps>(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',

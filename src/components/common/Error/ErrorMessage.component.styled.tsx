@@ -13,7 +13,7 @@ export const ErrorSnackbarContent = styled(SnackbarContent)(({ theme }) => ({
     backgroundColor: theme.palette.error.main,
     color: theme.palette.error.contrastText,
 
-    // Clean trick: Inject your preset typography into the internal MUI text container
+    // Inject your preset typography into the internal MUI text container
     '& .MuiSnackbarContent-message': {
         ...theme.typography.body2,
     },
