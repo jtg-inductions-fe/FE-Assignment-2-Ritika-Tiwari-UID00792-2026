@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import Snackbar, { SnackbarCloseReason } from '@mui/material/Snackbar';
 
-import { ErrorSnackbarContent,StyledButton } from './error.message.styles';
+import { ErrorSnackbarContent, StyledButton } from './error.message.styles';
 import ErrorMessageProps from './error.types';
 
 export const AutohideSnackbar: React.FC<ErrorMessageProps> = ({

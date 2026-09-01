@@ -11,8 +11,8 @@ export default function App() {
     const [open, setOpen] = useState(false);
 
     const handleSubmit = (value: boolean) => {
-        if(value){
-        setIsDialogOpen(false);
+        if (value) {
+            setIsDialogOpen(false);
         }
     };
 
@@ -21,8 +21,8 @@ export default function App() {
     };
 
     const handleClick = () => {
-        if(!open){
-        setOpen(true);
+        if (!open) {
+            setOpen(true);
         }
     };
 
