@@ -1,19 +1,20 @@
 import * as React from 'react';
-
 import CardContent from '@mui/material/CardContent';
-
 import {
     StyledDescription,
-    StyledEmptyStateCard,
+    StyledNullStateCard,
     StyledTitle,
-} from './card.styles';
-import EmptyStateProps from './card.types';
+} from './NullState.component.styled';
+import NullStateProps from './NullState.types';
 
-export const EmptyStateCard: React.FC<EmptyStateProps> = ({
+/**
+ * Null State Card Component
+ */
+export const NullStateCard: React.FC<NullStateProps> = ({
     title = 'No Data Available',
     description = 'There is nothing to display here at the moment. Try adding a new item or adjusting your filters.',
 }) => (
-    <StyledEmptyStateCard variant="outlined">
+    <StyledNullStateCard variant="outlined">
         <CardContent>
             {/* Title */}
             <StyledTitle as="h2">{title}</StyledTitle>
@@ -21,5 +22,5 @@ export const EmptyStateCard: React.FC<EmptyStateProps> = ({
             {/* Description */}
             <StyledDescription>{description}</StyledDescription>
         </CardContent>
-    </StyledEmptyStateCard>
+    </StyledNullStateCard>
 );

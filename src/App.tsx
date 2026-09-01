@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Button } from '@mui/material';
-import { EmptyStateCard } from './components/common/card/card.emptyState';
-import { ConfirmationDialog } from './components/common/dialog/dialog.confirmation';
-import { AutohideSnackbar } from './components/common/error/error.message';
+import { NullStateCard } from './components/common/Card/NullState.component';
+import { ConfirmationDialog } from './components/common/Dialog/ConfirmationDialog.component';
+import { AutohideSnackbar } from './components/common/Error/ErrorMessage.component';
 
 export default function App() {
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
@@ -44,7 +44,7 @@ export default function App() {
                 title="Confirmation Dialog"
                 description="Are you sure you want to logout?"
             />
-            <EmptyStateCard
+            <NullStateCard
                 title="No Data Available"
                 description="There is nothing to display here at the moment. Try adding a new item or adjusting your filters."
             />

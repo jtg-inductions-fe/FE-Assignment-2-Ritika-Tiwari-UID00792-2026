@@ -10,7 +10,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 
-import ConfirmationDialogProps from './dialog.types';
+import ConfirmationDialogProps from './ConfirmationDialog.types';
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -21,6 +21,9 @@ const Transition = React.forwardRef(function Transition(
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
+/**
+ * Confirmation Dialog Component
+ */
 export const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
     open,
     onClose,
@@ -30,12 +33,18 @@ export const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
 }) => {
     const [inputValue, setInputValue] = useState(false);
 
+    /**
+     * Handle YES state of the Confirmation Dialog Component
+     */
     const handleSave = () => {
         setInputValue(true);
         onSubmit(inputValue);
         onClose();
     };
 
+    /**
+     * Handle Cancel state of the Confirmation Dialog Component
+     */
     const handleCancel = () => {
         setInputValue(false);
         onSubmit(inputValue);
