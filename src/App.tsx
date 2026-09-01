@@ -1,7 +1,5 @@
 import { useState } from 'react';
-
 import { Button } from '@mui/material';
-
 import { EmptyStateCard } from './components/common/card/card.emptyState';
 import { ConfirmationDialog } from './components/common/dialog/dialog.confirmation';
 import { AutohideSnackbar } from './components/common/error/error.message';
@@ -31,9 +29,8 @@ export default function App() {
             style={{
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'space-evenly',
                 alignItems: 'center',
-                height: '100vh',
+                height: '50vh',
             }}
         >
             <Button onClick={() => setIsDialogOpen(true)}>
