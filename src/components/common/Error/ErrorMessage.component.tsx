@@ -6,7 +6,7 @@ import {
     ErrorSnackbarContent,
     StyledButton,
 } from './ErrorMessage.component.styled';
-import ErrorMessageProps from './ErrorMessage.types';
+import { ErrorMessageProps } from './ErrorMessage.types';
 
 export const AutohideSnackbar: React.FC<ErrorMessageProps> = ({
     errorMessage,

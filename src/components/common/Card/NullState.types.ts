@@ -1,7 +1,7 @@
 /**
  * Types for the props of NullState Component
  */
-export default interface NullStateProps {
+export interface NullStateProps {
     title?: string;
     description?: string;
 }

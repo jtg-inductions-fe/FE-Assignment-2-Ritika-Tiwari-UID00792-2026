@@ -1,6 +1,6 @@
 /**
  * Types for the props of ErrorMessage Component
  */
-export default interface ErrorMessageProps {
+export interface ErrorMessageProps {
     errorMessage?: string;
 }

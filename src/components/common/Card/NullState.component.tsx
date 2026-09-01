@@ -5,7 +5,7 @@ import {
     StyledNullStateCard,
     StyledTitle,
 } from './NullState.component.styled';
-import NullStateProps from './NullState.types';
+import { NullStateProps } from './NullState.types';
 
 /**
  * Null State Card Component
