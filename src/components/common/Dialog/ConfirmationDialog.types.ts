@@ -1,3 +1,6 @@
+/**
+ * Types for the props of Confirmation Dialog Component
+ */
 export default interface ConfirmationDialogProps {
     open: boolean;
     onClose: () => void;
