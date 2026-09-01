@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Box, Button } from '@mui/material';
 
 import { ConfirmationDialog, NullStateCard, Snackbar } from '@components';
-import { ResponsiveContainer } from 'components/Layout/ResponsiveContainer.component';
+import { ResponsiveContainer } from 'components/layouts/Container/ResponsiveContainer.component';
 
 export function App() {
     // This is for the demo purpose
