@@ -3,7 +3,7 @@ import { Cart } from 'pages/Cart';
 import { Home } from 'pages/Home';
 import { Login } from 'pages/Login';
 import { Menu } from 'pages/Menu';
-import { NotFoundPage } from 'pages/NotFoundPage';
+import { NotFoundPage } from 'pages/NotFoundPage/NotFoundPage.page';
 import { OrderPortal } from 'pages/OrderPortal';
 import { Restaurant } from 'pages/Restaurant';
 import { SignUp } from 'pages/Signup';

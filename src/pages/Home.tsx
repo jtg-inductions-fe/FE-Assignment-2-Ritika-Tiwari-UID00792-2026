@@ -1,9 +1,5 @@
 import { useState } from 'react';
-
-import { Link } from 'react-router-dom';
-
 import { Button } from '@mui/material';
-
 import { NullStateCard } from '../components/common/Card/NullState.component';
 import { ConfirmationDialog } from '../components/common/Dialog/ConfirmationDialog.component';
 import { AutohideSnackbar } from '../components/common/Error/ErrorMessage.component';
@@ -55,9 +51,6 @@ export function Home() {
                     title="No Data Available"
                     description="There is nothing to display here at the moment. Try adding a new item or adjusting your filters."
                 />
-                <Link to="/Cart" style={{ marginRight: '10px' }}>
-                    Cart
-                </Link>
                 <Button onClick={handleClick}></Button>
                 <AutohideSnackbar errorMessage="You have given a wrong input"></AutohideSnackbar>
             </div>
