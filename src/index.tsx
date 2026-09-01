@@ -1,11 +1,12 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
+import { RouterProvider } from 'react-router-dom';
+import { AppRoutes } from 'routes/AppRoutes';
+
 import { CssBaseline, ThemeProvider } from '@mui/material';
 
 import { theme } from '@theme';
-
-import { App } from './App';
 
 const rootElement = document.getElementById('root') as HTMLElement;
 
@@ -13,7 +14,7 @@ createRoot(rootElement).render(
     <StrictMode>
         <ThemeProvider theme={theme}>
             <CssBaseline />
-            <App />
+            <RouterProvider router={AppRoutes} />
         </ThemeProvider>
     </StrictMode>,
 );
