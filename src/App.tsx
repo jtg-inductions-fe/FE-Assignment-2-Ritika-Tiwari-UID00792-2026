@@ -6,7 +6,7 @@ import { EmptyStateCard } from './components/common/card/card.emptyState';
 import { ConfirmationDialog } from './components/common/dialog/dialog.confirmation';
 import { AutohideSnackbar } from './components/common/error/error.message';
 
-export default function App() {
+export function App() {
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
     const [open, setOpen] = useState(false);
 

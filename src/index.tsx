@@ -7,10 +7,8 @@ import { AppRoutes } from 'routes/AppRoutes';
 import { store } from '@store';
 
 import { CssBaseline, ThemeProvider } from '@mui/material';
-
 import { theme } from '@theme';
-
-import App from './App';
+import { App } from './App';
 
 const rootElement = document.getElementById('root') as HTMLElement;
 
