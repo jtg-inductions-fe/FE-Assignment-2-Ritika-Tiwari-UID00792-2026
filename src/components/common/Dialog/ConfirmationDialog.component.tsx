@@ -83,7 +83,7 @@ export const ConfirmationDialog = ({
             <DialogActions>
                 <ButtonSecondary onClick={handleCancel}>
                     <Typography
-                        variant="body2"
+                        variant="button"
                         component="span"
                         color="color.primary.contrastText"
                     >
@@ -92,7 +92,7 @@ export const ConfirmationDialog = ({
                 </ButtonSecondary>
                 <ButtonPrimary onClick={handleConfirmation} variant="contained">
                     <Typography
-                        variant="body2"
+                        variant="button"
                         component="span"
                         color="color.primary.contrastText"
                     >

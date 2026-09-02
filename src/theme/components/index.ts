@@ -12,14 +12,14 @@ const fontFaceDeclarations = `
         font-display: swap; 
         font-family: 'Inter';
         font-style: normal;
-        font-weight: 500;
+        font-weight: 300;
         src: url(${InterRegularWOFF2}) format('woff2'), 
       };
         @font-face {
         font-display: swap; 
         font-family: 'Inter';
         font-style: normal;
-        font-weight: 500;
+        font-weight: 400;
         src: url(${InterLightWOFF2}) format('woff2'), 
       };
         @font-face {
@@ -33,7 +33,7 @@ const fontFaceDeclarations = `
         font-display: swap; 
         font-family: 'Inter';
         font-style: normal;
-        font-weight: 500;
+        font-weight: 700;
         src: url(${InterBoldWOFF2}) format('woff2'), 
       };
     `;
