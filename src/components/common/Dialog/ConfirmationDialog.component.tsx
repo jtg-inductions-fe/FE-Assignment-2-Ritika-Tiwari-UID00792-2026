@@ -1,7 +1,4 @@
 import * as React from 'react';
-import { useState } from 'react';
-
-import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -11,7 +8,12 @@ import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 
 import { ConfirmationDialogProps } from './ConfirmationDialog.types';
+import { ButtonPrimary, ButtonSecondary } from '../Button/button.styles';
+import { Typography } from '@mui/material';
 
+/**
+ * MUI transition props used for the confirmation dialog
+ */
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
         children: React.ReactElement;
@@ -22,23 +24,20 @@ const Transition = React.forwardRef(function Transition(
 });
 
 /**
- * Confirmation Dialog Component
+ * MUI component for the confirmation dialog used in the website
  */
-export const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
+export const ConfirmationDialog = ({
     open,
     onClose,
     onSubmit,
     title = 'Enter Value',
     description = 'Please enter the required information below.',
-}) => {
-    const [inputValue, setInputValue] = useState(false);
-
+}: ConfirmationDialogProps) => {
     /**
-     * Handle YES state of the Confirmation Dialog Component
+     * Handle confirm event of the Confirmation Dialog Component
      */
-    const handleSave = () => {
-        setInputValue(true);
-        onSubmit(inputValue);
+    const handleConfirmation = () => {
+        onSubmit(true);
         onClose();
     };
 
@@ -46,8 +45,7 @@ export const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
      * Handle Cancel state of the Confirmation Dialog Component
      */
     const handleCancel = () => {
-        setInputValue(false);
-        onSubmit(inputValue);
+        onSubmit(false);
         onClose();
     };
 
@@ -62,19 +60,40 @@ export const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
             aria-describedby="alert-dialog-slide-description"
             role="alertdialog"
         >
-            <DialogTitle>{title}</DialogTitle>
+            <DialogTitle variant="h6" color="text.primary" gutterBottom>
+                {title}
+            </DialogTitle>
 
             <DialogContent>
-                <DialogContentText id="alert-dialog-slide-description">
+                <DialogContentText
+                    id="alert-dialog-slide-description"
+                    variant="body2"
+                    color="text.secodary"
+                    gutterBottom
+                >
                     {description}
                 </DialogContentText>
             </DialogContent>
 
             <DialogActions>
-                <Button onClick={handleCancel}>Cancel</Button>
-                <Button onClick={handleSave} variant="contained">
-                    Yes
-                </Button>
+                <ButtonSecondary onClick={handleCancel}>
+                    <Typography
+                        variant="body2"
+                        component="span"
+                        color="color.primary.contrastText"
+                    >
+                        Cancel
+                    </Typography>
+                </ButtonSecondary>
+                <ButtonPrimary onClick={handleConfirmation} variant="contained">
+                    <Typography
+                        variant="body2"
+                        component="span"
+                        color="color.primary.contrastText"
+                    >
+                        Yes
+                    </Typography>
+                </ButtonPrimary>
             </DialogActions>
         </Dialog>
     );

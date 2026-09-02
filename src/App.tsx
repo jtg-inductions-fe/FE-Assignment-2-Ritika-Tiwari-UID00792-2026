@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Button } from '@mui/material';
 import { NullStateCard } from './components/common/Card/NullState.component';
 import { ConfirmationDialog } from './components/common/Dialog/ConfirmationDialog.component';
-import { AutohideSnackbar } from './components/common/Error/ErrorMessage.component';
+import { Snackbar } from './components/common/Message/Message.component';
 
 export function App() {
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
@@ -25,6 +25,7 @@ export function App() {
     };
 
     return (
+        // This is for the demo purpose
         <div
             style={{
                 display: 'flex',
@@ -49,7 +50,10 @@ export function App() {
                 description="There is nothing to display here at the moment. Try adding a new item or adjusting your filters."
             />
             <Button onClick={handleClick}></Button>
-            <AutohideSnackbar errorMessage="You have given a wrong input"></AutohideSnackbar>
+            <Snackbar
+                message="You have given a wrong input"
+                state="success"
+            ></Snackbar>
         </div>
     );
 }

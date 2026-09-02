@@ -1,0 +1,37 @@
+import { Button, styled } from '@mui/material';
+
+export const ButtonPrimary = styled(Button)(({ theme }) => ({
+    boxShadow: theme.shadows[2],
+    padding: theme.spacing(1, 3),
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText,
+    transition: 'transform 0.3s ease',
+    '&:hover': {
+        backgroundColor: theme.palette.background.default,
+        color: theme.palette.primary.main,
+        transform: 'translateY(2px)',
+    },
+}));
+
+export const ButtonSecondary = styled(Button)(({ theme }) => ({
+    boxShadow: theme.shadows[2],
+    padding: theme.spacing(1, 3),
+    backgroundColor: theme.palette.background.default,
+    color: theme.palette.primary.main,
+    transition: 'transform 0.3s ease',
+    '&:hover': {
+        transform: 'translateY(2px)',
+    },
+}));
+
+export const ButtonTertiary = styled(Button)(({ theme }) => ({
+    boxShadow: theme.shadows[2],
+    padding: theme.spacing(1, 3),
+    backgroundColor: theme.palette.secondary.main,
+    color: theme.palette.secondary.contrastText,
+    transition: 'transform 0.3s ease',
+    '&:hover': {
+        backgroundColor: theme.palette.secondary.dark,
+        transform: 'translateY(2px)',
+    },
+}));
