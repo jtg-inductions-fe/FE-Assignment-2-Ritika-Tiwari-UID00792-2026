@@ -45,7 +45,7 @@ export function App() {
             />
             <Snackbar
                 message="You have given a wrong input"
-                state="success"
+                state="error"
             ></Snackbar>
         </Box>
     );

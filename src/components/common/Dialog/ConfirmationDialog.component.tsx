@@ -1,14 +1,15 @@
 import * as React from 'react';
 
-import { Typography } from '@mui/material';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import Slide from '@mui/material/Slide';
+import {
+    Typography,
+    Dialog,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Slide,
+    DialogActions,
+} from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
-
 import { ConfirmationDialogProps } from './ConfirmationDialog.types';
 import { ButtonPrimary, ButtonSecondary } from '../Button';
 
@@ -25,7 +26,9 @@ const Transition = React.forwardRef(function Transition(
 });
 
 /**
- * MUI component for the confirmation dialog used in the website
+ * Confirmation component to confirm the user's actions like logout, delete items etc.
+ *
+ * @param ConfirmationDialogProps -  props define the types of arguments passed to the component.
  */
 export const ConfirmationDialog = ({
     open,
