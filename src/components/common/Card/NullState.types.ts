@@ -1,5 +1,5 @@
 /**
- * Types for the props of NullState Component
+ * Types of the props passed in NullState Component
  */
 export interface NullStateProps {
     title: string;
