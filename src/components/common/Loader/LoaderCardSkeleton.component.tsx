@@ -1,4 +1,5 @@
 import { Skeleton, Typography } from '@mui/material';
+
 import {
     BaseSkeleton,
     CardBody,
