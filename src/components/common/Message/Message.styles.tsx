@@ -1,5 +1,4 @@
-import SnackbarContent from '@mui/material/SnackbarContent';
-import { styled } from '@mui/material/styles';
+import { styled, SnackbarContent } from '@mui/material';
 
 import { StyledContentProps } from './Message.types';
 

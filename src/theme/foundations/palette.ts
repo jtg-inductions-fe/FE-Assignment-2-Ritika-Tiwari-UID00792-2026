@@ -10,7 +10,7 @@ export const palette: PaletteOptions = {
     },
 
     secondary: {
-        main: COLORS.BRAND.ACCENT,
+        main: COLORS.BRAND.PRIMARY,
         dark: COLORS.BRAND.ACCENT_HOVER,
         light: COLORS.BRAND.ACCENT_LIGHT,
         contrastText: COLORS.TEXT.ON_ACCENT,

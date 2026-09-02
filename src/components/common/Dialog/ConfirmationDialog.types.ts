@@ -1,5 +1,5 @@
 /**
- * Types for the props of Confirmation Dialog Component
+ * Types of props passed in Confirmation Dialog Component
  */
 export interface ConfirmationDialogProps {
     open: boolean;

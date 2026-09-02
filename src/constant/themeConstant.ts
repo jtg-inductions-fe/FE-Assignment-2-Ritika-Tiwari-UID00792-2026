@@ -5,8 +5,7 @@
 export const COLORS = {
     // Colors for the brand
     BRAND: {
-        PRIMARY: '#1B4332',
-        ACCENT: '#70E000',
+        PRIMARY: '#70E000',
         ACCENT_HOVER: '#5BB300',
         ACCENT_LIGHT: '#F4FFE6',
     },

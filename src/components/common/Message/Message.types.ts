@@ -1,5 +1,5 @@
 /**
- * Types for the props of Snackbar Message Component
+ * Types of the props passed in Snackbar Message Component
  */
 export interface MessageProps {
     message: string;
@@ -7,7 +7,7 @@ export interface MessageProps {
 }
 
 /**
- * Types for the props of Message Component state
+ * Types of the props passed for the Message Component state
  */
 export interface StyledContentProps {
     $state: 'success' | 'warning' | 'error';
