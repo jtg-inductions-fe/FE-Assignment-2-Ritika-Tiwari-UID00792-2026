@@ -5,7 +5,7 @@ import MuiSnackbar, { SnackbarCloseReason } from '@mui/material/Snackbar';
 
 import { StyledSnackbarContent } from './Message.styles';
 import { MessageProps } from './Message.types';
-import { ButtonPrimary } from '../Button';
+import { ButtonPrimary } from '../Button/styles/ButtonPrimary';
 
 /**
  * SnackBar component to show the message to the user.
