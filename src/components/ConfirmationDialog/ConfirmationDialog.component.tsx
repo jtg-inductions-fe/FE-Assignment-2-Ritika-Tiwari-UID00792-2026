@@ -11,7 +11,6 @@ import {
     Typography,
 } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
-
 import { ConfirmationDialogProps } from './ConfirmationDialog.types';
 
 /**
