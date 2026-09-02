@@ -1,10 +1,13 @@
 import { useState } from 'react';
-import { Button } from '@mui/material';
+
+import { Box, Button } from '@mui/material';
+
 import { NullStateCard } from './components/common/Card/NullState.component';
 import { ConfirmationDialog } from './components/common/Dialog/ConfirmationDialog.component';
 import { Snackbar } from './components/common/Message/Message.component';
 
 export function App() {
+    // This is for the demo purpose
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
     const [open, setOpen] = useState(false);
 
@@ -25,14 +28,12 @@ export function App() {
     };
 
     return (
-        // This is for the demo purpose
-        <div
-            style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                height: '50vh',
-            }}
+        <Box
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="center"
+            minHeight="50vh"
         >
             <Button onClick={() => setIsDialogOpen(true)}>
                 Open Confirmation Dialog
@@ -54,6 +55,6 @@ export function App() {
                 message="You have given a wrong input"
                 state="success"
             ></Snackbar>
-        </div>
+        </Box>
     );
 }

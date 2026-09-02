@@ -1,9 +1,11 @@
 import * as React from 'react';
+
+import { Typography } from '@mui/material';
 import MuiSnackbar, { SnackbarCloseReason } from '@mui/material/Snackbar';
+
 import { StyledSnackbarContent } from './Message.styles';
 import { MessageProps } from './Message.types';
-import { ButtonPrimary } from '../Button/button.styles';
-import { Typography } from '@mui/material';
+import { ButtonPrimary } from '../Button';
 export const Snackbar = ({ message, state }: MessageProps) => {
     const [open, setOpen] = React.useState(false);
 

@@ -1,5 +1,6 @@
 import SnackbarContent from '@mui/material/SnackbarContent';
 import { styled } from '@mui/material/styles';
+
 import { StyledContentProps } from './Message.types';
 
 // Pass the interface to the styled wrapper
