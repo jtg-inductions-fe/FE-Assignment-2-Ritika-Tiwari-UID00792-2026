@@ -1,10 +1,13 @@
 import { useState } from 'react';
-import { Button } from '@mui/material';
+
+import { Box, Button } from '@mui/material';
+
 import { NullStateCard } from './components/common/Card/NullState.component';
 import { ConfirmationDialog } from './components/common/Dialog/ConfirmationDialog.component';
 import { AutohideSnackbar } from './components/common/Error/ErrorMessage.component';
 
 export function App() {
+    // This is for the demo purpose
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
     const [open, setOpen] = useState(false);
 
