@@ -13,9 +13,8 @@ export const COLORS = {
 
     // Colors for the background of pages and cards
     SURFACE: {
-        CANVAS: '#FFFFFF',
-        CARD: '#F9FBF9',
-        NAVBAR: '#1B4332',
+        BG_PRIMARY: '#FFFFFF',
+        BG_SECONDARY: '#F9FBF9',
         MUTED: '#F3F4F6',
     },
 

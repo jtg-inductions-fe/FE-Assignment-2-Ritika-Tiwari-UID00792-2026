@@ -1,14 +1,16 @@
+import { Typography } from '@mui/material';
 import CardContent from '@mui/material/CardContent';
+
 import { StyledNullStateCard } from './NullState.styles';
 import { NullStateProps } from './NullState.types';
-import { Typography } from '@mui/material';
 
-/**
- * Null State Card Component
- */
+const TITLE = 'No Data Available';
+const DESCRIPTION =
+    'There is nothing to display here at the moment. Try adding a new item or adjusting your filters.';
+
 export const NullStateCard = ({
-    title = 'No Data Available',
-    description = 'There is nothing to display here at the moment. Try adding a new item or adjusting your filters.',
+    title = TITLE,
+    description = DESCRIPTION,
 }: NullStateProps) => (
     <StyledNullStateCard variant="outlined">
         <CardContent>

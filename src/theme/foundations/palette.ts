@@ -8,7 +8,7 @@ export const palette: PaletteOptions = {
         main: COLORS.BRAND.PRIMARY,
         contrastText: COLORS.TEXT.ON_PRIMARY,
     },
-    // Colors for the interative elements
+
     secondary: {
         main: COLORS.BRAND.ACCENT,
         dark: COLORS.BRAND.ACCENT_HOVER,
@@ -17,8 +17,8 @@ export const palette: PaletteOptions = {
     },
     // Colors used for the background of pages and cards
     background: {
-        default: COLORS.SURFACE.CANVAS,
-        paper: COLORS.SURFACE.CARD,
+        default: COLORS.SURFACE.BG_PRIMARY,
+        paper: COLORS.SURFACE.BG_SECONDARY,
     },
     // Colors used for the typography
     text: {
