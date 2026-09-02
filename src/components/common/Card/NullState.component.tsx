@@ -1,4 +1,5 @@
 import { CardContent, Typography } from '@mui/material';
+
 import { StyledNullStateCard } from './NullState.styles';
 import { NullStateProps } from './NullState.types';
 

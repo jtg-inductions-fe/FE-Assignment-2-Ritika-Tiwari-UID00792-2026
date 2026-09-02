@@ -2,9 +2,7 @@ import { useState } from 'react';
 
 import { Box, Button } from '@mui/material';
 
-import { NullStateCard } from './components/common/Card/NullState.component';
-import { ConfirmationDialog } from './components/common/Dialog/ConfirmationDialog.component';
-import { Snackbar } from './components/common/Message/Message.component';
+import { ConfirmationDialog, NullStateCard, Snackbar } from '@components';
 
 export function App() {
     // This is for the demo purpose

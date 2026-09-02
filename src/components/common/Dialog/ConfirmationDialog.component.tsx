@@ -1,17 +1,18 @@
 import * as React from 'react';
 
 import {
-    Typography,
     Dialog,
+    DialogActions,
     DialogContent,
     DialogContentText,
     DialogTitle,
     Slide,
-    DialogActions,
+    Typography,
 } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
+
 import { ConfirmationDialogProps } from './ConfirmationDialog.types';
-import { ButtonPrimary, ButtonSecondary } from '../Button';
+import { ButtonPrimary, ButtonSecondary } from '../Button/index';
 
 /**
  * MUI transition props used for the confirmation dialog
