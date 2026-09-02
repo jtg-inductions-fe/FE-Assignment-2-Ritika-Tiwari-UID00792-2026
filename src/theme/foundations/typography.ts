@@ -3,7 +3,7 @@ import type {
     TypographyOptions,
     TypographyUtils,
 } from '@mui/material/styles/createTypography';
-import '@fontsource/inter';
+
 import { HTML_FONT_SIZE } from '@constant';
 
 import InterLight from 'assets/fonts/inter/Inter-Light.woff2';
