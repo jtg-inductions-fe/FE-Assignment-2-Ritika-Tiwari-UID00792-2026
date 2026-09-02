@@ -1,4 +1,4 @@
-import type { Theme, Components } from '@mui/material/styles';
+import type { Theme } from '@mui/material/styles';
 import type {
     TypographyOptions,
     TypographyUtils,
@@ -6,53 +6,22 @@ import type {
 
 import { HTML_FONT_SIZE } from '@constant';
 
-import InterLight from 'assets/fonts/inter/Inter-Light.woff2';
-import InterRegular from 'assets/fonts/inter/Inter-Regular.woff2';
-import InterMedium from 'assets/fonts/inter/Inter-Medium.woff2';
-import InterBold from 'assets/fonts/inter/Inter-Bold.woff2';
-
 /* Custom px to rem function */
 const typographyUtil: TypographyUtils = {
+    /**
+     * Converts a pixel value to rem units.
+     * @param px - The pixel value to convert.
+     * @returns The equivalent value in rem units as a string.
+     */
     pxToRem: (px: number) => `${px / HTML_FONT_SIZE}` + 'rem',
 };
 
-// Separate your global font injections into a component configuration block
-export const componentsStyle = (): Components<Omit<Theme, 'components'>> => ({
-    MuiCssBaseline: {
-        styleOverrides: `
-            @font-face {
-              font-family: 'Inter';
-              font-style: normal;
-              font-display: swap;
-              font-weight: 300;
-              src: url(${InterLight}) format('woff2');
-            }
-            @font-face {
-              font-family: 'Inter';
-              font-style: normal;
-              font-display: swap;
-              font-weight: 400;
-              src: url(${InterRegular}) format('woff2');
-            }
-            @font-face {
-              font-family: 'Inter';
-              font-style: normal;
-              font-display: swap;
-              font-weight: 500;
-              src: url(${InterMedium}) format('woff2');
-            }
-            @font-face {
-              font-family: 'Inter';
-              font-style: normal;
-              font-display: swap;
-              font-weight: 700;
-              src: url(${InterBold}) format('woff2');
-            }
-        `,
-    },
-});
-
-// Clean typography options containing strictly type properties
+// TODO: Add the necessary typographies here.
+/**
+ * Creates a typography block with various styles
+ * @param theme - Theme object to access the breakpoints.
+ * @returns The function returns a TypographyOptions object, which includes various typography settings,
+ */
 export const typographyStyle = (theme: Theme): TypographyOptions => ({
     fontFamily: 'Inter, sans-serif',
     htmlFontSize: HTML_FONT_SIZE,
@@ -143,18 +112,12 @@ export const typographyStyle = (theme: Theme): TypographyOptions => ({
         fontSize: typographyUtil.pxToRem(16),
         fontWeight: 500,
         lineHeight: 1.5,
-        [theme.breakpoints.up('lg')]: {
-            fontSize: typographyUtil.pxToRem(18),
-        },
     },
 
     subtitle2: {
         fontSize: typographyUtil.pxToRem(14),
         fontWeight: 500,
         lineHeight: 1.5,
-        [theme.breakpoints.up('lg')]: {
-            fontSize: typographyUtil.pxToRem(15),
-        },
     },
 
     body1: {
@@ -180,6 +143,7 @@ export const typographyStyle = (theme: Theme): TypographyOptions => ({
         fontSize: typographyUtil.pxToRem(14),
         fontWeight: 600,
         lineHeight: 1.4,
+        textTransform: 'none',
         [theme.breakpoints.up('md')]: {
             fontSize: typographyUtil.pxToRem(15),
         },
@@ -198,4 +162,4 @@ export const typographyStyle = (theme: Theme): TypographyOptions => ({
     },
 });
 
-export const typography = { typographyStyle, typographyUtil, componentsStyle };
+export const typography = { typographyStyle, typographyUtil };

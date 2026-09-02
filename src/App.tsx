@@ -9,7 +9,6 @@ import { Snackbar } from './components/common/Message/Message.component';
 export function App() {
     // This is for the demo purpose
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-    const [open, setOpen] = useState(false);
 
     const handleSubmit = (value: boolean) => {
         if (value) {
@@ -19,12 +18,6 @@ export function App() {
 
     const handleClose = () => {
         setIsDialogOpen(false);
-    };
-
-    const handleClick = () => {
-        if (!open) {
-            setOpen(true);
-        }
     };
 
     return (
@@ -50,7 +43,6 @@ export function App() {
                 title="No Data Available"
                 description="There is nothing to display here at the moment. Try adding a new item or adjusting your filters."
             />
-            <Button onClick={handleClick}></Button>
             <Snackbar
                 message="You have given a wrong input"
                 state="success"

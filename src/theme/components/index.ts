@@ -1,8 +1,10 @@
 import type { Components } from '@mui/material/styles';
 
+import InterBoldWOFF2 from '@assets/fonts/inter/Inter-Bold.woff2';
 // Local Font files
-import InterRegularTTF from '@assets/fonts/inter/inter-regular.ttf';
-import InterRegularWOFF2 from '@assets/fonts/inter/inter-regular.woff2';
+import InterLightWOFF2 from '@assets/fonts/inter/Inter-Light.woff2';
+import InterMediumWOFF2 from '@assets/fonts/inter/Inter-Medium.woff2';
+import InterRegularWOFF2 from '@assets/fonts/inter/Inter-Regular.woff2';
 
 // TODO: Add necessary font face declarations here
 const fontFaceDeclarations = `
@@ -12,7 +14,27 @@ const fontFaceDeclarations = `
         font-style: normal;
         font-weight: 500;
         src: url(${InterRegularWOFF2}) format('woff2'), 
-        url(${InterRegularTTF}) format('truetype');
+      };
+        @font-face {
+        font-display: swap; 
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 500;
+        src: url(${InterLightWOFF2}) format('woff2'), 
+      };
+        @font-face {
+        font-display: swap; 
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 500;
+        src: url(${InterMediumWOFF2}) format('woff2'), 
+      };
+        @font-face {
+        font-display: swap; 
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 500;
+        src: url(${InterBoldWOFF2}) format('woff2'), 
       };
     `;
 
