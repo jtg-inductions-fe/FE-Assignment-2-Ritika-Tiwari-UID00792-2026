@@ -1,5 +1,4 @@
 import {
-    AppBar,
     Avatar,
     Box,
     Button,
@@ -10,7 +9,8 @@ import {
     TypographyProps,
 } from '@mui/material';
 
-export const StyledAppBar = styled(AppBar)(({ theme }) => ({
+export const StyledAppBar = styled('header')(({ theme }) => ({
+    position: 'static',
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[1],
 }));
@@ -22,10 +22,11 @@ export const StyledToolbar = styled(Toolbar)({
 });
 
 // Left branding alignment setup
-export const LogoContainer = styled('div')({
+export const LogoContainer = styled('a')({
     display: 'flex',
     alignItems: 'center',
     cursor: 'pointer',
+    textDecoration: 'none',
     '& img': {
         width: '36px',
         height: '36px',
@@ -40,7 +41,7 @@ export const CleanTypography = styled(Typography)<TypographyProps<'a'>>({
 });
 
 // Right container wrapper grouping actions
-export const ActionsContainer = styled(Box)({
+export const ActionsContainer = styled('nav')({
     display: 'flex',
     alignItems: 'center',
     gap: '12px',
