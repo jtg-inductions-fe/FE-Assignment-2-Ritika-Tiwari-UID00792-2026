@@ -1,7 +1,7 @@
 import { CardContent, Typography } from '@mui/material';
 
-import { StyledNullStateCard } from './NullState.styles';
-import { NullStateProps } from './NullState.types';
+import { StyledNullStateCard } from './NullStateCard.styles';
+import { NullStateCardProps } from './NullStateCard.types';
 
 // Constant for the default value of title and description
 const TITLE = 'No Data Available';
@@ -11,14 +11,14 @@ const DESCRIPTION =
 /**
  * Null State component to show the Null State when data is not available.
  *
- * @param NullStateProps -  The configuration properties for the rendering Null State Card component.
+ * @param NullStateCardProps -  The configuration properties for the rendering Null State Card component.
  * @returns returns the JSX.Element
  * @component Card
  */
 export const NullStateCard = ({
     title = TITLE,
     description = DESCRIPTION,
-}: NullStateProps) => (
+}: NullStateCardProps) => (
     <StyledNullStateCard variant="outlined">
         <CardContent>
             {/* Title */}

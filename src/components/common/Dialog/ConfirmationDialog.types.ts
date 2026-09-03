@@ -4,9 +4,9 @@
 export interface ConfirmationDialogProps {
     /**Controls the visibility state of the confirmation dialog modal. */
     open: boolean;
-    /** Callback function triggeres when the requests to close or cancel the dialog. */
+    /** Callback function triggers when the requests to close or cancel the dialog. */
     onClose: () => void;
-    /** Callback function triggeres when user successfully confirms the action. */
+    /** Callback function triggers when user successfully confirms the action. */
     onSubmit: (value: boolean) => void;
     /** Title shown on the confirmation dialog. */
     title: string;
