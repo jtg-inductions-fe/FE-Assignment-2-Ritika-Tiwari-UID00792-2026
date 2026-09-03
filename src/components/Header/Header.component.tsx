@@ -72,6 +72,7 @@ export const Header = ({
      */
     const handleLogout = () => {
         handleCloseProfilePopover();
+        // TODO: Add authentication logout dispatch actions here
     };
 
     // Helper variables for accessibility and popover visibility state

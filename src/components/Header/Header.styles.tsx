@@ -22,7 +22,7 @@ export const StyledToolbar = styled(Toolbar)(({ theme }) => ({
 }));
 
 // Left branding alignment setup
-export const LogoContainer = styled('div')({
+export const LogoContainer = styled('a')({
     display: 'flex',
     alignItems: 'center',
     textDecoration: 'none',
