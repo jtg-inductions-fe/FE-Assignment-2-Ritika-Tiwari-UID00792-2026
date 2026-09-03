@@ -1,8 +1,6 @@
-import React from 'react';
-
 import { Link, Outlet } from 'react-router-dom';
 
-export const MainLayout: React.FC = () => (
+export const MainLayout = () => (
     <div className="app-container">
         <header className="header">
             <h1>Header</h1>

@@ -2,10 +2,10 @@ import { Button, styled } from '@mui/material';
 
 /** Styled wrapper for the primary button used in the application. */
 export const ButtonPrimary = styled(Button)(({ theme }) => ({
-    boxShadow: theme.shadows[2],
+    boxShadow: theme.shadows[8],
     padding: theme.spacing(1, 3),
     backgroundColor: theme.palette.secondary.main,
-    color: theme.palette.text.primary,
+    color: theme.palette.primary.contrastText,
     transition: 'transform 0.3s ease',
     // Handling the hover state of the button.
     '&:hover': {

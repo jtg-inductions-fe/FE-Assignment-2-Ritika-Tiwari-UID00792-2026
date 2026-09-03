@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import { Button } from '@mui/material';
-import { NullStateCard } from '../components/common/Card/NullState.component';
-import { ConfirmationDialog } from '../components/common/Dialog/ConfirmationDialog.component';
-import { AutohideSnackbar } from '../components/common/Error/ErrorMessage.component';
-import { ResponsiveContainer } from '../components/layouts/Container/ResponsiveContainer.component';
+
+import { Box, Button } from '@mui/material';
+
+import { ConfirmationDialog, NullStateCard, Snackbar } from '@components';
+import { ResponsiveContainer } from '@components';
 
 export function Home() {
+    // This is for the demo purpose
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-    const [open, setOpen] = useState(false);
 
     const handleSubmit = (value: boolean) => {
         if (value) {
@@ -19,22 +19,14 @@ export function Home() {
         setIsDialogOpen(false);
     };
 
-    const handleClick = () => {
-        if (!open) {
-            setOpen(true);
-        }
-    };
-
     return (
         <ResponsiveContainer>
-            <div
-                style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    height: '50vh',
-                }}
+            <Box
+                display="flex"
+                flexDirection="column"
+                justifyContent="center"
+                alignItems="center"
+                minHeight="50vh"
             >
                 <Button onClick={() => setIsDialogOpen(true)}>
                     Open Confirmation Dialog
@@ -51,9 +43,11 @@ export function Home() {
                     title="No Data Available"
                     description="There is nothing to display here at the moment. Try adding a new item or adjusting your filters."
                 />
-                <Button onClick={handleClick}></Button>
-                <AutohideSnackbar errorMessage="You have given a wrong input"></AutohideSnackbar>
-            </div>
+                <Snackbar
+                    message="You have given a wrong input"
+                    state="error"
+                ></Snackbar>
+            </Box>
         </ResponsiveContainer>
     );
 }

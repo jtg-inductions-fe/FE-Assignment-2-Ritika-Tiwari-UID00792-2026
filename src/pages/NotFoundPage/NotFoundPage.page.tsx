@@ -1,33 +1,42 @@
 import PageNotFound from 'assets/images/page-not-fount.svg';
-import { ResponsiveContainer } from 'components/layouts/Container/ResponsiveContainer.component';
 import { useNavigate } from 'react-router-dom';
 
-import {
-    StyledBox,
-    StyledButton,
-    StyledDescription,
-    StyledImage,
-} from './NotFoundPage.page.styled';
+import { Typography } from '@mui/material';
 
+import { ResponsiveContainer } from '@components';
+import { ButtonPrimary } from '@components';
+
+import { StyledBox, StyledImage } from './NotFoundPage.styles';
+
+/**
+ * Fallback page element displayed when the a user navigate to a not existent or invalid URL path.
+ * Renders an illustrative 404 image asset with user-friendly redirect navigation controls to home page.
+ * @component
+ * @returns {JSX.Element}
+ */
 export const NotFoundPage = () => {
+    /**Hook enabling programmatic user routing actions */
     const navigate = useNavigate();
-    const handleClick = () => {
+    /** Action handler that redirects the user back to the home page.
+     * @returns {void}
+     */
+    const handleClick = (): void => {
         void navigate('/home');
     };
     return (
         <ResponsiveContainer>
             <StyledBox>
                 <StyledImage src={PageNotFound} alt="Page not found" />
-                <StyledDescription>
+                <Typography variant="body2" color="text.secondary">
                     This is a 404 page and we think it is fairly clear You are
                     not going to find what you are looking for here But we know
                     you are hungry, so do not fret or rage Hit that big green
                     button to go back to our homepage
-                </StyledDescription>
+                </Typography>
 
-                <StyledButton onClick={handleClick} variant="contained">
-                    Back to home
-                </StyledButton>
+                <ButtonPrimary onClick={handleClick} variant="contained">
+                    <Typography variant="button">Back to home</Typography>
+                </ButtonPrimary>
             </StyledBox>
         </ResponsiveContainer>
     );
