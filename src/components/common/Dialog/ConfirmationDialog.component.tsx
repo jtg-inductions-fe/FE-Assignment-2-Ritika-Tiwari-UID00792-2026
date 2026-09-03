@@ -15,7 +15,7 @@ import { ConfirmationDialogProps } from './ConfirmationDialog.types';
 import { ButtonPrimary, ButtonSecondary } from '../Button/index';
 
 /**
- * MUI transition props used for the confirmation dialog
+ * MUI transition props used to animate the the confirmation dialog from the bottom up.
  */
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -27,9 +27,11 @@ const Transition = React.forwardRef(function Transition(
 });
 
 /**
- * Confirmation component to confirm the user's actions like logout, delete items etc.
+ * A reusable modal dialog component used to intercept critical user actions.
  *
- * @param ConfirmationDialogProps -  props define the types of arguments passed to the component.
+ * @param {ConfirmationDialogProps} props - The configuration properties for the rendering the dialog.
+ * @return A React functional component rendering the animated confirmation modal.
+ * @component Dialog
  */
 export const ConfirmationDialog = ({
     open,
