@@ -33,10 +33,9 @@ export const NotFoundPage = (): JSX.Element => {
                     color="text.secondary"
                     textAlign={'center'}
                 >
-                    This is a 404 page and we think it is fairly clear You are
-                    not going to find what you are looking for here But we know
-                    you are hungry, so do not fret or rage Hit that big green
-                    button to go back to our homepage
+                    This is a 404 page and we think it is fairly clear, You are
+                    not going to find what you are looking for here, But we know
+                    you are hungry, so do not fret or rage Hit that button to go back to our homepage.
                 </Typography>
 
                 <ButtonPrimary onClick={handleClick} variant="contained">
