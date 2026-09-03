@@ -1,13 +1,9 @@
-import { Link, Outlet } from 'react-router-dom';
+import Header from 'components/common/Header/Header.component';
+import { Outlet } from 'react-router-dom';
 
 export const MainLayout = () => (
     <div className="app-container">
-        <header className="header">
-            <h1>Header</h1>
-            <nav>
-                <Link to="/home">Home</Link> | <Link to="/cart">cart</Link>
-            </nav>
-        </header>
+        <Header></Header>
 
         <main className="main-content">
             {/* Child routes render here */}

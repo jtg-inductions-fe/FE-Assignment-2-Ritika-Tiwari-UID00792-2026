@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { Typography } from '@mui/material';
 
-import { ButtonPrimary,ResponsiveContainer } from '@components';
+import { ButtonPrimary, ResponsiveContainer } from '@components';
 
 import { StyledBox, StyledImage } from './NotFoundPage.styles';
 
@@ -35,7 +35,8 @@ export const NotFoundPage = (): JSX.Element => {
                 >
                     This is a 404 page and we think it is fairly clear, You are
                     not going to find what you are looking for here, But we know
-                    you are hungry, so do not fret or rage Hit that button to go back to our homepage.
+                    you are hungry, so do not fret or rage Hit that button to go
+                    back to our homepage.
                 </Typography>
 
                 <ButtonPrimary onClick={handleClick} variant="contained">
