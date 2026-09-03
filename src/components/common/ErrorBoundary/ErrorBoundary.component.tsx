@@ -4,13 +4,14 @@ import { Typography } from '@mui/material';
 
 import { ActionWrapper, ErrorContainer } from './ErrorBoundary.styles';
 import { ErrorBoundaryProps, ErrorBoundaryState } from './ErrorBoundary.types';
-import { ButtonPrimary } from '../Button';
+import { ButtonSecondary } from '../Button';
 
 /**
  * A class component that catches the typescript error anywhere in child component tree,
  * logs those errors, and displays a fallback UI instead of crashing the application.
  *
  * @extends {Component<ErrorBoundaryProps,ErrorBoundaryState>}
+ * @note You need to pass the title to the Error Boundary component when using.
  */
 export class ErrorBoundary extends Component<
     ErrorBoundaryProps,
@@ -27,7 +28,7 @@ export class ErrorBoundary extends Component<
     /**
      * Updates the error so the next render will show the fallback UI when an error is caught.
      * @param {Error} error - The error that was thrown by the descendent component.
-     * @returns {ErrorBoundaryState} The Updated state object indicating an error has occured.
+     * @returns {ErrorBoundaryState} The Updated state object indicating an error has occurred.
      */
     public static getDerivedStateFromError(error: Error): ErrorBoundaryState {
         return { hasError: true, error };
@@ -72,12 +73,12 @@ export class ErrorBoundary extends Component<
                         gutterBottom
                     >
                         {error?.message ||
-                            'An Unexpected rendering error occured.'}
+                            'An Unexpected rendering error occurred.'}
                     </Typography>
                     <ActionWrapper>
-                        <ButtonPrimary onClick={this.handleReset}>
+                        <ButtonSecondary onClick={this.handleReset}>
                             Try Again
-                        </ButtonPrimary>
+                        </ButtonSecondary>
                     </ActionWrapper>
                 </ErrorContainer>
             );

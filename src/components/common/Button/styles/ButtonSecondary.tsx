@@ -4,7 +4,7 @@ import { Button, styled } from '@mui/material';
  * Styles Button Wrapper for the secondary button used in the application.
  */
 export const ButtonSecondary = styled(Button)(({ theme }) => ({
-    boxShadow: theme.shadows[8],
+    boxShadow: theme.shadows[2],
     padding: theme.spacing(1, 3),
     backgroundColor: theme.palette.background.default,
     color: theme.palette.text.primary,

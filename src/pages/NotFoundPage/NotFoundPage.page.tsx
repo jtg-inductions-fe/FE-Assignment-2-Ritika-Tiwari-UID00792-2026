@@ -1,10 +1,11 @@
+import { JSX } from 'react';
+
 import PageNotFound from 'assets/images/page-not-fount.svg';
 import { useNavigate } from 'react-router-dom';
 
 import { Typography } from '@mui/material';
 
-import { ResponsiveContainer } from '@components';
-import { ButtonPrimary } from '@components';
+import { ButtonPrimary,ResponsiveContainer } from '@components';
 
 import { StyledBox, StyledImage } from './NotFoundPage.styles';
 
@@ -14,7 +15,7 @@ import { StyledBox, StyledImage } from './NotFoundPage.styles';
  * @component
  * @returns {JSX.Element}
  */
-export const NotFoundPage = () => {
+export const NotFoundPage = (): JSX.Element => {
     /**Hook enabling programmatic user routing actions */
     const navigate = useNavigate();
     /** Action handler that redirects the user back to the home page.
@@ -27,7 +28,11 @@ export const NotFoundPage = () => {
         <ResponsiveContainer>
             <StyledBox>
                 <StyledImage src={PageNotFound} alt="Page not found" />
-                <Typography variant="body2" color="text.secondary">
+                <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    textAlign={'center'}
+                >
                     This is a 404 page and we think it is fairly clear You are
                     not going to find what you are looking for here But we know
                     you are hungry, so do not fret or rage Hit that big green
