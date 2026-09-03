@@ -1,6 +1,6 @@
 import { JSX, PropsWithChildren } from 'react';
 
-import { StyledContainer } from './ResponsiveContainer.component.styled';
+import { StyledContainer } from './ResponsiveContainer.styles';
 
 /**
  * A responsive layout wrapper component that centers its child elements horizontally and applies layout margins.

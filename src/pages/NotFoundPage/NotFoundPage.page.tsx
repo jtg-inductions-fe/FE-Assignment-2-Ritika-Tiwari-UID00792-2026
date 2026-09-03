@@ -1,6 +1,6 @@
 import { JSX } from 'react';
 
-import PageNotFound from 'assets/images/page-not-fount.svg';
+import PageNotFound from 'assets/images/page-not-found.svg';
 import { useNavigate } from 'react-router-dom';
 
 import { Typography } from '@mui/material';
