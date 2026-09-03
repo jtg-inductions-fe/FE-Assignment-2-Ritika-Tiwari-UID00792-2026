@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import {
@@ -13,7 +12,6 @@ import {
 
 // Asset & Style Imports
 import logo from '@assets/images/logo.webp';
-
 import {
     ActionsContainer,
     CartIconButton,
@@ -29,12 +27,14 @@ import {
     StyledAppBar,
     StyledMenuItemBox,
     StyledToolbar,
-    UserAvatar,
     UserEmailText,
 } from './Header.styles';
 import { ResponsiveContainer } from '../Container/ResponsiveContainer.component';
 
-// This is for the demo purpose only
+/**
+ * Mock user data simulating a logged-in user session.
+ * Used for demo purposes to populate the profile and cart count.
+ */
 const mockUser = {
     name: 'Remy Sharp',
     email: 'remy.sharp@example.com',
@@ -43,50 +43,71 @@ const mockUser = {
     cartCount: 4,
 };
 
+/**
+ * Header Component
+ *
+ * Provides the global navigation bar, branding logo, navigation links,
+ * and a contextual user profile dropdown menu.
+ *
+ * @component
+ * @returns {React.ReactElement} The rendered global application header.
+ */
 function Header() {
-    const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-        null,
-    );
+    // State to track which HTML element anchors the user profile popover menu
+    const [anchorElUser, setAnchorElUser] =
+        React.useState<HTMLButtonElement | null>(null);
 
-    // Profile Popover handlers
-    const handleOpenProfilePopover = (event: React.MouseEvent<HTMLElement>) => {
+    /**
+     * Opens the user profile popover menu by setting the anchor element.
+     * @param {React.MouseEvent<HTMLButtonElement>} event - The click event from the avatar button.
+     */
+    const handleOpenProfilePopover = (
+        event: React.MouseEvent<HTMLButtonElement>,
+    ) => {
         setAnchorElUser(event.currentTarget);
     };
 
+    /**
+     * Closes the user profile popover menu by clearing the anchor element state.
+     */
     const handleCloseProfilePopover = () => {
         setAnchorElUser(null);
     };
 
+    /**
+     * Logs the user out by closing the popover and triggering auth cleanup actions.
+     */
     const handleLogout = () => {
         handleCloseProfilePopover();
+        // TODO: Add authentication logout dispatch actions here
     };
 
+    // Helper variables for accessibility (a11y) and popover visibility state
     const isPopoverOpen = Boolean(anchorElUser);
+    const popoverId = isPopoverOpen ? 'user-profile-popover' : undefined;
 
     return (
-        <StyledAppBar position="static">
+        <StyledAppBar>
             <ResponsiveContainer>
                 <StyledToolbar disableGutters>
-                    {/* ================= LEFT SIDE: BRANDING / LOGO ================= */}
-                    <LogoContainer>
-                        <img src={logo} alt="Company Logo" />
+                    {/* BRANDING / LOGO */}
+                    <LogoContainer href="/" aria-label="Swaad Home">
+                        <img src={logo} alt="" role="presentation" />
                         <CleanTypography
                             variant="h6"
                             color="text.primary"
                             noWrap
-                            component="a"
-                            href="#"
                             className="header-logo"
                         >
                             Swaad
                         </CleanTypography>
                     </LogoContainer>
 
-                    {/* ================= RIGHT SIDE: ACTIONS & NAVIGATION ================= */}
-                    <ActionsContainer>
-                        {/* Desktop Link items (Hidden on mobile) */}
+                    {/* ACTIONS & NAVIGATION */}
+                    <ActionsContainer aria-label="Main Navigation">
+                        {/* Desktop Navigation Links */}
                         <StyledMenuItemBox>
-                            <NavButton>
+                            <NavButton href="/home">
                                 <NavButtonText
                                     variant="button"
                                     color="text.primary"
@@ -94,7 +115,7 @@ function Header() {
                                     Home
                                 </NavButtonText>
                             </NavButton>
-                            <NavButton>
+                            <NavButton href="/orders">
                                 <NavButtonText
                                     variant="button"
                                     color="text.primary"
@@ -104,11 +125,11 @@ function Header() {
                             </NavButton>
                         </StyledMenuItemBox>
 
-                        {/* Mobile/Tablet Viewport Orders Shortcut Icon (Hidden on desktop) */}
+                        {/* Mobile Viewport Orders Shortcut */}
                         <MobileOrdersBox>
                             <Tooltip title="Orders">
                                 <OrderIconButton
-                                    aria-label="orders tracking"
+                                    aria-label="Track your orders"
                                     color="default"
                                 >
                                     <AssignmentIcon />
@@ -116,11 +137,11 @@ function Header() {
                             </Tooltip>
                         </MobileOrdersBox>
 
-                        {/* Conditional Cart Action Icon */}
+                        {/* Shopping Cart Icon (Visible to customers only) */}
                         {mockUser.role === 'customer' && (
                             <Tooltip title="View Cart">
                                 <CartIconButton
-                                    aria-label="shopping cart"
+                                    aria-label={`${mockUser.cartCount} items in cart`}
                                     color="default"
                                 >
                                     <Badge
@@ -134,9 +155,12 @@ function Header() {
                         )}
 
                         {/* User Profile Avatar Trigger */}
-                        <Tooltip title="User Profile">
+                        <Tooltip title="Open profile settings">
                             <ProfileIconButton
                                 onClick={handleOpenProfilePopover}
+                                aria-describedby={popoverId}
+                                aria-haspopup="true"
+                                aria-expanded={isPopoverOpen}
                             >
                                 <Avatar
                                     alt={mockUser.name}
@@ -146,8 +170,10 @@ function Header() {
                         </Tooltip>
                     </ActionsContainer>
                 </StyledToolbar>
-                {/* ================= USER PROFILE CONTEXTUAL POPOVER ================= */}
+
+                {/* USER PROFILE CONTEXTUAL POPOVER */}
                 <Popover
+                    id={popoverId}
                     open={isPopoverOpen}
                     anchorEl={anchorElUser}
                     onClose={handleCloseProfilePopover}
@@ -161,9 +187,10 @@ function Header() {
                     }}
                 >
                     <PopoverProfileBox>
-                        <UserAvatar
+                        <Avatar
                             alt={mockUser.name}
                             src={mockUser.avatarUrl}
+                            sx={{ width: 56, height: 56, mb: 1 }}
                         />
                         <Typography variant="h6" fontWeight="bold">
                             {mockUser.name}
@@ -171,9 +198,7 @@ function Header() {
                         <UserEmailText variant="body2" color="text.secondary">
                             {mockUser.email}
                         </UserEmailText>
-
-                        <Divider flexItem />
-
+                        <Divider flexItem sx={{ my: 1.5 }} />
                         <LogoutButton
                             variant="contained"
                             color="error"
