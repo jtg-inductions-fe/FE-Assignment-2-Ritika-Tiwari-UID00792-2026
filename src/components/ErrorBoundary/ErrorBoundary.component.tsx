@@ -10,6 +10,7 @@ import { ErrorBoundaryProps, ErrorBoundaryState } from './ErrorBoundary.types';
  * logs those errors, and displays a fallback UI instead of crashing the application.
  *
  * @extends {Component<ErrorBoundaryProps,ErrorBoundaryState>}
+ * @note You need to pass the title to the Error Boundary component when using.
  */
 export class ErrorBoundary extends Component<
     ErrorBoundaryProps,
@@ -26,7 +27,7 @@ export class ErrorBoundary extends Component<
     /**
      * Updates the error so the next render will show the fallback UI when an error is caught.
      * @param {Error} error - The error that was thrown by the descendent component.
-     * @returns {ErrorBoundaryState} The Updated state object indicating an error has occured.
+     * @returns {ErrorBoundaryState} The Updated state object indicating an error has occurred.
      */
     public static getDerivedStateFromError(error: Error): ErrorBoundaryState {
         return { hasError: true, error };
@@ -71,7 +72,7 @@ export class ErrorBoundary extends Component<
                         gutterBottom
                     >
                         {error?.message ||
-                            'An Unexpected rendering error occured.'}
+                            'An Unexpected rendering error occurred.'}
                     </Typography>
                     <ActionWrapper>
                         <Button variant="contained" onClick={this.handleReset}>

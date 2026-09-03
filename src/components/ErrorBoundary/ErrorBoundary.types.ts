@@ -18,7 +18,7 @@ export interface ErrorBoundaryProps {
     title: string;
 
     /** A function that runs to clean up and try fixing the error. */
-    onReset: () => void;
+    onReset?: () => void;
 }
 
 /**
