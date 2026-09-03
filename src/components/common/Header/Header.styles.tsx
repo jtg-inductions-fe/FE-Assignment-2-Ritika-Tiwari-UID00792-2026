@@ -34,16 +34,10 @@ export const LogoContainer = styled('div')({
     },
 });
 
-export const BrandTypography = styled(Typography)<TypographyProps<'a'>>(
-    ({ theme }) => ({
-        fontFamily: 'monospace',
-        fontWeight: 700,
-        letterSpacing: '.1rem',
-        color: theme.palette.text.primary,
-        textDecoration: 'none',
-        display: 'flex',
-    }),
-);
+export const CleanTypography = styled(Typography)<TypographyProps<'a'>>({
+    textDecoration: 'none',
+    fontWeight: 700,
+});
 
 // Right container wrapper grouping actions
 export const ActionsContainer = styled(Box)({
@@ -72,27 +66,40 @@ export const MobileOrdersBox = styled(Box)(({ theme }) => ({
     },
     [theme.breakpoints.down('md')]: {
         display: 'flex',
+        '&:hover': {
+            color: theme.palette.primary.main,
+        },
     },
 }));
 
 export const NavButton = styled(Button)(({ theme }) => ({
     color: theme.palette.text.primary,
+}));
+
+export const NavButtonText = styled(Typography)(({ theme }) => ({
+    textTransform: 'uppercase',
     '&:hover': {
-        textTransform: 'underline',
+        color: theme.palette.primary.main,
     },
 }));
 
-export const NavButtonText = styled(Typography)({
-    textTransform: 'uppercase',
-});
-
-export const CartIconButton = styled(IconButton)({
+export const CartIconButton = styled(IconButton)(({ theme }) => ({
     padding: '8px',
-});
+    '&:hover': {
+        color: theme.palette.primary.main,
+    },
+}));
+export const OrderIconButton = styled(IconButton)(({ theme }) => ({
+    padding: '8px',
+    '&:hover': {
+        color: theme.palette.primary.main,
+    },
+}));
 
-export const ProfileIconButton = styled(IconButton)({
+export const ProfileIconButton = styled(IconButton)(({ theme }) => ({
     padding: 0,
-});
+    border: `4px solid ${theme.palette.primary.main}`,
+}));
 
 // Aligned Profile Context Box inside Popover
 export const PopoverProfileBox = styled(Box)({
