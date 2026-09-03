@@ -1,6 +1,6 @@
 import { SnackbarContent, styled } from '@mui/material';
 
-import { StyledContentProps } from './Message.types';
+import { StyledContentProps } from './Snackbar.types';
 
 /**
  *  Styled component used to style the content of the snackbar.

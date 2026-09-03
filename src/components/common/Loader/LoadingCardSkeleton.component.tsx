@@ -4,7 +4,7 @@ import {
     BaseSkeleton,
     CardBody,
     CardContainer,
-} from './LoaderCardSkeleton.styles';
+} from './LoadingCardSkeleton.styles';
 
 export const LoadingCardSkeleton = () => (
     <CardContainer>

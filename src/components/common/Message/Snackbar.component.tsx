@@ -3,18 +3,18 @@ import * as React from 'react';
 import { Typography } from '@mui/material';
 import MuiSnackbar, { SnackbarCloseReason } from '@mui/material/Snackbar';
 
-import { StyledSnackbarContent } from './Message.styles';
-import { MessageProps } from './Message.types';
+import { StyledSnackbarContent } from './Snackbar.styles';
+import { SnackbarProps} from './Snackbar.types';
 import { ButtonPrimary } from '../Button/styles/ButtonPrimary';
 
 /**
  * SnackBar component to show the message to the user.
  *
- * @param MessageProps - The configuration properties for the rendering the Snackbar.
+ * @param SnackbarProps - The configuration properties for the rendering the Snackbar.
  * @return A React functional component rendering the animated Snackbar component.
  * @component Snackbar
  */
-export const Snackbar = ({ message, state }: MessageProps) => {
+export const Snackbar = ({ message, state }: SnackbarProps) => {
     const [open, setOpen] = React.useState(false);
     /**
      * Handles the closing state of the Snackbar component.
