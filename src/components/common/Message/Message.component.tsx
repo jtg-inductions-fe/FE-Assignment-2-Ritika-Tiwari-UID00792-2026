@@ -10,7 +10,9 @@ import { ButtonPrimary } from '../Button/styles/ButtonPrimary';
 /**
  * SnackBar component to show the message to the user.
  *
- * @param MessageProps - Message props define the types of message and state passed to the snackbar component.
+ * @param MessageProps - The configuration properties for the rendering the Snackbar.
+ * @return A React functional component rendering the animated Snackbar component.
+ * @component Snackbar
  */
 export const Snackbar = ({ message, state }: MessageProps) => {
     const [open, setOpen] = React.useState(false);

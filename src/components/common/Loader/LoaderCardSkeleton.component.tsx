@@ -6,7 +6,7 @@ import {
     CardContainer,
 } from './LoaderCardSkeleton.styles';
 
-export const LoadingCardLoadingSkeleton = () => (
+export const LoadingCardSkeleton = () => (
     <CardContainer>
         {/* Card skeleton showing the food items or restaurant cards */}
         <BaseSkeleton

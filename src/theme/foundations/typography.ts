@@ -120,16 +120,6 @@ export const typographyStyle = (theme: Theme): TypographyOptions => ({
         lineHeight: 1.5,
     },
 
-    body1: {
-        fontSize: typographyUtil.pxToRem(14),
-        fontWeight: 400,
-        lineHeight: 1.5,
-        [theme.breakpoints.up('md')]: {
-            fontSize: typographyUtil.pxToRem(16),
-            lineHeight: 1.6,
-        },
-    },
-
     body2: {
         fontSize: typographyUtil.pxToRem(12),
         fontWeight: 400,

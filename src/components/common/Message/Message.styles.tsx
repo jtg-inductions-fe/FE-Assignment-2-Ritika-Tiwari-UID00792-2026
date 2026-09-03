@@ -2,7 +2,11 @@ import { SnackbarContent, styled } from '@mui/material';
 
 import { StyledContentProps } from './Message.types';
 
-// Pass the interface to the styled wrapper
+/**
+ *  Styled component used to style the content of the snackbar.
+ * @param {StyledContentProps} props - The styled component configuration props.
+ * @param {string} props.$state - the alert status type. Expected values: 'success', 'warning', 'error'.
+ */
 export const StyledSnackbarContent = styled(
     SnackbarContent,
 )<StyledContentProps>(({ theme, $state }) => ({

@@ -11,7 +11,9 @@ const DESCRIPTION =
 /**
  * Null State component to show the Null State when data is not available.
  *
- * @param NullStateProps -  props define the types of title and description passed to the snackbar component.
+ * @param NullStateProps -  The configuration properties for the rendering Null State Card component.
+ * @returns returns the JSX.Element
+ * @component Card
  */
 export const NullStateCard = ({
     title = TITLE,
