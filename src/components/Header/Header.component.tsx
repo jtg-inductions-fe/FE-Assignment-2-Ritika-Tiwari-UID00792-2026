@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 import AssignmentIcon from '@mui/icons-material/Assignment';
-import HomeIcon from '@mui/icons-material/Home';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import {
     Avatar,
@@ -55,7 +54,7 @@ const mockUser = {
  * @component
  * @returns {React.ReactElement} The rendered global application header.
  */
-function Header(): React.ReactElement {
+export const Header = (): React.ReactElement => {
     // State to track which HTML element anchors the user profile popover menu
     const [anchorElUser, setAnchorElUser] =
         React.useState<HTMLButtonElement | null>(null);
@@ -113,17 +112,6 @@ function Header(): React.ReactElement {
                     <ActionsContainer aria-label="Main Navigation">
                         {/* Desktop Navigation Links */}
                         <StyledMenuItemBox>
-                            <Tooltip title="Home">
-                                <NavButton href="/home">
-                                    <NavButtonText
-                                        variant="button"
-                                        color="text.primary"
-                                        title="Home"
-                                    >
-                                        Home
-                                    </NavButtonText>
-                                </NavButton>
-                            </Tooltip>
                             <Tooltip title="Orders">
                                 <NavButton href="/order-portal">
                                     <NavButtonText
@@ -140,14 +128,6 @@ function Header(): React.ReactElement {
                         {/* Mobile Viewport Orders Shortcut */}
                         {/* Mobile Viewport Orders Shortcut */}
                         <MobileOrdersBox>
-                            <Tooltip title="Home">
-                                <NavButton href="/home">
-                                    <StyledIconButton aria-label="Go to home">
-                                        <HomeIcon />
-                                    </StyledIconButton>
-                                </NavButton>
-                            </Tooltip>
-
                             <Tooltip title="Orders">
                                 <NavButton href="/order-portal">
                                     <StyledIconButton aria-label="Track your orders">
@@ -233,6 +213,6 @@ function Header(): React.ReactElement {
             </ResponsiveContainer>
         </StyledAppBar>
     );
-}
+};
 
 export default Header;
