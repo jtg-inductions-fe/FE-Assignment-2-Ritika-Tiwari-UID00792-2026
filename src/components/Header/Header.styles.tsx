@@ -33,8 +33,8 @@ export const LogoContainer = styled('a')({
     cursor: 'pointer',
     textDecoration: 'none',
     '& img': {
-        width: '36px',
-        height: '36px',
+        width: '24px',
+        height: '24px',
         objectFit: 'contain',
         marginRight: '8px',
     },
