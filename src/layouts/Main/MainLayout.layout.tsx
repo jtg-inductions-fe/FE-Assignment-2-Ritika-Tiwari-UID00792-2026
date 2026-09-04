@@ -1,5 +1,6 @@
-import { ErrorBoundary, Header } from '@components';
 import { Outlet } from 'react-router-dom';
+
+import { ErrorBoundary, Header } from '@components';
 
 export const MainLayout = () => (
     <div className="app-container">
