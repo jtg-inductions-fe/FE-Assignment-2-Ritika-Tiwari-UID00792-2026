@@ -6,3 +6,4 @@ export * from './Loader/LoadingCardSkeleton.component';
 export * from './Message/Snackbar.component';
 export * from './ErrorBoundary/ErrorBoundary.component';
 export * from './Container/ResponsiveContainer.component';
+export * from './Header/Header.component';
