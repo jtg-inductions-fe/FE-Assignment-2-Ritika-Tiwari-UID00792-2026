@@ -67,14 +67,15 @@ export const MobileOrdersBox = styled(Box)(({ theme }) => ({
     },
     [theme.breakpoints.down('md')]: {
         display: 'flex',
-        '&:hover': {
-            color: theme.palette.primary.main,
-        },
     },
 }));
 
 export const NavButton = styled(Button)(({ theme }) => ({
     color: theme.palette.text.primary,
+    '&:hover': {
+        // Removes the default gray background overlay
+        backgroundColor: 'transparent',
+    },
 }));
 
 export const NavButtonText = styled(Typography)(({ theme }) => ({
@@ -84,14 +85,9 @@ export const NavButtonText = styled(Typography)(({ theme }) => ({
     },
 }));
 
-export const CartIconButton = styled(IconButton)(({ theme }) => ({
+export const StyledIconButton = styled(IconButton)(({ theme }) => ({
     padding: '8px',
-    '&:hover': {
-        color: theme.palette.primary.main,
-    },
-}));
-export const OrderIconButton = styled(IconButton)(({ theme }) => ({
-    padding: '8px',
+    color: theme.palette.text.primary,
     '&:hover': {
         color: theme.palette.primary.main,
     },
@@ -117,7 +113,6 @@ export const UserAvatar = styled(Avatar)(({ theme }) => ({
     height: 64,
     marginBottom: '12px',
     boxShadow: theme.shadows[1],
-    border: `4px solid ${theme.palette.primary.main}`,
 }));
 
 export const UserEmailText = styled(Typography)({

@@ -1,5 +1,7 @@
 import * as React from 'react';
+
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import HomeIcon from '@mui/icons-material/Home';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import {
     Avatar,
@@ -12,30 +14,31 @@ import {
 
 // Asset & Style Imports
 import logo from '@assets/images/logo.webp';
+import { ResponsiveContainer } from '@components';
+
 import {
     ActionsContainer,
-    CartIconButton,
     CleanTypography,
     LogoContainer,
     LogoutButton,
     MobileOrdersBox,
     NavButton,
     NavButtonText,
-    OrderIconButton,
     PopoverProfileBox,
     ProfileIconButton,
     StyledAppBar,
+    StyledIconButton,
     StyledMenuItemBox,
     StyledToolbar,
     UserEmailText,
 } from './Header.styles';
-import { ResponsiveContainer } from '../Container/ResponsiveContainer.component';
 
 /**
- * Mock user data simulating a logged-in user session.
+ * Mock user data to show a logged-in user session.
  * Used for demo purposes to populate the profile and cart count.
  */
 const mockUser = {
+    userId: 1,
     name: 'Remy Sharp',
     email: 'remy.sharp@example.com',
     avatarUrl: '/static/images/avatar/2.jpg',
@@ -52,7 +55,7 @@ const mockUser = {
  * @component
  * @returns {React.ReactElement} The rendered global application header.
  */
-function Header() {
+function Header(): React.ReactElement {
     // State to track which HTML element anchors the user profile popover menu
     const [anchorElUser, setAnchorElUser] =
         React.useState<HTMLButtonElement | null>(null);
@@ -79,10 +82,9 @@ function Header() {
      */
     const handleLogout = () => {
         handleCloseProfilePopover();
-        // TODO: Add authentication logout dispatch actions here
     };
 
-    // Helper variables for accessibility (a11y) and popover visibility state
+    // Helper variables for accessibility and popover visibility state
     const isPopoverOpen = Boolean(anchorElUser);
     const popoverId = isPopoverOpen ? 'user-profile-popover' : undefined;
 
@@ -91,66 +93,85 @@ function Header() {
             <ResponsiveContainer>
                 <StyledToolbar disableGutters>
                     {/* BRANDING / LOGO */}
-                    <LogoContainer href="/" aria-label="Swaad Home">
-                        <img src={logo} alt="" role="presentation" />
-                        <CleanTypography
-                            variant="h6"
-                            color="text.primary"
-                            noWrap
-                            className="header-logo"
-                        >
-                            Swaad
-                        </CleanTypography>
+                    <LogoContainer href="/home" aria-label="Swaad Home">
+                        <Tooltip title="Logo">
+                            <img src={logo} alt="" role="presentation" />
+                        </Tooltip>
+                        <Tooltip title="Brand Name">
+                            <CleanTypography
+                                variant="h6"
+                                color="text.primary"
+                                noWrap
+                                className="header-logo"
+                            >
+                                Swaad
+                            </CleanTypography>
+                        </Tooltip>
                     </LogoContainer>
 
                     {/* ACTIONS & NAVIGATION */}
                     <ActionsContainer aria-label="Main Navigation">
                         {/* Desktop Navigation Links */}
                         <StyledMenuItemBox>
-                            <NavButton href="/home">
-                                <NavButtonText
-                                    variant="button"
-                                    color="text.primary"
-                                >
-                                    Home
-                                </NavButtonText>
-                            </NavButton>
-                            <NavButton href="/orders">
-                                <NavButtonText
-                                    variant="button"
-                                    color="text.primary"
-                                >
-                                    Orders
-                                </NavButtonText>
-                            </NavButton>
+                            <Tooltip title="Home">
+                                <NavButton href="/home">
+                                    <NavButtonText
+                                        variant="button"
+                                        color="text.primary"
+                                        title="Home"
+                                    >
+                                        Home
+                                    </NavButtonText>
+                                </NavButton>
+                            </Tooltip>
+                            <Tooltip title="Orders">
+                                <NavButton href="/order-portal">
+                                    <NavButtonText
+                                        variant="button"
+                                        color="text.primary"
+                                        title="Orders"
+                                    >
+                                        Orders
+                                    </NavButtonText>
+                                </NavButton>
+                            </Tooltip>
                         </StyledMenuItemBox>
 
                         {/* Mobile Viewport Orders Shortcut */}
+                        {/* Mobile Viewport Orders Shortcut */}
                         <MobileOrdersBox>
+                            <Tooltip title="Home">
+                                <NavButton href="/home">
+                                    <StyledIconButton aria-label="Go to home">
+                                        <HomeIcon />
+                                    </StyledIconButton>
+                                </NavButton>
+                            </Tooltip>
+
                             <Tooltip title="Orders">
-                                <OrderIconButton
-                                    aria-label="Track your orders"
-                                    color="default"
-                                >
-                                    <AssignmentIcon />
-                                </OrderIconButton>
+                                <NavButton href="/order-portal">
+                                    <StyledIconButton aria-label="Track your orders">
+                                        <AssignmentIcon />
+                                    </StyledIconButton>
+                                </NavButton>
                             </Tooltip>
                         </MobileOrdersBox>
 
                         {/* Shopping Cart Icon (Visible to customers only) */}
                         {mockUser.role === 'customer' && (
                             <Tooltip title="View Cart">
-                                <CartIconButton
-                                    aria-label={`${mockUser.cartCount} items in cart`}
-                                    color="default"
-                                >
-                                    <Badge
-                                        badgeContent={mockUser.cartCount}
-                                        color="error"
+                                <NavButton href="/cart">
+                                    <StyledIconButton
+                                        aria-label={`${mockUser.cartCount} items in cart`}
                                     >
-                                        <ShoppingCartIcon />
-                                    </Badge>
-                                </CartIconButton>
+                                        <Badge
+                                            badgeContent={mockUser.cartCount}
+                                            color="error"
+                                        >
+                                            <ShoppingCartIcon />
+                                        </Badge>
+                                    </StyledIconButton>
+                                </NavButton>
                             </Tooltip>
                         )}
 
