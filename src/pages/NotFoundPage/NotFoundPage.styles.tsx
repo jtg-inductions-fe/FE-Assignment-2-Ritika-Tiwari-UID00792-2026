@@ -3,6 +3,7 @@ import { Box, styled } from '@mui/material';
 /** Styling of the Box containing the fallback UI elements. */
 export const StyledBox = styled(Box)(({ theme }) => ({
     display: 'flex',
+    height:'100vh',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
