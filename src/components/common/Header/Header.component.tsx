@@ -21,12 +21,11 @@ import {
     LogoContainer,
     LogoutButton,
     MobileOrdersBox,
-    NavButton,
-    NavButtonText,
+    NavText,
     PopoverProfileBox,
     ProfileIconButton,
     StyledAppBar,
-    StyledIconButton,
+    StyledLink,
     StyledMenuItemBox,
     StyledToolbar,
     UserEmailText,
@@ -92,20 +91,22 @@ export const Header = (): React.ReactElement => {
             <ResponsiveContainer>
                 <StyledToolbar disableGutters>
                     {/* BRANDING / LOGO */}
-                    <LogoContainer href="/home" aria-label="Swaad Home">
-                        <Tooltip title="Logo">
-                            <img src={logo} alt="" role="presentation" />
-                        </Tooltip>
-                        <Tooltip title="Brand Name">
-                            <CleanTypography
-                                variant="h6"
-                                color="text.primary"
-                                noWrap
-                                className="header-logo"
-                            >
-                                Swaad
-                            </CleanTypography>
-                        </Tooltip>
+                    <LogoContainer aria-label="Brand name and logo">
+                        <StyledLink to={'/home'}>
+                            <Tooltip title="Logo">
+                                <img src={logo} alt="" role="presentation" />
+                            </Tooltip>
+                            <Tooltip title="Brand Name">
+                                <CleanTypography
+                                    variant="h6"
+                                    color="text.primary"
+                                    noWrap
+                                    className="header-logo"
+                                >
+                                    Swaad
+                                </CleanTypography>
+                            </Tooltip>
+                        </StyledLink>
                     </LogoContainer>
 
                     {/* ACTIONS & NAVIGATION */}
@@ -113,15 +114,15 @@ export const Header = (): React.ReactElement => {
                         {/* Desktop Navigation Links */}
                         <StyledMenuItemBox>
                             <Tooltip title="Orders">
-                                <NavButton href="/order-portal">
-                                    <NavButtonText
+                                <StyledLink to={'/order-portal'}>
+                                    <NavText
                                         variant="button"
                                         color="text.primary"
                                         title="Orders"
                                     >
                                         Orders
-                                    </NavButtonText>
-                                </NavButton>
+                                    </NavText>
+                                </StyledLink>
                             </Tooltip>
                         </StyledMenuItemBox>
 
@@ -129,29 +130,29 @@ export const Header = (): React.ReactElement => {
                         {/* Mobile Viewport Orders Shortcut */}
                         <MobileOrdersBox>
                             <Tooltip title="Orders">
-                                <NavButton href="/order-portal">
-                                    <StyledIconButton aria-label="Track your orders">
-                                        <AssignmentIcon />
-                                    </StyledIconButton>
-                                </NavButton>
+                                <StyledLink
+                                    to={'/order-portal'}
+                                    aria-label="Track your orders"
+                                >
+                                    <AssignmentIcon />
+                                </StyledLink>
                             </Tooltip>
                         </MobileOrdersBox>
 
                         {/* Shopping Cart Icon (Visible to customers only) */}
                         {mockUser.role === 'customer' && (
                             <Tooltip title="View Cart">
-                                <NavButton href="/cart">
-                                    <StyledIconButton
-                                        aria-label={`${mockUser.cartCount} items in cart`}
+                                <StyledLink
+                                    to={'/cart'}
+                                    aria-label={`${mockUser.cartCount} items in cart`}
+                                >
+                                    <Badge
+                                        badgeContent={mockUser.cartCount}
+                                        color="error"
                                     >
-                                        <Badge
-                                            badgeContent={mockUser.cartCount}
-                                            color="error"
-                                        >
-                                            <ShoppingCartIcon />
-                                        </Badge>
-                                    </StyledIconButton>
-                                </NavButton>
+                                        <ShoppingCartIcon />
+                                    </Badge>
+                                </StyledLink>
                             </Tooltip>
                         )}
 
