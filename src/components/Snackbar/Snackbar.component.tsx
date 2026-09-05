@@ -16,24 +16,22 @@ export const Snackbar = ({
     onClose,
     message,
     state,
-}: SnackbarProps) => {
-    return (
-        <div>
-            <MuiSnackbar
-                open={open}
-                autoHideDuration={autoHideDuration}
-                onClose={onClose}
-            >
-                <Alert onClose={onClose} severity={state} variant="filled">
-                    <Typography
-                        variant="body2"
-                        component="span"
-                        color="color.primary.contrastText"
-                    >
-                        {message}
-                    </Typography>
-                </Alert>
-            </MuiSnackbar>
-        </div>
-    );
-};
+}: SnackbarProps) => (
+    <div>
+        <MuiSnackbar
+            open={open}
+            autoHideDuration={autoHideDuration}
+            onClose={onClose}
+        >
+            <Alert onClose={onClose} severity={state} variant="filled">
+                <Typography
+                    variant="body2"
+                    component="span"
+                    color="color.primary.contrastText"
+                >
+                    {message}
+                </Typography>
+            </Alert>
+        </MuiSnackbar>
+    </div>
+);

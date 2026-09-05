@@ -13,7 +13,7 @@ export const palette: PaletteOptions = {
         main: COLORS.BRAND.SECONDARY,
         dark: COLORS.BRAND.ACCENT_HOVER,
         light: COLORS.BRAND.ACCENT_LIGHT,
-        contrastText: COLORS.TEXT.ON_ACCENT,
+        contrastText: COLORS.TEXT.ON_PRIMARY,
     },
     // Background colors for the pages and paper components
     background: {

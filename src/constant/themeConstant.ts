@@ -28,8 +28,6 @@ export const COLORS = {
         MUTED: '#9CA3AF',
         // Color used for the typography, used on the primary background color
         ON_PRIMARY: '#FFFFFF',
-        // Color used for the typography, used on the secondary background color
-        ON_ACCENT: '#1B4332',
     },
 
     // Colors for the different states of the components (outlined buttons and check-boxes)
