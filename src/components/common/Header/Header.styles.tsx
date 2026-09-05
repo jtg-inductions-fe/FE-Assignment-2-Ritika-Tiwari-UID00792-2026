@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 import {
     Avatar,
     Box,
@@ -27,7 +29,7 @@ export const StyledToolbar = styled(Toolbar)(({ theme }) => ({
 }));
 
 // Left branding alignment setup
-export const LogoContainer = styled('a')({
+export const LogoContainer = styled('div')(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     cursor: 'pointer',
