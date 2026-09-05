@@ -7,7 +7,7 @@ import { ConfirmationDialog, NullStateCard, Snackbar } from '@components';
 export function App() {
     // This is for the demo purpose
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-
+    const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
     const handleSubmit = (value: boolean) => {
         if (value) {
             setIsDialogOpen(false);
@@ -41,7 +41,14 @@ export function App() {
                 title="No Data Available"
                 description="There is nothing to display here at the moment. Try adding a new item or adjusting your filters."
             />
+            {/* This is only for the demo purpose */}
+            <Button variant="contained" onClick={() => setIsSnackbarOpen(true)}>
+                Open Snackbar
+            </Button>
             <Snackbar
+                open={isSnackbarOpen}
+                autoHideDuration={2000}
+                onClose={() => setIsSnackbarOpen(false)}
                 message="You have given a wrong input"
                 state="error"
             ></Snackbar>
