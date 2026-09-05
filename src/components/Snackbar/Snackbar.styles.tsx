@@ -9,13 +9,12 @@ import { StyledContentProps } from './Snackbar.types';
  */
 export const StyledSnackbarContent = styled(
     SnackbarContent,
-)<StyledContentProps>(({ theme, $state }) => ({
+)<StyledContentProps>(({ theme, snackbarState }) => ({
     // Dynamically set the color based on the prop
-    backgroundColor:
-        $state === 'success'
-            ? theme.palette.success.main
-            : $state === 'warning'
-              ? theme.palette.warning.main
-              : theme.palette.error.main,
+    backgroundColor: (() => {
+        if (snackbarState === 'success') return theme.palette.success.main;
+        if (snackbarState === 'warning') return theme.palette.warning.main;
+        return theme.palette.error.main;
+    })(),
     color: theme.palette.primary.contrastText,
 }));
