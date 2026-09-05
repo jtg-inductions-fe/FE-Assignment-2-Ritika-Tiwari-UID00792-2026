@@ -27,7 +27,7 @@ export const AppRoutes = createBrowserRouter(
             <Route path="/menu" element={<Menu />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/order-portal" element={<OrderPortal />} />
-            {/* fallback route mapping forany unrecognized paths directly to the 404 page */}
+            {/* fallback route mapping for any unrecognized paths directly to the 404 page */}
             <Route path="*" element={<NotFoundPage />} />
         </Route>,
     ),

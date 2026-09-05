@@ -4,7 +4,7 @@ import { Typography } from '@mui/material';
 import MuiSnackbar, { SnackbarCloseReason } from '@mui/material/Snackbar';
 
 import { StyledSnackbarContent } from './Snackbar.styles';
-import { SnackbarProps} from './Snackbar.types';
+import { SnackbarProps } from './Snackbar.types';
 import { ButtonPrimary } from '../Button/styles/ButtonPrimary';
 
 /**

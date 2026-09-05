@@ -1,14 +1,12 @@
-import { Link, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
+
+import { ErrorBoundary, Header } from '@components';
 
 export const MainLayout = () => (
     <div className="app-container">
-        <header className="header">
-            <h1>Header</h1>
-            <nav>
-                <Link to="/home">Home</Link> | <Link to="/cart">cart</Link>
-            </nav>
-        </header>
-
+        <ErrorBoundary title="Something is wrong, we are fixing this.">
+            <Header />
+        </ErrorBoundary>
         <main className="main-content">
             {/* Child routes render here */}
             <Outlet />
