@@ -2,12 +2,7 @@ import { CardContent, Typography } from '@mui/material';
 
 import { StyledNullStateCard } from './NullStateCard.styles';
 import { NullStateCardProps } from './NullStateCard.types';
-
-// Constant for the default value of title and description
-const TITLE = 'No Data Available';
-const DESCRIPTION =
-    'There is nothing to display here at the moment. Try adding a new item or adjusting your filters.';
-
+import { TITLE, DESCRIPTION } from './NullStateCard.constants';
 /**
  * Null State component to show the Null State when data is not available.
  *

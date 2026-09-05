@@ -11,6 +11,6 @@ export interface SnackbarProps {
 /**
  * Types of the props passed for the Message Component state
  */
-export interface StyledContentProps {
-    $state: 'success' | 'warning' | 'error';
-}
+export type StyledContentProps = {
+    snackbarState: 'success' | 'warning' | 'error';
+};

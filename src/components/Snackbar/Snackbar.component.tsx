@@ -1,11 +1,10 @@
 import * as React from 'react';
 
-import { Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import MuiSnackbar, { SnackbarCloseReason } from '@mui/material/Snackbar';
 
 import { StyledSnackbarContent } from './Snackbar.styles';
-import { SnackbarProps} from './Snackbar.types';
-import { ButtonPrimary } from '../Button/styles/ButtonPrimary';
+import { SnackbarProps } from './Snackbar.types';
 
 /**
  * SnackBar component to show the message to the user.
@@ -37,9 +36,9 @@ export const Snackbar = ({ message, state }: SnackbarProps) => {
     return (
         <div>
             {/* This is only for the demo purpose */}
-            <ButtonPrimary variant="contained" onClick={() => setOpen(true)}>
+            <Button variant="contained" onClick={() => setOpen(true)}>
                 Open Snackbar
-            </ButtonPrimary>
+            </Button>
 
             <MuiSnackbar
                 open={open}
@@ -56,7 +55,7 @@ export const Snackbar = ({ message, state }: SnackbarProps) => {
                             {message}
                         </Typography>
                     }
-                    $state={state}
+                    snackbarState={state}
                 />
             </MuiSnackbar>
         </div>

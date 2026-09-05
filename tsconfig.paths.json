@@ -5,7 +5,7 @@
             "@assets/*": ["assets/*"],
             "@constant": ["constant/index"],
             "@theme": ["theme/index"],
-            "@components": ["components/common/index"]
+            "@components": ["components/index"]
         }
     }
 }

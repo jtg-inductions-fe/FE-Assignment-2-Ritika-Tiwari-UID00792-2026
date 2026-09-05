@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import {
+    Button,
     Dialog,
     DialogActions,
     DialogContent,
@@ -12,7 +13,6 @@ import {
 import { TransitionProps } from '@mui/material/transitions';
 
 import { ConfirmationDialogProps } from './ConfirmationDialog.types';
-import { ButtonPrimary, ButtonSecondary } from '../Button/index';
 
 /**
  * MUI transition props used to animate the the confirmation dialog from the bottom up.
@@ -49,7 +49,7 @@ export const ConfirmationDialog = ({
     };
 
     /**
-     * Handle Cancel state of the Confirmation Dialog Component
+     * Handle cancel event of the Confirmation Dialog Component
      */
     const handleCancel = () => {
         onSubmit(false);
@@ -75,7 +75,7 @@ export const ConfirmationDialog = ({
                 <DialogContentText
                     id="alert-dialog-slide-description"
                     variant="body2"
-                    color="text.secodary"
+                    color="text.secondary"
                     gutterBottom
                 >
                     {description}
@@ -83,7 +83,7 @@ export const ConfirmationDialog = ({
             </DialogContent>
 
             <DialogActions>
-                <ButtonSecondary onClick={handleCancel}>
+                <Button variant="text" onClick={handleCancel}>
                     <Typography
                         variant="button"
                         component="span"
@@ -91,8 +91,8 @@ export const ConfirmationDialog = ({
                     >
                         Cancel
                     </Typography>
-                </ButtonSecondary>
-                <ButtonPrimary onClick={handleConfirmation} variant="contained">
+                </Button>
+                <Button variant="contained" onClick={handleConfirmation}>
                     <Typography
                         variant="button"
                         component="span"
@@ -100,7 +100,7 @@ export const ConfirmationDialog = ({
                     >
                         Yes
                     </Typography>
-                </ButtonPrimary>
+                </Button>
             </DialogActions>
         </Dialog>
     );

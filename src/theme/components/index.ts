@@ -1,4 +1,4 @@
-import type { Components } from '@mui/material/styles';
+import type { Components, Theme } from '@mui/material/styles';
 
 import InterBoldWOFF2 from '@assets/fonts/inter/Inter-Bold.woff2';
 // Local Font files
@@ -6,7 +6,6 @@ import InterLightWOFF2 from '@assets/fonts/inter/Inter-Light.woff2';
 import InterMediumWOFF2 from '@assets/fonts/inter/Inter-Medium.woff2';
 import InterRegularWOFF2 from '@assets/fonts/inter/Inter-Regular.woff2';
 
-// TODO: Add necessary font face declarations here
 const fontFaceDeclarations = `
        @font-face {
         font-display: swap; 
@@ -38,7 +37,7 @@ const fontFaceDeclarations = `
       };
     `;
 
-export const components: Components = {
+export const components: Components<Theme> = {
     MuiCssBaseline: {
         styleOverrides: {
             html: {
@@ -46,5 +45,37 @@ export const components: Components = {
             },
             fontFaceDeclarations,
         },
+    },
+    MuiButton: {
+        variants: [
+            {
+                props: { variant: 'contained' },
+                style: ({ theme }) => ({
+                    boxShadow: theme.shadows[2],
+                    padding: theme.spacing(1, 3),
+                    backgroundColor: theme.palette.primary.main,
+                    color: theme.palette.primary.contrastText,
+                    transition: 'transform 0.3s ease',
+                    '&:hover': {
+                        backgroundColor: theme.palette.secondary.dark,
+                        transform: 'translateY(2px)',
+                    },
+                }),
+            },
+            {
+                props: { variant: 'text' },
+                style: ({ theme }) => ({
+                    boxShadow: theme.shadows[2],
+                    padding: theme.spacing(1, 3),
+                    backgroundColor: theme.palette.background.default,
+                    color: theme.palette.text.primary,
+                    transition: 'transform 0.3s ease',
+                    '&:hover': {
+                        backgroundColor: theme.palette.background.default,
+                        transform: 'translateY(2px)',
+                    },
+                }),
+            },
+        ],
     },
 };

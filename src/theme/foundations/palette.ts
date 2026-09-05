@@ -3,19 +3,19 @@ import type { PaletteOptions } from '@mui/material/styles';
 import { COLORS } from '@constant';
 
 export const palette: PaletteOptions = {
-    // Colors to show the brand identifications
+    // Primary brand color used for buttons, links and focused states
     primary: {
         main: COLORS.BRAND.PRIMARY,
         contrastText: COLORS.TEXT.ON_PRIMARY,
     },
-
+    // Secondary brand variation for accent elements
     secondary: {
-        main: COLORS.BRAND.PRIMARY,
+        main: COLORS.BRAND.SECONDARY,
         dark: COLORS.BRAND.ACCENT_HOVER,
         light: COLORS.BRAND.ACCENT_LIGHT,
         contrastText: COLORS.TEXT.ON_ACCENT,
     },
-    // Colors used for the background of pages and cards
+    // Background colors for the pages and paper components
     background: {
         default: COLORS.SURFACE.BG_PRIMARY,
         paper: COLORS.SURFACE.BG_SECONDARY,
@@ -26,7 +26,7 @@ export const palette: PaletteOptions = {
         secondary: COLORS.TEXT.SECONDARY,
         disabled: COLORS.TEXT.MUTED,
     },
-    // Colors for the disabled states of the components
+    // Action colors for interactive component states
     action: {
         disabledBackground: COLORS.STATE.DISABLED,
         disabled: COLORS.TEXT.MUTED,
