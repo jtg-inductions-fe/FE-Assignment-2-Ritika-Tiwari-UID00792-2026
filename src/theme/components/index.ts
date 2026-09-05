@@ -55,6 +55,7 @@ export const components: Components<Theme> = {
                     padding: theme.spacing(1, 3),
                     backgroundColor: theme.palette.primary.main,
                     color: theme.palette.primary.contrastText,
+                    textTransform: 'none',
                     transition: 'transform 0.3s ease',
                     '&:hover': {
                         backgroundColor: theme.palette.secondary.dark,
@@ -69,6 +70,7 @@ export const components: Components<Theme> = {
                     padding: theme.spacing(1, 3),
                     backgroundColor: theme.palette.background.default,
                     color: theme.palette.text.primary,
+                    textTransform: 'none',
                     transition: 'transform 0.3s ease',
                     '&:hover': {
                         backgroundColor: theme.palette.background.default,
