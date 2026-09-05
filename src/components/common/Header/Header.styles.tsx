@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 import {
     Avatar,
     Box,
@@ -8,7 +10,6 @@ import {
     Typography,
     TypographyProps,
 } from '@mui/material';
-import { Link } from 'react-router-dom';
 
 export const StyledAppBar = styled('header')(({ theme }) => ({
     position: 'static',
@@ -28,7 +29,7 @@ export const StyledToolbar = styled(Toolbar)(({ theme }) => ({
 }));
 
 // Left branding alignment setup
-export const LogoContainer = styled('a')(({ theme }) => ({
+export const LogoContainer = styled('div')(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     cursor: 'pointer',

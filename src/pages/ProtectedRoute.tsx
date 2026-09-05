@@ -1,15 +1,16 @@
-import { MainLayout } from 'layouts';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 
 const ProtectedRoute = () => {
     // If not logged in, redirect to login page
     // This is for the demo purpose
-    const isAuthenticated = true;
-    if (!isAuthenticated) {
+    const userIsLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+
+    if (!userIsLoggedIn) {
         return <Navigate to="/login" replace />;
     }
-    //If logged in go to main layout
-    return <MainLayout />;
+
+    // Renders the child routes (Home, Restaurant, Menu, etc.) if authenticated
+    return <Outlet />;
 };
 
 export default ProtectedRoute;

@@ -5,7 +5,6 @@ import InterBoldWOFF2 from '@assets/fonts/inter/Inter-Bold.woff2';
 import InterLightWOFF2 from '@assets/fonts/inter/Inter-Light.woff2';
 import InterMediumWOFF2 from '@assets/fonts/inter/Inter-Medium.woff2';
 import InterRegularWOFF2 from '@assets/fonts/inter/Inter-Regular.woff2';
-
 const fontFaceDeclarations = `
        @font-face {
         font-display: swap; 
