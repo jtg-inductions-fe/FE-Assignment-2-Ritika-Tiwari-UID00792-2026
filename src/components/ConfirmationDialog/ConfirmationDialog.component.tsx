@@ -29,7 +29,7 @@ const Transition = React.forwardRef(function Transition(
 /**
  * A reusable modal dialog component used to intercept critical user actions.
  *
- * @param {ConfirmationDialogProps} props - The configuration properties for the rendering the dialog.
+ * @param {ConfirmationDialogProps} props - The configuration properties for rendering the dialog.
  * @return A React functional component rendering the animated confirmation modal.
  * @component Dialog
  */
@@ -88,6 +88,7 @@ export const ConfirmationDialog = ({
                         variant="button"
                         component="span"
                         color="color.primary.contrastText"
+                        textTransform={'none'}
                     >
                         Cancel
                     </Typography>
@@ -97,6 +98,7 @@ export const ConfirmationDialog = ({
                         variant="button"
                         component="span"
                         color="color.primary.contrastText"
+                        textTransform={'none'}
                     >
                         Yes
                     </Typography>

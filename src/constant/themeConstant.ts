@@ -13,9 +13,9 @@ export const COLORS = {
 
     // Colors used for application surfaces such as pages, cards, container, and sections.
     SURFACE: {
-        // COlor used for the page background
+        // Color used for the page background
         BG_PRIMARY: '#FFFFFF',
-        // COlor used for the cards and container and sections
+        // Color used for the cards and container and sections
         BG_SECONDARY: '#F9FBF9',
         // Color used for the muted/disabled state
         MUTED: '#F3F4F6',
