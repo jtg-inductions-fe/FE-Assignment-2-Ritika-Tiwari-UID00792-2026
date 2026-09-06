@@ -26,13 +26,8 @@ export class ErrorBoundary extends Component<
 
     /**
      * Updates the error so the next render will show the fallback UI when an error is caught.
-<<<<<<< HEAD
      * @param error - The error that was thrown by the descendent component.
      * @returns The Updated state object indicating an error has occurred.
-=======
-     * @param {Error} error - The error that was thrown by the descendent component.
-     * @returns {ErrorBoundaryState} The Updated state object indicating an error has occurred.
->>>>>>> 9da866d ([RT_A2_01]: fix: fix the box shadow of buttons and alignment of the text in the 404 page.)
      */
     public static getDerivedStateFromError(error: Error): ErrorBoundaryState {
         return { hasError: true, error };
