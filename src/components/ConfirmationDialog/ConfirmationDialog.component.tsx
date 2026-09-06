@@ -29,7 +29,11 @@ const Transition = React.forwardRef(function Transition(
 /**
  * A reusable modal dialog component used to intercept critical user actions.
  *
+<<<<<<< HEAD
  * @param ConfirmationDialogProps - The configuration properties for rendering the dialog.
+=======
+ * @param {ConfirmationDialogProps} props - The configuration properties for rendering the dialog.
+>>>>>>> 6bf0ea5 ([RT_A2_00]: chore: run yarn install command.)
  * @return A React functional component rendering the animated confirmation modal.
  *
  */
