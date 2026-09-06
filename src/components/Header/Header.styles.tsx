@@ -22,7 +22,7 @@ export const StyledToolbar = styled(Toolbar)(({ theme }) => ({
 }));
 
 // Left branding alignment setup
-export const LogoContainer = styled('a')(({ theme }) => ({
+export const LogoContainer = styled('div')(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     textDecoration: 'none',
@@ -33,7 +33,7 @@ export const LogoContainer = styled('a')(({ theme }) => ({
     },
     '&:focus-visible': {
         outline: `2px solid ${theme.palette.primary.main}`,
-        outlineOffset: '2px',
+        outlineOffset: 2,
         backgroundColor: theme.palette.action.selected,
     },
 }));
