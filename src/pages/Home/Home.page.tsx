@@ -9,7 +9,6 @@ export function Home() {
     // This is for the demo purpose
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
     const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
-
     const handleSubmit = (value: boolean) => {
         if (value) {
             setIsDialogOpen(false);
