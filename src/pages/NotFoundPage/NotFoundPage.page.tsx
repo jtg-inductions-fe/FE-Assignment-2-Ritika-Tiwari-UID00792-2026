@@ -33,8 +33,15 @@ export const NotFoundPage = (): JSX.Element => {
                     color="text.secondary"
                     textAlign="center"
                 >
+<<<<<<< HEAD
                     You took a wrong turn down an empty aisle. Let&apos;s get
                     you back to the main course.
+=======
+                    This is a 404 page and we think it is fairly clear, You are
+                    not going to find what you are looking for here, But we know
+                    you are hungry, so do not fret or rage Hit that button to go
+                    back to our homepage.
+>>>>>>> 5a147c9 ([RT_A2_02]: fix: fix the rendering of icon and text based on the viewport and also add the icon button component in the header.)
                 </Typography>
 
                 <Button variant="contained" onClick={handleClick}>
