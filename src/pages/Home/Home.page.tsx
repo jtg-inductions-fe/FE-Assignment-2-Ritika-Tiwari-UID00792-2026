@@ -8,7 +8,8 @@ import { ResponsiveContainer } from '@components';
 export function Home() {
     // This is for the demo purpose
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-
+    const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
+    
     const handleSubmit = (value: boolean) => {
         if (value) {
             setIsDialogOpen(false);
@@ -43,10 +44,17 @@ export function Home() {
                     title="No Data Available"
                     description="There is nothing to display here at the moment. Try adding a new item or adjusting your filters."
                 />
-                <Snackbar
-                    message="You have given a wrong input"
-                    state="error"
-                ></Snackbar>
+                 {/* This is only for the demo purpose */}
+            <Button variant="contained" onClick={() => setIsSnackbarOpen(true)}>
+                Open Snackbar
+            </Button>
+            <Snackbar
+                open={isSnackbarOpen}
+                autoHideDuration={2000}
+                onClose={() => setIsSnackbarOpen(false)}
+                message="You have given a wrong input"
+                state="error"
+            ></Snackbar>
             </Box>
         </ResponsiveContainer>
     );

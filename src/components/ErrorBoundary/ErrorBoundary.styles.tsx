@@ -1,10 +1,9 @@
-import { Box, Paper, styled } from '@mui/material';
+import { Box,styled } from '@mui/material';
 
 /**
  * Styled Paper container that serves as the main structural box for the error screen.
- * @component
  */
-export const ErrorContainer = styled(Paper)(({ theme }) => ({
+export const ErrorContainer = styled(Box)(({ theme }) => ({
     padding: theme.spacing(3),
     margin: theme.spacing(2, 0),
     display: 'flex',
@@ -13,7 +12,7 @@ export const ErrorContainer = styled(Paper)(({ theme }) => ({
     textAlign: 'center',
     backgroundColor: theme.palette.error.light,
     border: `1px solid ${theme.palette.error.main}`,
-    borderRadius: theme.shape.borderRadius * 2,
+    borderRadius: theme.shape.borderRadius,
 }));
 
 /**

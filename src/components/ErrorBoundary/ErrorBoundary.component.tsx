@@ -6,7 +6,7 @@ import { ActionWrapper, ErrorContainer } from './ErrorBoundary.styles';
 import { ErrorBoundaryProps, ErrorBoundaryState } from './ErrorBoundary.types';
 
 /**
- * A class component that catches the typescript error anywhere in child component tree,
+ * A class component that catches the runtime java script error anywhere in child component tree,
  * logs those errors, and displays a fallback UI instead of crashing the application.
  *
  * @extends {Component<ErrorBoundaryProps,ErrorBoundaryState>}
@@ -26,8 +26,8 @@ export class ErrorBoundary extends Component<
 
     /**
      * Updates the error so the next render will show the fallback UI when an error is caught.
-     * @param {Error} error - The error that was thrown by the descendent component.
-     * @returns {ErrorBoundaryState} The Updated state object indicating an error has occurred.
+     * @param error - The error that was thrown by the descendent component.
+     * @returns The Updated state object indicating an error has occurred.
      */
     public static getDerivedStateFromError(error: Error): ErrorBoundaryState {
         return { hasError: true, error };
@@ -38,7 +38,6 @@ export class ErrorBoundary extends Component<
      * allowing the application to attempt recovery or retry rendering.
      *
      * @private
-     * @returns {void}
      */
     private handleReset = (): void => {
         this.props.onReset?.();
@@ -48,7 +47,7 @@ export class ErrorBoundary extends Component<
     /**
      * Renders the fallback UI if an error is caught; otherwise, renders the child components.
      *
-     * @returns {ReactNode} The rendered element tree.
+     * @returns The rendered element tree.
      */
     public render(): ReactNode {
         const { hasError, error } = this.state;
@@ -62,7 +61,7 @@ export class ErrorBoundary extends Component<
                 return fallback(error, this.handleReset);
             }
             return (
-                <ErrorContainer elevation={1}>
+                <ErrorContainer>
                     <Typography variant="h6" color="error" gutterBottom>
                         {title}
                     </Typography>
@@ -71,8 +70,7 @@ export class ErrorBoundary extends Component<
                         color="text.secondary"
                         gutterBottom
                     >
-                        {error?.message ||
-                            'An Unexpected rendering error occurred.'}
+                            An Unexpected rendering error occurred.
                     </Typography>
                     <ActionWrapper>
                         <Button variant="contained" onClick={this.handleReset}>
@@ -84,4 +82,4 @@ export class ErrorBoundary extends Component<
         }
         return children;
     }
-}
+}   

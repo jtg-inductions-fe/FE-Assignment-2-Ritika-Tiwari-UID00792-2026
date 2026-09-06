@@ -4,8 +4,8 @@ import { StyledContainer } from './ResponsiveContainer.styles';
 
 /**
  * A responsive layout wrapper component that centers its child elements horizontally and applies layout margins.
- * @param {PropsWithChildren} props - the component property.
- * @returns {JSX.Element} The rendered styled container structured.
+ * @param PropsWithChildren - the configuration property containing the child elements to be nested inside the container.
+ * @returns The structured and styled layout container.
  */
 export const ResponsiveContainer = ({
     children,

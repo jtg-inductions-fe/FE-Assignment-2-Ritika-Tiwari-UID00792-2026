@@ -1,4 +1,4 @@
-import { MainLayout } from 'layouts';
+import { Main } from '@layouts';
 import {
     Cart,
     Home,
@@ -8,27 +8,49 @@ import {
     OrderPortal,
     Restaurant,
     SignUp,
-} from 'pages';
+} from '@pages';
 import {
     createBrowserRouter,
-    createRoutesFromElements,
-    Route,
 } from 'react-router-dom';
+import { ROUTES } from './AppRoutes.constants';
 
 export const AppRoutes = createBrowserRouter(
-    createRoutesFromElements(
-        // Main layout mapping the core features of the application
-        <Route path="/" element={<MainLayout />}>
-            <Route path="home" element={<Home />} />
-            <Route path="sign-up" element={<SignUp />} />
-            <Route path="login" element={<Login />} />
-            {/* Core application features */}
-            <Route path="/restaurant" element={<Restaurant />} />
-            <Route path="/menu" element={<Menu />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/order-portal" element={<OrderPortal />} />
-            {/* fallback route mapping forany unrecognized paths directly to the 404 page */}
-            <Route path="*" element={<NotFoundPage />} />
-        </Route>,
-    ),
-);
+    [{
+        path: ROUTES.ROOT,
+        element: <Main />,
+        children: [
+            {
+                path: ROUTES.HOME,
+                element: <Home />,
+            },
+            {
+                path: ROUTES.SING_UP,
+                element: <SignUp />,
+            },
+            {
+                path: ROUTES.LOGIN,
+                element: <Login />,
+            },
+            {
+                path: ROUTES.RESTAURANT,
+                element: <Restaurant />,
+            },
+            {
+                path: ROUTES.MENU,
+                element: <Menu />,
+            },
+            {
+                path: ROUTES.CART,
+                element: <Cart />,
+            },
+            {
+                path: ROUTES.ORDER_PORTAl,
+                element: <OrderPortal />,
+            },
+            {
+                path: ROUTES.NOT_FOUND_PAGE,
+                element: <NotFoundPage />,
+            }
+        ]
+    }
+]);

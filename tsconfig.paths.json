@@ -5,7 +5,10 @@
             "@assets/*": ["assets/*"],
             "@constant": ["constant/index"],
             "@theme": ["theme/index"],
-            "@components": ["components/index"]
+            "@components": ["components/index"],
+            "@pages": ["pages/index"],
+             "@layouts": ["layouts/index"]
+
         }
     }
 }
