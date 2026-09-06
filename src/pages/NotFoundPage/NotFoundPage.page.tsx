@@ -1,10 +1,10 @@
 import { JSX } from 'react';
 
-import PageNotFound from 'assets/images/page-not-found.webp';
 import { useNavigate } from 'react-router-dom';
 
 import { Button, Typography } from '@mui/material';
 
+import PageNotFound from '@assets/images/page-not-found.webp';
 import { ResponsiveContainer } from '@components';
 
 import { StyledBox, StyledImage } from './NotFoundPage.styles';

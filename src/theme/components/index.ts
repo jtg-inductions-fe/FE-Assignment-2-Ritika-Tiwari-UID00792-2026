@@ -72,9 +72,9 @@ export const components: Components<Theme> = {
                     textTransform: 'none',
                     transition: 'transform 0.3s ease',
                     '&:hover': {
+                        boxShadow: theme.shadows[2],
                         backgroundColor: theme.palette.background.default,
                         transform: 'translateY(2px)',
-                        boxShadow: theme.shadows[2],
                     },
                 }),
             },

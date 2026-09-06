@@ -1,3 +1,5 @@
+import { createBrowserRouter } from 'react-router-dom';
+
 import { Main } from '@layouts';
 import {
     Cart,
@@ -9,7 +11,6 @@ import {
     Restaurant,
     SignUp,
 } from '@pages';
-import { createBrowserRouter } from 'react-router-dom';
 import { ROUTES } from './AppRoutes.constants';
 import { ProtectedRoute } from './ProtectedRoutes';
 

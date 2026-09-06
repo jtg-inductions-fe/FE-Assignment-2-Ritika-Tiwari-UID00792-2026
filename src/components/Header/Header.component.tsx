@@ -1,34 +1,36 @@
-import * as React from 'react';
+import React from 'react';
+
+import { useNavigate } from 'react-router-dom';
 
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import {
-    Avatar,
     Badge,
+    Box,
     Divider,
     Popover,
     Tooltip,
     Typography,
+    useMediaQuery,
 } from '@mui/material';
 
-// Asset & Style Imports
+import avatarImage from '@assets/images/avatar.webp';
 import logo from '@assets/images/logo.webp';
 import { ResponsiveContainer } from '@components';
+import { theme } from '@theme';
 
 import {
     ActionsContainer,
-    CleanTypography,
     LogoContainer,
     LogoutButton,
-    MobileOrdersBox,
     NavText,
     PopoverProfileBox,
     ProfileIconButton,
     StyledAppBar,
+    StyledIconButton,
     StyledLink,
-    StyledMenuItemBox,
     StyledToolbar,
-    UserEmailText,
+    UserAvatar,
 } from './Header.styles';
 
 /**
@@ -37,9 +39,9 @@ import {
  */
 const mockUser = {
     userId: 1,
-    name: 'Remy Sharp',
+    name: 'emy Sharp',
     email: 'remy.sharp@example.com',
-    avatarUrl: '/static/images/avatar/2.jpg',
+    avatarUrl: avatarImage,
     role: 'customer',
     cartCount: 4,
 };
@@ -49,9 +51,7 @@ const mockUser = {
  *
  * Provides the global navigation bar, branding logo, navigation links,
  * and a contextual user profile dropdown menu.
- *
- * @component
- * @returns {React.ReactElement} The rendered global application header.
+ * @returns The rendered global application header.
  */
 export const Header = (): React.ReactElement => {
     // State to track which HTML element anchors the user profile popover menu
@@ -60,7 +60,7 @@ export const Header = (): React.ReactElement => {
 
     /**
      * Opens the user profile popover menu by setting the anchor element.
-     * @param {React.MouseEvent<HTMLButtonElement>} event - The click event from the avatar button.
+     * @param event - The click event from the avatar button.
      */
     const handleOpenProfilePopover = (
         event: React.MouseEvent<HTMLButtonElement>,
@@ -86,64 +86,66 @@ export const Header = (): React.ReactElement => {
     const isPopoverOpen = Boolean(anchorElUser);
     const popoverId = isPopoverOpen ? 'user-profile-popover' : undefined;
 
+    const navigate = useNavigate();
+
+    // Returns true if screen width is smaller than the 'md' breakpoint
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
     return (
         <StyledAppBar>
             <ResponsiveContainer>
                 <StyledToolbar disableGutters>
-                    {/* BRANDING / LOGO */}
+                    {/* Branding / logo */}
                     <LogoContainer aria-label="Brand name and logo">
-                        <StyledLink to={'/home'}>
+                        <StyledLink to="/home">
                             <Tooltip title="Logo">
-                                <img src={logo} alt="" role="presentation" />
+                                <img
+                                    src={logo}
+                                    alt="Brand logo"
+                                    role="presentation"
+                                />
                             </Tooltip>
-                            <Tooltip title="Brand Name">
-                                <CleanTypography
-                                    variant="h6"
-                                    color="text.primary"
-                                    noWrap
-                                    className="header-logo"
-                                >
-                                    Swaad
-                                </CleanTypography>
-                            </Tooltip>
+                            <Typography
+                                variant="h6"
+                                color="text.primary"
+                                noWrap
+                                fontWeight={theme.typography.fontWeightBold}
+                            >
+                                Swaad
+                            </Typography>
                         </StyledLink>
                     </LogoContainer>
 
-                    {/* ACTIONS & NAVIGATION */}
+                    {/* Actions and navigation */}
                     <ActionsContainer aria-label="Main Navigation">
-                        {/* Desktop Navigation Links */}
-                        <StyledMenuItemBox>
-                            <Tooltip title="Orders">
-                                <StyledLink to={'/order-portal'}>
-                                    <NavText
-                                        variant="button"
-                                        color="text.primary"
-                                        title="Orders"
-                                    >
-                                        Orders
-                                    </NavText>
-                                </StyledLink>
-                            </Tooltip>
-                        </StyledMenuItemBox>
-
-                        {/* Mobile Viewport Orders Shortcut */}
-                        {/* Mobile Viewport Orders Shortcut */}
-                        <MobileOrdersBox>
-                            <Tooltip title="Orders">
-                                <StyledLink
-                                    to={'/order-portal'}
-                                    aria-label="Track your orders"
+                        {!isMobile ? (
+                            <StyledLink to="/order-portal">
+                                <NavText
+                                    variant="button"
+                                    color="text.primary"
+                                    title="Orders"
+                                    textTransform="none"
                                 >
-                                    <AssignmentIcon />
-                                </StyledLink>
-                            </Tooltip>
-                        </MobileOrdersBox>
-
+                                    Orders
+                                </NavText>
+                            </StyledLink>
+                        ) : (
+                            <StyledIconButton
+onClick={() => {
+  void navigate('/order-portal');
+}}
+                                aria-label="Track your orders"
+                            >
+                                <AssignmentIcon />
+                            </StyledIconButton>
+                        )}
                         {/* Shopping Cart Icon (Visible to customers only) */}
                         {mockUser.role === 'customer' && (
                             <Tooltip title="View Cart">
-                                <StyledLink
-                                    to={'/cart'}
+                                <StyledIconButton
+onClick={() => {
+  void navigate('/cart');
+}}
                                     aria-label={`${mockUser.cartCount} items in cart`}
                                 >
                                     <Badge
@@ -152,11 +154,11 @@ export const Header = (): React.ReactElement => {
                                     >
                                         <ShoppingCartIcon />
                                     </Badge>
-                                </StyledLink>
+                                </StyledIconButton>
                             </Tooltip>
                         )}
 
-                        {/* User Profile Avatar Trigger */}
+                        {/* User profile avatar triggers */}
                         <Tooltip title="Open profile settings">
                             <ProfileIconButton
                                 onClick={handleOpenProfilePopover}
@@ -164,7 +166,7 @@ export const Header = (): React.ReactElement => {
                                 aria-haspopup="true"
                                 aria-expanded={isPopoverOpen}
                             >
-                                <Avatar
+                                <UserAvatar
                                     alt={mockUser.name}
                                     src={mockUser.avatarUrl}
                                 />
@@ -173,7 +175,7 @@ export const Header = (): React.ReactElement => {
                     </ActionsContainer>
                 </StyledToolbar>
 
-                {/* USER PROFILE CONTEXTUAL POPOVER */}
+                {/* User profile contextual popover */}
                 <Popover
                     id={popoverId}
                     open={isPopoverOpen}
@@ -189,18 +191,19 @@ export const Header = (): React.ReactElement => {
                     }}
                 >
                     <PopoverProfileBox>
-                        <Avatar
+                        <UserAvatar
                             alt={mockUser.name}
                             src={mockUser.avatarUrl}
-                            sx={{ width: 56, height: 56, mb: 1 }}
                         />
-                        <Typography variant="h6" fontWeight="bold">
-                            {mockUser.name}
-                        </Typography>
-                        <UserEmailText variant="body2" color="text.secondary">
-                            {mockUser.email}
-                        </UserEmailText>
-                        <Divider flexItem sx={{ my: 1.5 }} />
+                        <Box>
+                            <Typography variant="h6" fontWeight="bold">
+                                {mockUser.name}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                                {mockUser.email}
+                            </Typography>
+                        </Box>
+                        <Divider flexItem />
                         <LogoutButton
                             variant="contained"
                             color="error"
@@ -215,5 +218,3 @@ export const Header = (): React.ReactElement => {
         </StyledAppBar>
     );
 };
-
-export default Header;

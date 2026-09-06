@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 import {
     Avatar,
     Box,
@@ -6,12 +8,12 @@ import {
     styled,
     Toolbar,
     Typography,
-    TypographyProps,
 } from '@mui/material';
-import { Link } from 'react-router-dom';
 
 export const StyledAppBar = styled('header')(({ theme }) => ({
-    position: 'static',
+    position: 'sticky',
+    top: 0,
+    zIndex: 100,
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[4],
 }));
@@ -22,66 +24,37 @@ export const StyledToolbar = styled(Toolbar)(({ theme }) => ({
     alignItems: 'center',
 
     [theme.breakpoints.down('sm')]: {
-        paddingLeft: '8px',
-        paddingRight: '8px',
+        paddingLeft: 8,
+        paddingRight: 8,
     },
 }));
 
 // Left branding alignment setup
-export const LogoContainer = styled('a')(({ theme }) => ({
+export const LogoContainer = styled('div')(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     cursor: 'pointer',
     textDecoration: 'none',
     '& img': {
-        width: '24px',
-        height: '24px',
+        width: 24,
+        height: 24,
         objectFit: 'contain',
-        marginRight: '8px',
+        marginRight: 8,
     },
     '&:focus-visible': {
         outline: `2px solid ${theme.palette.primary.main}`,
-        outlineOffset: '2px',
+        outlineOffset: 2,
         backgroundColor: theme.palette.action.selected,
     },
 }));
-
-export const CleanTypography = styled(Typography)<TypographyProps<'a'>>({
-    textDecoration: 'none',
-    fontWeight: 700,
-});
 
 // Right container wrapper grouping actions
 export const ActionsContainer = styled('nav')(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
-    // Dynamically adjust gaps based on screen size
-    gap: '12px',
+    gap: 12,
     [theme.breakpoints.down('sm')]: {
-        gap: '4px',
-    },
-}));
-
-// Navigation menu box - hides text tabs on small screens
-export const StyledMenuItemBox = styled(Box)(({ theme }) => ({
-    alignItems: 'center',
-    gap: '16px',
-    [theme.breakpoints.up('md')]: {
-        display: 'flex',
-    },
-    [theme.breakpoints.down('md')]: {
-        display: 'none',
-    },
-}));
-
-// Single icon container for orders - only visible on mobile/tablet viewports
-export const MobileOrdersBox = styled(Box)(({ theme }) => ({
-    alignItems: 'center',
-    [theme.breakpoints.up('md')]: {
-        display: 'none',
-    },
-    [theme.breakpoints.down('md')]: {
-        display: 'flex',
+        gap: 4,
     },
 }));
 
@@ -96,13 +69,13 @@ export const NavText = styled(Typography)(({ theme }) => ({
     // Better UX: Style specifically for keyboard navigation focus
     '&:focus-visible': {
         outline: `2px solid ${theme.palette.primary.main}`,
-        outlineOffset: '2px',
+        outlineOffset: 2,
         backgroundColor: theme.palette.action.selected,
     },
 }));
 
 export const StyledLink = styled(Link)(({ theme }) => ({
-    padding: '8px',
+    padding: 8,
     textDecoration: 'none',
     textAlign: 'center',
     display: 'flex',
@@ -117,7 +90,32 @@ export const StyledLink = styled(Link)(({ theme }) => ({
     // Better UX: Style specifically for keyboard navigation focus
     '&:focus-visible': {
         outline: `2px solid ${theme.palette.primary.main}`,
-        outlineOffset: '2px',
+        outlineOffset: 2,
+        backgroundColor: theme.palette.action.selected,
+    },
+    // Style when the link matches the active URL path
+    '&.active': {
+        color: theme.palette.primary.main,
+        fontWeight: theme.typography.fontWeightBold,
+    },
+}));
+export const StyledIconButton = styled(IconButton)(({ theme }) => ({
+    padding: 8,
+    textDecoration: 'none',
+    textAlign: 'center',
+    display: 'flex',
+    alignItems: 'center',
+    color: theme.palette.text.primary,
+    '&:hover': {
+        color: theme.palette.primary.main,
+    },
+    '&:focus': {
+        backgroundColor: theme.palette.action.hover,
+    },
+    // Better UX: Style specifically for keyboard navigation focus
+    '&:focus-visible': {
+        outline: `2px solid ${theme.palette.primary.main}`,
+        outlineOffset: 2,
         backgroundColor: theme.palette.action.selected,
     },
     // Style when the link matches the active URL path
@@ -132,36 +130,35 @@ export const ProfileIconButton = styled(IconButton)(({ theme }) => ({
     border: `4px solid ${theme.palette.primary.main}`,
     // Make the avatar ring slightly smaller on small viewports
     [theme.breakpoints.down('sm')]: {
-        borderWidth: '2px',
+        borderWidth: 2,
     },
     '&:focus-visible': {
         outline: `2px solid ${theme.palette.primary.main}`,
-        outlineOffset: '2px',
+        outlineOffset: 2,
         backgroundColor: theme.palette.action.selected,
     },
 }));
 
 // Aligned Profile Context Box inside Popover
-export const PopoverProfileBox = styled(Box)({
+export const PopoverProfileBox = styled(Box)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: '20px',
+    padding: 20,
     textAlign: 'center',
-    minWidth: '250px',
-});
+    minWidth: 250,
+    gap: theme.spacing(2),
+}));
 
 export const UserAvatar = styled(Avatar)(({ theme }) => ({
-    width: 64,
-    height: 64,
-    marginBottom: '12px',
+    width: 40,
+    height: 40,
     boxShadow: theme.shadows[1],
 }));
 
-export const UserEmailText = styled(Typography)({
-    marginBottom: '12px',
-});
-
-export const LogoutButton = styled(Button)({
-    marginTop: '8px',
-});
+export const LogoutButton = styled(Button)(({ theme }) => ({
+    backgroundColor: theme.palette.error.main,
+    '&:hover': {
+        backgroundColor: theme.palette.error.dark,
+    },
+}));
