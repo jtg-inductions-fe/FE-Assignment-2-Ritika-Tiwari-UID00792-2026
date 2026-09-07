@@ -31,7 +31,6 @@ import {
     UserAvatar,
 } from './Header.styles';
 import { HeaderProps } from './Header.types';
-import mockUsers from '../../mock/users.json';
 
 /**
  * Header Component
@@ -126,7 +125,7 @@ export const Header = ({
                         )}
 
                         {/* Shopping Cart Icon (Visible to customers only) */}
-                        {mockUsers[1].role === 'customer' && (
+                        {user.role === 'customer' && (
                             <Tooltip title="View Cart">
                                 <StyledIconButton
                                     LinkComponent={NavLink}

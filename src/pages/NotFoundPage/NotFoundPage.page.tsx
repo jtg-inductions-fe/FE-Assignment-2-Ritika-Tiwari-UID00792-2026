@@ -19,7 +19,7 @@ export const NotFoundPage = (): JSX.Element => {
     const navigate = useNavigate();
 
     /** Action handler that redirects the user back to the home page.
-     * @returns {void}
+     * @returns void
      */
     const handleClick = (): void => {
         void navigate('/');
