@@ -100,6 +100,7 @@ export const Header = ({
     };
 
     /**
+     * This is for the demo purpose only
      * Logs the user out by closing the popover and triggering auth cleanup actions.
      */
     const onLogout = () => {
