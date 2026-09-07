@@ -30,6 +30,7 @@ import {
     StyledToolbar,
     UserAvatar,
 } from './Header.styles';
+import { HeaderProps } from './Header.types';
 import mockUsers from '../../mock/users.json';
 
 /**
@@ -37,9 +38,13 @@ import mockUsers from '../../mock/users.json';
  *
  * Provides the global navigation bar, branding logo, navigation links,
  * and a contextual user profile dropdown menu.
+ * @param The configuration properties for the rendering Header component
  * @returns The rendered global application header.
  */
-export const Header = (): React.ReactElement => {
+export const Header = ({
+    user,
+    cartCount,
+}: HeaderProps): React.ReactElement => {
     // State to track which HTML element anchors the user profile popover menu
     const [anchorElUser, setAnchorElUser] =
         React.useState<HTMLButtonElement | null>(null);
@@ -62,6 +67,7 @@ export const Header = (): React.ReactElement => {
     };
 
     /**
+     * This is for the demo purpose only
      * Logs the user out by closing the popover and triggering auth cleanup actions.
      */
     const handleLogout = () => {
@@ -74,10 +80,6 @@ export const Header = (): React.ReactElement => {
 
     // Returns true if screen width is smaller than the 'md' breakpoint
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-
-    // For the demo purpose only
-    const mockUser = mockUsers[1];
-    const cartCount = 4;
 
     return (
         <StyledAppBar>
@@ -149,7 +151,7 @@ export const Header = (): React.ReactElement => {
                                 aria-haspopup="true"
                                 aria-expanded={isPopoverOpen}
                             >
-                                <UserAvatar alt={mockUser.name} />
+                                <UserAvatar alt={user.name} />
                             </ProfileIconButton>
                         </Tooltip>
                     </ActionsContainer>
@@ -171,13 +173,13 @@ export const Header = (): React.ReactElement => {
                     }}
                 >
                     <PopoverProfileBox>
-                        <UserAvatar alt={mockUser.name} />
+                        <UserAvatar alt={user.name} />
                         <Box>
                             <Typography variant="h6" fontWeight="bold">
-                                {mockUser.name}
+                                {user.name}
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
-                                {mockUser.email}
+                                {user.email}
                             </Typography>
                         </Box>
                         <Divider flexItem />

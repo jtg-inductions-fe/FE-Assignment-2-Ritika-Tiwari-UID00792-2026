@@ -1,3 +1,5 @@
+import { NavLinkProps } from 'react-router-dom';
+
 import {
     Avatar,
     Box,
@@ -6,7 +8,6 @@ import {
     styled,
     Toolbar,
 } from '@mui/material';
-import { NavLinkProps } from 'react-router-dom';
 
 export const StyledAppBar = styled('header')(({ theme }) => ({
     position: 'sticky',
@@ -22,8 +23,8 @@ export const StyledToolbar = styled(Toolbar)(({ theme }) => ({
     alignItems: 'center',
 
     [theme.breakpoints.down('sm')]: {
-        paddingLeft: 8,
-        paddingRight: 8,
+        paddingLeft: theme.spacing(0.5),
+        paddingRight: theme.spacing(0.5),
     },
 }));
 
@@ -48,15 +49,15 @@ export const LogoContainer = styled('div')(({ theme }) => ({
 export const ActionsContainer = styled('nav')(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
-    gap: 12,
+    gap: theme.spacing(2),
     [theme.breakpoints.down('sm')]: {
-        gap: 4,
+        gap: theme.spacing(1),
     },
 }));
 
 export const StyledIconButton = styled(IconButton)<NavLinkProps>(
     ({ theme }) => ({
-        padding: 8,
+        padding: theme.spacing(0.5),
         textDecoration: 'none',
         textAlign: 'center',
         display: 'flex',
@@ -66,7 +67,7 @@ export const StyledIconButton = styled(IconButton)<NavLinkProps>(
 );
 
 export const ProfileIconButton = styled(IconButton)(({ theme }) => ({
-    padding: 0,
+    padding: theme.spacing(0),
     border: `4px solid ${theme.palette.primary.main}`,
 
     [theme.breakpoints.down('sm')]: {
@@ -79,7 +80,7 @@ export const PopoverProfileBox = styled(Box)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: 20,
+    padding: theme.spacing(1.5),
     textAlign: 'center',
     minWidth: 250,
     gap: theme.spacing(2),
