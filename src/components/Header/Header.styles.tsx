@@ -1,5 +1,3 @@
-import { Link } from 'react-router-dom';
-
 import {
     Avatar,
     Box,
@@ -7,8 +5,8 @@ import {
     IconButton,
     styled,
     Toolbar,
-    Typography,
 } from '@mui/material';
+import { NavLinkProps } from 'react-router-dom';
 
 export const StyledAppBar = styled('header')(({ theme }) => ({
     position: 'sticky',
@@ -39,12 +37,10 @@ export const LogoContainer = styled('div')(({ theme }) => ({
         width: 24,
         height: 24,
         objectFit: 'contain',
-        marginRight: 8,
     },
     '&:focus-visible': {
         outline: `2px solid ${theme.palette.primary.main}`,
         outlineOffset: 2,
-        backgroundColor: theme.palette.action.selected,
     },
 }));
 
@@ -58,84 +54,23 @@ export const ActionsContainer = styled('nav')(({ theme }) => ({
     },
 }));
 
-export const NavText = styled(Typography)(({ theme }) => ({
-    textDecoration: 'none',
-    '&:hover': {
-        color: theme.palette.primary.main,
-    },
-    '&:focus': {
-        backgroundColor: theme.palette.action.hover,
-    },
-    // Better UX: Style specifically for keyboard navigation focus
-    '&:focus-visible': {
-        outline: `2px solid ${theme.palette.primary.main}`,
-        outlineOffset: 2,
-        backgroundColor: theme.palette.action.selected,
-    },
-}));
-
-export const StyledLink = styled(Link)(({ theme }) => ({
-    padding: 8,
-    textDecoration: 'none',
-    textAlign: 'center',
-    display: 'flex',
-    alignItems: 'center',
-    color: theme.palette.text.primary,
-    '&:hover': {
-        color: theme.palette.primary.main,
-    },
-    '&:focus': {
-        backgroundColor: theme.palette.action.hover,
-    },
-    // Better UX: Style specifically for keyboard navigation focus
-    '&:focus-visible': {
-        outline: `2px solid ${theme.palette.primary.main}`,
-        outlineOffset: 2,
-        backgroundColor: theme.palette.action.selected,
-    },
-    // Style when the link matches the active URL path
-    '&.active': {
-        color: theme.palette.primary.main,
-        fontWeight: theme.typography.fontWeightBold,
-    },
-}));
-export const StyledIconButton = styled(IconButton)(({ theme }) => ({
-    padding: 8,
-    textDecoration: 'none',
-    textAlign: 'center',
-    display: 'flex',
-    alignItems: 'center',
-    color: theme.palette.text.primary,
-    '&:hover': {
-        color: theme.palette.primary.main,
-    },
-    '&:focus': {
-        backgroundColor: theme.palette.action.hover,
-    },
-    // Better UX: Style specifically for keyboard navigation focus
-    '&:focus-visible': {
-        outline: `2px solid ${theme.palette.primary.main}`,
-        outlineOffset: 2,
-        backgroundColor: theme.palette.action.selected,
-    },
-    // Style when the link matches the active URL path
-    '&.active': {
-        color: theme.palette.primary.main,
-        fontWeight: theme.typography.fontWeightBold,
-    },
-}));
+export const StyledIconButton = styled(IconButton)<NavLinkProps>(
+    ({ theme }) => ({
+        padding: 8,
+        textDecoration: 'none',
+        textAlign: 'center',
+        display: 'flex',
+        alignItems: 'center',
+        color: theme.palette.text.primary,
+    }),
+);
 
 export const ProfileIconButton = styled(IconButton)(({ theme }) => ({
     padding: 0,
     border: `4px solid ${theme.palette.primary.main}`,
-    // Make the avatar ring slightly smaller on small viewports
+
     [theme.breakpoints.down('sm')]: {
         borderWidth: 2,
-    },
-    '&:focus-visible': {
-        outline: `2px solid ${theme.palette.primary.main}`,
-        outlineOffset: 2,
-        backgroundColor: theme.palette.action.selected,
     },
 }));
 

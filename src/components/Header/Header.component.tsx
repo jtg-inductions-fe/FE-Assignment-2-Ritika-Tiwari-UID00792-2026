@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -8,13 +8,13 @@ import {
     Badge,
     Box,
     Divider,
+    Link,
     Popover,
     Tooltip,
     Typography,
     useMediaQuery,
 } from '@mui/material';
 
-import avatarImage from '@assets/images/avatar.webp';
 import logo from '@assets/images/logo.webp';
 import { ResponsiveContainer } from '@components';
 import { theme } from '@theme';
@@ -23,28 +23,14 @@ import {
     ActionsContainer,
     LogoContainer,
     LogoutButton,
-    NavText,
     PopoverProfileBox,
     ProfileIconButton,
     StyledAppBar,
     StyledIconButton,
-    StyledLink,
     StyledToolbar,
     UserAvatar,
 } from './Header.styles';
-
-/**
- * Mock user data to show a logged-in user session.
- * Used for demo purposes to populate the profile and cart count.
- */
-const mockUser = {
-    userId: 1,
-    name: 'emy Sharp',
-    email: 'remy.sharp@example.com',
-    avatarUrl: avatarImage,
-    role: 'customer',
-    cartCount: 4,
-};
+import mockUsers from '../../mock/users.json';
 
 /**
  * Header Component
@@ -86,10 +72,12 @@ export const Header = (): React.ReactElement => {
     const isPopoverOpen = Boolean(anchorElUser);
     const popoverId = isPopoverOpen ? 'user-profile-popover' : undefined;
 
-    const navigate = useNavigate();
-
     // Returns true if screen width is smaller than the 'md' breakpoint
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
+    // For the demo purpose only
+    const mockUser = mockUsers[1];
+    const cartCount = 4;
 
     return (
         <StyledAppBar>
@@ -97,7 +85,7 @@ export const Header = (): React.ReactElement => {
                 <StyledToolbar disableGutters>
                     {/* Branding / logo */}
                     <LogoContainer aria-label="Brand name and logo">
-                        <StyledLink to="/home">
+                        <Link component={NavLink} to="/home">
                             <Tooltip title="Logo">
                                 <img
                                     src={logo}
@@ -105,51 +93,46 @@ export const Header = (): React.ReactElement => {
                                     role="presentation"
                                 />
                             </Tooltip>
-                            <Typography
-                                variant="h6"
-                                color="text.primary"
-                                noWrap
-                                fontWeight={theme.typography.fontWeightBold}
-                            >
-                                Swaad
-                            </Typography>
-                        </StyledLink>
+                        </Link>
+                        <Typography
+                            variant="h6"
+                            color="text.primary"
+                            noWrap
+                            fontWeight={theme.typography.fontWeightBold}
+                            marginLeft={theme.spacing(2)}
+                        >
+                            Swaad
+                        </Typography>
                     </LogoContainer>
 
                     {/* Actions and navigation */}
                     <ActionsContainer aria-label="Main Navigation">
                         {!isMobile ? (
-                            <StyledLink to="/order-portal">
-                                <NavText
-                                    variant="button"
-                                    color="text.primary"
-                                    title="Orders"
-                                    textTransform="none"
-                                >
-                                    Orders
-                                </NavText>
-                            </StyledLink>
+                            <Link component={NavLink} to="/order-portal">
+                                Orders
+                            </Link>
                         ) : (
-                            <StyledIconButton
-onClick={() => {
-  void navigate('/order-portal');
-}}
-                                aria-label="Track your orders"
-                            >
-                                <AssignmentIcon />
-                            </StyledIconButton>
+                            <Tooltip title="Go to order portal">
+                                <StyledIconButton
+                                    LinkComponent={NavLink}
+                                    to="/order-portal"
+                                    aria-label="Track your orders"
+                                >
+                                    <AssignmentIcon />
+                                </StyledIconButton>
+                            </Tooltip>
                         )}
+
                         {/* Shopping Cart Icon (Visible to customers only) */}
-                        {mockUser.role === 'customer' && (
+                        {mockUsers[1].role === 'customer' && (
                             <Tooltip title="View Cart">
                                 <StyledIconButton
-onClick={() => {
-  void navigate('/cart');
-}}
-                                    aria-label={`${mockUser.cartCount} items in cart`}
+                                    LinkComponent={NavLink}
+                                    to="/cart"
+                                    aria-label="4 items in cart"
                                 >
                                     <Badge
-                                        badgeContent={mockUser.cartCount}
+                                        badgeContent={cartCount}
                                         color="error"
                                     >
                                         <ShoppingCartIcon />
@@ -166,10 +149,7 @@ onClick={() => {
                                 aria-haspopup="true"
                                 aria-expanded={isPopoverOpen}
                             >
-                                <UserAvatar
-                                    alt={mockUser.name}
-                                    src={mockUser.avatarUrl}
-                                />
+                                <UserAvatar alt={mockUser.name} />
                             </ProfileIconButton>
                         </Tooltip>
                     </ActionsContainer>
@@ -191,10 +171,7 @@ onClick={() => {
                     }}
                 >
                     <PopoverProfileBox>
-                        <UserAvatar
-                            alt={mockUser.name}
-                            src={mockUser.avatarUrl}
-                        />
+                        <UserAvatar alt={mockUser.name} />
                         <Box>
                             <Typography variant="h6" fontWeight="bold">
                                 {mockUser.name}

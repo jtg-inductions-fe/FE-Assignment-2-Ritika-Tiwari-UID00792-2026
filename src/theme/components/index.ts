@@ -80,4 +80,43 @@ export const components: Components<Theme> = {
             },
         ],
     },
+    MuiLink: {
+        styleOverrides: {
+            root: ({ theme }) => ({
+                textDecoration: 'none',
+                textAlign: 'center',
+                display: 'flex',
+                alignItems: 'center',
+                color: theme.palette.text.primary,
+                '&:hover': {
+                    color: theme.palette.primary.main,
+                },
+                '&:focus-visible': {
+                    outline: `2px solid ${theme.palette.primary.main}`,
+                    outlineOffset: 2,
+                },
+                '&.active': {
+                    color: theme.palette.primary.main,
+                    fontWeight: theme.typography.fontWeightBold,
+                },
+            }),
+        },
+    },
+    MuiIconButton: {
+        styleOverrides: {
+            root: ({ theme }) => ({
+                '&:hover': {
+                    color: theme.palette.primary.main,
+                },
+                '&:focus-visible': {
+                    outline: `2px solid ${theme.palette.primary.main}`,
+                    outlineOffset: 2,
+                },
+                '&.active': {
+                    color: theme.palette.primary.main,
+                    fontWeight: theme.typography.fontWeightBold,
+                },
+            }),
+        },
+    },
 };
