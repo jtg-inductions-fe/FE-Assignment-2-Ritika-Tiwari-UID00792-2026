@@ -162,7 +162,7 @@ export const components: Components<Theme> = {
                 },
                 '&:focus-visible': {
                     outline: `2px solid ${theme.palette.primary.main}`,
-                    outlineOffset: 2,
+                    outlineOffset: theme.spacing(0.5),
                 },
                 '&.active': {
                     color: theme.palette.primary.main,
@@ -179,7 +179,7 @@ export const components: Components<Theme> = {
                 },
                 '&:focus-visible': {
                     outline: `2px solid ${theme.palette.primary.main}`,
-                    outlineOffset: 2,
+                    outlineOffset: theme.spacing(0.5),
                 },
                 '&.active': {
                     color: theme.palette.primary.main,
