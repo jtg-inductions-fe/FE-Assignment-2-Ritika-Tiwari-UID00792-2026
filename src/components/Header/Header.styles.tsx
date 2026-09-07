@@ -34,7 +34,6 @@ export const LogoContainer = styled('div')(({ theme }) => ({
     '&:focus-visible': {
         outline: `2px solid ${theme.palette.primary.main}`,
         outlineOffset: 2,
-        backgroundColor: theme.palette.action.selected,
     },
 }));
 

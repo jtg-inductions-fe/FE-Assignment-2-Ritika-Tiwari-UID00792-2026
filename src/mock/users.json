@@ -1,0 +1,23 @@
+[
+    {
+        "id": "usr_01j7m28a1v9x8b",
+        "name": "Alex Mercer",
+        "email": "alex.mercer@example.com",
+        "password": "$argon2idv=19m=65536,t=3,p=4anNvbXNhbHRkYXRhyE7zO8V",
+        "role": "owner"
+    },
+    {
+        "id": "usr_01j7m28b2w0y9c",
+        "name": "Sarah Jenkins",
+        "email": "sarah.j@example.com",
+        "password": "$argon2idv=19m=65536,t=3,p=4anNvbXNhbHRkYXRhrB9xP1w",
+        "role": "customer"
+    },
+    {
+        "id": "usr_01j7m28c3x1z0d",
+        "name": "Marcus Vance",
+        "email": "marcus.vance@example.com",
+        "password": "$argon2idv=19m=65536,t=3,p=4anNvbXNhbHRkYXRhtG4yQ7z",
+        "role": "customer"
+    }
+]
