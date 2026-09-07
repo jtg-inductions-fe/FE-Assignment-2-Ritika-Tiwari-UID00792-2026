@@ -1,7 +1,10 @@
 import { useEffect } from 'react';
 
 import { Controller, useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { AppDispatch } from 'store';
+import { signup } from 'store/authSlice';
 
 import {
     Box,
@@ -24,13 +27,15 @@ import {
     StyledBoxInner,
     StyledBoxOuter,
     StyledImage,
+    StyledLink,
 } from './Signup.styles';
-import { StyledLink } from './Signup.styles';
 import { SignupFormData } from './Signup.types';
 import { SignupValidation } from './Signup.validations';
 
 export const Signup = () => {
+    const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
+
     const {
         control,
         handleSubmit,
@@ -43,12 +48,25 @@ export const Signup = () => {
             email: '',
             password: '',
             confirmPassword: '',
-            role: '',
+            role: 'customer',
         },
     });
+
     const watchPassword = watch('password');
-    const onSubmit = () => {
-        void navigate('/login');
+
+    const onSubmit = (data: SignupFormData) => {
+        try {
+            dispatch(signup(data));
+
+            localStorage.setItem('isLoggedIn', 'true');
+
+            void navigate('/home');
+        } catch (error) {
+            // Redirection backup if execution fails
+            if (error) {
+                void navigate('/login');
+            }
+        }
     };
 
     useEffect(() => {
@@ -133,6 +151,7 @@ export const Signup = () => {
                                 />
                             )}
                         />
+
                         <Controller
                             name="confirmPassword"
                             control={control}
@@ -155,8 +174,6 @@ export const Signup = () => {
                             )}
                         />
 
-                        {/* Role Checkbox Selector */}
-
                         <FormControl component="fieldset">
                             <FormLabel component="legend">Role</FormLabel>
                             <Controller
@@ -178,6 +195,7 @@ export const Signup = () => {
                                 )}
                             />
                         </FormControl>
+
                         <ButtonPrimary type="submit">Sign Up</ButtonPrimary>
 
                         <Box display="inline-flex" gap={1}>

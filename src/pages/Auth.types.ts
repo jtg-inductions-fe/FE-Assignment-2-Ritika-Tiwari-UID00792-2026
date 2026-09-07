@@ -1,10 +1,10 @@
 export type UserRole = 'customer' | 'owner';
 export interface User {
-    id: string;
-    name: string;
+    id?: string;
+    name?: string;
     email: string;
     password: string;
-    role: UserRole;
+    role?: UserRole;
 }
 export interface AuthState {
     user: User | null;

@@ -1,7 +1,10 @@
 import { useEffect } from 'react';
 
 import { Controller, useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { AppDispatch } from 'store';
+import { login } from 'store/authSlice';
 
 import { Box, Button, Stack, TextField, Typography } from '@mui/material';
 
@@ -18,13 +21,17 @@ import {
 import { StyledLink } from './Login.styles';
 import { LoginFormData } from './Login.types';
 import { LoginValidation } from './Login.validations';
+import { User } from '../Auth.types';
+import { mockSignups } from '../mockSignups';
 
 export const Login = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch<AppDispatch>();
     const {
         control,
         handleSubmit,
         reset,
+        setError,
         formState: { isSubmitSuccessful, errors },
     } = useForm<LoginFormData>({
         defaultValues: {
@@ -33,13 +40,41 @@ export const Login = () => {
         },
     });
 
-    const onSubmit = () => {
+    const onSubmit = (data: LoginFormData) => {
         try {
+            // Fetch registered users list from localStorage
+            const storedUsers: User[] = mockSignups;
+
+            // Validate if the email exists
+            const existingUser = storedUsers.find(
+                (user) => user.email.toLowerCase() === data.email.toLowerCase(),
+            );
+
+            if (!existingUser) {
+                setError('email', {
+                    type: 'manual',
+                    message: 'This email is not registered.',
+                });
+                return;
+            }
+
+            // Validate password
+            if (existingUser.password !== data.password) {
+                setError('password', {
+                    type: 'manual',
+                    message: 'Incorrect password.',
+                });
+                return;
+            }
+
+            // Update local storage state
             localStorage.setItem('isLoggedIn', 'true');
-            // Fix: Add void operator to handle floating promises from navigate
+
+            // Update Redux store (Passing the matched user metadata from signup)
+            dispatch(login(data));
+
             void navigate('/home');
         } catch (error) {
-            // Fix: Ensure the error block captures an actual error instance
             if (error) {
                 void navigate('/login');
             }
@@ -62,7 +97,6 @@ export const Login = () => {
                 minHeight="90vh"
             >
                 <StyledBoxOuter>
-                    {/* Fix: Wrap handleSubmit in a synchronous void arrow function */}
                     <StyledBoxInner
                         as="form"
                         onSubmit={(e) => {
