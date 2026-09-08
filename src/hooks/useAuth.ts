@@ -3,7 +3,7 @@ import { SignupFormData } from 'pages/SignUp/SignUp.types';
 import { UseFormSetError } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from 'store/hook';
 import { User } from 'store/slices/Auth.types';
-import { login, signup } from 'store/slices/authSlice';
+import { login, logout, signup } from 'store/slices/authSlice';
 
 export const useAuth = () => {
     const dispatch = useAppDispatch();
@@ -72,6 +72,9 @@ export const useAuth = () => {
             localStorage.setItem('isLoggedIn', 'true');
         }
     };
+    const handleLogout = () => {
+        dispatch(logout());
+    };
 
     /**
      * Function used to find the current registered user from the local storage.
@@ -79,10 +82,13 @@ export const useAuth = () => {
      */
     const fetchUser = () => {
         const user: string = localStorage.getItem('currentUser') || '';
-        const CurrentRegisteredUser: User = JSON.parse(user) as User;
-
-        return CurrentRegisteredUser;
+        try {
+            const CurrentRegisteredUser: User = JSON.parse(user) as User;
+            return CurrentRegisteredUser;
+        } catch {
+            return null;
+        }
     };
 
-    return { handleLogin, handleSignup, fetchUser };
+    return { handleLogin, handleSignup, handleLogout, fetchUser };
 };

@@ -16,7 +16,7 @@ const initialState: AuthState = {
 };
 
 export const fetchUsers = createAsyncThunk('auth/fetchUsers', async () => {
-    const response = await fetch('../public/mock/users.json');
+    const response = await fetch('/mock/users.json');
     if (!response.ok) {
         throw new Error('Failed to fetch users');
     }

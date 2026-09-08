@@ -9,9 +9,9 @@ export const StyledBoxOuter = styled(Box)(({ theme }) => ({
     backgroundColor: theme.palette.background.paper,
     borderRadius: 20,
     boxShadow: theme.shadows[4],
-    padding: theme.spacing(3),
-    [theme.breakpoints.down('md')]: {
-        padding: theme.spacing(0),
+    padding: theme.spacing(0),
+    [theme.breakpoints.up('md')]: {
+        padding: theme.spacing(3),
     },
 }));
 export const StyledBoxInner = styled(Box)(({ theme }) => ({

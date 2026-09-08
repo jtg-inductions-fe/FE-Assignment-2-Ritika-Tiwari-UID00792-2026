@@ -1,9 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import { useDispatch } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { AppDispatch } from 'store';
-import { logout } from 'store/slices/authSlice';
 
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -21,8 +18,8 @@ import {
 } from '@mui/material';
 
 import logo from '@assets/images/logo.webp';
-import { ResponsiveContainer } from '@components';
-import { ROUTES } from '@routes';
+import { ConfirmationDialog, ResponsiveContainer } from '@components';
+import { useAuth } from '@hook';
 import { theme } from '@theme';
 
 import {
@@ -35,13 +32,14 @@ import {
     UserAvatar,
 } from './Header.styles';
 import { HeaderProps } from './Header.types';
+import { ROUTES } from '@routes';
 
 /**
  * Header Component
  *
  * Provides the global navigation bar, branding logo, navigation links,
  * and a contextual user profile dropdown menu.
- * @param The configuration properties for the rendering Header component
+ * @param The configuration properties for the rendering Header component.
  * @returns The rendered global application header.
  */
 export const Header = ({
@@ -49,7 +47,7 @@ export const Header = ({
     cartCount,
     isLoggedIn,
 }: HeaderProps): React.ReactElement => {
-    // State to track which HTML element anchors the user profile popover menu
+    // State to track which HTML element anchors the user profile popover menu.
     const [anchorElUser, setAnchorElUser] =
         React.useState<HTMLButtonElement | null>(null);
 
@@ -70,29 +68,50 @@ export const Header = ({
         setAnchorElUser(null);
     };
 
-    const dispatch = useDispatch<AppDispatch>();
+    const { handleLogout } = useAuth();
     const navigate = useNavigate();
+
+    const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+
     /**
-     * This is for the demo purpose only
-     * Logs the user out by closing the popover and triggering auth cleanup actions.
+     * Handles the confirmation event from the confirmation dialog.
+     * @param confirmation - A boolean value defining user confirmation from the dialog.
      */
-    const handleLogout = () => {
-        try {
-            handleCloseProfilePopover();
-            dispatch(logout());
-            void navigate('/login');
-        } catch (error) {
-            if (error) {
-                void navigate('/');
+    const handleSubmit = (confirmation: boolean) => {
+        setIsDialogOpen(false);
+        if (confirmation) {
+            try {
+                handleLogout();
+                setIsDialogOpen(true);
+                void navigate('/login');
+            } catch (error) {
+                if (error) {
+                    void navigate('/');
+                }
             }
         }
     };
 
-    // Helper variables for accessibility and popover visibility state
+     /**
+     * Function to handle close event of confirmation dialog.
+     */
+    const handleClose = () => {
+        setIsDialogOpen(false);
+    };
+
+    /**
+     * Logs the user out by closing the popover and triggering auth cleanup actions.
+     */
+    const onLogout = () => {
+        handleCloseProfilePopover();
+        setIsDialogOpen(true);
+    };
+
+    // Helper variables for accessibility and popover visibility state.
     const isPopoverOpen = Boolean(anchorElUser);
     const popoverId = isPopoverOpen ? 'user-profile-popover' : undefined;
 
-    // Returns true if screen width is smaller than the 'md' breakpoint
+    // Returns true if screen width is smaller than the 'md' breakpoint.
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
     return (
@@ -209,13 +228,20 @@ export const Header = ({
                             <Button
                                 variant="error"
                                 fullWidth
-                                onClick={handleLogout}
+                                onClick={onLogout}
                             >
                                 Logout
                             </Button>
                         </PopoverProfileBox>
                     </Popover>
                 )}
+                <ConfirmationDialog
+                    open={isDialogOpen}
+                    onClose={handleClose}
+                    onSubmit={handleSubmit}
+                    title="Confirmation Dialog"
+                    description="Are you sure you want to logout?"
+                />
             </ResponsiveContainer>
         </StyledAppBar>
     );

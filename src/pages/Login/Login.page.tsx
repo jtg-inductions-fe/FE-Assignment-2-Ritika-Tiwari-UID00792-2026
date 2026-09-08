@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 
 import Logo from '@assets/images/logo.webp';
-import ChefImage from '@assets/images/undraw_chef_yoa7.svg';
+import ChefImage from '@assets/images/undraw_chef.webp';
 import { ResponsiveContainer } from '@components';
 import { useAuth } from '@hook';
 
