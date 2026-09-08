@@ -11,7 +11,6 @@ import { Header as HeaderComponent } from '../Header.component';
  * @returns The rendered global application header component.
  */
 export const Header = () => {
-    // For the demo purposes only
     const { fetchUser } = useAuth();
     const registeredUser = fetchUser();
     const cartCount = 4;
