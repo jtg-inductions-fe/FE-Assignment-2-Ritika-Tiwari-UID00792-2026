@@ -1,6 +1,9 @@
 import React from 'react';
 
-import { NavLink } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { AppDispatch } from 'store';
+import { logout } from 'store/authSlice';
 
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -66,12 +69,22 @@ export const Header = ({
         setAnchorElUser(null);
     };
 
+    const dispatch = useDispatch<AppDispatch>();
+    const navigate = useNavigate();
     /**
      * This is for the demo purpose only
      * Logs the user out by closing the popover and triggering auth cleanup actions.
      */
     const handleLogout = () => {
-        handleCloseProfilePopover();
+        try {
+            handleCloseProfilePopover();
+            dispatch(logout());
+            void navigate('/login');
+        } catch (error) {
+            if (error) {
+               void navigate('/home');
+            }
+        }
     };
 
     // Helper variables for accessibility and popover visibility state

@@ -1,6 +1,6 @@
-import { AuthState } from 'pages/Auth/Auth.types';
-import { LoginFormData } from 'pages/Auth/Login/Login.types';
-import { SignupFormData } from 'pages/Auth/SignUp/Signup.types';
+import { AuthState } from 'pages/Auth.types';
+import { LoginFormData } from 'pages/Login/Login.types';
+import { SignupFormData } from 'pages/SignUp/SignUp.types';
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
@@ -22,6 +22,7 @@ export const authSlice = createSlice({
         login: (state, action: PayloadAction<LoginFormData>) => {
             state.user = action.payload;
             state.isLoggedIn = true;
+            localStorage.setItem('isLoggedIn', 'true');
         },
         /**
          * Stores the newly registered user's information in Redux and marks the user as logged in.
@@ -29,13 +30,14 @@ export const authSlice = createSlice({
         signup: (state, action: PayloadAction<SignupFormData>) => {
             state.user = action.payload;
             state.isLoggedIn = true;
+            localStorage.setItem('isLoggedIn', 'true');
         },
         /**
          * Clears the authenticated user's information from the Redux and marks the user as logged out.
          */
         logout: (state) => {
-            state.user = null;
             state.isLoggedIn = false;
+            localStorage.removeItem('isLoggedIn');
         },
     },
 });
