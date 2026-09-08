@@ -11,7 +11,8 @@
             "@routes": ["routes/index"],
             "@types": ["types/index"],
             "@containers": ["containers/index"],
-            "@mock/*": ["../mock/*"]
+            "@mock/*": ["../mock/*"],
+            "@hooks":["hooks/index"]
         }
     }
 }

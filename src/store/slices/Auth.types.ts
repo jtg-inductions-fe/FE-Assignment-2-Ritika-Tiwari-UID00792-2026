@@ -1,12 +1,15 @@
 export type UserRole = 'customer' | 'owner';
 export interface User {
-    id?: string;
-    name?: string;
+    id: string;
+    name: string;
     email: string;
     password: string;
-    role?: UserRole;
+    role: UserRole;
 }
+
 export interface AuthState {
-    user: User | null;
+    users: User[];
+    currentUser: User | null;
+    status: 'idle' | 'pending' | 'succeeded' | 'failed';
     isLoggedIn: boolean;
 }

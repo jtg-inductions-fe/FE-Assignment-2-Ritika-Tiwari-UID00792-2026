@@ -1,20 +1,17 @@
-import { Link } from 'react-router-dom';
-
-import { Box, styled } from '@mui/material';
+import { Box, styled, TextField } from '@mui/material';
 
 export const StyledBoxOuter = styled(Box)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    margin: 'auto',
-    gap: '2rem',
+    gap: theme.spacing(4),
     backgroundColor: theme.palette.background.paper,
-    borderRadius: '20px',
+    borderRadius: 20,
     boxShadow: theme.shadows[4],
-    padding: 64,
+    padding: theme.spacing(3),
     [theme.breakpoints.down('md')]: {
-        padding: 0,
+        padding: theme.spacing(0),
     },
 }));
 export const StyledBoxInner = styled(Box)(({ theme }) => ({
@@ -22,22 +19,22 @@ export const StyledBoxInner = styled(Box)(({ theme }) => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: '2rem',
+    gap: theme.spacing(2),
     backgroundColor: theme.palette.background.paper,
-    borderRadius: '20px',
+    borderRadius: 20,
     padding: 24,
 }));
-/** Styling of image component used in the fallback page. */
+
 export const LogoImage = styled('img')(({ theme }) => ({
-    width: '32px',
+    width: 32,
     height: 'auto',
     borderRadius: theme.shape.borderRadius,
     objectFit: 'cover',
 }));
-/** Styling of image component used in the fallback page. */
+
 export const StyledImage = styled('img')(({ theme }) => ({
     width: '40%',
-    maxWidth: '400px',
+    maxWidth: 400,
     height: 'auto',
     borderRadius: theme.shape.borderRadius,
     objectFit: 'cover',
@@ -45,16 +42,7 @@ export const StyledImage = styled('img')(({ theme }) => ({
         display: 'none',
     },
 }));
-export const StyledLink = styled(Link)(({ theme }) => ({
-    textDecoration: 'none',
-    textAlign: 'center',
-    '&:focus': {
-        backgroundColor: theme.palette.action.hover,
-    },
-    // Better UX: Style specifically for keyboard navigation focus
-    '&:focus-visible': {
-        outline: `2px solid ${theme.palette.primary.main}`,
-        outlineOffset: '2px',
-        backgroundColor: theme.palette.action.selected,
-    },
-}));
+export const StyledTextField = styled(TextField)({
+    width: '100%',
+    maxWidth: 400,
+});

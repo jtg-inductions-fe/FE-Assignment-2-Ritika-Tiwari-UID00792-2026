@@ -1,7 +1,12 @@
+/**
+ * Validation for the signup form fields
+ */
 export const SignupValidation = {
+    /* validation for the name field */
     name: {
         required: 'Name is required',
     },
+    /* validation for the email field */
     email: {
         required: 'Email is required',
         pattern: {
@@ -9,6 +14,7 @@ export const SignupValidation = {
             message: 'Invalid email address',
         },
     },
+    /* validation for the password field */
     password: {
         required: 'Password is required',
         minLength: {

@@ -1,40 +1,44 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Controller, useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { AppDispatch } from 'store';
-import { signup } from 'store/authSlice';
+import { NavLink, useNavigate } from 'react-router-dom';
 
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import {
     Box,
     Button,
     FormControl,
     FormControlLabel,
-    FormLabel,
+    IconButton,
+    InputAdornment,
+    Link,
     Radio,
     RadioGroup,
     Stack,
-    TextField,
     Typography,
 } from '@mui/material';
 
 import Logo from '@assets/images/logo.webp';
 import ChefImage from '@assets/images/undraw_chef_yoa7.svg';
-import { ResponsiveContainer } from '@components';
+import { ResponsiveContainer, Snackbar } from '@components';
+import { useAuth } from '@hook';
 
 import {
     LogoImage,
     StyledBoxInner,
     StyledBoxOuter,
     StyledImage,
-    StyledLink,
+    StyledTextField,
 } from './SignUp.styles';
 import { SignupFormData } from './SignUp.types';
 import { SignupValidation } from './SignUp.validations';
 
+/**
+ * Renders the signUp page.
+ * @returns JSX.Element - The rendered SignUp page.
+ */
 export const SignUp = () => {
-    const dispatch = useDispatch<AppDispatch>();
+    const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
     const navigate = useNavigate();
 
     const {
@@ -55,19 +59,21 @@ export const SignUp = () => {
 
     const watchPassword = watch('password');
 
+    const { handleSignup } = useAuth();
+
+    /**
+     * Handle form submit state
+     * @param data - signup form data after user submit signup form
+     */
     const onSubmit = (data: SignupFormData) => {
         try {
-            const newUser: SignupFormData = {
-                id: crypto.randomUUID(),
-                name: data.name,
-                email: data.email.toLowerCase(),
-                password: data.password,
-                role: data.role,
-            };
-            dispatch(signup(newUser));
-            void navigate('/home');
+            if (handleSignup(data) !== null) {
+                void navigate('/');
+            } else {
+                setIsSnackbarOpen(true);
+            }
         } catch (error) {
-            // Redirection backup if execution fails
+            // Redirection back if execution fails
             if (error) {
                 void navigate('/login');
             }
@@ -79,6 +85,11 @@ export const SignUp = () => {
             reset();
         }
     }, [isSubmitSuccessful, reset]);
+    const [showPassword, setShowPassword] = useState(false);
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const handleClickShowConfirmPassword = () =>
+        setShowConfirmPassword((show) => !show);
 
     return (
         <ResponsiveContainer>
@@ -112,7 +123,7 @@ export const SignUp = () => {
                             control={control}
                             rules={SignupValidation.name}
                             render={({ field }) => (
-                                <TextField
+                                <StyledTextField
                                     {...field}
                                     id="name"
                                     label="Enter your Name"
@@ -128,7 +139,7 @@ export const SignUp = () => {
                             control={control}
                             rules={SignupValidation.email}
                             render={({ field }) => (
-                                <TextField
+                                <StyledTextField
                                     {...field}
                                     id="email"
                                     type="email"
@@ -145,14 +156,33 @@ export const SignUp = () => {
                             control={control}
                             rules={SignupValidation.password}
                             render={({ field }) => (
-                                <TextField
+                                <StyledTextField
                                     {...field}
                                     id="password"
-                                    type="password"
+                                    type={showPassword ? 'text' : 'password'}
                                     label="Enter your password"
                                     variant="outlined"
                                     error={!!errors.password}
                                     helperText={errors.password?.message}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={
+                                                        handleClickShowPassword
+                                                    }
+                                                    edge="end"
+                                                >
+                                                    {showPassword ? (
+                                                        <VisibilityOff />
+                                                    ) : (
+                                                        <Visibility />
+                                                    )}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        ),
+                                    }}
                                 />
                             )}
                         />
@@ -167,20 +197,42 @@ export const SignUp = () => {
                                     'Passwords do not match',
                             }}
                             render={({ field }) => (
-                                <TextField
+                                <StyledTextField
                                     {...field}
                                     id="confirmPassword"
-                                    type="password"
+                                    type={
+                                        showConfirmPassword
+                                            ? 'text'
+                                            : 'password'
+                                    }
                                     label="Confirm your password"
                                     variant="outlined"
                                     error={!!errors.confirmPassword}
                                     helperText={errors.confirmPassword?.message}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={
+                                                        handleClickShowConfirmPassword
+                                                    }
+                                                    edge="end"
+                                                >
+                                                    {showConfirmPassword ? (
+                                                        <VisibilityOff />
+                                                    ) : (
+                                                        <Visibility />
+                                                    )}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        ),
+                                    }}
                                 />
                             )}
                         />
 
                         <FormControl component="fieldset">
-                            <FormLabel component="legend">Role</FormLabel>
                             <Controller
                                 name="role"
                                 control={control}
@@ -209,7 +261,7 @@ export const SignUp = () => {
                             <Typography variant="body2" fontWeight="regular">
                                 Already have an account?
                             </Typography>
-                            <StyledLink to={'/login'}>
+                            <Link component={NavLink} to={'/login'}>
                                 <Typography
                                     variant="body2"
                                     fontWeight="bold"
@@ -217,11 +269,18 @@ export const SignUp = () => {
                                 >
                                     Login
                                 </Typography>
-                            </StyledLink>
+                            </Link>
                         </Box>
                     </StyledBoxInner>
                     <StyledImage src={ChefImage} alt="Chef Image" />
                 </StyledBoxOuter>
+                <Snackbar
+                    open={isSnackbarOpen}
+                    autoHideDuration={2000}
+                    onClose={() => setIsSnackbarOpen(false)}
+                    message="User already exist."
+                    state="error"
+                />
             </Box>
         </ResponsiveContainer>
     );

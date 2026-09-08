@@ -1,4 +1,8 @@
+/**
+ * Validation for the login form fields
+ */
 export const LoginValidation = {
+    /* validation for the email field */
     email: {
         required: 'Email is required',
         pattern: {
@@ -6,6 +10,7 @@ export const LoginValidation = {
             message: 'Invalid email address',
         },
     },
+    /* validation for the password field */
     password: {
         required: 'Password is required',
         minLength: {
