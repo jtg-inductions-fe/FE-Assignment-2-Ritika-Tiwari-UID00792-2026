@@ -15,7 +15,6 @@ import {
     Radio,
     RadioGroup,
     Stack,
-    TextField,
     Typography,
 } from '@mui/material';
 
@@ -123,7 +122,7 @@ export const SignUp = () => {
                             control={control}
                             rules={SignupValidation.name}
                             render={({ field }) => (
-                                <TextField
+                                <StyledTextField
                                     {...field}
                                     id="name"
                                     type="text"
@@ -142,7 +141,7 @@ export const SignUp = () => {
                             control={control}
                             rules={SignupValidation.email}
                             render={({ field }) => (
-                                <TextField
+                                <StyledTextField
                                     {...field}
                                     id="email"
                                     type="email"
@@ -161,7 +160,7 @@ export const SignUp = () => {
                             control={control}
                             rules={SignupValidation.password}
                             render={({ field }) => (
-                                <TextField
+                                <StyledTextField
                                     {...field}
                                     id="password"
                                     type={showPassword ? 'text' : 'password'}
@@ -204,7 +203,7 @@ export const SignUp = () => {
                                     'Passwords do not match',
                             }}
                             render={({ field }) => (
-                                <TextField
+                                <StyledTextField
                                     {...field}
                                     id="confirmPassword"
                                     type={

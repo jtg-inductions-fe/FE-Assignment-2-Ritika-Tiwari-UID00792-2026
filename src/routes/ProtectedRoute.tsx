@@ -4,7 +4,6 @@ const ProtectedRoute = () => {
     // If not logged in, redirect to login page
     // This is for the demo purpose
     const userIsLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-
     if (!userIsLoggedIn) {
         return <Navigate to="/login" replace />;
     }

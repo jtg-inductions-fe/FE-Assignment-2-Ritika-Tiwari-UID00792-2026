@@ -25,6 +25,7 @@ import {
     StyledBoxInner,
     StyledBoxOuter,
     StyledImage,
+    StyledTextField,
 } from './Login.styles';
 import { LoginFormData } from './Login.types';
 import { LoginValidation } from './Login.validations';
@@ -109,7 +110,7 @@ export const Login = (): JSX.Element => {
                             control={control}
                             rules={LoginValidation.email}
                             render={({ field }) => (
-                                <TextField
+                                <StyledTextField
                                     {...field}
                                     id="email"
                                     type="email"
@@ -127,7 +128,7 @@ export const Login = (): JSX.Element => {
                             control={control}
                             rules={LoginValidation.password}
                             render={({ field }) => (
-                                <TextField
+                                <StyledTextField
                                     {...field}
                                     id="password"
                                     type={showPassword ? 'text' : 'password'}

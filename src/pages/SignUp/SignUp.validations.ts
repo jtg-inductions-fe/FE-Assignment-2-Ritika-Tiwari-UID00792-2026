@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /**
  * Validation for the signup form fields
  */
@@ -8,12 +7,6 @@ export const SignupValidation = {
         required: 'Name is required',
     },
     /** validation for the email field */
-=======
-export const SignupValidation = {
-    name: {
-        required: 'Name is required',
-    },
->>>>>>> 6dc3aa1 ([RT_A2_03]: feat: Add the useLogin custom hook for the login.)
     email: {
         required: 'Email is required',
         pattern: {
@@ -21,10 +14,7 @@ export const SignupValidation = {
             message: 'Invalid email address',
         },
     },
-<<<<<<< HEAD
     /** validation for the password field */
-=======
->>>>>>> 6dc3aa1 ([RT_A2_03]: feat: Add the useLogin custom hook for the login.)
     password: {
         required: 'Password is required',
         minLength: {
