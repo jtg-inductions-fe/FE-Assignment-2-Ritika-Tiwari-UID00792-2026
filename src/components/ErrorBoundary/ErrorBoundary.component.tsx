@@ -70,7 +70,7 @@ export class ErrorBoundary extends Component<
                         color="text.secondary"
                         gutterBottom
                     >
-                            An Unexpected rendering error occurred.
+                        An Unexpected rendering error occurred.
                     </Typography>
                     <ActionWrapper>
                         <Button variant="contained" onClick={this.handleReset}>
@@ -82,4 +82,4 @@ export class ErrorBoundary extends Component<
         }
         return children;
     }
-}   
+}

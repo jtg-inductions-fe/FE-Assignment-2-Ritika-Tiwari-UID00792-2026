@@ -12,7 +12,6 @@ import { StyledBox, StyledImage } from './NotFoundPage.styles';
 /**
  * Fallback UI displayed when the a user navigate to a not existent or invalid URL path.
  * Renders an illustrative 404 image asset with user-friendly redirect navigation controls to home page.
- * @component
  * @returns returned the structured and styled not found page.
  */
 export const NotFoundPage = (): JSX.Element => {
@@ -23,7 +22,7 @@ export const NotFoundPage = (): JSX.Element => {
      * @returns {void}
      */
     const handleClick = (): void => {
-        void navigate('/home');
+        void navigate('/');
     };
     return (
         <ResponsiveContainer>
@@ -32,11 +31,10 @@ export const NotFoundPage = (): JSX.Element => {
                 <Typography
                     variant="body2"
                     color="text.secondary"
-                    textAlign='center'
-                    >
-                    This is a 404 page and we think it is fairly clear, You are
-                    not going to find what you are looking for here, But we know
-                    you are hungry, so do not fret or rage Hit that button to go back to our homepage.
+                    textAlign="center"
+                >
+                    You took a wrong turn down an empty aisle. Let&apos;s get
+                    you back to the main course.
                 </Typography>
 
                 <Button variant="contained" onClick={handleClick}>

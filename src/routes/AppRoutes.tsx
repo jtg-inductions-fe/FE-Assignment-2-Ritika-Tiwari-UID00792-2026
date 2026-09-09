@@ -9,48 +9,52 @@ import {
     Restaurant,
     SignUp,
 } from '@pages';
-import {
-    createBrowserRouter,
-} from 'react-router-dom';
+import { createBrowserRouter } from 'react-router-dom';
 import { ROUTES } from './AppRoutes.constants';
+import { ProtectedRoute } from './ProtectedRoutes';
 
-export const AppRoutes = createBrowserRouter(
-    [{
+export const AppRoutes = createBrowserRouter([
+    {
         path: ROUTES.ROOT,
         element: <Main />,
         children: [
             {
-                path: ROUTES.HOME,
-                element: <Home />,
+                path: ROUTES.LOGIN,
+                element: <Login />,
             },
             {
                 path: ROUTES.SING_UP,
                 element: <SignUp />,
             },
             {
-                path: ROUTES.LOGIN,
-                element: <Login />,
+                element: <ProtectedRoute />,
+                children: [
+                    {
+                        index: true,
+                        element: <Home />,
+                    },
+                    {
+                        path: ROUTES.RESTAURANT,
+                        element: <Restaurant />,
+                    },
+                    {
+                        path: ROUTES.MENU,
+                        element: <Menu />,
+                    },
+                    {
+                        path: ROUTES.CART,
+                        element: <Cart />,
+                    },
+                    {
+                        path: ROUTES.ORDER_PORTAl,
+                        element: <OrderPortal />,
+                    },
+                    {
+                        path: ROUTES.NOT_FOUND_PAGE,
+                        element: <NotFoundPage />,
+                    },
+                ],
             },
-            {
-                path: ROUTES.RESTAURANT,
-                element: <Restaurant />,
-            },
-            {
-                path: ROUTES.MENU,
-                element: <Menu />,
-            },
-            {
-                path: ROUTES.CART,
-                element: <Cart />,
-            },
-            {
-                path: ROUTES.ORDER_PORTAl,
-                element: <OrderPortal />,
-            },
-            {
-                path: ROUTES.NOT_FOUND_PAGE,
-                element: <NotFoundPage />,
-            }
-        ]
-    }
+        ],
+    },
 ]);

@@ -6,7 +6,7 @@ export const StyledBox = styled(Box)(({ theme }) => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    gap:theme.spacing(4),
+    gap: theme.spacing(4),
     backgroundColor: theme.palette.background.default,
 }));
 

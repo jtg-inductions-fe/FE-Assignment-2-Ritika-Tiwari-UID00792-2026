@@ -1,6 +1,11 @@
 import { Container } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { MAX_WIDTH_LG, MAX_WIDTH_MD, MAX_WIDTH_SM, MAX_WIDTH_XL } from './ResponsiveContainer.constants';
+import {
+    MAX_WIDTH_LG,
+    MAX_WIDTH_MD,
+    MAX_WIDTH_SM,
+    MAX_WIDTH_XL,
+} from './ResponsiveContainer.constants';
 
 /**
  * Create a custom responsive wrapper around the MUI Container wrapper.

@@ -1,4 +1,4 @@
-import { Box,styled } from '@mui/material';
+import { Box, styled } from '@mui/material';
 
 /**
  * Styled Paper container that serves as the main structural box for the error screen.
@@ -17,7 +17,6 @@ export const ErrorContainer = styled(Box)(({ theme }) => ({
 
 /**
  * Container box used to wrap and align structural action items like buttons.
- * @component
  */
 export const ActionWrapper = styled(Box)(({ theme }) => ({
     marginTop: theme.spacing(2),
