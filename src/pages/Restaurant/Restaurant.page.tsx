@@ -7,7 +7,16 @@ import { SearchBar } from 'components/SearchBar/SearchBar.component';
 
 import { Box } from '@mui/material';
 
-import { ResponsiveContainer } from '@components';
+import {
+    LoadingCardSkeleton,
+    NullStateCard,
+    ResponsiveContainer,
+} from '@components';
+import {
+    FilterContainer,
+    GrowingButton,
+    OuterContainer,
+} from 'components/RestaurantCard/RestaurantCard.styles';
 
 export const Restaurant = () => {
     const [restaurants, setRestaurants] = useState<RestaurantProps[]>([]);
@@ -30,7 +39,6 @@ export const Restaurant = () => {
                 const camelCaseData = camelcaseKeys(data, {
                     deep: true,
                 }) as RestaurantProps[];
-
                 // Update the state with the retrieved data
                 setRestaurants(camelCaseData);
             } catch (err) {
@@ -42,14 +50,17 @@ export const Restaurant = () => {
 
         void fetchData();
     }, []);
-
-    if (loading) return <p>Loading users...</p>;
-    if (error) return <p>Error: {error}</p>;
-
     const onSearch = () => {};
+
     return (
         <ResponsiveContainer>
-            <SearchBar onSearch={onSearch} />
+            <OuterContainer>
+                <SearchBar onSearch={onSearch} />
+                <FilterContainer>
+                    <GrowingButton variant="outlined">Veg</GrowingButton>
+                    <GrowingButton variant="outlined">Non-veg</GrowingButton>
+                </FilterContainer>
+            </OuterContainer>
             <Box
                 display="flex"
                 flexDirection="row"
@@ -59,12 +70,31 @@ export const Restaurant = () => {
                 justifyContent="center"
                 marginTop={3.2}
             >
-                {restaurants.map((restaurant) => (
-                    <RestaurantCard
-                        key={restaurant.restaurantId}
-                        restaurant={restaurant}
+                {loading && (
+                    <>
+                        <LoadingCardSkeleton />
+                        <LoadingCardSkeleton />
+                        <LoadingCardSkeleton />
+                        <LoadingCardSkeleton />
+                        <LoadingCardSkeleton />
+                        <LoadingCardSkeleton />
+                    </>
+                )}
+                {!loading && error && (
+                    <NullStateCard
+                        title="Restaurant Page"
+                        description="No restaurants available."
                     />
-                ))}
+                )}
+                {!loading &&
+                    !error &&
+                    restaurants &&
+                    restaurants.map((restaurant) => (
+                        <RestaurantCard
+                            key={restaurant.restaurantId}
+                            restaurant={restaurant}
+                        />
+                    ))}
             </Box>
         </ResponsiveContainer>
     );
