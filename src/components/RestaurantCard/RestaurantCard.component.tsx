@@ -3,8 +3,12 @@ import {
     StyledCard,
     StyledCardContent,
     StyledCardMedia,
+    StyledDescription,
+    StyledImageIndicator,
 } from './RestaurantCard.styles';
 import { RestaurantProps } from './RestaurantCard.types';
+import vegIndicator from '@assets/images/veg-indicator.webp';
+import nonVegIndicator from '@assets/images/non-veg-indicator.webp';
 
 export default function RestaurantCard({
     restaurant,
@@ -18,18 +22,24 @@ export default function RestaurantCard({
                     component="img"
                     height="140"
                     image={restaurant.imageUrl}
-                    alt="green iguana"
+                    alt={restaurant.name}
+                />
+                <StyledImageIndicator
+                    component="img"
+                    image={
+                        restaurant.type === 'veg'
+                            ? vegIndicator
+                            : nonVegIndicator
+                    }
+                    alt={restaurant.type}
                 />
                 <StyledCardContent>
                     <Typography gutterBottom variant="h5" component="div">
                         {restaurant.name}
                     </Typography>
-                    <Typography
-                        variant="body2"
-                        sx={{ color: 'text.secondary' }}
-                    >
+                    <StyledDescription variant="body2">
                         {restaurant.description}
-                    </Typography>
+                    </StyledDescription>
                 </StyledCardContent>
             </CardActionArea>
         </StyledCard>
