@@ -7,17 +7,12 @@
             "@theme": ["theme/index"],
             "@components": ["components/index"],
             "@pages": ["pages/index"],
-<<<<<<< HEAD
             "@layouts": ["layouts/index"],
             "@routes": ["routes/index"],
             "@types": ["types/index"],
             "@containers": ["containers/index"],
             "@hooks": ["hooks/index"],
             "@store": ["store/index"]
-=======
-             "@layouts": ["layouts/index"]
-
->>>>>>> 7c7949c ([RT_A2_01]: fix: fix the layout breakpoints and modified the responsive container and also defined the contants for the max width.)
         }
     }
 }
