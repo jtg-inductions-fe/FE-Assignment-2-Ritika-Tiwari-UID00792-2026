@@ -1,0 +1,102 @@
+[
+    {
+        "restaurantId": "8f3b2c1a-4d6e-4a7b-8c9d-0e1f2a3b4c5d",
+        "name": "The Green Garden",
+        "description": "A premium plant-based eatery serving fresh salads, avocado toasts, quinoa bowls, and organic cold-pressed juices.",
+        "opening_time": "08:00 AM",
+        "closing_time": "09:00 PM",
+        "address": "123 Maple Street, Downtown District",
+        "image_url": "https://unsplash.com",
+        "type": "veg"
+    },
+    {
+        "restaurantId": "1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d",
+        "name": "Smokey BBQ Shack",
+        "description": "Authentic wood-smoked meats featuring tender beef brisket, pulled pork sliders, smoked chicken wings, and classic ribs.",
+        "opening_time": "11:30 AM",
+        "closing_time": "11:00 PM",
+        "address": "742 Evergreen Terrace, Westside",
+        "image_url": "https://unsplash.com",
+        "type": "non-veg"
+    },
+    {
+        "restaurantId": "b5c6d7e8-f9a0-1b2c-3d4e-5f6a7b8c9d0e",
+        "name": "Taco Fiesta",
+        "description": "Vibrant Mexican street food offering grilled chicken tacos, beef burritos, loaded nachos, and churros.",
+        "opening_time": "10:00 AM",
+        "closing_time": "10:00 PM",
+        "address": "88 Spice Boulevard, Old Town",
+        "image_url": "https://unsplash.com",
+        "type": "non-veg"
+    },
+    {
+        "restaurantId": "9d8c7b6a-5e4d-3c2b-1a0f-9e8d7c6b5a4d",
+        "name": "Pure Delight Bakery",
+        "description": "100% vegetarian bakery specializing in eggless cakes, sourdough bread, fruit tarts, and matcha lattes.",
+        "opening_time": "07:00 AM",
+        "closing_time": "08:00 PM",
+        "address": "45 Baker Lane, Midtown",
+        "image_url": "https://unsplash.com",
+        "type": "veg"
+    },
+    {
+        "restaurantId": "e1f2a3b4-c5d6-4e7f-8a9b-0c1d2e3f4a5b",
+        "name": "Burger Empire",
+        "description": "Gourmet burger joint crafting smashed beef patties, crispy chicken burgers, loaded fries, and thick milkshakes.",
+        "opening_time": "11:00 AM",
+        "closing_time": "12:00 AM",
+        "address": "502 Broadway Avenue, Theater District",
+        "image_url": "https://unsplash.com",
+        "type": "non-veg"
+    },
+    {
+        "restaurantId": "c7b8a9b0-1c2d-3e4f-5a6b-7c8d9e0f1a2b",
+        "name": "Paneer & Spice",
+        "description": "Traditional North Indian cuisine focused on paneer tikka, butter dal makhani, garlic naan, and vegetable biryani.",
+        "opening_time": "12:00 PM",
+        "closing_time": "10:30 PM",
+        "address": "12 Curry Lane, Little India",
+        "image_url": "https://unsplash.com",
+        "type": "veg"
+    },
+    {
+        "restaurantId": "3d4e5f6a-7b8c-9d0e-1f2a-3b4c5d6e7f8a",
+        "name": "The Sushi Dock",
+        "description": "Fresh Japanese seafood handling salmon sashimi, spicy tuna rolls, prawn tempura, and warm miso soup.",
+        "opening_time": "12:00 PM",
+        "closing_time": "10:00 PM",
+        "address": "99 Harbor View Wharf, Marina Marina",
+        "image_url": "https://unsplash.com",
+        "type": "non-veg"
+    },
+    {
+        "restaurantId": "f9e8d7c6-b5a4-3c2b-1a0f-9e8d7c6b5a4d",
+        "name": "The Green Bowl",
+        "description": "Healthy vegetarian fast-casual spot serving customized macro bowls, tofu wraps, and seasonal vegetable soups.",
+        "opening_time": "09:00 AM",
+        "closing_time": "08:30 PM",
+        "address": "214 Wellness Way, Eco Park",
+        "image_url": "https://unsplash.com",
+        "type": "veg"
+    },
+    {
+        "restaurantId": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d",
+        "name": "Wings & Rings",
+        "description": "Sports bar favorites including buffalo chicken wings, mozzarella sticks, onion rings, and craft beers.",
+        "opening_time": "04:00 PM",
+        "closing_time": "02:00 AM",
+        "address": "88 Stadium Road, Sports Village",
+        "image_url": "https://unsplash.com",
+        "type": "non-veg"
+    },
+    {
+        "restaurantId": "4c5d6e7f-8a9b-0c1d-2e3f-4a5b6c7d8e9f",
+        "name": "Waffle & Berry Cafe",
+        "description": "Sweet and savory vegetarian breakfasts featuring Belgian waffles, fluffy pancakes, berry parfaits, and hot hot cocoa.",
+        "opening_time": "07:30 AM",
+        "closing_time": "04:00 PM",
+        "address": "7 Sunrise Street, Morning Valley",
+        "image_url": "https://unsplash.com",
+        "type": "veg"
+    }
+]
