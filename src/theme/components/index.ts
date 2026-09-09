@@ -66,7 +66,6 @@ export const components: Components<Theme> = {
             {
                 props: { variant: 'text' },
                 style: ({ theme }) => ({
-                    boxShadow: theme.shadows[2],
                     padding: theme.spacing(1, 3),
                     backgroundColor: theme.palette.background.default,
                     color: theme.palette.text.primary,
@@ -75,6 +74,7 @@ export const components: Components<Theme> = {
                     '&:hover': {
                         backgroundColor: theme.palette.background.default,
                         transform: 'translateY(2px)',
+                        boxShadow: theme.shadows[2],
                     },
                 }),
             },

@@ -8,7 +8,6 @@ import { NullStateCardProps } from './NullStateCard.types';
  *
  * @param NullStateCardProps -  The configuration properties for the rendering Null State Card component.
  * @returns returns the JSX.Element
- * @component Card
  */
 export const NullStateCard = ({
     title = TITLE,

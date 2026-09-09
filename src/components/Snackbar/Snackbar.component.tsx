@@ -8,7 +8,6 @@ import { SnackbarProps } from './Snackbar.types';
  *
  * @param SnackbarProps - The configuration properties for the rendering the Snackbar.
  * @return A React functional component rendering the animated Snackbar component.
- * @component Snackbar
  */
 export const Snackbar = ({
     open,
