@@ -5,6 +5,8 @@ import RestaurantCard from 'components/RestaurantCard/RestaurantCard.component';
 import { RestaurantProps } from 'components/RestaurantCard/RestaurantCard.types';
 import { SearchBar } from 'components/SearchBar/SearchBar.component';
 
+import { Box } from '@mui/material';
+
 import { ResponsiveContainer } from '@components';
 
 export const Restaurant = () => {
@@ -48,12 +50,22 @@ export const Restaurant = () => {
     return (
         <ResponsiveContainer>
             <SearchBar onSearch={onSearch} />
-            {restaurants.map((restaurant) => (
-                <RestaurantCard
-                    key={restaurant.restaurantId}
-                    restaurant={restaurant}
-                />
-            ))}
+            <Box
+                display="flex"
+                flexDirection="row"
+                flexWrap="wrap"
+                gap={2}
+                alignItems="center"
+                justifyContent="center"
+                marginTop={3.2}
+            >
+                {restaurants.map((restaurant) => (
+                    <RestaurantCard
+                        key={restaurant.restaurantId}
+                        restaurant={restaurant}
+                    />
+                ))}
+            </Box>
         </ResponsiveContainer>
     );
 };

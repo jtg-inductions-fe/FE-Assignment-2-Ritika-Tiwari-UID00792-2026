@@ -6,7 +6,7 @@
         "opening_time": "08:00 AM",
         "closing_time": "09:00 PM",
         "address": "123 Maple Street, Downtown District",
-        "image_url": "https://unsplash.com",
+        "image_url": "/src/assets/images/food-image/food-image1.webp",
         "type": "veg"
     },
     {
@@ -16,7 +16,7 @@
         "opening_time": "11:30 AM",
         "closing_time": "11:00 PM",
         "address": "742 Evergreen Terrace, Westside",
-        "image_url": "https://unsplash.com",
+        "image_url": "/src/assets/images/food-image/food-image2.webp",
         "type": "non-veg"
     },
     {
@@ -26,7 +26,7 @@
         "opening_time": "10:00 AM",
         "closing_time": "10:00 PM",
         "address": "88 Spice Boulevard, Old Town",
-        "image_url": "https://unsplash.com",
+        "image_url": "/src/assets/images/food-image/food-image3.webp",
         "type": "non-veg"
     },
     {
@@ -36,7 +36,7 @@
         "opening_time": "07:00 AM",
         "closing_time": "08:00 PM",
         "address": "45 Baker Lane, Midtown",
-        "image_url": "https://unsplash.com",
+        "image_url": "/src/assets/images/food-image/food-image4.webp",
         "type": "veg"
     },
     {
@@ -46,7 +46,7 @@
         "opening_time": "11:00 AM",
         "closing_time": "12:00 AM",
         "address": "502 Broadway Avenue, Theater District",
-        "image_url": "https://unsplash.com",
+        "image_url": "/src/assets/images/food-image/food-image5.webp",
         "type": "non-veg"
     },
     {
@@ -56,7 +56,7 @@
         "opening_time": "12:00 PM",
         "closing_time": "10:30 PM",
         "address": "12 Curry Lane, Little India",
-        "image_url": "https://unsplash.com",
+        "image_url": "/src/assets/images/food-image/food-image6.webp",
         "type": "veg"
     },
     {
@@ -66,7 +66,7 @@
         "opening_time": "12:00 PM",
         "closing_time": "10:00 PM",
         "address": "99 Harbor View Wharf, Marina Marina",
-        "image_url": "https://unsplash.com",
+        "image_url": "/src/assets/images/food-image/food-image7.webp",
         "type": "non-veg"
     },
     {
@@ -76,7 +76,7 @@
         "opening_time": "09:00 AM",
         "closing_time": "08:30 PM",
         "address": "214 Wellness Way, Eco Park",
-        "image_url": "https://unsplash.com",
+        "image_url": "/src/assets/images/food-image/food-image8.webp",
         "type": "veg"
     },
     {
@@ -86,7 +86,7 @@
         "opening_time": "04:00 PM",
         "closing_time": "02:00 AM",
         "address": "88 Stadium Road, Sports Village",
-        "image_url": "https://unsplash.com",
+        "image_url": "/src/assets/images/food-image/food-image9.webp",
         "type": "non-veg"
     },
     {
@@ -96,7 +96,7 @@
         "opening_time": "07:30 AM",
         "closing_time": "04:00 PM",
         "address": "7 Sunrise Street, Morning Valley",
-        "image_url": "https://unsplash.com",
+        "image_url": "/src/assets/images/food-image/food-image10.webp",
         "type": "veg"
     }
 ]

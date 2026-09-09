@@ -1,11 +1,9 @@
+import { CardActionArea, Typography } from '@mui/material';
 import {
-    Card,
-    CardActionArea,
-    CardContent,
-    CardMedia,
-    Typography,
-} from '@mui/material';
-
+    StyledCard,
+    StyledCardContent,
+    StyledCardMedia,
+} from './RestaurantCard.styles';
 import { RestaurantProps } from './RestaurantCard.types';
 
 export default function RestaurantCard({
@@ -14,15 +12,15 @@ export default function RestaurantCard({
     restaurant: RestaurantProps;
 }) {
     return (
-        <Card sx={{ maxWidth: 345 }}>
+        <StyledCard>
             <CardActionArea>
-                <CardMedia
+                <StyledCardMedia
                     component="img"
                     height="140"
-                    image="/static/images/cards/contemplative-reptile.jpg"
+                    image={restaurant.imageUrl}
                     alt="green iguana"
                 />
-                <CardContent>
+                <StyledCardContent>
                     <Typography gutterBottom variant="h5" component="div">
                         {restaurant.name}
                     </Typography>
@@ -32,8 +30,8 @@ export default function RestaurantCard({
                     >
                         {restaurant.description}
                     </Typography>
-                </CardContent>
+                </StyledCardContent>
             </CardActionArea>
-        </Card>
+        </StyledCard>
     );
 }
