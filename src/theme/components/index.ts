@@ -76,6 +76,7 @@ export const components: Components<Theme> = {
                         boxShadow: theme.shadows[2],
                         backgroundColor: theme.palette.background.default,
                         transform: 'translateY(2px)',
+                        boxShadow: theme.shadows[2],
                     },
                 }),
             },
