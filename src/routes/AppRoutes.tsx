@@ -13,7 +13,7 @@ import {
 } from '@pages';
 
 import { ROUTES } from './AppRoutes.constants';
-import { ProtectedRoute } from './ProtectedRoutes';
+import { ProtectedRoutes } from './ProtectedRoutes';
 
 export const AppRoutes = createBrowserRouter([
     {
@@ -29,7 +29,7 @@ export const AppRoutes = createBrowserRouter([
                 element: <SignUp />,
             },
             {
-                element: <ProtectedRoute />,
+                element: <ProtectedRoutes />,
                 children: [
                     {
                         index: true,

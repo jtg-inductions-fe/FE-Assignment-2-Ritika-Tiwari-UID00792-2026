@@ -9,6 +9,7 @@ import {
     Box,
     Button,
     Divider,
+    IconButton,
     Link,
     Popover,
     Tooltip,
@@ -25,7 +26,6 @@ import {
     ActionsContainer,
     LogoContainer,
     PopoverProfileBox,
-    ProfileIconButton,
     StyledAppBar,
     StyledIconButton,
     StyledToolbar,
@@ -147,14 +147,15 @@ export const Header = ({
 
                         {/* User profile avatar triggers */}
                         <Tooltip title="Open profile settings">
-                            <ProfileIconButton
+                            <IconButton
+                                variant="outlined"
                                 onClick={handleOpenProfilePopover}
                                 aria-describedby={popoverId}
                                 aria-haspopup="true"
                                 aria-expanded={isPopoverOpen}
                             >
                                 <UserAvatar alt={user.name} />
-                            </ProfileIconButton>
+                            </IconButton>
                         </Tooltip>
                     </ActionsContainer>
                 </StyledToolbar>

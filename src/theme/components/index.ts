@@ -36,11 +36,6 @@ const fontFaceDeclarations = `
         src: url(${InterBoldWOFF2}) format('woff2'), 
       };
     `;
-declare module '@mui/material/Button' {
-    interface ButtonPropsVariantOverrides {
-        error: true;
-    }
-}
 
 export const components: Components<Theme> = {
     MuiCssBaseline: {
@@ -51,6 +46,7 @@ export const components: Components<Theme> = {
             fontFaceDeclarations,
         },
     },
+
     MuiButton: {
         variants: [
             {
@@ -140,5 +136,17 @@ export const components: Components<Theme> = {
                 },
             }),
         },
+        variants: [
+            {
+                props: { variant: 'outlined' },
+                style: ({ theme }) => ({
+                    border: `3px solid ${theme.palette.primary.main}`,
+                    padding: theme.spacing(0),
+                    '&:focus-visible': {
+                        outlineOffset: theme.spacing(0),
+                    },
+                }),
+            },
+        ],
     },
 };

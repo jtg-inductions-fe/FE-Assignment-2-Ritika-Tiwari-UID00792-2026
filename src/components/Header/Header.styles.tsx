@@ -54,11 +54,6 @@ export const StyledIconButton = styled(IconButton)<NavLinkProps>(
     }),
 );
 
-export const ProfileIconButton = styled(IconButton)(({ theme }) => ({
-    padding: theme.spacing(0),
-    border: `4px solid ${theme.palette.primary.main}`,
-}));
-
 // Aligned Profile Context Box inside Popover
 export const PopoverProfileBox = styled(Box)(({ theme }) => ({
     display: 'flex',
