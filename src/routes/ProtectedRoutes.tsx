@@ -2,8 +2,6 @@ import { Navigate, Outlet } from 'react-router-dom';
 
 import { ROUTES } from '@routes';
 
-import { ROUTES } from '@routes';
-
 export const ProtectedRoutes = () => {
     // If not logged in, redirect to login page
     const userIsLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
