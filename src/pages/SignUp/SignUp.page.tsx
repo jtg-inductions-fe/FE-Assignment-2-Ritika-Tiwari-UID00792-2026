@@ -21,7 +21,7 @@ import {
 import Logo from '@assets/images/logo.webp';
 import ChefImage from '@assets/images/undraw_chef.webp';
 import { ResponsiveContainer, Snackbar } from '@components';
-import { useAuth } from '@hook';
+import { useAuth } from '@hooks';
 
 import {
     LogoImage,
@@ -32,6 +32,7 @@ import {
 } from './SignUp.styles';
 import { SignupFormData } from './SignUp.types';
 import { SignupValidation } from './SignUp.validations';
+import { ROUTES } from '@routes';
 
 /**
  * Renders the signUp page.
@@ -46,7 +47,7 @@ export const SignUp = () => {
         handleSubmit,
         watch,
         reset,
-        formState: { isSubmitSuccessful, errors },
+        formState: { isSubmitting, isSubmitSuccessful, errors },
     } = useForm<SignupFormData>({
         defaultValues: {
             name: '',
@@ -68,14 +69,14 @@ export const SignUp = () => {
     const onSubmit = (data: SignupFormData) => {
         try {
             if (handleSignup(data) !== null) {
-                void navigate('/');
+                void navigate(ROUTES.ROOT);
             } else {
                 setIsSnackbarOpen(true);
             }
         } catch (error) {
             // Redirection back if execution fails
             if (error) {
-                void navigate('/login');
+                void navigate(ROUTES.SING_UP);
             }
         }
     };
@@ -253,15 +254,15 @@ export const SignUp = () => {
                             />
                         </FormControl>
 
-                        <Button variant="contained" type="submit">
-                            Sign Up
+                        <Button variant="contained" type="submit" disabled={isSubmitting}>
+                            {isSubmitting?"Submitting...":"Sign up"}
                         </Button>
 
                         <Box display="inline-flex" gap={1}>
                             <Typography variant="body2" fontWeight="regular">
                                 Already have an account?
                             </Typography>
-                            <Link component={NavLink} to={'/login'}>
+                            <Link component={NavLink} to={ROUTES.LOGIN}>
                                 <Typography
                                     variant="body2"
                                     fontWeight="bold"

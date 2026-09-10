@@ -19,7 +19,7 @@ import {
 
 import logo from '@assets/images/logo.webp';
 import { ConfirmationDialog, ResponsiveContainer } from '@components';
-import { useAuth } from '@hook';
+import { useAuth } from '@hooks';
 import { theme } from '@theme';
 
 import {
@@ -83,10 +83,10 @@ export const Header = ({
             try {
                 handleLogout();
                 setIsDialogOpen(true);
-                void navigate('/login');
+                void navigate(ROUTES.LOGIN);
             } catch (error) {
                 if (error) {
-                    void navigate('/');
+                    void navigate(ROUTES.ROOT);
                 }
             }
         }
@@ -146,14 +146,14 @@ export const Header = ({
                     {isLoggedIn && (
                         <ActionsContainer aria-label="Main Navigation">
                             {!isMobile ? (
-                                <Link component={NavLink} to="/order-portal">
+                                <Link component={NavLink} to={ROUTES.ORDER_PORTAl}>
                                     Orders
                                 </Link>
                             ) : (
                                 <Tooltip title="Go to order portal">
                                     <StyledIconButton
                                         LinkComponent={NavLink}
-                                        to="/order-portal"
+                                        to={ROUTES.ORDER_PORTAl}
                                         aria-label="Track your orders"
                                     >
                                         <AssignmentIcon />
@@ -166,7 +166,7 @@ export const Header = ({
                                 <Tooltip title="View Cart">
                                     <StyledIconButton
                                         LinkComponent={NavLink}
-                                        to="/cart"
+                                        to={ROUTES.CART}
                                         aria-label="4 items in cart"
                                     >
                                         <Badge

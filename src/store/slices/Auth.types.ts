@@ -1,15 +1,9 @@
-export type UserRole = 'customer' | 'owner';
-export interface User {
-    id: string;
-    name: string;
-    email: string;
-    password: string;
-    role: UserRole;
-}
+import { User } from "@types";
 
 export interface AuthState {
     users: User[];
     currentUser: User | null;
-    status: 'idle' | 'pending' | 'succeeded' | 'failed';
+    status: Status;
     isLoggedIn: boolean;
 }
+export type Status ='idle' | 'pending' | 'succeeded' | 'failed';

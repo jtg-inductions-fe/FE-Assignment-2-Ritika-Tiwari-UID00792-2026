@@ -2,7 +2,8 @@ import { SignupFormData } from 'pages/SignUp/SignUp.types';
 
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { AuthState, User } from './Auth.types';
+import { AuthState } from './Auth.types';
+import {User} from '@types'
 
 /**
  * Initialize the authentication state from localStorage

@@ -2,7 +2,7 @@ import { LoginFormData } from 'pages/Login/Login.types';
 import { SignupFormData } from 'pages/SignUp/SignUp.types';
 import { UseFormSetError } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from 'store/hook';
-import { User } from 'store/slices/Auth.types';
+import { User } from '@types';
 import { login, logout, signup } from 'store/slices/authSlice';
 
 export const useAuth = () => {

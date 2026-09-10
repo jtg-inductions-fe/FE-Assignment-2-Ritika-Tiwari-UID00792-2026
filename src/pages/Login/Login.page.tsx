@@ -17,7 +17,7 @@ import {
 import Logo from '@assets/images/logo.webp';
 import ChefImage from '@assets/images/undraw_chef.webp';
 import { ResponsiveContainer } from '@components';
-import { useAuth } from '@hook';
+import { useAuth } from '@hooks';
 
 import {
     LogoImage,
@@ -28,6 +28,7 @@ import {
 } from './Login.styles';
 import { LoginFormData } from './Login.types';
 import { LoginValidation } from './Login.validations';
+import { ROUTES } from '@routes';
 
 /**
  * Renders the Login page.
@@ -40,7 +41,7 @@ export const Login = (): JSX.Element => {
         handleSubmit,
         reset,
         setError,
-        formState: { isSubmitSuccessful, errors },
+        formState: { isSubmitting, isSubmitSuccessful, errors },
     } = useForm<LoginFormData>({
         defaultValues: {
             email: '',
@@ -57,10 +58,10 @@ export const Login = (): JSX.Element => {
         const user = handleLogin(data, setError);
         if (user) {
             try {
-                void navigate('/');
+                void navigate(ROUTES.ROOT);
             } catch (error) {
                 if (error) {
-                    void navigate('/login');
+                    void navigate(ROUTES.LOGIN);
                 }
             }
         }
@@ -118,43 +119,43 @@ export const Login = (): JSX.Element => {
                             )}
                         />
                         <Controller
-                            name="password"
-                            control={control}
-                            rules={LoginValidation.password}
-                            render={({ field }) => (
-                                <StyledTextField
-                                    {...field}
-                                    id="password"
-                                    type={showPassword ? 'text' : 'password'}
-                                    label="Enter your password"
-                                    variant="outlined"
-                                    error={!!errors.password}
-                                    helperText={errors.password?.message}
-                                    InputProps={{
-                                        endAdornment: (
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                    aria-label="toggle password visibility"
-                                                    onClick={
-                                                        handleClickShowPassword
-                                                    }
-                                                    edge="end"
-                                                >
-                                                    {showPassword ? (
-                                                        <VisibilityOff />
-                                                    ) : (
-                                                        <Visibility />
+                                                    name="password"
+                                                    control={control}
+                                                    rules={LoginValidation.password}
+                                                    render={({ field }) => (
+                                                        <StyledTextField
+                                                            {...field}
+                                                            id="password"
+                                                            type={showPassword ? 'text' : 'password'}
+                                                            label="Enter your password"
+                                                            variant="outlined"
+                                                            error={!!errors.password}
+                                                            helperText={errors.password?.message}
+                                                            InputProps={{
+                                                                endAdornment: (
+                                                                    <InputAdornment position="end">
+                                                                        <IconButton
+                                                                            aria-label="toggle password visibility"
+                                                                            onClick={
+                                                                                handleClickShowPassword
+                                                                            }
+                                                                            edge="end"
+                                                                        >
+                                                                            {showPassword ? (
+                                                                                <VisibilityOff />
+                                                                            ) : (
+                                                                                <Visibility />
+                                                                            )}
+                                                                        </IconButton>
+                                                                    </InputAdornment>
+                                                                ),
+                                                            }}
+                                                        />
                                                     )}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        ),
-                                    }}
-                                />
-                            )}
-                        />
+                                                />
 
-                        <Button type="submit" variant="contained">
-                            Login
+                        <Button type="submit" variant="contained" disabled={isSubmitting}>
+        {isSubmitting ? "Submitting..." : "Login"}
                         </Button>
 
                         <Box display="inline-flex" gap={1}>
@@ -162,13 +163,13 @@ export const Login = (): JSX.Element => {
                                 Don&apos;t have an account ?
                             </Typography>
 
-                            <Link component={NavLink} to={'/sign-up'}>
+                            <Link component={NavLink} to={ROUTES.SING_UP}>
                                 <Typography
                                     variant="body2"
                                     fontWeight="bold"
                                     color="primary"
                                 >
-                                    Sign Up
+                                    Sign up
                                 </Typography>
                             </Link>
                         </Box>
