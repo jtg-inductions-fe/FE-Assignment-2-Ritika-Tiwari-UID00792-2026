@@ -35,6 +35,11 @@ const fontFaceDeclarations = `
         src: url(${InterBoldWOFF2}) format('woff2'), 
       };
     `;
+declare module '@mui/material/Button' {
+    interface ButtonPropsVariantOverrides {
+        error: true;
+    }
+}
 
 export const components: Components<Theme> = {
     MuiCssBaseline: {
