@@ -36,6 +36,11 @@ const fontFaceDeclarations = `
         src: url(${InterBoldWOFF2}) format('woff2'), 
       };
     `;
+declare module '@mui/material/Button' {
+    interface ButtonPropsVariantOverrides {
+        error: true;
+    }
+}
 
 export const components: Components<Theme> = {
     MuiCssBaseline: {
@@ -75,6 +80,23 @@ export const components: Components<Theme> = {
                         boxShadow: theme.shadows[2],
                         backgroundColor: theme.palette.background.default,
                         transform: 'translateY(2px)',
+                    },
+                }),
+            },
+            {
+                props: { variant: 'error' },
+                style: ({ theme }) => ({
+                    backgroundColor: theme.palette.error.main,
+                    color: theme.palette.error.contrastText,
+                    border: `1px solid ${theme.palette.error.main}`,
+                    textTransform: 'none',
+                    '&:hover': {
+                        backgroundColor: theme.palette.error.dark,
+                    },
+                    '&:disabled': {
+                        backgroundColor:
+                            theme.palette.action.disabledBackground,
+                        color: theme.palette.action.disabled,
                     },
                 }),
             },

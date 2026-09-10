@@ -8,7 +8,7 @@ import PageNotFound from '@assets/images/page-not-found.webp';
 import { ResponsiveContainer } from '@components';
 
 import { StyledBox, StyledImage } from './NotFoundPage.styles';
-
+import { ROUTES } from '@routes';
 /**
  * Fallback UI displayed when the a user navigate to a not existent or invalid URL path.
  * Renders an illustrative 404 image asset with user-friendly redirect navigation controls to home page.
@@ -22,7 +22,7 @@ export const NotFoundPage = (): JSX.Element => {
      * @returns void
      */
     const handleClick = (): void => {
-        void navigate('/');
+        void navigate(ROUTES.ROOT);
     };
     return (
         <ResponsiveContainer>

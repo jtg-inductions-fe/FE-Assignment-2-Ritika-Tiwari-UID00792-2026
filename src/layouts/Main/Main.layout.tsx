@@ -3,13 +3,13 @@ import { Outlet } from 'react-router-dom';
 import { ErrorBoundary, Header } from '@components';
 
 export const Main = () => (
-    <div className="app-container">
+    <>
         <ErrorBoundary title="Something is wrong, we are fixing this.">
             <Header />
         </ErrorBoundary>
-        <main className="main-content">
+        <main>
             {/* Child routes render here */}
             <Outlet />
         </main>
-    </div>
+    </>
 );

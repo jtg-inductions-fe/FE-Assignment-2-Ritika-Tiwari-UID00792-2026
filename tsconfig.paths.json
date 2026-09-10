@@ -8,7 +8,9 @@
             "@components": ["components/index"],
             "@pages": ["pages/index"],
             "@layouts": ["layouts/index"],
-            "@mock/*": ["../public/mock/*"]
+            "@mock/*": ["../public/mock/*"],
+            "@routes": ["routes/index"],
+            "@types": ["types/index"]
         }
     }
 }

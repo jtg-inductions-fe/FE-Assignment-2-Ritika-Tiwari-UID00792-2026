@@ -7,6 +7,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import {
     Badge,
     Box,
+    Button,
     Divider,
     Link,
     Popover,
@@ -22,7 +23,6 @@ import { theme } from '@theme';
 import {
     ActionsContainer,
     LogoContainer,
-    LogoutButton,
     PopoverProfileBox,
     ProfileIconButton,
     StyledAppBar,
@@ -31,6 +31,7 @@ import {
     UserAvatar,
 } from './Header.styles';
 import { HeaderProps } from './Header.types';
+import { ROUTES } from '@routes';
 
 /**
  * Header Component
@@ -86,14 +87,16 @@ export const Header = ({
                 <StyledToolbar disableGutters>
                     {/* Branding / logo */}
                     <LogoContainer aria-label="Brand name and logo">
-                        <Link component={NavLink} to="/home">
-                            <Tooltip title="Logo">
-                                <img
-                                    src={logo}
-                                    alt="Brand logo"
-                                    role="presentation"
-                                />
-                            </Tooltip>
+                        <Link
+                            component={NavLink}
+                            to={ROUTES.ROOT}
+                            title="Go to Home"
+                        >
+                            <img
+                                src={logo}
+                                alt="Brand logo"
+                                role="presentation"
+                            />
                         </Link>
                         <Typography
                             variant="h6"
@@ -109,14 +112,14 @@ export const Header = ({
                     {/* Actions and navigation */}
                     <ActionsContainer aria-label="Main Navigation">
                         {!isMobile ? (
-                            <Link component={NavLink} to="/order-portal">
+                            <Link component={NavLink} to={ROUTES.ORDER_PORTAl}>
                                 Orders
                             </Link>
                         ) : (
                             <Tooltip title="Go to order portal">
                                 <StyledIconButton
                                     LinkComponent={NavLink}
-                                    to="/order-portal"
+                                    to={ROUTES.ORDER_PORTAl}
                                     aria-label="Track your orders"
                                 >
                                     <AssignmentIcon />
@@ -129,8 +132,8 @@ export const Header = ({
                             <Tooltip title="View Cart">
                                 <StyledIconButton
                                     LinkComponent={NavLink}
-                                    to="/cart"
-                                    aria-label="4 items in cart"
+                                    to={ROUTES.CART}
+                                    aria-label={`${cartCount} items in cart`}
                                 >
                                     <Badge
                                         badgeContent={cartCount}
@@ -182,14 +185,13 @@ export const Header = ({
                             </Typography>
                         </Box>
                         <Divider flexItem />
-                        <LogoutButton
-                            variant="contained"
-                            color="error"
+                        <Button
+                            variant="error"
                             fullWidth
                             onClick={handleLogout}
                         >
                             Logout
-                        </LogoutButton>
+                        </Button>
                     </PopoverProfileBox>
                 </Popover>
             </ResponsiveContainer>

@@ -15,7 +15,6 @@ export const StyledContainer = styled(Container)(({ theme }) => ({
 
     // Container styles for the mobile screens and up
     [theme.breakpoints.up('sm')]: {
-        paddingInline: theme.spacing(1.6),
         maxWidth: MAX_WIDTH_SM,
     },
 

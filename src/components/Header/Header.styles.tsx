@@ -1,13 +1,6 @@
 import { NavLinkProps } from 'react-router-dom';
 
-import {
-    Avatar,
-    Box,
-    Button,
-    IconButton,
-    styled,
-    Toolbar,
-} from '@mui/material';
+import { Avatar, Box, IconButton, styled, Toolbar } from '@mui/material';
 
 export const StyledAppBar = styled('header')(({ theme }) => ({
     position: 'sticky',
@@ -32,7 +25,6 @@ export const StyledToolbar = styled(Toolbar)(({ theme }) => ({
 export const LogoContainer = styled('div')({
     display: 'flex',
     alignItems: 'center',
-    cursor: 'pointer',
     textDecoration: 'none',
     '& img': {
         width: 24,
@@ -65,10 +57,6 @@ export const StyledIconButton = styled(IconButton)<NavLinkProps>(
 export const ProfileIconButton = styled(IconButton)(({ theme }) => ({
     padding: theme.spacing(0),
     border: `4px solid ${theme.palette.primary.main}`,
-
-    [theme.breakpoints.down('sm')]: {
-        borderWidth: 2,
-    },
 }));
 
 // Aligned Profile Context Box inside Popover
@@ -86,11 +74,4 @@ export const UserAvatar = styled(Avatar)(({ theme }) => ({
     width: 40,
     height: 40,
     boxShadow: theme.shadows[1],
-}));
-
-export const LogoutButton = styled(Button)(({ theme }) => ({
-    backgroundColor: theme.palette.error.main,
-    '&:hover': {
-        backgroundColor: theme.palette.error.dark,
-    },
 }));
