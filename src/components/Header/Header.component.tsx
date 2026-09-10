@@ -18,8 +18,8 @@ import {
 } from '@mui/material';
 
 import logo from '@assets/images/logo.webp';
-import { ConfirmationDialog, ResponsiveContainer } from '@components';
-import { useAuth } from '@hooks';
+import { ResponsiveContainer } from '@components';
+import { ROUTES } from '@routes';
 import { theme } from '@theme';
 
 import {
@@ -32,7 +32,7 @@ import {
     UserAvatar,
 } from './Header.styles';
 import { HeaderProps } from './Header.types';
-import { ROUTES } from '@routes';
+import { ConfirmationDialog } from '../ConfirmationDialog/ConfirmationDialog.component';
 
 /**
  * Header Component

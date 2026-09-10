@@ -5,4 +5,4 @@ export * from './LoadingCardSkeleton/LoadingCardSkeleton.component';
 export * from './Snackbar/Snackbar.component';
 export * from './ResponsiveContainer/ResponsiveContainer.component';
 export * from './ErrorBoundary/ErrorBoundary.component';
-export * from '../containers/Header.container';
+export * from './Header/Header.component';
