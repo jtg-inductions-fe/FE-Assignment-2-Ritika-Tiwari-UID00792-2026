@@ -18,6 +18,7 @@ import {
 
 import logo from '@assets/images/logo.webp';
 import { ResponsiveContainer } from '@components';
+import { ROUTES } from '@routes';
 import { theme } from '@theme';
 
 import {
@@ -31,7 +32,6 @@ import {
     UserAvatar,
 } from './Header.styles';
 import { HeaderProps } from './Header.types';
-import { ROUTES } from '@routes';
 
 /**
  * Header Component

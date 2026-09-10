@@ -1,7 +1,7 @@
 import users from '@mock/users.json';
-
-import { Header as HeaderComponent } from '../components/Header/Header.component';
 import { User } from '@types';
+
+import { Header as HeaderComponent } from '@components';
 
 /**
  * Header Container

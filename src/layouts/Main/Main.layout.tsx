@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom';
 
-import { ErrorBoundary, Header } from '@components';
+import { ErrorBoundary } from '@components';
+import { Header } from '@containers';
 
 export const Main = () => (
     <>
