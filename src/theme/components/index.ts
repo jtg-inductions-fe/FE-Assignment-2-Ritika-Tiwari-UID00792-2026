@@ -36,6 +36,11 @@ const fontFaceDeclarations = `
         src: url(${InterBoldWOFF2}) format('woff2'), 
       };
     `;
+declare module '@mui/material/Button' {
+    interface ButtonPropsVariantOverrides {
+        error: true;
+    }
+}
 
 export const components: Components<Theme> = {
     MuiCssBaseline: {
@@ -148,44 +153,5 @@ export const components: Components<Theme> = {
                 }),
             },
         ],
-    },
-    MuiLink: {
-        styleOverrides: {
-            root: ({ theme }) => ({
-                textDecoration: 'none',
-                textAlign: 'center',
-                display: 'flex',
-                alignItems: 'center',
-                color: theme.palette.text.primary,
-                '&:hover': {
-                    color: theme.palette.primary.main,
-                },
-                '&:focus-visible': {
-                    outline: `2px solid ${theme.palette.primary.main}`,
-                    outlineOffset: theme.spacing(0.5),
-                },
-                '&.active': {
-                    color: theme.palette.primary.main,
-                    fontWeight: theme.typography.fontWeightBold,
-                },
-            }),
-        },
-    },
-    MuiIconButton: {
-        styleOverrides: {
-            root: ({ theme }) => ({
-                '&:hover': {
-                    color: theme.palette.primary.main,
-                },
-                '&:focus-visible': {
-                    outline: `2px solid ${theme.palette.primary.main}`,
-                    outlineOffset: theme.spacing(0.5),
-                },
-                '&.active': {
-                    color: theme.palette.primary.main,
-                    fontWeight: theme.typography.fontWeightBold,
-                },
-            }),
-        },
     },
 };
