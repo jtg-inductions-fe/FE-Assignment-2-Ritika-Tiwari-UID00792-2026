@@ -1,4 +1,4 @@
-import { useAppSelector } from 'store/hook';
+import { useAppSelector } from '@store';
 
 import { Header as HeaderComponent } from '@components';
 import { useAuth } from '@hooks';

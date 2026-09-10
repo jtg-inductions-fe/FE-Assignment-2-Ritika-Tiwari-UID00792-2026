@@ -15,6 +15,7 @@ import {
     Radio,
     RadioGroup,
     Stack,
+    TextField,
     Typography,
 } from '@mui/material';
 
@@ -28,7 +29,6 @@ import {
     StyledBoxInner,
     StyledBoxOuter,
     StyledImage,
-    StyledTextField,
 } from './SignUp.styles';
 import { SignupFormData } from './SignUp.types';
 import { SignupValidation } from './SignUp.validations';
@@ -80,7 +80,6 @@ export const SignUp = () => {
             }
         }
     };
-
     useEffect(() => {
         if (isSubmitSuccessful) {
             reset();
@@ -99,7 +98,7 @@ export const SignUp = () => {
                 flexDirection="column"
                 justifyContent="center"
                 alignItems="center"
-                minHeight="90vh"
+                minHeight="100vh"
             >
                 <StyledBoxOuter>
                     <StyledBoxInner
@@ -113,7 +112,7 @@ export const SignUp = () => {
                             spacing={1.5}
                             alignItems="center"
                         >
-                            <LogoImage src={Logo} alt="Company Logo" />
+                            <LogoImage src={Logo} alt="Brand Logo" />
                             <Typography variant="h6" fontWeight="bold">
                                 Swaad
                             </Typography>
@@ -124,13 +123,16 @@ export const SignUp = () => {
                             control={control}
                             rules={SignupValidation.name}
                             render={({ field }) => (
-                                <StyledTextField
+                                <TextField
                                     {...field}
                                     id="name"
+                                    type="text"
+                                    autoComplete="name"
                                     label="Enter your Name"
                                     variant="outlined"
                                     error={!!errors.name}
                                     helperText={errors.name?.message}
+                                    fullWidth
                                 />
                             )}
                         />
@@ -140,14 +142,16 @@ export const SignUp = () => {
                             control={control}
                             rules={SignupValidation.email}
                             render={({ field }) => (
-                                <StyledTextField
+                                <TextField
                                     {...field}
                                     id="email"
                                     type="email"
+                                    autoComplete="email"
                                     label="Enter your Email"
                                     variant="outlined"
                                     error={!!errors.email}
                                     helperText={errors.email?.message}
+                                    fullWidth
                                 />
                             )}
                         />
@@ -157,14 +161,16 @@ export const SignUp = () => {
                             control={control}
                             rules={SignupValidation.password}
                             render={({ field }) => (
-                                <StyledTextField
+                                <TextField
                                     {...field}
                                     id="password"
                                     type={showPassword ? 'text' : 'password'}
+                                    autoComplete="password"
                                     label="Enter your password"
                                     variant="outlined"
                                     error={!!errors.password}
                                     helperText={errors.password?.message}
+                                    fullWidth
                                     InputProps={{
                                         endAdornment: (
                                             <InputAdornment position="end">
@@ -198,7 +204,7 @@ export const SignUp = () => {
                                     'Passwords do not match',
                             }}
                             render={({ field }) => (
-                                <StyledTextField
+                                <TextField
                                     {...field}
                                     id="confirmPassword"
                                     type={
@@ -206,10 +212,12 @@ export const SignUp = () => {
                                             ? 'text'
                                             : 'password'
                                     }
+                                    autoComplete="password"
                                     label="Confirm your password"
                                     variant="outlined"
                                     error={!!errors.confirmPassword}
                                     helperText={errors.confirmPassword?.message}
+                                    fullWidth
                                     InputProps={{
                                         endAdornment: (
                                             <InputAdornment position="end">
@@ -254,8 +262,12 @@ export const SignUp = () => {
                             />
                         </FormControl>
 
-                        <Button variant="contained" type="submit" disabled={isSubmitting}>
-                            {isSubmitting?"Submitting...":"Sign up"}
+                        <Button
+                            variant="contained"
+                            type="submit"
+                            disabled={isSubmitting}
+                        >
+                            {isSubmitting ? 'Submitting...' : 'Sign up'}
                         </Button>
 
                         <Box display="inline-flex" gap={1}>

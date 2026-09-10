@@ -11,6 +11,7 @@ import {
     InputAdornment,
     Link,
     Stack,
+    TextField,
     Typography,
 } from '@mui/material';
 
@@ -24,7 +25,6 @@ import {
     StyledBoxInner,
     StyledBoxOuter,
     StyledImage,
-    StyledTextField,
 } from './Login.styles';
 import { LoginFormData } from './Login.types';
 import { LoginValidation } from './Login.validations';
@@ -50,9 +50,10 @@ export const Login = (): JSX.Element => {
     });
 
     const { handleLogin } = useAuth();
+
     /**
      * Handle form submit state
-     * @param data - login form data after user submit login form
+     * @param data - login form data after user submit login form.
      */
     const onSubmit = (data: LoginFormData) => {
         const user = handleLogin(data, setError);
@@ -66,7 +67,8 @@ export const Login = (): JSX.Element => {
             }
         }
     };
-    // Resetting the form fields after the successful submission of form
+
+    // Resetting the form fields after the successful submission of form.
     useEffect(() => {
         if (isSubmitSuccessful) {
             reset();
@@ -83,7 +85,7 @@ export const Login = (): JSX.Element => {
                 flexDirection="column"
                 justifyContent="center"
                 alignItems="center"
-                minHeight="90vh"
+                minHeight="100vh"
             >
                 <StyledBoxOuter>
                     <StyledBoxInner
@@ -97,7 +99,7 @@ export const Login = (): JSX.Element => {
                             spacing={1.5}
                             alignItems="center"
                         >
-                            <LogoImage src={Logo} alt="Company Logo" />
+                            <LogoImage src={Logo} alt="Brand Logo" />
                             <Typography variant="h6" fontWeight="bold">
                                 Swaad
                             </Typography>
@@ -107,55 +109,63 @@ export const Login = (): JSX.Element => {
                             control={control}
                             rules={LoginValidation.email}
                             render={({ field }) => (
-                                <StyledTextField
+                                <TextField
                                     {...field}
                                     id="email"
                                     type="email"
+                                    autoComplete="email"
                                     label="Enter your Email"
                                     variant="outlined"
                                     error={!!errors.email}
                                     helperText={errors.email?.message}
+                                    fullWidth
                                 />
                             )}
                         />
                         <Controller
-                                                    name="password"
-                                                    control={control}
-                                                    rules={LoginValidation.password}
-                                                    render={({ field }) => (
-                                                        <StyledTextField
-                                                            {...field}
-                                                            id="password"
-                                                            type={showPassword ? 'text' : 'password'}
-                                                            label="Enter your password"
-                                                            variant="outlined"
-                                                            error={!!errors.password}
-                                                            helperText={errors.password?.message}
-                                                            InputProps={{
-                                                                endAdornment: (
-                                                                    <InputAdornment position="end">
-                                                                        <IconButton
-                                                                            aria-label="toggle password visibility"
-                                                                            onClick={
-                                                                                handleClickShowPassword
-                                                                            }
-                                                                            edge="end"
-                                                                        >
-                                                                            {showPassword ? (
-                                                                                <VisibilityOff />
-                                                                            ) : (
-                                                                                <Visibility />
-                                                                            )}
-                                                                        </IconButton>
-                                                                    </InputAdornment>
-                                                                ),
-                                                            }}
-                                                        />
+                            name="password"
+                            control={control}
+                            rules={LoginValidation.password}
+                            render={({ field }) => (
+                                <TextField
+                                    {...field}
+                                    id="password"
+                                    type={showPassword ? 'text' : 'password'}
+                                    autoComplete="password"
+                                    label="Enter your password"
+                                    variant="outlined"
+                                    error={!!errors.password}
+                                    helperText={errors.password?.message}
+                                    fullWidth
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={
+                                                        handleClickShowPassword
+                                                    }
+                                                    edge="end"
+                                                >
+                                                    {showPassword ? (
+                                                        <VisibilityOff />
+                                                    ) : (
+                                                        <Visibility />
                                                     )}
-                                                />
+                                                </IconButton>
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                            )}
+                        />
 
-                        <Button type="submit" variant="contained" disabled={isSubmitting}>
-        {isSubmitting ? "Submitting..." : "Login"}
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            disabled={isSubmitting}
+                        >
+                            {isSubmitting ? 'Submitting...' : 'Login'}
                         </Button>
 
                         <Box display="inline-flex" gap={1}>

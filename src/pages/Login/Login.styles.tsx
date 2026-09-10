@@ -1,4 +1,4 @@
-import { Box, styled, TextField } from '@mui/material';
+import { Box, styled } from '@mui/material';
 
 export const StyledBoxOuter = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -42,7 +42,3 @@ export const StyledImage = styled('img')(({ theme }) => ({
         display: 'none',
     },
 }));
-export const StyledTextField = styled(TextField)({
-    width: '100%',
-    maxWidth: 400,
-});

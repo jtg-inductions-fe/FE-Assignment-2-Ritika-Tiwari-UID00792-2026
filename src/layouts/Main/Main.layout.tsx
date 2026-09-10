@@ -1,13 +1,10 @@
 import React from 'react';
 
 import { Outlet } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from 'store/hook';
-import { fetchUsers } from 'store/slices/authSlice';
+import { useAppDispatch, useAppSelector, fetchUsers } from '@store';
 
-import { ErrorBoundary} from '@components';
+import { ErrorBoundary } from '@components';
 import { Header } from '@containers';
-
-import { StyledMainContent } from './Main.styles';
 
 export const Main = () => {
     const dispatch = useAppDispatch();
@@ -23,12 +20,12 @@ export const Main = () => {
             <ErrorBoundary title="Something is wrong, we are fixing this.">
                 <Header />
             </ErrorBoundary>
-            <StyledMainContent>
+            <main>
                 {/* Child routes render here */}
                 <ErrorBoundary title="Something is wrong, we are fixing this.">
-                <Outlet />
-               </ErrorBoundary>
-            </StyledMainContent>
+                    <Outlet />
+                </ErrorBoundary>
+            </main>
         </>
     );
 };

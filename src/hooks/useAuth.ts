@@ -1,9 +1,8 @@
 import { LoginFormData } from 'pages/Login/Login.types';
 import { SignupFormData } from 'pages/SignUp/SignUp.types';
 import { UseFormSetError } from 'react-hook-form';
-import { useAppDispatch, useAppSelector } from 'store/hook';
+import { useAppDispatch, useAppSelector, login, logout, signup } from '@store';
 import { User } from '@types';
-import { login, logout, signup } from 'store/slices/authSlice';
 
 export const useAuth = () => {
     const dispatch = useAppDispatch();

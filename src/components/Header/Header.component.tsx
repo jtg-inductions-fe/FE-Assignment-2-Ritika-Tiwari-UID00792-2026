@@ -92,7 +92,7 @@ export const Header = ({
         }
     };
 
-     /**
+    /**
      * Function to handle close event of confirmation dialog.
      */
     const handleClose = () => {
@@ -146,7 +146,10 @@ export const Header = ({
                     {isLoggedIn && (
                         <ActionsContainer aria-label="Main Navigation">
                             {!isMobile ? (
-                                <Link component={NavLink} to={ROUTES.ORDER_PORTAl}>
+                                <Link
+                                    component={NavLink}
+                                    to={ROUTES.ORDER_PORTAl}
+                                >
                                     Orders
                                 </Link>
                             ) : (
@@ -182,7 +185,7 @@ export const Header = ({
                             {/* User profile avatar triggers */}
                             <Tooltip title="Open profile settings">
                                 <IconButton
-                                variant='outlined'
+                                    variant="outlined"
                                     onClick={handleOpenProfilePopover}
                                     aria-describedby={popoverId}
                                     aria-haspopup="true"
