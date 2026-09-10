@@ -1,4 +1,8 @@
 import { CardActionArea, Typography } from '@mui/material';
+
+import nonVegIndicator from '@assets/images/non-veg-indicator.webp';
+import vegIndicator from '@assets/images/veg-indicator.webp';
+
 import {
     StyledCard,
     StyledCardContent,
@@ -7,8 +11,6 @@ import {
     StyledImageIndicator,
 } from './RestaurantCard.styles';
 import { RestaurantProps } from './RestaurantCard.types';
-import vegIndicator from '@assets/images/veg-indicator.webp';
-import nonVegIndicator from '@assets/images/non-veg-indicator.webp';
 
 export default function RestaurantCard({
     restaurant,

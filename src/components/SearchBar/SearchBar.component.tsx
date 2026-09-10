@@ -17,6 +17,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setQuery(event.target.value);
+        onSearch(event.target.value);
     };
 
     const handleClear = () => {
@@ -56,12 +57,6 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                             </IconButton>
                         </InputAdornment>
                     ),
-                },
-            }}
-            sx={{
-                maxHeight: 56,
-                '& .MuiOutlinedInput-root': {
-                    borderRadius: 2,
                 },
             }}
         />
