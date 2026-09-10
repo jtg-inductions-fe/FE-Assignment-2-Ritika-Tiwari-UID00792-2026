@@ -5,23 +5,27 @@ import RestaurantCard from 'components/RestaurantCard/RestaurantCard.component';
 import { RestaurantProps } from 'components/RestaurantCard/RestaurantCard.types';
 import { SearchBar } from 'components/SearchBar/SearchBar.component';
 
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 import {
     LoadingCardSkeleton,
     NullStateCard,
     ResponsiveContainer,
 } from '@components';
+
 import {
     FilterContainer,
     GrowingButton,
     OuterContainer,
-} from 'components/RestaurantCard/RestaurantCard.styles';
+} from './Restaurant.styles';
 
 export const Restaurant = () => {
     const [restaurants, setRestaurants] = useState<RestaurantProps[]>([]);
+    const [filteredRestaurant, setFilteredRestaurant] =
+        useState<RestaurantProps[]>(restaurants);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [activeCategory, setActiveCategory] = useState('');
 
     // Use useEffect to handle the side-effect (API call)
     useEffect(() => {
@@ -41,6 +45,7 @@ export const Restaurant = () => {
                 }) as RestaurantProps[];
                 // Update the state with the retrieved data
                 setRestaurants(camelCaseData);
+                setFilteredRestaurant(camelCaseData);
             } catch (err) {
                 setError(err as SetStateAction<null>);
             } finally {
@@ -50,15 +55,62 @@ export const Restaurant = () => {
 
         void fetchData();
     }, []);
-    const onSearch = () => {};
+    const onSearch = (searchTerm: string) => {
+        setLoading(true);
+        if (!searchTerm.trim) {
+            setFilteredRestaurant(restaurants);
+            return;
+        }
+        const lowerCaseSearch = searchTerm.toLowerCase();
+        const filtered = restaurants.filter((restaurant) =>
+            restaurant.name.toLowerCase().includes(lowerCaseSearch),
+        );
+        setFilteredRestaurant(filtered);
+        setLoading(false);
+
+    };
+    const onFilter = (category: string) => {
+        setLoading(true);
+        const filtered = restaurants.filter(
+            (restaurant) => restaurant.type === category,
+        );
+        setFilteredRestaurant(filtered);
+        setActiveCategory((prev) => (prev === category ? '' : category));
+        setLoading(false);
+
+    };
 
     return (
         <ResponsiveContainer>
             <OuterContainer>
                 <SearchBar onSearch={onSearch} />
                 <FilterContainer>
-                    <GrowingButton variant="outlined">Veg</GrowingButton>
-                    <GrowingButton variant="outlined">Non-veg</GrowingButton>
+                    <GrowingButton
+                        variant={
+                            activeCategory === 'veg' ? 'contained' : 'outlined'
+                        }
+                        onClick={() => {
+                            onFilter('veg');
+                        }}
+                    >
+                        <Typography variant="button" textTransform="none">
+                            Veg
+                        </Typography>
+                    </GrowingButton>
+                    <GrowingButton
+                        variant={
+                            activeCategory === 'non-veg'
+                                ? 'contained'
+                                : 'outlined'
+                        }
+                        onClick={() => {
+                            onFilter('non-veg');
+                        }}
+                    >
+                        <Typography variant="button" textTransform="none">
+                            Non-veg
+                        </Typography>
+                    </GrowingButton>
                 </FilterContainer>
             </OuterContainer>
             <Box
@@ -68,7 +120,7 @@ export const Restaurant = () => {
                 gap={2}
                 alignItems="center"
                 justifyContent="center"
-                marginTop={3.2}
+                marginBlock={3.2}
             >
                 {loading && (
                     <>
@@ -80,7 +132,7 @@ export const Restaurant = () => {
                         <LoadingCardSkeleton />
                     </>
                 )}
-                {!loading && error && (
+                {!loading && error && filteredRestaurant.length == 0 && (
                     <NullStateCard
                         title="Restaurant Page"
                         description="No restaurants available."
@@ -88,8 +140,8 @@ export const Restaurant = () => {
                 )}
                 {!loading &&
                     !error &&
-                    restaurants &&
-                    restaurants.map((restaurant) => (
+                    filteredRestaurant &&
+                    filteredRestaurant.map((restaurant) => (
                         <RestaurantCard
                             key={restaurant.restaurantId}
                             restaurant={restaurant}
