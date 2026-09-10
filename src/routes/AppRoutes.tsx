@@ -11,6 +11,7 @@ import {
     Restaurant,
     SignUp,
 } from '@pages';
+
 import { ROUTES } from './AppRoutes.constants';
 import { ProtectedRoutes } from './ProtectedRoutes';
 

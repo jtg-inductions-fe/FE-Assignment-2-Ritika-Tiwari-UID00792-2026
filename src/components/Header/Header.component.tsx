@@ -32,7 +32,6 @@ import {
     UserAvatar,
 } from './Header.styles';
 import { HeaderProps } from './Header.types';
-import { ROUTES } from '@routes';
 
 /**
  * Header Component
