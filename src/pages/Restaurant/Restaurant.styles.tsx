@@ -7,17 +7,16 @@ export const OuterContainer = styled(Box)(({ theme }) => ({
     justifyContent: 'center',
     gap: theme.spacing(1.6),
     marginBlock: theme.spacing(3.2),
-        [theme.breakpoints.up('md')]: {
-    flexDirection:'row',
+    [theme.breakpoints.up('md')]: {
+        flexDirection: 'row',
     },
 }));
 
 export const FilterContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
-    flexDirection:'row',
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'start',
     gap: theme.spacing(1.6),
-    width: '40%',
-    flexGrow:2
+    flexGrow: 2,
 }));

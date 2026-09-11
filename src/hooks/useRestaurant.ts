@@ -1,4 +1,4 @@
-import { useCallback,useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import camelcaseKeys from 'camelcase-keys';
 import { Restaurant as RestaurantData } from 'pages/Restaurant/Restaurant.types';
