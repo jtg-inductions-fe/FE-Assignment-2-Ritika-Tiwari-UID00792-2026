@@ -19,6 +19,7 @@ import {
 
 import logo from '@assets/images/logo.webp';
 import { ResponsiveContainer } from '@components';
+import { useAuth } from '@hooks';
 import { ROUTES } from '@routes';
 import { theme } from '@theme';
 
@@ -33,7 +34,6 @@ import {
 } from './Header.styles';
 import { HeaderProps } from './Header.types';
 import { ConfirmationDialog } from '../ConfirmationDialog/ConfirmationDialog.component';
-import { useAuth } from '@hooks';
 
 /**
  * Header Component

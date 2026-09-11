@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom';
 
 import { ErrorBoundary } from '@components';
 import { Header } from '@containers';
-import { fetchUsers,useAppDispatch, useAppSelector } from '@store';
+import { fetchUsers, useAppDispatch, useAppSelector } from '@store';
 
 export const Main = () => {
     const dispatch = useAppDispatch();
