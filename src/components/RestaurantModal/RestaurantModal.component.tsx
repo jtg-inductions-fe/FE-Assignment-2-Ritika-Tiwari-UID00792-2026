@@ -14,20 +14,33 @@ import {
 } from '@mui/material';
 
 import { useRestaurant } from '@hooks';
+import { Restaurant, Restaurant as RestaurantData } from '@types';
 
-import { StyledModal } from './AddRestaurantModal.styles';
-import { AddRestaurantModalProps } from './AddRestaurantModal.types';
-import { Restaurant, Restaurant as RestaurantData } from '../Restaurant.types';
-import { RestaurantValidation } from '../Restaurant.validations';
+import { StyledModal } from './RestaurantModal.styles';
+import { RestaurantModalProps } from './RestaurantModal.types';
+import { RestaurantValidation } from './RestaurantModal.validations';
 
-export const AddRestaurantModal = ({
+/**
+ * RestaurantModal Component
+ *
+ * A modal dialog that handles both creating a new restaurant and editing an existing one.
+ * It uses `react-hook-form` for form state management and validation, and Material UI for the UI components.
+ * @props RestaurantModalProps - configuration properties to show a modal to add and edit the restaurant.
+ *
+ */
+export const RestaurantModal = ({
     open,
     onClose,
     ownerId,
     restaurantToEdit,
-}: AddRestaurantModalProps): JSX.Element => {
+}: RestaurantModalProps): JSX.Element => {
+    // Determine if the modal is in edit mode based restaurant data to be edited
     const isEditMode = Boolean(restaurantToEdit);
 
+    // fetching functions to handle add restaurant and edit restaurant functionality
+    const { handleAddRestaurant, handleEditRestaurant } = useRestaurant();
+
+    // Initialize form controls, error states, and validation tracking via react-hook-form
     const {
         control,
         handleSubmit,
@@ -45,10 +58,13 @@ export const AddRestaurantModal = ({
         },
     });
 
-    const { handleAddRestaurant, handleEditRestaurant } = useRestaurant();
-
+    /**
+     * Syncs form fields whenever the modal visibility changes or a different
+     * restaurant is selected for editing.
+     */
     useEffect(() => {
         if (restaurantToEdit) {
+            // Populate fields with existing data for editing
             reset({
                 name: restaurantToEdit.name,
                 description: restaurantToEdit.description,
@@ -59,6 +75,7 @@ export const AddRestaurantModal = ({
                 type: restaurantToEdit.type,
             });
         } else {
+            // Clear fields back to default states
             reset({
                 name: '',
                 description: '',
@@ -71,14 +88,19 @@ export const AddRestaurantModal = ({
         }
     }, [restaurantToEdit, reset, open]);
 
+    /**
+     * Handle the form submission.
+     */
     const onSubmit = (data: Restaurant) => {
         if (isEditMode && restaurantToEdit) {
+            // Merge new modifications into the existing restaurant object
             const updatedRestaurant: RestaurantData = {
                 ...restaurantToEdit,
                 ...data,
             };
             handleEditRestaurant(updatedRestaurant);
         } else {
+            // Generate unique IDs and associate the owner for a brand new restaurant
             const newRestaurant: RestaurantData = {
                 ...data,
                 restaurantId: crypto.randomUUID(),
@@ -86,9 +108,13 @@ export const AddRestaurantModal = ({
             };
             handleAddRestaurant(newRestaurant);
         }
+        // Clean up and close the modal after a successful edit or add restaurant.
         handleCancel();
     };
 
+    /**
+     * Resets form values and closes the modal view.
+     */
     const handleCancel = () => {
         reset();
         onClose();
@@ -200,6 +226,7 @@ export const AddRestaurantModal = ({
                                 />
                             )}
                         />
+
                         <Controller
                             name="closingTime"
                             control={control}

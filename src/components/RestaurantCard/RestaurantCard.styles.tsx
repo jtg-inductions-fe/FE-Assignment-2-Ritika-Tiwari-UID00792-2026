@@ -10,8 +10,8 @@ export const StyledCard = styled(Card)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
     gap: theme.spacing(2),
+    minWidth: 180,
     width: '40%',
-    // backgroundColor: theme.palette.primary.main,
     borderRadius: theme.spacing(2),
     [theme.breakpoints.up('md')]: {
         width: '30%',
@@ -25,7 +25,7 @@ export const StyledCardMedia = styled(CardMedia)(({ theme }) => ({
     paddingInline: 5,
     paddingTop: 5,
     borderRadius: theme.spacing(2),
-}));
+})) as typeof CardMedia;
 
 export const StyledImageIndicator = styled(CardMedia)({
     width: 20,
@@ -33,14 +33,14 @@ export const StyledImageIndicator = styled(CardMedia)({
     right: 20,
     top: 20,
     position: 'absolute',
-});
+}) as typeof CardMedia;
 export const StyledClosedTag = styled(CardMedia)({
     width: 100,
     height: 100,
     right: 0,
     top: 0,
     position: 'absolute',
-});
+}) as typeof CardMedia;
 
 export const StyledCardContent = styled(CardContent)(({ theme }) => ({
     width: '100%',

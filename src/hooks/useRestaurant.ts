@@ -1,10 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import camelcaseKeys from 'camelcase-keys';
-import {
-    Restaurant,
-    Restaurant as RestaurantData,
-} from 'pages/Restaurant/Restaurant.types';
 
 import { useAuth } from '@hooks';
 import {
@@ -18,6 +14,7 @@ import {
     useAppDispatch,
     useAppSelector,
 } from '@store';
+import { Restaurant } from '@types';
 
 export const useRestaurant = () => {
     const dispatch = useAppDispatch();
@@ -45,15 +42,15 @@ export const useRestaurant = () => {
                     throw new Error('Network response was not ok');
                 }
 
-                const data = (await response.json()) as RestaurantData[];
+                const data = (await response.json()) as Restaurant[];
                 let camelCaseData = camelcaseKeys(data, {
                     deep: true,
-                }) as RestaurantData[];
+                }) as Restaurant[];
 
                 // Filter based on user role
                 if (registeredUser?.role === 'owner') {
                     camelCaseData = camelCaseData.filter(
-                        (restaurant) =>
+                        (restaurant: Restaurant) =>
                             restaurant.ownerId === registeredUser.id,
                     );
                 }
@@ -133,8 +130,8 @@ export const useRestaurant = () => {
 
         const currentTotalMinutes = currentHour * 60 + currentMinute;
 
-        let [time, modifier] = closingTime.split(' ');
-        let [closingHourStr, closingMinuteStr] = time.split(':');
+        const [time, modifier] = closingTime.split(' ');
+        const [closingHourStr, closingMinuteStr] = time.split(':');
         let closingHour = parseInt(closingHourStr, 10);
         const closingMinute = parseInt(closingMinuteStr, 10);
 
