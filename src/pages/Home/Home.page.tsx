@@ -4,12 +4,12 @@ import { Box, Button } from '@mui/material';
 
 import { ConfirmationDialog, NullStateCard, Snackbar } from '@components';
 import { ResponsiveContainer } from '@components';
+import { theme } from '@theme';
 
 export function Home() {
     // This is for the demo purpose
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
     const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
-
     const handleSubmit = (value: boolean) => {
         if (value) {
             setIsDialogOpen(false);
@@ -28,6 +28,7 @@ export function Home() {
                 justifyContent="center"
                 alignItems="center"
                 minHeight="50vh"
+                margin={theme.spacing(4)}
             >
                 <Button onClick={() => setIsDialogOpen(true)}>
                     Open Confirmation Dialog

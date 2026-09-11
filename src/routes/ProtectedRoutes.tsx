@@ -1,10 +1,12 @@
 import { Navigate, Outlet } from 'react-router-dom';
 
-export const ProtectedRoute = () => {
+import { ROUTES } from '@routes';
+
+export const ProtectedRoutes = () => {
     // If not logged in, redirect to login page
     const userIsLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
     if (!userIsLoggedIn) {
-        return <Navigate to="/login" replace />;
+        return <Navigate to={ROUTES.LOGIN} replace />;
     }
 
     // Renders the child routes (Home, Restaurant, Menu, etc.) if authenticated

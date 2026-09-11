@@ -7,13 +7,14 @@ export const StyledBox = styled(Box)(({ theme }) => ({
     alignItems: 'center',
     justifyContent: 'center',
     gap: theme.spacing(4),
+    marginTop: theme.spacing(3.2),
     backgroundColor: theme.palette.background.default,
 }));
 
 /** Styling of image component used in the fallback page. */
 export const StyledImage = styled('img')(({ theme }) => ({
     width: '100%',
-    maxWidth: '400px',
+    maxWidth: 400,
     height: 'auto',
     borderRadius: theme.shape.borderRadius,
     objectFit: 'cover',

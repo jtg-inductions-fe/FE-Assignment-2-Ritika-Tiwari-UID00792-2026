@@ -46,6 +46,7 @@ export const components: Components<Theme> = {
             fontFaceDeclarations,
         },
     },
+
     MuiButton: {
         variants: [
             {
@@ -72,9 +73,77 @@ export const components: Components<Theme> = {
                     textTransform: 'none',
                     transition: 'transform 0.3s ease',
                     '&:hover': {
+                        boxShadow: theme.shadows[2],
                         backgroundColor: theme.palette.background.default,
                         transform: 'translateY(2px)',
-                        boxShadow: theme.shadows[2],
+                    },
+                }),
+            },
+            {
+                props: { variant: 'error' },
+                style: ({ theme }) => ({
+                    backgroundColor: theme.palette.error.main,
+                    color: theme.palette.error.contrastText,
+                    border: `1px solid ${theme.palette.error.main}`,
+                    textTransform: 'none',
+                    '&:hover': {
+                        backgroundColor: theme.palette.error.dark,
+                    },
+                    '&:disabled': {
+                        backgroundColor:
+                            theme.palette.action.disabledBackground,
+                        color: theme.palette.action.disabled,
+                    },
+                }),
+            },
+        ],
+    },
+    MuiLink: {
+        styleOverrides: {
+            root: ({ theme }) => ({
+                textDecoration: 'none',
+                textAlign: 'center',
+                display: 'flex',
+                alignItems: 'center',
+                color: theme.palette.text.primary,
+                '&:hover': {
+                    color: theme.palette.primary.main,
+                },
+                '&:focus-visible': {
+                    outline: `2px solid ${theme.palette.primary.main}`,
+                    outlineOffset: theme.spacing(0.5),
+                },
+                '&.active': {
+                    color: theme.palette.primary.main,
+                    fontWeight: theme.typography.fontWeightBold,
+                },
+            }),
+        },
+    },
+    MuiIconButton: {
+        styleOverrides: {
+            root: ({ theme }) => ({
+                '&:hover': {
+                    color: theme.palette.primary.main,
+                },
+                '&:focus-visible': {
+                    outline: `2px solid ${theme.palette.primary.main}`,
+                    outlineOffset: theme.spacing(0.5),
+                },
+                '&.active': {
+                    color: theme.palette.primary.main,
+                    fontWeight: theme.typography.fontWeightBold,
+                },
+            }),
+        },
+        variants: [
+            {
+                props: { variant: 'outlined' },
+                style: ({ theme }) => ({
+                    border: `3px solid ${theme.palette.primary.main}`,
+                    padding: theme.spacing(0),
+                    '&:focus-visible': {
+                        outlineOffset: theme.spacing(0),
                     },
                 }),
             },

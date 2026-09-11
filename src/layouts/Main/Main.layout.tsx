@@ -1,18 +1,16 @@
-import { Link, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
+
+import { ErrorBoundary } from '@components';
+import { Header } from '@containers';
 
 export const Main = () => (
-    //This is for the demo purpose only
-    <div>
-        <header>
-            <h1>Header</h1>
-            <nav>
-                <Link to="/">Home</Link> | <Link to="/cart">cart</Link>
-            </nav>
-        </header>
-
+    <>
+        <ErrorBoundary title="Something is wrong, we are fixing this.">
+            <Header />
+        </ErrorBoundary>
         <main>
             {/* Child routes render here */}
             <Outlet />
         </main>
-    </div>
+    </>
 );
