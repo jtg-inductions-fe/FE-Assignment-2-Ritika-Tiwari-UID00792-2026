@@ -149,11 +149,6 @@ export const Restaurant = () => {
                 <Fab
                     color="primary"
                     aria-label="add"
-                    style={{
-                        position: 'fixed',
-                        bottom: 16,
-                        right: 16,
-                    }}
                     onClick={handleOpenAddModal}
                 >
                     <AddIcon />
@@ -173,7 +168,7 @@ export const Restaurant = () => {
                 display="flex"
                 flexDirection="row"
                 flexWrap="wrap"
-                gap={2}
+                gap={theme.spacing(2)}
                 alignItems="center"
                 justifyContent="center"
                 marginBlock={3.2}

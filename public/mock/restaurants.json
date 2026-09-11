@@ -7,7 +7,7 @@
         "opening_time": "08:00 AM",
         "closing_time": "5:32 PM",
         "address": "123 Maple Street, Downtown District",
-        "image_url": "/src/assets/nmnimages/food-image/food-image1.webp",
+        "image_url": "/res-image/res-image11.webp",
         "type": "veg"
     },
     {
@@ -18,18 +18,18 @@
         "opening_time": "11:30 AM",
         "closing_time": "11:00 PM",
         "address": "742 Evergreen Terrace, Westside",
-        "image_url": "/src/assets/images/food-image/food-image2.webp",
+        "image_url": "/res-image/res-image2.webp",
         "type": "non-veg"
     },
     {
         "restaurantId": "b5c6d7e8-f9a0-1b2c-3d4e-5f6a7b8c9d0e",
         "ownerId": "47f1852d-f0ed-4d63-9bc3-77f295c94dfb",
         "name": "Taco Fiesta",
-        "description": "Vibrant Mexican street food offering grilled chicken tacos, beef burritos, loaded nachos, and churros.",
+        "description": "Vibrant Mexican street res offering grilled chicken tacos, beef burritos, loaded nachos, and churros.",
         "opening_time": "10:00 AM",
         "closing_time": "10:00 PM",
         "address": "88 Spice Boulevard, Old Town",
-        "image_url": "/src/assets/images/food-image/food-image3.webp",
+        "image_url": "/res-image/res-image3.webp",
         "type": "non-veg"
     },
     {
@@ -40,7 +40,7 @@
         "opening_time": "07:00 AM",
         "closing_time": "08:00 PM",
         "address": "45 Baker Lane, Midtown",
-        "image_url": "/src/assets/images/food-image/food-image4.webp",
+        "image_url": "/res-image/res-image4.webp",
         "type": "veg"
     },
     {
@@ -49,9 +49,9 @@
         "name": "Burger Empire",
         "description": "Gourmet burger joint crafting smashed beef patties, crispy chicken burgers, loaded fries, and thick milkshakes.",
         "opening_time": "11:00 AM",
-        "closing_time": "12:00 AM",
+        "closing_time": "4:00 PM",
         "address": "502 Broadway Avenue, Theater District",
-        "image_url": "/src/assets/images/food-image/food-image5.webp",
+        "image_url": "/res-image/res-image5.webp",
         "type": "non-veg"
     },
     {
@@ -62,18 +62,18 @@
         "opening_time": "12:00 PM",
         "closing_time": "10:30 PM",
         "address": "12 Curry Lane, Little India",
-        "image_url": "/src/assets/images/food-image/food-image6.webp",
+        "image_url": "/res-image/res-image6.webp",
         "type": "veg"
     },
     {
         "restaurantId": "3d4e5f6a-7b8c-9d0e-1f2a-3b4c5d6e7f8a",
         "ownerId": "67f1852d-f0ed-4d63-9bc3-77f295c94dfb",
         "name": "The Sushi Dock",
-        "description": "Fresh Japanese seafood handling salmon sashimi, spicy tuna rolls, prawn tempura, and warm miso soup.",
+        "description": "Fresh Japanese seares handling salmon sashimi, spicy tuna rolls, prawn tempura, and warm miso soup.",
         "opening_time": "12:00 PM",
         "closing_time": "10:00 PM",
         "address": "99 Harbor View Wharf, Marina Marina",
-        "image_url": "/src/assets/images/food-image/food-image7.webp",
+        "image_url": "/res-image/res-image7.webp",
         "type": "non-veg"
     },
     {
@@ -84,7 +84,7 @@
         "opening_time": "09:00 AM",
         "closing_time": "08:30 PM",
         "address": "214 Wellness Way, Eco Park",
-        "image_url": "/src/assets/images/food-image/food-image8.webp",
+        "image_url": "/res-image/res-image8.webp",
         "type": "veg"
     },
     {
@@ -95,7 +95,7 @@
         "opening_time": "04:00 PM",
         "closing_time": "02:00 AM",
         "address": "88 Stadium Road, Sports Village",
-        "image_url": "/src/assets/images/food-image/food-image9.webp",
+        "image_url": "/res-image/res-image9.webp",
         "type": "non-veg"
     },
     {
@@ -106,7 +106,7 @@
         "opening_time": "07:30 AM",
         "closing_time": "04:00 PM",
         "address": "7 Sunrise Street, Morning Valley",
-        "image_url": "/src/assets/images/food-image/food-image10.webp",
+        "image_url": "/res-image/res-image10.webp",
         "type": "veg"
     }
 ]

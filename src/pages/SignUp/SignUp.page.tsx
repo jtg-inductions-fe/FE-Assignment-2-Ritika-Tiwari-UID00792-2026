@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { SignUp as SignUpContainer } from '@containers';
 import { useAuth } from '@hooks';
 import { ROUTES } from '@routes';
+import { theme } from '@theme';
 
 /**
  * Renders the signUp page.

@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 
 import { useRestaurant } from '@hooks';
+import { theme } from '@theme';
 import { Restaurant, Restaurant as RestaurantData } from '@types';
 
 import { StyledModal } from './RestaurantModal.styles';
@@ -39,6 +40,35 @@ export const RestaurantModal = ({
 
     // fetching functions to handle add restaurant and edit restaurant functionality
     const { handleAddRestaurant, handleEditRestaurant } = useRestaurant();
+
+    /** Helper function to convert 12h string to 24h string
+     * @param time - time that is given in the restaurant data for closing and opening of the restaurant.
+     */
+    const convert12HourTo24Hour = (twelveHourTime: string): string => {
+        if (!twelveHourTime || !twelveHourTime.includes(' ')) {
+            return twelveHourTime || '';
+        }
+
+        const [timePart, amPmMarker] = twelveHourTime.split(' ');
+        let hourString;
+        const temporaryArray = timePart.split(':');
+
+        hourString = temporaryArray[0];
+        const minuteString = temporaryArray[1];
+
+        if (hourString === '12') {
+            hourString = '00';
+        }
+
+        if (amPmMarker === 'PM') {
+            const twentyFourHourNumeric = parseInt(hourString, 10) + 12;
+            hourString = String(twentyFourHourNumeric);
+        }
+
+        const paddedHours = hourString.padStart(2, '0');
+
+        return `${paddedHours}:${minuteString}`;
+    };
 
     // Initialize form controls, error states, and validation tracking via react-hook-form
     const {
@@ -68,8 +98,12 @@ export const RestaurantModal = ({
             reset({
                 name: restaurantToEdit.name,
                 description: restaurantToEdit.description,
-                openingTime: restaurantToEdit.openingTime,
-                closingTime: restaurantToEdit.closingTime,
+                openingTime: convert12HourTo24Hour(
+                    restaurantToEdit.openingTime,
+                ),
+                closingTime: convert12HourTo24Hour(
+                    restaurantToEdit.closingTime,
+                ),
                 address: restaurantToEdit.address,
                 imageUrl: restaurantToEdit.imageUrl,
                 type: restaurantToEdit.type,
@@ -153,7 +187,7 @@ export const RestaurantModal = ({
 
                 <Stack
                     component="form"
-                    gap={2}
+                    gap={theme.spacing(2)}
                     onSubmit={(e) => {
                         void handleSubmit(onSubmit)(e);
                     }}
@@ -209,7 +243,7 @@ export const RestaurantModal = ({
                         )}
                     />
 
-                    <Stack direction="row" gap={2}>
+                    <Stack direction="row" gap={theme.spacing(2)}>
                         <Controller
                             name="openingTime"
                             control={control}
@@ -278,7 +312,7 @@ export const RestaurantModal = ({
                     <Stack
                         direction="row"
                         justifyContent="flex-end"
-                        gap={1.5}
+                        gap={theme.spacing(1.6)}
                         mt={1}
                     >
                         <Button
@@ -296,8 +330,8 @@ export const RestaurantModal = ({
                             {isSubmitting
                                 ? 'Submitting...'
                                 : isEditMode
-                                  ? 'Save Changes'
-                                  : 'Submit Restaurant'}
+                                  ? 'Save'
+                                  : 'Submit'}
                         </Button>
                     </Stack>
                 </Stack>

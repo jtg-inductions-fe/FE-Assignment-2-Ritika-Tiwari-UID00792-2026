@@ -18,5 +18,4 @@ export const FilterContainer = styled(Box)(({ theme }) => ({
     alignItems: 'center',
     justifyContent: 'start',
     gap: theme.spacing(1.6),
-    flexGrow: 2,
 }));

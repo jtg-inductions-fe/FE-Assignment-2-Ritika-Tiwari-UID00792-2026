@@ -6,11 +6,10 @@ export const CardContainer = styled(Box)<BoxProps>(({ theme }) => ({
     flexDirection: 'column',
     gap: theme.spacing(2),
     padding: theme.spacing(2),
-    maxWidth: 345,
+    maxWidth: 245,
     width: '40%',
     border: `1px solid ${theme.palette.divider}`,
-    borderRadius: theme.shape.borderRadius || 8,
-    // backgroundColor: theme.palette.background.paper,
+    borderRadius: theme.spacing(2),
 }));
 
 // Structural container holding text lines below the header/media section
