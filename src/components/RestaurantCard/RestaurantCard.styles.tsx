@@ -34,6 +34,13 @@ export const StyledImageIndicator = styled(CardMedia)({
     top: 20,
     position: 'absolute',
 });
+export const StyledClosedTag = styled(CardMedia)({
+    width: 100,
+    height: 100,
+    right: 0,
+    top: 0,
+    position: 'absolute',
+});
 
 export const StyledCardContent = styled(CardContent)(({ theme }) => ({
     width: '100%',

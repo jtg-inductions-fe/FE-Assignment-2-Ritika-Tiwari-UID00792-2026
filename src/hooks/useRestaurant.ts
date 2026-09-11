@@ -113,6 +113,43 @@ export const useRestaurant = () => {
         }
     };
 
+    const isRestaurantClosed = (closingTime: string): boolean => {
+        const formatter = new Intl.DateTimeFormat('en-US', {
+            timeZone: 'Asia/Kolkata',
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: false,
+        });
+
+        const parts = formatter.formatToParts(new Date());
+        const currentHour = parseInt(
+            parts.find((p) => p.type === 'hour')!.value,
+            10,
+        );
+        const currentMinute = parseInt(
+            parts.find((p) => p.type === 'minute')!.value,
+            10,
+        );
+
+        const currentTotalMinutes = currentHour * 60 + currentMinute;
+
+        let [time, modifier] = closingTime.split(' ');
+        let [closingHourStr, closingMinuteStr] = time.split(':');
+        let closingHour = parseInt(closingHourStr, 10);
+        const closingMinute = parseInt(closingMinuteStr, 10);
+
+        if (modifier) {
+            if (modifier.toUpperCase() === 'PM' && closingHour < 12)
+                closingHour += 12;
+            if (modifier.toUpperCase() === 'AM' && closingHour === 12)
+                closingHour = 0;
+        }
+
+        const closingTotalMinutes = closingHour * 60 + closingMinute;
+
+        return currentTotalMinutes >= closingTotalMinutes;
+    };
+
     return {
         filteredRestaurants,
         loading,
@@ -125,5 +162,6 @@ export const useRestaurant = () => {
         handleAddRestaurant,
         handleEditRestaurant,
         handleDeleteRestaurant,
+        isRestaurantClosed,
     };
 };
