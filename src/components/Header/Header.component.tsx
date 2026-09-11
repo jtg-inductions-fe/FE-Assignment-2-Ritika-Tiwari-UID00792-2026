@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -18,8 +18,8 @@ import {
 } from '@mui/material';
 
 import logo from '@assets/images/logo.webp';
-import { ResponsiveContainer } from '@components';
-import { ROUTES } from '@routes';
+import { ConfirmationDialog, ResponsiveContainer } from '@components';
+import { useAuth } from '@hooks';
 import { theme } from '@theme';
 
 import {
@@ -32,20 +32,22 @@ import {
     UserAvatar,
 } from './Header.styles';
 import { HeaderProps } from './Header.types';
+import { ROUTES } from '@routes';
 
 /**
  * Header Component
  *
  * Provides the global navigation bar, branding logo, navigation links,
  * and a contextual user profile dropdown menu.
- * @param The configuration properties for the rendering Header component
+ * @param The configuration properties for the rendering Header component.
  * @returns The rendered global application header.
  */
 export const Header = ({
     user,
     cartCount,
+    isLoggedIn,
 }: HeaderProps): React.ReactElement => {
-    // State to track which HTML element anchors the user profile popover menu
+    // State to track which HTML element anchors the user profile popover menu.
     const [anchorElUser, setAnchorElUser] =
         React.useState<HTMLButtonElement | null>(null);
 
@@ -66,19 +68,50 @@ export const Header = ({
         setAnchorElUser(null);
     };
 
+    const { handleLogout } = useAuth();
+    const navigate = useNavigate();
+
+    const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+
     /**
-     * This is for the demo purpose only
-     * Logs the user out by closing the popover and triggering auth cleanup actions.
+     * Handles the confirmation event from the confirmation dialog.
+     * @param confirmation - A boolean value defining user confirmation from the dialog.
      */
-    const handleLogout = () => {
-        handleCloseProfilePopover();
+    const handleSubmit = (confirmation: boolean) => {
+        setIsDialogOpen(false);
+        if (confirmation) {
+            try {
+                handleLogout();
+                setIsDialogOpen(true);
+                void navigate(ROUTES.LOGIN);
+            } catch (error) {
+                if (error) {
+                    void navigate(ROUTES.ROOT);
+                }
+            }
+        }
     };
 
-    // Helper variables for accessibility and popover visibility state
+    /**
+     * Function to handle close event of confirmation dialog.
+     */
+    const handleClose = () => {
+        setIsDialogOpen(false);
+    };
+
+    /**
+     * Logs the user out by closing the popover and triggering auth cleanup actions.
+     */
+    const onLogout = () => {
+        handleCloseProfilePopover();
+        setIsDialogOpen(true);
+    };
+
+    // Helper variables for accessibility and popover visibility state.
     const isPopoverOpen = Boolean(anchorElUser);
     const popoverId = isPopoverOpen ? 'user-profile-popover' : undefined;
 
-    // Returns true if screen width is smaller than the 'md' breakpoint
+    // Returns true if screen width is smaller than the 'md' breakpoint.
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
     return (
@@ -110,91 +143,108 @@ export const Header = ({
                     </LogoContainer>
 
                     {/* Actions and navigation */}
-                    <ActionsContainer aria-label="Main Navigation">
-                        {!isMobile ? (
-                            <Link component={NavLink} to={ROUTES.ORDER_PORTAl}>
-                                Orders
-                            </Link>
-                        ) : (
-                            <Tooltip title="Go to order portal">
-                                <StyledIconButton
-                                    LinkComponent={NavLink}
+                    {isLoggedIn && (
+                        <ActionsContainer aria-label="Main Navigation">
+                            {!isMobile ? (
+                                <Link
+                                    component={NavLink}
                                     to={ROUTES.ORDER_PORTAl}
-                                    aria-label="Track your orders"
                                 >
-                                    <AssignmentIcon />
-                                </StyledIconButton>
-                            </Tooltip>
-                        )}
-
-                        {/* Shopping Cart Icon (Visible to customers only) */}
-                        {user.role === 'customer' && (
-                            <Tooltip title="View Cart">
-                                <StyledIconButton
-                                    LinkComponent={NavLink}
-                                    to={ROUTES.CART}
-                                    aria-label={`${cartCount} items in cart`}
-                                >
-                                    <Badge
-                                        badgeContent={cartCount}
-                                        color="error"
+                                    Orders
+                                </Link>
+                            ) : (
+                                <Tooltip title="Go to order portal">
+                                    <StyledIconButton
+                                        LinkComponent={NavLink}
+                                        to={ROUTES.ORDER_PORTAl}
+                                        aria-label="Track your orders"
                                     >
-                                        <ShoppingCartIcon />
-                                    </Badge>
-                                </StyledIconButton>
-                            </Tooltip>
-                        )}
+                                        <AssignmentIcon />
+                                    </StyledIconButton>
+                                </Tooltip>
+                            )}
 
-                        {/* User profile avatar triggers */}
-                        <Tooltip title="Open profile settings">
-                            <IconButton
-                                variant="outlined"
-                                onClick={handleOpenProfilePopover}
-                                aria-describedby={popoverId}
-                                aria-haspopup="true"
-                                aria-expanded={isPopoverOpen}
-                            >
-                                <UserAvatar alt={user.name} />
-                            </IconButton>
-                        </Tooltip>
-                    </ActionsContainer>
+                            {/* Shopping Cart Icon (Visible to customers only) */}
+                            {user?.role === 'customer' && (
+                                <Tooltip title="View Cart">
+                                    <StyledIconButton
+                                        LinkComponent={NavLink}
+                                        to={ROUTES.CART}
+                                        aria-label="4 items in cart"
+                                    >
+                                        <Badge
+                                            badgeContent={cartCount}
+                                            color="error"
+                                        >
+                                            <ShoppingCartIcon />
+                                        </Badge>
+                                    </StyledIconButton>
+                                </Tooltip>
+                            )}
+
+                            {/* User profile avatar triggers */}
+                            <Tooltip title="Open profile settings">
+                                <IconButton
+                                    variant="outlined"
+                                    onClick={handleOpenProfilePopover}
+                                    aria-describedby={popoverId}
+                                    aria-haspopup="true"
+                                    aria-expanded={isPopoverOpen}
+                                >
+                                    <UserAvatar alt={user?.name} />
+                                </IconButton>
+                            </Tooltip>
+                        </ActionsContainer>
+                    )}
                 </StyledToolbar>
 
                 {/* User profile contextual popover */}
-                <Popover
-                    id={popoverId}
-                    open={isPopoverOpen}
-                    anchorEl={anchorElUser}
-                    onClose={handleCloseProfilePopover}
-                    anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'right',
-                    }}
-                    transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                    }}
-                >
-                    <PopoverProfileBox>
-                        <UserAvatar alt={user.name} />
-                        <Box>
-                            <Typography variant="h6" fontWeight="bold">
-                                {user.name}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                {user.email}
-                            </Typography>
-                        </Box>
-                        <Divider flexItem />
-                        <Button
-                            variant="error"
-                            fullWidth
-                            onClick={handleLogout}
-                        >
-                            Logout
-                        </Button>
-                    </PopoverProfileBox>
-                </Popover>
+                {isLoggedIn && (
+                    <Popover
+                        id={popoverId}
+                        open={isPopoverOpen}
+                        anchorEl={anchorElUser}
+                        onClose={handleCloseProfilePopover}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'right',
+                        }}
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                    >
+                        <PopoverProfileBox>
+                            <UserAvatar alt={user?.name} />
+                            <Box>
+                                <Typography variant="h6" fontWeight="bold">
+                                    {user?.name}
+                                </Typography>
+                                <Typography
+                                    variant="body2"
+                                    color="text.secondary"
+                                >
+                                    {user?.email}
+                                </Typography>
+                            </Box>
+                            <Divider flexItem />
+                            <Button
+                                variant="error"
+                                fullWidth
+                                onClick={onLogout}
+                            >
+                                Logout
+                            </Button>
+                        </PopoverProfileBox>
+                    </Popover>
+                )}
+                <ConfirmationDialog
+                    open={isDialogOpen}
+                    onClose={handleClose}
+                    onSubmit={handleSubmit}
+                    title="Confirmation Dialog"
+                    description="Are you sure you want to logout?"
+                />
             </ResponsiveContainer>
         </StyledAppBar>
     );

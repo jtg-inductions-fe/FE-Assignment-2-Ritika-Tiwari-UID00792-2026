@@ -5,7 +5,6 @@ import InterBoldWOFF2 from '@assets/fonts/inter/Inter-Bold.woff2';
 import InterLightWOFF2 from '@assets/fonts/inter/Inter-Light.woff2';
 import InterMediumWOFF2 from '@assets/fonts/inter/Inter-Medium.woff2';
 import InterRegularWOFF2 from '@assets/fonts/inter/Inter-Regular.woff2';
-
 const fontFaceDeclarations = `
        @font-face {
         font-display: swap; 
@@ -148,5 +147,39 @@ export const components: Components<Theme> = {
                 }),
             },
         ],
+    },
+
+    MuiInputLabel: {
+        styleOverrides: {
+            root: ({ theme }) => ({
+                color: theme.palette.text.secondary,
+            }),
+        },
+    },
+
+    MuiFormHelperText: {
+        styleOverrides: {
+            root: ({ theme }) => ({
+                color: theme.palette.text.secondary,
+                fontSize: theme.typography.body2.fontSize,
+                fontWeight: theme.typography.fontWeightRegular,
+                '&.Mui-error': {
+                    color: theme.palette.error,
+                    fontSize: theme.typography.body2.fontSize,
+                },
+            }),
+        },
+    },
+    MuiOutlinedInput: {
+        styleOverrides: {
+            root: ({ theme }) => ({
+                borderRadius: '10px',
+                backgroundColor: theme.palette.background.paper,
+                // Hover state - only when NOT in error
+                '&:not(.Mui-error):hover .MuiOutlinedInput-notchedOutline': {
+                    borderColor: theme.palette.primary.main,
+                },
+            }),
+        },
     },
 };

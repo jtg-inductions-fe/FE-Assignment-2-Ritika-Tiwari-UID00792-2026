@@ -141,6 +141,9 @@ export const typographyStyle = (theme: Theme): TypographyOptions => ({
         fontSize: typographyUtil.pxToRem(12),
         fontWeight: 600,
         lineHeight: 1.4,
+        [theme.breakpoints.up('md')]: {
+            fontSize: typographyUtil.pxToRem(16),
+        },
     },
 
     overline: {

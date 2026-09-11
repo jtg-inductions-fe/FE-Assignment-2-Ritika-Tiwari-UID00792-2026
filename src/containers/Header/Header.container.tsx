@@ -1,7 +1,7 @@
-import users from '@mock/users.json';
-import { User } from '@types';
+import { useAppSelector } from '@store';
 
 import { Header as HeaderComponent } from '@components';
+import { useAuth } from '@hooks';
 
 /**
  * Header Container
@@ -10,9 +10,17 @@ import { Header as HeaderComponent } from '@components';
  * @returns The rendered global application header component.
  */
 export const Header = () => {
-    // For the demo purposes only
-    const mockUser: User = users[1];
+    const { fetchUser } = useAuth();
+    const registeredUser = fetchUser();
     const cartCount = 4;
+    // Selecting the current logged in state of the user from the redux store.
+    const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
 
-    return <HeaderComponent user={mockUser} cartCount={cartCount} />;
+    return (
+        <HeaderComponent
+            user={registeredUser}
+            cartCount={cartCount}
+            isLoggedIn={isLoggedIn}
+        />
+    );
 };
