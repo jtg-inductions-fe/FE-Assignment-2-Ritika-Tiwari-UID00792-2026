@@ -1,25 +1,28 @@
 import { useState } from 'react';
 
-import RestaurantCard from 'components/RestaurantCard/RestaurantCard.component';
-
 import AddIcon from '@mui/icons-material/Add';
 import { Box, Button, Chip, Fab, useMediaQuery } from '@mui/material';
 
-import { Snackbar } from '@components';
 import {
     ConfirmationDialog,
     LoadingCardSkeleton,
     NullStateCard,
     ResponsiveContainer,
+    RestaurantCard,
+    RestaurantModal,
     SearchBar,
+    Snackbar,
 } from '@components';
 import { useRestaurant } from '@hooks';
 import { theme } from '@theme';
+import { Restaurant as RestaurantData } from '@types';
 
-import { AddRestaurantModal } from './AddRestaurantModal/AddRestaurantModal';
 import { FilterContainer, OuterContainer } from './Restaurant.styles';
-import { Restaurant as RestaurantData } from './Restaurant.types';
 
+/**
+ * Renders the Restaurant page.
+ * @returns JSX.Element - The rendered Restaurant page.
+ */
 export const Restaurant = () => {
     const {
         filteredRestaurants,
@@ -33,21 +36,24 @@ export const Restaurant = () => {
         isRestaurantClosed,
     } = useRestaurant();
 
-    // Modal Control States
+    /** State to control the Add and edit modals. */
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingRestaurant, setEditingRestaurant] =
         useState<RestaurantData | null>(null);
 
+    /** Handle Add restaurant modal open state. */
     const handleOpenAddModal = () => {
         setEditingRestaurant(null);
         setIsModalOpen(true);
     };
 
+    /** Handle Edit restaurant modal open state. */
     const handleOpenEditModal = (restaurant: RestaurantData) => {
         setEditingRestaurant(restaurant);
         setIsModalOpen(true);
     };
 
+    /** Handle edit and add restaurant modal closing state */
     const handleCloseModal = () => {
         setIsModalOpen(false);
         setEditingRestaurant(null);
@@ -82,7 +88,10 @@ export const Restaurant = () => {
     const handleClose = () => {
         setIsDialogOpen(false);
     };
-
+    /**
+     * Function to handle delete restaurant event.
+     * @param restaurantId - restaurant id is used to delete the selected restaurant.
+     */
     const handleOnDelete = (restaurantId: string) => {
         setIsDialogOpen(true);
         setSelectedRestaurantID(restaurantId);
@@ -145,6 +154,7 @@ export const Restaurant = () => {
                         bottom: 16,
                         right: 16,
                     }}
+                    onClick={handleOpenAddModal}
                 >
                     <AddIcon />
                 </Fab>
@@ -205,8 +215,8 @@ export const Restaurant = () => {
                     ))}
             </Box>
 
-            {/* Reusable From modal for both edit and add restaurant */}
-            <AddRestaurantModal
+            {/* Reusable form modal for both edit and add restaurant */}
+            <RestaurantModal
                 open={isModalOpen}
                 onClose={handleCloseModal}
                 ownerId="current_owner_id"

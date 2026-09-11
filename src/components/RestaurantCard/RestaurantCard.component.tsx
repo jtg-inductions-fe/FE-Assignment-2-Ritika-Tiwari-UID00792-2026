@@ -1,8 +1,11 @@
-import { Box, Button, CardActionArea } from '@mui/material';
+import { useState } from 'react';
 
+import { Box, Button, CardActionArea, Typography } from '@mui/material';
+
+import closedTag from '@assets/images/closed-restaurant.webp';
+import fallBackImage from '@assets/images/fallback-image.webp';
 import nonVegIndicator from '@assets/images/non-veg-indicator.webp';
 import vegIndicator from '@assets/images/veg-indicator.webp';
-import closedTag from '@assets/images/closed-restaurant.webp';
 
 import {
     StyledCard,
@@ -15,21 +18,34 @@ import {
 } from './RestaurantCard.styles';
 import { RestaurantProps } from './RestaurantCard.types';
 
-export default function RestaurantCard({
+/**
+ * A Restaurant card that displays the details of restaurant.
+ * @param RestaurantProps - the configuration property to render the card component for restaurant.
+ * @returns The structured and styled restaurant card.
+ */
+export function RestaurantCard({
     restaurant,
     userRole,
     onEditClick,
     onDelete,
     isRestaurantClosed,
 }: RestaurantProps) {
+    // Handle the fallback case, if image is null or url is wrong.
+    const [imgSrc, setImgSrc] = useState(restaurant.imageUrl || fallBackImage);
     return (
         <StyledCard>
             <CardActionArea>
                 <StyledCardMedia
                     component="img"
                     height="140"
-                    image={restaurant.imageUrl}
-                    alt={restaurant.name}
+                    image={imgSrc}
+                    alt={restaurant.name || 'Restaurant'}
+                    onError={() => {
+                        // Compare state variable directly to avoid endless loop
+                        if (imgSrc !== fallBackImage) {
+                            setImgSrc(fallBackImage);
+                        }
+                    }}
                 />
                 <StyledImageIndicator
                     component="img"
@@ -58,19 +74,20 @@ export default function RestaurantCard({
                     </StyledDescription>
                 </StyledCardContent>
             </CardActionArea>
-
+            {/* Show the edit and delete buttons only to the owners */}
             {userRole === 'owner' && (
-                <Box
-                    display="flex"
-                    justifyContent="space-between"
-                    paddingX={2}
-                    paddingBottom={1}
-                >
-                    <Button variant="text" onClick={onEditClick}>
-                        Edit
+                <Box display="flex" gap={1}>
+                    <Button variant="text" onClick={onEditClick} fullWidth>
+                        <Typography variant="button" textTransform="none">
+                            {' '}
+                            Edit
+                        </Typography>
                     </Button>
-                    <Button variant="error" onClick={onDelete}>
-                        Delete
+                    <Button variant="error" onClick={onDelete} fullWidth>
+                        <Typography variant="button" textTransform="none">
+                            {' '}
+                            Delete
+                        </Typography>
                     </Button>
                 </Box>
             )}

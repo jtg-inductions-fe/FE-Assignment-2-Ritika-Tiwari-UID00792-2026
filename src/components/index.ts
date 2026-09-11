@@ -10,3 +10,4 @@ export * from './SignUpForm/SingUpForm.component';
 export * from './LoginForm/LoginForm.component';
 export * from './SearchBar/SearchBar.component';
 export * from './RestaurantCard/RestaurantCard.component';
+export * from './RestaurantModal/RestaurantModal.component';

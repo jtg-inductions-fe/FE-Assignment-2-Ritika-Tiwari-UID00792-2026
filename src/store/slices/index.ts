@@ -1,2 +1,2 @@
-export * from './authSlice';
-export * from './restaurantSlice';
+export * from './auth/authSlice';
+export * from './restaurant/restaurantSlice';
