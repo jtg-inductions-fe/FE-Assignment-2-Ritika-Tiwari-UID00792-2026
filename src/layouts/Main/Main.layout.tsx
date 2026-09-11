@@ -1,10 +1,10 @@
 import React from 'react';
 
 import { Outlet } from 'react-router-dom';
-import { useAppDispatch, useAppSelector, fetchUsers } from '@store';
 
 import { ErrorBoundary } from '@components';
 import { Header } from '@containers';
+import { fetchUsers,useAppDispatch, useAppSelector } from '@store';
 
 export const Main = () => {
     const dispatch = useAppDispatch();

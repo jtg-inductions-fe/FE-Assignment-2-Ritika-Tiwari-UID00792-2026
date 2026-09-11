@@ -15,6 +15,7 @@ import {
     Radio,
     RadioGroup,
     Stack,
+    TextField,
     Typography,
 } from '@mui/material';
 
@@ -22,6 +23,7 @@ import Logo from '@assets/images/logo.webp';
 import ChefImage from '@assets/images/undraw_chef.webp';
 import { ResponsiveContainer, Snackbar } from '@components';
 import { useAuth } from '@hooks';
+import { ROUTES } from '@routes';
 
 import {
     LogoImage,
@@ -31,7 +33,6 @@ import {
 } from './SignUp.styles';
 import { SignupFormData } from './SignUp.types';
 import { SignupValidation } from './SignUp.validations';
-import { ROUTES } from '@routes';
 
 /**
  * Renders the signUp page.
@@ -122,7 +123,7 @@ export const SignUp = () => {
                             control={control}
                             rules={SignupValidation.name}
                             render={({ field }) => (
-                                <StyledTextField
+                                <TextField
                                     {...field}
                                     id="name"
                                     type="text"
@@ -141,7 +142,7 @@ export const SignUp = () => {
                             control={control}
                             rules={SignupValidation.email}
                             render={({ field }) => (
-                                <StyledTextField
+                                <TextField
                                     {...field}
                                     id="email"
                                     type="email"
@@ -160,7 +161,7 @@ export const SignUp = () => {
                             control={control}
                             rules={SignupValidation.password}
                             render={({ field }) => (
-                                <StyledTextField
+                                <TextField
                                     {...field}
                                     id="password"
                                     type={showPassword ? 'text' : 'password'}
@@ -203,7 +204,7 @@ export const SignUp = () => {
                                     'Passwords do not match',
                             }}
                             render={({ field }) => (
-                                <StyledTextField
+                                <TextField
                                     {...field}
                                     id="confirmPassword"
                                     type={

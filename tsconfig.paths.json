@@ -8,16 +8,11 @@
             "@components": ["components/index"],
             "@pages": ["pages/index"],
             "@layouts": ["layouts/index"],
-<<<<<<< HEAD
             "@routes": ["routes/index"],
             "@types": ["types/index"],
             "@containers": ["containers/index"],
             "@hooks": ["hooks/index"],
             "@store": ["store/index"]
-=======
-            "@mock/*": ["../public/mock/*"],
-            "@hook": ["hooks/index"]
->>>>>>> 6dc3aa1 ([RT_A2_03]: feat: Add the useLogin custom hook for the login.)
         }
     }
 }

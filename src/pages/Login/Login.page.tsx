@@ -19,17 +19,16 @@ import Logo from '@assets/images/logo.webp';
 import ChefImage from '@assets/images/undraw_chef.webp';
 import { ResponsiveContainer } from '@components';
 import { useAuth } from '@hooks';
+import { ROUTES } from '@routes';
 
 import {
     LogoImage,
     StyledBoxInner,
     StyledBoxOuter,
     StyledImage,
-    StyledTextField,
 } from './Login.styles';
 import { LoginFormData } from './Login.types';
 import { LoginValidation } from './Login.validations';
-import { ROUTES } from '@routes';
 
 /**
  * Renders the Login page.
@@ -110,7 +109,7 @@ export const Login = (): JSX.Element => {
                             control={control}
                             rules={LoginValidation.email}
                             render={({ field }) => (
-                                <StyledTextField
+                                <TextField
                                     {...field}
                                     id="email"
                                     type="email"
@@ -128,7 +127,7 @@ export const Login = (): JSX.Element => {
                             control={control}
                             rules={LoginValidation.password}
                             render={({ field }) => (
-                                <StyledTextField
+                                <TextField
                                     {...field}
                                     id="password"
                                     type={showPassword ? 'text' : 'password'}
