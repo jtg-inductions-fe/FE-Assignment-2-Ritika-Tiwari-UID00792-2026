@@ -16,6 +16,9 @@ const initialState: AuthState = {
     isLoggedIn: localStorage.getItem('isLoggedIn') === 'true',
 };
 
+/** Fetches the list of all registered users list from the mock data.
+ * @return Promise<User> a promise that resolves to an array of user objects.
+ */
 export const fetchUsers = createAsyncThunk('auth/fetchUsers', async () => {
     const response = await fetch('/mock/users.json');
     if (!response.ok) {

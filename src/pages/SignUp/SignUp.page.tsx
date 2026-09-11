@@ -24,6 +24,7 @@ import ChefImage from '@assets/images/undraw_chef.webp';
 import { ResponsiveContainer, Snackbar } from '@components';
 import { useAuth } from '@hooks';
 import { ROUTES } from '@routes';
+import { theme } from '@theme';
 
 import {
     LogoImage,
@@ -270,7 +271,7 @@ export const SignUp = () => {
                             {isSubmitting ? 'Submitting...' : 'Sign up'}
                         </Button>
 
-                        <Box display="inline-flex" gap={1}>
+                        <Box display="inline-flex" gap={theme.spacing(1)}>
                             <Typography variant="body2" fontWeight="regular">
                                 Already have an account?
                             </Typography>

@@ -20,6 +20,7 @@ import ChefImage from '@assets/images/undraw_chef.webp';
 import { ResponsiveContainer } from '@components';
 import { useAuth } from '@hooks';
 import { ROUTES } from '@routes';
+import { theme } from '@theme';
 
 import {
     LogoImage,
@@ -168,7 +169,7 @@ export const Login = (): JSX.Element => {
                             {isSubmitting ? 'Submitting...' : 'Login'}
                         </Button>
 
-                        <Box display="inline-flex" gap={1}>
+                        <Box display="inline-flex" gap={theme.spacing(1.6)}>
                             <Typography variant="body2" fontWeight="regular">
                                 Don&apos;t have an account ?
                             </Typography>

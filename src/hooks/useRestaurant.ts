@@ -16,6 +16,7 @@ import {
 } from '@store';
 import { Restaurant } from '@types';
 
+/**Custom hook to manage and provide restaurant data. */
 export const useRestaurant = () => {
     const dispatch = useAppDispatch();
     const { fetchUser } = useAuth();
@@ -26,18 +27,18 @@ export const useRestaurant = () => {
         (state) => state.restaurant,
     );
 
-    // Local state for UI search terms and active filter categories
+    // Local state for UI search terms and active filter categories.
     const [searchTerm, setSearchTerm] = useState('');
     const [activeCategory, setActiveCategory] = useState('');
 
-    // Fetch data from mock json on mount or user credential changes
+    // Fetch data from mock json on mount and convert the variables to camel case.
     useEffect(() => {
         const fetchData = async () => {
             try {
                 dispatch(setLoading(true));
                 dispatch(setError(null));
 
-                const response = await fetch('mock/restaurants.json');
+                const response = await fetch('/mock/restaurants.json');
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -72,7 +73,7 @@ export const useRestaurant = () => {
         void fetchData();
     }, [dispatch, registeredUser?.id, registeredUser?.role]);
 
-    // Synchronize filters when search terms, categories or base data shifts
+    // Synchronize filters when search terms, categories or  data changes.
     useEffect(() => {
         const filtered = restaurants.filter((restaurant) => {
             const matchesSearch = restaurant.name
@@ -89,27 +90,44 @@ export const useRestaurant = () => {
         dispatch(setFilteredRestaurantsView(filtered));
     }, [restaurants, searchTerm, activeCategory, dispatch]);
 
-    // Category toggling handler
+    /** Callback hook to handle filter toggle (veg/non-veg).
+     * @param category- take the category type (veg/non-veg).
+     */
     const handleFilterToggle = useCallback((category: string) => {
         setActiveCategory((prev) => (prev === category ? '' : category));
     }, []);
 
+    /** Function to handle add new restaurant in the redux store.
+     * @param data- takes the restaurant data.
+     */
     const handleAddRestaurant = (data: Restaurant) => {
         if (data) {
             dispatch(addRestaurant(data));
         }
     };
+
+    /** Function to handle edit existing restaurant in the redux store.
+     * @param data- takes the restaurant data.
+     */
     const handleEditRestaurant = (data: Restaurant) => {
         if (data) {
             dispatch(editRestaurant(data));
         }
     };
+
+    /** Function to handle delete restaurant in the redux store.
+     * @param restaurantId- takes the restaurant id to delete the restaurant.
+     */
     const handleDeleteRestaurant = (restaurantId: string) => {
         if (restaurantId) {
             dispatch(deleteRestaurant(restaurantId));
         }
     };
 
+    /** Function to check whether restaurant is closed or not based on the closing time.
+     * @param closingTime- takes the closing time of restaurant.
+     * @returns true/false
+     */
     const isRestaurantClosed = (closingTime: string): boolean => {
         const formatter = new Intl.DateTimeFormat('en-US', {
             timeZone: 'Asia/Kolkata',
