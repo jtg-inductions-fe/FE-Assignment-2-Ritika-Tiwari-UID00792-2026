@@ -33,6 +33,7 @@ import {
 } from './Header.styles';
 import { HeaderProps } from './Header.types';
 import { ConfirmationDialog } from '../ConfirmationDialog/ConfirmationDialog.component';
+import { useAuth } from '@hooks';
 
 /**
  * Header Component

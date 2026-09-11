@@ -12,10 +12,7 @@ import {
 } from './RestaurantCard.styles';
 import { RestaurantProps } from './RestaurantCard.types';
 
-export default function RestaurantCard({
-    restaurant,
-    userRole,
-}: RestaurantProps) {
+export default function RestaurantCard({ restaurant, userRole, onEditClick }: RestaurantProps ) {
     return (
         <StyledCard>
             <CardActionArea>
@@ -45,15 +42,15 @@ export default function RestaurantCard({
             </CardActionArea>
 
             {userRole === 'owner' && (
-                <Box
-                    display="flex"
-                    justifyContent="space-between"
-                    paddingX={2}
+                <Box 
+                    display="flex" 
+                    justifyContent="space-between" 
+                    paddingX={2} 
                     paddingBottom={2}
                     marginTop={1}
                 >
-                    <Button variant="text">Edit</Button>
-                    <Button variant="error">Delete</Button>
+                    <Button variant="text" onClick={onEditClick}>Edit</Button>
+                    <Button color="error" variant="text">Delete</Button>
                 </Box>
             )}
         </StyledCard>
