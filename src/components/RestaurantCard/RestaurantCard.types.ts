@@ -5,4 +5,5 @@ export interface RestaurantProps {
     userRole: string | undefined;
     onEditClick: () => void;
     onDelete: () => void;
+    isRestaurantClosed: boolean;
 }

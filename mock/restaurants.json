@@ -5,7 +5,7 @@
         "name": "The Green Garden",
         "description": "A premium plant-based eatery serving fresh salads, avocado toasts, quinoa bowls, and organic cold-pressed juices.",
         "opening_time": "08:00 AM",
-        "closing_time": "09:00 PM",
+        "closing_time": "5:32 PM",
         "address": "123 Maple Street, Downtown District",
         "image_url": "/src/assets/images/food-image/food-image1.webp",
         "type": "veg"

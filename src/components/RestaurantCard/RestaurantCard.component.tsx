@@ -2,11 +2,13 @@ import { Box, Button, CardActionArea } from '@mui/material';
 
 import nonVegIndicator from '@assets/images/non-veg-indicator.webp';
 import vegIndicator from '@assets/images/veg-indicator.webp';
+import closedTag from '@assets/images/closed-restaurant.webp';
 
 import {
     StyledCard,
     StyledCardContent,
     StyledCardMedia,
+    StyledClosedTag,
     StyledDescription,
     StyledImageIndicator,
     StyledTitle,
@@ -18,6 +20,7 @@ export default function RestaurantCard({
     userRole,
     onEditClick,
     onDelete,
+    isRestaurantClosed,
 }: RestaurantProps) {
     return (
         <StyledCard>
@@ -37,6 +40,15 @@ export default function RestaurantCard({
                     }
                     alt={restaurant.type}
                 />
+                {isRestaurantClosed && (
+                    <StyledClosedTag
+                        component="img"
+                        height="240"
+                        image={closedTag}
+                        alt="Restaurant is closed"
+                    />
+                )}
+
                 <StyledCardContent>
                     <StyledTitle gutterBottom variant="subtitle1">
                         {restaurant.name}

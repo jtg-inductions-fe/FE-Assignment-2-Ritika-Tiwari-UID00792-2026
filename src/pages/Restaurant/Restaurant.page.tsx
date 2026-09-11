@@ -30,6 +30,7 @@ export const Restaurant = () => {
         handleFilterToggle,
         userRole,
         handleDeleteRestaurant,
+        isRestaurantClosed,
     } = useRestaurant();
 
     // Modal Control States
@@ -68,7 +69,7 @@ export const Restaurant = () => {
                 handleDeleteRestaurant(selectedRestaurantID);
                 setIsDialogOpen(true);
             } catch (err) {
-                if(err){
+                if (err) {
                     setIsSnackbarOpen(true);
                 }
             }
@@ -197,6 +198,9 @@ export const Restaurant = () => {
                             onDelete={() =>
                                 handleOnDelete(restaurant.restaurantId)
                             }
+                            isRestaurantClosed={isRestaurantClosed(
+                                restaurant.closingTime,
+                            )}
                         />
                     ))}
             </Box>
