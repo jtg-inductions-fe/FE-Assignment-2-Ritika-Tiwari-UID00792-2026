@@ -1,4 +1,4 @@
-import { CardActionArea, Typography } from '@mui/material';
+import { Box, Button, CardActionArea, Typography } from '@mui/material';
 
 import nonVegIndicator from '@assets/images/non-veg-indicator.webp';
 import vegIndicator from '@assets/images/veg-indicator.webp';
@@ -14,9 +14,8 @@ import { RestaurantProps } from './RestaurantCard.types';
 
 export default function RestaurantCard({
     restaurant,
-}: {
-    restaurant: RestaurantProps;
-}) {
+    userRole,
+}: RestaurantProps) {
     return (
         <StyledCard>
             <CardActionArea>
@@ -44,6 +43,19 @@ export default function RestaurantCard({
                     </StyledDescription>
                 </StyledCardContent>
             </CardActionArea>
+
+            {userRole === 'owner' && (
+                <Box
+                    display="flex"
+                    justifyContent="space-between"
+                    paddingX={2}
+                    paddingBottom={2}
+                    marginTop={1}
+                >
+                    <Button variant="text">Edit</Button>
+                    <Button variant="error">Delete</Button>
+                </Box>
+            )}
         </StyledCard>
     );
 }
