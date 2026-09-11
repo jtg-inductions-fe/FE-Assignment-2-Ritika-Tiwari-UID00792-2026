@@ -22,9 +22,8 @@ const restaurantSlice = createSlice({
     reducers: {
         setRestaurants: (state, action: PayloadAction<Restaurant[]>) => {
             state.restaurants = action.payload;
-            state.filteredRestaurants = action.payload; // Sets both initially
+            state.filteredRestaurants = action.payload;
         },
-        // FIXED: Only sets the filtered view, preserves master 'restaurants' array
         setFilteredRestaurantsView: (
             state,
             action: PayloadAction<Restaurant[]>,
@@ -49,8 +48,8 @@ const restaurantSlice = createSlice({
                 state.filteredRestaurants[filteredIndex] = action.payload;
             }
         },
-        // FIXED: Changed logic to explicitly remove items and added proper return conditions
-        deleteRestaurants: (state, action: PayloadAction<string>) => {
+
+        deleteRestaurant: (state, action: PayloadAction<string>) => {
             const idToDelete = action.payload;
             state.restaurants = state.restaurants.filter(
                 (r) => r.restaurantId !== idToDelete,
@@ -71,7 +70,7 @@ const restaurantSlice = createSlice({
 export const {
     setRestaurants,
     addRestaurant,
-    deleteRestaurants,
+    deleteRestaurant,
     editRestaurant,
     setFilteredRestaurantsView,
     setLoading,

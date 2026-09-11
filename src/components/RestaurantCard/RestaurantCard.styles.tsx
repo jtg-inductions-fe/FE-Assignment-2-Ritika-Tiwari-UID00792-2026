@@ -10,10 +10,15 @@ export const StyledCard = styled(Card)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
     gap: theme.spacing(2),
-    maxWidth: 345,
     width: '40%',
-    backgroundColor: theme.palette.primary.main,
+    // backgroundColor: theme.palette.primary.main,
     borderRadius: theme.spacing(2),
+    [theme.breakpoints.up('md')]: {
+        width: '30%',
+    },
+    [theme.breakpoints.up('lg')]: {
+        width: '20%',
+    },
 }));
 export const StyledCardMedia = styled(CardMedia)(({ theme }) => ({
     position: 'relative',
@@ -35,6 +40,9 @@ export const StyledCardContent = styled(CardContent)(({ theme }) => ({
     backgroundColor: theme.palette.background.default,
 }));
 
+export const StyledTitle = styled(Typography)(({ theme }) => ({
+    ...theme.mixins.lineClamp(1),
+}));
 export const StyledDescription = styled(Typography)(({ theme }) => ({
     ...theme.mixins.lineClamp(2),
 }));

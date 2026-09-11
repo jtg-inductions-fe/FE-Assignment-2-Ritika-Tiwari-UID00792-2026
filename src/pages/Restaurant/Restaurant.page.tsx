@@ -5,18 +5,20 @@ import RestaurantCard from 'components/RestaurantCard/RestaurantCard.component';
 import AddIcon from '@mui/icons-material/Add';
 import { Box, Button, Chip, Fab, useMediaQuery } from '@mui/material';
 
+import { Snackbar } from '@components';
 import {
+    ConfirmationDialog,
     LoadingCardSkeleton,
     NullStateCard,
     ResponsiveContainer,
     SearchBar,
 } from '@components';
 import { useRestaurant } from '@hooks';
+import { theme } from '@theme';
 
 import { AddRestaurantModal } from './AddRestaurantModal/AddRestaurantModal';
 import { FilterContainer, OuterContainer } from './Restaurant.styles';
 import { Restaurant as RestaurantData } from './Restaurant.types';
-import { theme } from '@theme';
 
 export const Restaurant = () => {
     const {
@@ -27,6 +29,7 @@ export const Restaurant = () => {
         setSearchTerm,
         handleFilterToggle,
         userRole,
+        handleDeleteRestaurant,
     } = useRestaurant();
 
     // Modal Control States
@@ -47,6 +50,41 @@ export const Restaurant = () => {
     const handleCloseModal = () => {
         setIsModalOpen(false);
         setEditingRestaurant(null);
+    };
+
+    const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+    const [selectedRestaurantID, setSelectedRestaurantID] =
+        useState<string>('');
+    const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
+
+    /**
+     * Handles the confirmation event from the confirmation dialog.
+     * @param confirmation - A boolean value defining user confirmation from the dialog.
+     */
+    const handleSubmit = (confirmation: boolean) => {
+        setIsDialogOpen(false);
+        if (confirmation) {
+            try {
+                handleDeleteRestaurant(selectedRestaurantID);
+                setIsDialogOpen(true);
+            } catch (err) {
+                if(err){
+                    setIsSnackbarOpen(true);
+                }
+            }
+        }
+    };
+
+    /**
+     * Function to handle close event of confirmation dialog.
+     */
+    const handleClose = () => {
+        setIsDialogOpen(false);
+    };
+
+    const handleOnDelete = (restaurantId: string) => {
+        setIsDialogOpen(true);
+        setSelectedRestaurantID(restaurantId);
     };
 
     // Returns true if screen width is smaller than the 'md' breakpoint.
@@ -143,7 +181,7 @@ export const Restaurant = () => {
                         description={
                             error
                                 ? 'Failed to load data.'
-                                : 'No restaurants found matching your criteria.'
+                                : 'No restaurants found, matching your criteria.'
                         }
                     />
                 )}
@@ -156,6 +194,9 @@ export const Restaurant = () => {
                             restaurant={restaurant}
                             userRole={userRole}
                             onEditClick={() => handleOpenEditModal(restaurant)}
+                            onDelete={() =>
+                                handleOnDelete(restaurant.restaurantId)
+                            }
                         />
                     ))}
             </Box>
@@ -166,6 +207,20 @@ export const Restaurant = () => {
                 onClose={handleCloseModal}
                 ownerId="current_owner_id"
                 restaurantToEdit={editingRestaurant}
+            />
+            <ConfirmationDialog
+                open={isDialogOpen}
+                onClose={handleClose}
+                onSubmit={handleSubmit}
+                title="Confirmation Dialog"
+                description="Are you sure you want to Delete?"
+            />
+            <Snackbar
+                open={isSnackbarOpen}
+                autoHideDuration={2000}
+                onClose={() => setIsSnackbarOpen(false)}
+                message="Some Error Occurred, Try later."
+                state="error"
             />
         </ResponsiveContainer>
     );
