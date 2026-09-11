@@ -1,10 +1,16 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import camelcaseKeys from 'camelcase-keys';
-import { Restaurant as RestaurantData } from 'pages/Restaurant/Restaurant.types';
+import {
+    Restaurant,
+    Restaurant as RestaurantData,
+} from 'pages/Restaurant/Restaurant.types';
 
 import { useAuth } from '@hooks';
 import {
+    addRestaurant,
+    deleteRestaurant,
+    editRestaurant,
     setError,
     setFilteredRestaurantsView,
     setLoading,
@@ -91,6 +97,22 @@ export const useRestaurant = () => {
         setActiveCategory((prev) => (prev === category ? '' : category));
     }, []);
 
+    const handleAddRestaurant = (data: Restaurant) => {
+        if (data) {
+            dispatch(addRestaurant(data));
+        }
+    };
+    const handleEditRestaurant = (data: Restaurant) => {
+        if (data) {
+            dispatch(editRestaurant(data));
+        }
+    };
+    const handleDeleteRestaurant = (restaurantId: string) => {
+        if (restaurantId) {
+            dispatch(deleteRestaurant(restaurantId));
+        }
+    };
+
     return {
         filteredRestaurants,
         loading,
@@ -100,5 +122,8 @@ export const useRestaurant = () => {
         activeCategory,
         handleFilterToggle,
         userRole: registeredUser?.role,
+        handleAddRestaurant,
+        handleEditRestaurant,
+        handleDeleteRestaurant,
     };
 };

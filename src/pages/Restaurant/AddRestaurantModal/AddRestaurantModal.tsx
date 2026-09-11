@@ -1,7 +1,6 @@
 import { JSX, useEffect } from 'react';
 
 import { Controller, useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
 
 import CloseIcon from '@mui/icons-material/Close';
 import {
@@ -14,14 +13,12 @@ import {
     Typography,
 } from '@mui/material';
 
-import { addRestaurant, editRestaurant } from '@store';
+import { useRestaurant } from '@hooks';
 
-import { Restaurant as RestaurantData } from '../Restaurant.types';
-import { RestaurantValidation } from '../Restaurant.validations';
-import { AddRestaurantModalProps } from './AddRestaurantModal.types';
 import { StyledModal } from './AddRestaurantModal.styles';
-
-type RestaurantFormData = Omit<RestaurantData, 'restaurantId' | 'ownerId'>;
+import { AddRestaurantModalProps } from './AddRestaurantModal.types';
+import { Restaurant, Restaurant as RestaurantData } from '../Restaurant.types';
+import { RestaurantValidation } from '../Restaurant.validations';
 
 export const AddRestaurantModal = ({
     open,
@@ -29,7 +26,6 @@ export const AddRestaurantModal = ({
     ownerId,
     restaurantToEdit,
 }: AddRestaurantModalProps): JSX.Element => {
-    const dispatch = useDispatch();
     const isEditMode = Boolean(restaurantToEdit);
 
     const {
@@ -37,7 +33,7 @@ export const AddRestaurantModal = ({
         handleSubmit,
         reset,
         formState: { isSubmitting, errors },
-    } = useForm<RestaurantFormData>({
+    } = useForm<Restaurant>({
         defaultValues: {
             name: '',
             description: '',
@@ -48,6 +44,8 @@ export const AddRestaurantModal = ({
             type: '',
         },
     });
+
+    const { handleAddRestaurant, handleEditRestaurant } = useRestaurant();
 
     useEffect(() => {
         if (restaurantToEdit) {
@@ -73,20 +71,20 @@ export const AddRestaurantModal = ({
         }
     }, [restaurantToEdit, reset, open]);
 
-    const onSubmit = (data: RestaurantFormData) => {
+    const onSubmit = (data: Restaurant) => {
         if (isEditMode && restaurantToEdit) {
             const updatedRestaurant: RestaurantData = {
                 ...restaurantToEdit,
                 ...data,
             };
-            dispatch(editRestaurant(updatedRestaurant));
+            handleEditRestaurant(updatedRestaurant);
         } else {
             const newRestaurant: RestaurantData = {
                 ...data,
-                restaurantId: `rest_${Date.now()}`,
+                restaurantId: crypto.randomUUID(),
                 ownerId,
             };
-            dispatch(addRestaurant(newRestaurant));
+            handleAddRestaurant(newRestaurant);
         }
         handleCancel();
     };

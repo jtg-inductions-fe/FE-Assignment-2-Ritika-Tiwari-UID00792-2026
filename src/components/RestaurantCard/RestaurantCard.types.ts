@@ -4,4 +4,5 @@ export interface RestaurantProps {
     restaurant: Restaurant;
     userRole: string | undefined;
     onEditClick: () => void;
+    onDelete: () => void;
 }

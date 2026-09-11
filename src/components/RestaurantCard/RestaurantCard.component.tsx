@@ -1,4 +1,4 @@
-import { Box, Button, CardActionArea, Typography } from '@mui/material';
+import { Box, Button, CardActionArea } from '@mui/material';
 
 import nonVegIndicator from '@assets/images/non-veg-indicator.webp';
 import vegIndicator from '@assets/images/veg-indicator.webp';
@@ -9,6 +9,7 @@ import {
     StyledCardMedia,
     StyledDescription,
     StyledImageIndicator,
+    StyledTitle,
 } from './RestaurantCard.styles';
 import { RestaurantProps } from './RestaurantCard.types';
 
@@ -16,6 +17,7 @@ export default function RestaurantCard({
     restaurant,
     userRole,
     onEditClick,
+    onDelete,
 }: RestaurantProps) {
     return (
         <StyledCard>
@@ -36,9 +38,9 @@ export default function RestaurantCard({
                     alt={restaurant.type}
                 />
                 <StyledCardContent>
-                    <Typography gutterBottom variant="h5" component="div">
+                    <StyledTitle gutterBottom variant="subtitle1">
                         {restaurant.name}
-                    </Typography>
+                    </StyledTitle>
                     <StyledDescription variant="body2">
                         {restaurant.description}
                     </StyledDescription>
@@ -50,13 +52,12 @@ export default function RestaurantCard({
                     display="flex"
                     justifyContent="space-between"
                     paddingX={2}
-                    paddingBottom={2}
-                    marginTop={1}
+                    paddingBottom={1}
                 >
                     <Button variant="text" onClick={onEditClick}>
                         Edit
                     </Button>
-                    <Button color="error" variant="text">
+                    <Button variant="error" onClick={onDelete}>
                         Delete
                     </Button>
                 </Box>
