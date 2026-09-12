@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 import camelcaseKeys from 'camelcase-keys';
 
-import { useAuth } from '@hooks';
+import { useAuth, useDebounce } from '@hooks';
 import {
     addRestaurant,
     deleteRestaurant,
@@ -30,6 +30,9 @@ export const useRestaurant = () => {
     // Local state for UI search terms and active filter categories.
     const [searchTerm, setSearchTerm] = useState('');
     const [activeCategory, setActiveCategory] = useState('');
+
+    // Use the debouncing on the searchTerm to prevent multiple search request.
+    const debouncedSearchTerm = useDebounce(searchTerm, 1000);
 
     // Fetch data from mock json on mount and convert the variables to camel case.
     useEffect(() => {
@@ -78,7 +81,7 @@ export const useRestaurant = () => {
         const filtered = restaurants.filter((restaurant) => {
             const matchesSearch = restaurant.name
                 .toLowerCase()
-                .includes(searchTerm.toLowerCase().trim());
+                .includes(debouncedSearchTerm.toLowerCase().trim());
 
             const matchesCategory = activeCategory
                 ? restaurant.type === activeCategory
@@ -88,7 +91,7 @@ export const useRestaurant = () => {
         });
 
         dispatch(setFilteredRestaurantsView(filtered));
-    }, [restaurants, searchTerm, activeCategory, dispatch]);
+    }, [restaurants, debouncedSearchTerm, activeCategory, dispatch]);
 
     /** Callback hook to handle filter toggle (veg/non-veg).
      * @param category- take the category type (veg/non-veg).
