@@ -257,8 +257,6 @@ export const RestaurantModal = ({
                                     error={!!errors.openingTime}
                                     helperText={errors.openingTime?.message}
                                     fullWidth
-                                    onClick={(e) => e.stopPropagation()}
-                                    onMouseDown={(e) => e.stopPropagation()}
                                 />
                             )}
                         />
@@ -276,8 +274,6 @@ export const RestaurantModal = ({
                                     error={!!errors.closingTime}
                                     helperText={errors.closingTime?.message}
                                     fullWidth
-                                    onClick={(e) => e.stopPropagation()}
-                                    onMouseDown={(e) => e.stopPropagation()}
                                 />
                             )}
                         />
