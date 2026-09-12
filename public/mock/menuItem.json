@@ -1,0 +1,94 @@
+{
+    "menu_items": [
+        {
+            "restaurant_id": "8f3b2c1a-4d6e-4a7b-8c9d-0e1f2a3b4c5d",
+            "item_id": "81277b12-768a-4422-9f60-072710b6346e",
+            "name": "Burger",
+            "description": "Delicious flame-grilled beef burger with fresh lettuce and tomato.",
+            "image_url": "/-ifoodmage/burger.webp",
+            "price": 100,
+            "stock": 50
+        },
+        {
+            "restaurant_id": "8f3b2c1a-4d6e-4a7b-8c9d-0e1f2a3b4c5d",
+            "item_id": "9f08425d-3cdd-40b1-8e88-8dbce94fa5f3",
+            "name": "Cheeseburger",
+            "description": "Classic burger topped with melted cheddar cheese, pickles, and mustard.",
+            "image_url": "/food-image/cheeseburger.webp",
+            "price": 120,
+            "stock": 45
+        },
+        {
+            "restaurant_id": "8f3b2c1a-4d6e-4a7b-8c9d-0e1f2a3b4c5d",
+            "item_id": "963114f1-8d6c-4719-91f8-864e2257d747",
+            "name": "Bacon Burger",
+            "description": "Savory burger loaded with crispy bacon stripes and smoky BBQ sauce.",
+            "image_url": "/food-image/bacon_burger.webp",
+            "price": 140,
+            "stock": 30
+        },
+        {
+            "restaurant_id": "8f3b2c1a-4d6e-4a7b-8c9d-0e1f2a3b4c5d",
+            "item_id": "3027ddf6-02c0-4592-9e6e-93c64963dc86",
+            "name": "Veggie Burger",
+            "description": "Plant-based patty served with ffoodh avocado, sprouts, and vegan mayo.",
+            "image_url": "/food-image/veggie_burger.webp",
+            "price": 110,
+            "stock": 40
+        },
+        {
+            "restaurant_id": "8f3b2c1a-4d6e-4a7b-8c9d-0e1f2a3b4c5d",
+            "item_id": "e4da081a-a040-40f2-a008-45faaa14b8cd",
+            "name": "French Fries",
+            "description": "Golden, crispy potato fries lightly seasoned with sea salt.",
+            "image_url": "/food-image/fries.webp",
+            "price": 50,
+            "stock": 100
+        },
+        {
+            "restaurant_id": "8f3b2c1a-4d6e-4a7b-8c9d-0e1f2a3b4c5d",
+            "item_id": "57502138-dd3c-4c11-a0be-db6f12ee13ba",
+            "name": "Onion Rings",
+            "description": "Crispy batter-fried onion rings served with a tangy dipping sauce.",
+            "image_url": "/food-image/onion_rings.webp",
+            "price": 60,
+            "stock": 60
+        },
+        {
+            "restaurant_id": "8f3b2c1a-4d6e-4a7b-8c9d-0e1f2a3b4c5d",
+            "item_id": "5814f9d0-3f13-4f5e-9402-c4e0b090a302",
+            "name": "Chicken Nuggets",
+            "description": "Tender white-meat chicken nuggets with a crispy golden coating.",
+            "image_url": "/food-image/nuggets.webp",
+            "price": 80,
+            "stock": 75
+        },
+        {
+            "restaurant_id": "8f3b2c1a-4d6e-4a7b-8c9d-0e1f2a3b4c5d",
+            "item_id": "75f02865-b3b9-429a-adf7-9d0e18b7f845",
+            "name": "Chocolate Milkshake",
+            "description": "Rich and creamy chocolate milkshake topped with whipped cream.",
+            "image_url": "/food-image/chocolate_shake.webp",
+            "price": 70,
+            "stock": 35
+        },
+        {
+            "restaurant_id": "8f3b2c1a-4d6e-4a7b-8c9d-0e1f2a3b4c5d",
+            "item_id": "8d8f581c-a2b3-4e64-b486-9f9b76dbdac5",
+            "name": "Vanilla Milkshake",
+            "description": "Classic smooth vanilla bean milkshake made with real ice cream.",
+            "image_url": "/food-image/vanilla_shake.webp",
+            "price": 70,
+            "stock": 30
+        },
+        {
+            "restaurant_id": "8f3b2c1a-4d6e-4a7b-8c9d-0e1f2a3b4c5d",
+            "item_id": "21672263-ef13-45fd-8995-c1a5a9ef0763",
+            "name": "Soft Drink",
+            "description": "Reffoodhing ice-cold carbonated beverage of your choice.",
+            "image_url": "/food-image/soft_drink.webp",
+            "price": 40,
+            "stock": 200
+        }
+    ]
+}
