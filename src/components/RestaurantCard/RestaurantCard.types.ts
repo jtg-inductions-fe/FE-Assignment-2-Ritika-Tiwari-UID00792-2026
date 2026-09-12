@@ -9,6 +9,8 @@ export interface RestaurantProps {
     onEditClick: () => void;
     /** Callback function to handle the delete functionality. */
     onDelete: () => void;
+    /** Callback function to handle the click on the restaurant. */
+    onRestaurantClick: () => void;
     /** variable states whether the restaurant open or not. */
     isRestaurantClosed: boolean;
 }

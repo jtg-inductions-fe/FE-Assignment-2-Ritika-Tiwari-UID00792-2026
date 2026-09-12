@@ -5,7 +5,7 @@ export const ROUTES = {
     SING_UP: '/sign-up',
     LOGIN: '/login',
     RESTAURANT: '/restaurant',
-    MENU: '/menu',
+    MENU: '/menu/:restaurantId',
     CART: '/cart',
     ORDER_PORTAl: '/order-portal',
     NOT_FOUND_PAGE: '*',

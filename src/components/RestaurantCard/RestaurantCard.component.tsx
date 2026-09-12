@@ -28,12 +28,13 @@ export function RestaurantCard({
     userRole,
     onEditClick,
     onDelete,
+    onRestaurantClick,
     isRestaurantClosed,
 }: RestaurantProps) {
     // Handle the fallback case, if image is null or url is wrong.
     const [imgSrc, setImgSrc] = useState(restaurant.imageUrl || fallBackImage);
     return (
-        <StyledCard>
+        <StyledCard onClick={onRestaurantClick}>
             <CardActionArea>
                 <StyledCardMedia
                     component="img"
