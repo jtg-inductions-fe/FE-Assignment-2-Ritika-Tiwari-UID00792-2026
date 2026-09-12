@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import { useNavigate } from 'react-router-dom';
+
 import AddIcon from '@mui/icons-material/Add';
 import { Box, Button, Chip, Fab, useMediaQuery } from '@mui/material';
 
@@ -14,6 +16,7 @@ import {
     Snackbar,
 } from '@components';
 import { useRestaurant } from '@hooks';
+import { ROUTES } from '@routes';
 import { theme } from '@theme';
 import { Restaurant as RestaurantData } from '@types';
 
@@ -88,6 +91,7 @@ export const Restaurant = () => {
     const handleClose = () => {
         setIsDialogOpen(false);
     };
+
     /**
      * Function to handle delete restaurant event.
      * @param restaurantId - restaurant id is used to delete the selected restaurant.
@@ -99,6 +103,16 @@ export const Restaurant = () => {
 
     // Returns true if screen width is smaller than the 'md' breakpoint.
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
+    const navigate = useNavigate();
+
+    /**
+     * Function to handle click event on the restaurant card.
+     * @param restaurantId - restaurant id of clicked restaurant.
+     */
+    const handleRestaurantClick = (restaurantId: string) => {
+       void navigate(ROUTES.MENU.replace(':restaurantId', restaurantId));
+    };
 
     return (
         <ResponsiveContainer>
@@ -202,6 +216,9 @@ export const Restaurant = () => {
                             onEditClick={() => handleOpenEditModal(restaurant)}
                             onDelete={() =>
                                 handleOnDelete(restaurant.restaurantId)
+                            }
+                            onRestaurantClick={() =>
+                                handleRestaurantClick(restaurant.restaurantId)
                             }
                             isRestaurantClosed={isRestaurantClosed(
                                 restaurant.closingTime,
