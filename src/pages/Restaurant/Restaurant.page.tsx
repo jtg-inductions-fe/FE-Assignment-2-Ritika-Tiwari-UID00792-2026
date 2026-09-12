@@ -111,7 +111,7 @@ export const Restaurant = () => {
      * @param restaurantId - restaurant id of clicked restaurant.
      */
     const handleRestaurantClick = (restaurantId: string) => {
-       void navigate(ROUTES.MENU.replace(':restaurantId', restaurantId));
+        void navigate(ROUTES.MENU.replace(':restaurantId', restaurantId));
     };
 
     return (
@@ -185,10 +185,13 @@ export const Restaurant = () => {
                 gap={theme.spacing(2)}
                 alignItems="center"
                 justifyContent="center"
-                marginBlock={3.2}
+                marginBlock={theme.spacing(3.2)}
             >
                 {loading && (
                     <>
+                        <LoadingCardSkeleton />
+                        <LoadingCardSkeleton />
+                        <LoadingCardSkeleton />
                         <LoadingCardSkeleton />
                         <LoadingCardSkeleton />
                         <LoadingCardSkeleton />
@@ -197,7 +200,7 @@ export const Restaurant = () => {
 
                 {!loading && (error || filteredRestaurants.length === 0) && (
                     <NullStateCard
-                        title="Restaurant Page"
+                        title=""
                         description={
                             error
                                 ? 'Failed to load data.'
@@ -213,10 +216,14 @@ export const Restaurant = () => {
                             key={restaurant.restaurantId}
                             restaurant={restaurant}
                             userRole={userRole}
-                            onEditClick={() => handleOpenEditModal(restaurant)}
-                            onDelete={() =>
-                                handleOnDelete(restaurant.restaurantId)
-                            }
+                            onEditClick={(event) => {
+                                event.stopPropagation();
+                                handleOpenEditModal(restaurant);
+                            }}
+                            onDelete={(event) => {
+                                event.stopPropagation();
+                                handleOnDelete(restaurant.restaurantId);
+                            }}
                             onRestaurantClick={() =>
                                 handleRestaurantClick(restaurant.restaurantId)
                             }
