@@ -32,11 +32,11 @@ export const AppRoutes = createBrowserRouter([
                 element: <ProtectedRoutes />,
                 children: [
                     {
-                        index: true,
+                        path: ROUTES.HOME,
                         element: <Home />,
                     },
                     {
-                        path: ROUTES.RESTAURANT,
+                        index: true,
                         element: <Restaurant />,
                     },
                     {

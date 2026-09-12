@@ -22,7 +22,7 @@ export const StyledToolbar = styled(Toolbar)(({ theme }) => ({
 }));
 
 // Left branding alignment setup
-export const LogoContainer = styled('div')({
+export const LogoContainer = styled('div')(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     textDecoration: 'none',
@@ -31,7 +31,12 @@ export const LogoContainer = styled('div')({
         height: 24,
         objectFit: 'contain',
     },
-});
+    '&:focus-visible': {
+        outline: `2px solid ${theme.palette.primary.main}`,
+        outlineOffset: '2px',
+        backgroundColor: theme.palette.action.selected,
+    },
+}));
 
 // Right container wrapper grouping actions
 export const ActionsContainer = styled('nav')(({ theme }) => ({

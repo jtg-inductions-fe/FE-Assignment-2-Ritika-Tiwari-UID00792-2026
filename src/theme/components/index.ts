@@ -1,10 +1,10 @@
 import type { Components, Theme } from '@mui/material/styles';
 
 import InterBoldWOFF2 from '@assets/fonts/inter/Inter-Bold.woff2';
-// Local Font files
 import InterLightWOFF2 from '@assets/fonts/inter/Inter-Light.woff2';
 import InterMediumWOFF2 from '@assets/fonts/inter/Inter-Medium.woff2';
 import InterRegularWOFF2 from '@assets/fonts/inter/Inter-Regular.woff2';
+
 const fontFaceDeclarations = `
        @font-face {
         font-display: swap; 
@@ -45,14 +45,13 @@ export const components: Components<Theme> = {
             fontFaceDeclarations,
         },
     },
-
     MuiButton: {
         variants: [
             {
                 props: { variant: 'contained' },
                 style: ({ theme }) => ({
                     boxShadow: theme.shadows[2],
-                    padding: theme.spacing(1, 3),
+                    paddingInline: theme.spacing(1.6),
                     backgroundColor: theme.palette.primary.main,
                     color: theme.palette.primary.contrastText,
                     textTransform: 'none',
@@ -178,6 +177,19 @@ export const components: Components<Theme> = {
                 // Hover state - only when NOT in error
                 '&:not(.Mui-error):hover .MuiOutlinedInput-notchedOutline': {
                     borderColor: theme.palette.primary.main,
+                },
+            }),
+        },
+    },
+    MuiFab: {
+        styleOverrides: {
+            root: ({ theme }) => ({
+                backgroundColor: theme.palette.primary.main,
+                position: 'fixed',
+                bottom: 16,
+                right: 16,
+                '&:hover': {
+                    backgroundColor: theme.palette.primary.dark,
                 },
             }),
         },

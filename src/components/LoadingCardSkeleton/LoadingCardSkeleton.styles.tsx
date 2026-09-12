@@ -7,9 +7,9 @@ export const CardContainer = styled(Box)<BoxProps>(({ theme }) => ({
     gap: theme.spacing(2),
     padding: theme.spacing(2),
     maxWidth: 245,
+    width: '40%',
     border: `1px solid ${theme.palette.divider}`,
-    borderRadius: theme.shape.borderRadius || 8,
-    backgroundColor: theme.palette.background.paper,
+    borderRadius: theme.spacing(2),
 }));
 
 // Structural container holding text lines below the header/media section
@@ -22,7 +22,7 @@ export const CardBody = styled(Box)<BoxProps>(({ theme }) => ({
 
 // Base skeleton styling for consistent shimmer tinting
 export const BaseSkeleton = styled(Skeleton)<SkeletonProps>(({ theme }) => ({
-    backgroundColor: theme.palette.background.default,
+    borderRadius: theme.spacing(2),
     '&::after': {
         background: `linear-gradient(90deg, transparent, ${theme.palette.background.default}, transparent)`,
     },
