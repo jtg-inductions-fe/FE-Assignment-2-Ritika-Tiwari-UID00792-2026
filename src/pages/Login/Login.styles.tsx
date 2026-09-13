@@ -13,30 +13,15 @@ export const StyledBoxOuter = styled(Box)(({ theme }) => ({
         padding: theme.spacing(3),
     },
 }));
-export const StyledBoxInner = styled(Box)(({ theme }) => ({
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: theme.spacing(2),
-    backgroundColor: theme.palette.background.paper,
-    padding: 24,
-}));
-
-export const LogoImage = styled('img')(({ theme }) => ({
-    width: 32,
-    height: 32,
-    borderRadius: theme.shape.borderRadius,
-    objectFit: 'cover',
-}));
 
 export const StyledImage = styled('img')(({ theme }) => ({
     display: 'none',
-    width: '40%',
-    maxWidth: 400,
-    borderRadius: theme.shape.borderRadius,
-    objectFit: 'cover',
     [theme.breakpoints.up('md')]: {
+        width: '40%',
+        maxWidth: 400,
+        height: 'auto',
+        borderRadius: theme.shape.borderRadius,
+        objectFit: 'cover',
         display: 'inline',
     },
 }));

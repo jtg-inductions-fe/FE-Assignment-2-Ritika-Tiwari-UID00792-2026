@@ -79,14 +79,11 @@ export const Header = ({
      */
     const handleSubmit = (confirmation: boolean) => {
         setIsDialogOpen(false);
-        if (confirmation) {
-            try {
-                handleLogout();
-                void navigate(ROUTES.LOGIN);
-            } catch {
-                void navigate(ROUTES.ROOT);
-            }
+        if (!confirmation) {
+            return;
         }
+        handleLogout();
+        void navigate(ROUTES.LOGIN);
     };
 
     /**

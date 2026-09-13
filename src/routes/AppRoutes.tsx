@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 
-import { Login, SignUp } from '@pages';
 import { Main } from '@layouts';
+import { Login, SignUp } from '@pages';
 import {
     Cart,
     Home,

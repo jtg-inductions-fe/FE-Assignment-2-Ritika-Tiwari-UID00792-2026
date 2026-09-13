@@ -1,5 +1,5 @@
 import { LoginFormData } from 'components/LoginForm/LoginForm.types';
-import { SignUpFormData } from 'components/SignUpForm/signUpForm.types';
+import { SignUpFormData } from 'components/SignUpForm/SignUpForm.types';
 import { UseFormSetError } from 'react-hook-form';
 
 import { login, logout, signup, useAppDispatch, useAppSelector } from '@store';

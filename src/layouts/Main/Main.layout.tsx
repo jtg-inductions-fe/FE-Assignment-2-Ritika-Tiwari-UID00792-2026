@@ -2,6 +2,8 @@ import React from 'react';
 
 import { Outlet } from 'react-router-dom';
 
+import { Box } from '@mui/material';
+
 import { ErrorBoundary } from '@components';
 import { Header } from '@containers';
 import { fetchUsers } from '@services';
@@ -20,16 +22,16 @@ export const Main = () => {
     }, [authStatus, dispatch]);
 
     return (
-        <>
+        <Box display="flex" flexDirection="column" minHeight="100vh">
             <ErrorBoundary title="Something is wrong, we are fixing this.">
                 <Header />
             </ErrorBoundary>
-            <main>
+            <Box flex={1} display="flex" alignItems="center">
                 {/* Child routes render here */}
                 <ErrorBoundary title="Something is wrong, we are fixing this.">
                     <Outlet />
                 </ErrorBoundary>
-            </main>
-        </>
+            </Box>
+        </Box>
     );
 };

@@ -1,4 +1,4 @@
-import { SignUpFormData } from 'components/SignUpForm/signUpForm.types';
+import { SignUpFormData } from 'components/SignUpForm/SignUpForm.types';
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { fetchUsers } from '@services';

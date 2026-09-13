@@ -1,10 +1,11 @@
-import { TextFieldProps } from '@mui/material';
 import {
     FieldPath,
     FieldValues,
     RegisterOptions,
     UseControllerProps,
 } from 'react-hook-form';
+
+import { TextFieldProps } from '@mui/material';
 
 // This is a custom type template. It creates a rulebook for our text box.
 // It joins React Hook Form controls and Material-UI design settings together.

@@ -16,12 +16,12 @@ export const StyledBoxOuter = styled(Box)(({ theme }) => ({
 
 export const StyledImage = styled('img')(({ theme }) => ({
     display: 'none',
-    width: '40%',
-    maxWidth: 400,
-    height: 'auto',
-    borderRadius: theme.shape.borderRadius,
-    objectFit: 'cover',
     [theme.breakpoints.up('md')]: {
+        width: '40%',
+        maxWidth: 400,
+        height: 'auto',
+        borderRadius: theme.shape.borderRadius,
+        objectFit: 'cover',
         display: 'inline',
     },
 }));

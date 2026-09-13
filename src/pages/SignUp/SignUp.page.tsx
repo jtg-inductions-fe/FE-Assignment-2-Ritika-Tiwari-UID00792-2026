@@ -1,9 +1,8 @@
 import ChefImage from '@assets/images/undraw_chef.webp';
 import { ResponsiveContainer } from '@components';
+import { SignUp as SignUpContainer } from '@containers';
 
 import { StyledBoxOuter, StyledImage } from './SignUp.styles';
-import { Box } from '@mui/material';
-import { SignUp as SignUpContainer } from '@containers';
 
 /**
  * Renders the signUp page.
@@ -11,17 +10,9 @@ import { SignUp as SignUpContainer } from '@containers';
  */
 export const SignUp = () => (
     <ResponsiveContainer>
-        <Box
-            display="flex"
-            flexDirection="column"
-            justifyContent="center"
-            alignItems="center"
-            minHeight="100vh"
-        >
-            <StyledBoxOuter>
-                <SignUpContainer />
-                <StyledImage src={ChefImage} alt="Chef Image" />
-            </StyledBoxOuter>
-        </Box>
+        <StyledBoxOuter>
+            <SignUpContainer />
+            <StyledImage src={ChefImage} alt="Chef Image" />
+        </StyledBoxOuter>
     </ResponsiveContainer>
 );

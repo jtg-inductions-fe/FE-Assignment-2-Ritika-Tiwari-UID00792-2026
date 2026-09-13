@@ -12,6 +12,7 @@ export const Header = () => {
     const { fetchUser } = useAuth();
     const registeredUser = fetchUser();
     const cartCount = 4;
+
     // Selecting the current logged in state of the user from the redux store.
     const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
 

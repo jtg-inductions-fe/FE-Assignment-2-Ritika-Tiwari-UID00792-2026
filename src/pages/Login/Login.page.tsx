@@ -1,7 +1,6 @@
-import { Box } from '@mui/material';
-
 import ChefImage from '@assets/images/undraw_chef.webp';
 import { ResponsiveContainer } from '@components';
+import { Login as LoginContainer } from '@containers';
 
 import { StyledBoxOuter, StyledImage } from './Login.styles';
 
@@ -11,16 +10,9 @@ import { StyledBoxOuter, StyledImage } from './Login.styles';
  */
 export const Login = () => (
     <ResponsiveContainer>
-        <Box
-            display="flex"
-            flexDirection="column"
-            justifyContent="center"
-            alignItems="center"
-            minHeight="100vh"
-        >
-            <StyledBoxOuter>
-                <StyledImage src={ChefImage} alt="Chef Image" />
-            </StyledBoxOuter>
-        </Box>
+        <StyledBoxOuter>
+            <LoginContainer />
+            <StyledImage src={ChefImage} alt="Chef Image" />
+        </StyledBoxOuter>
     </ResponsiveContainer>
 );

@@ -1,11 +1,11 @@
 import { useState } from 'react';
 
-import { SignUpFormData } from 'components/SignUpForm/signUpForm.types';
+import { SignUpFormData } from 'components/SignUpForm/SignUpForm.types';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
-import { useAuth } from '@hooks';
 import { SignUpForm } from '@components';
+import { useAuth } from '@hooks';
 import { ROUTES } from '@routes';
 
 /**

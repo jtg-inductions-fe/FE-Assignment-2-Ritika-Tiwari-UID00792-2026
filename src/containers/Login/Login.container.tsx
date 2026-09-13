@@ -4,8 +4,8 @@ import { LoginFormData } from 'components/LoginForm/LoginForm.types';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
-import { useAuth } from '@hooks';
 import { LoginForm } from '@components';
+import { useAuth } from '@hooks';
 import { ROUTES } from '@routes';
 
 /**
