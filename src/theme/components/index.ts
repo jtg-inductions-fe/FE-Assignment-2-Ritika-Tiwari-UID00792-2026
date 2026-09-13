@@ -164,7 +164,7 @@ export const components: Components<Theme> = {
                 fontSize: theme.typography.body2.fontSize,
                 fontWeight: theme.typography.fontWeightRegular,
                 '&.Mui-error': {
-                    color: theme.palette.error,
+                    color: theme.palette.error.main,
                     fontSize: theme.typography.body2.fontSize,
                 },
             }),

@@ -1,15 +1,14 @@
 import { createBrowserRouter } from 'react-router-dom';
 
+import { Login, SignUp } from '@pages';
 import { Main } from '@layouts';
 import {
     Cart,
     Home,
-    Login,
     Menu,
     NotFoundPage,
     OrderPortal,
     Restaurant,
-    SignUp,
 } from '@pages';
 
 import { ROUTES } from './AppRoutes.constants';

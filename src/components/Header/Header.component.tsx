@@ -20,6 +20,7 @@ import {
 import logo from '@assets/images/logo.webp';
 import { ConfirmationDialog, ResponsiveContainer } from '@components';
 import { useAuth } from '@hooks';
+import { ROUTES } from '@routes';
 import { theme } from '@theme';
 
 import {
@@ -32,7 +33,6 @@ import {
     UserAvatar,
 } from './Header.styles';
 import { HeaderProps } from './Header.types';
-import { ROUTES } from '@routes';
 
 /**
  * Header Component
@@ -82,12 +82,9 @@ export const Header = ({
         if (confirmation) {
             try {
                 handleLogout();
-                setIsDialogOpen(true);
                 void navigate(ROUTES.LOGIN);
-            } catch (error) {
-                if (error) {
-                    void navigate(ROUTES.ROOT);
-                }
+            } catch {
+                void navigate(ROUTES.ROOT);
             }
         }
     };
@@ -170,7 +167,7 @@ export const Header = ({
                                     <StyledIconButton
                                         LinkComponent={NavLink}
                                         to={ROUTES.CART}
-                                        aria-label="4 items in cart"
+                                        aria-label={`${cartCount} items in cart`}
                                     >
                                         <Badge
                                             badgeContent={cartCount}

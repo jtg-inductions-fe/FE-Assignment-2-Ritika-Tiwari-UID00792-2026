@@ -1,9 +1,10 @@
-import { SignupFormData } from 'pages/SignUp/SignUp.types';
+import { SignUpFormData } from 'components/SignUpForm/signUpForm.types';
 
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { fetchUsers } from '@services';
+import { User } from '@types';
 
 import { AuthState } from './auth.types';
-import { User } from '@types';
 
 /**
  * Initialize the authentication state from localStorage
@@ -15,15 +16,6 @@ const initialState: AuthState = {
     status: 'idle',
     isLoggedIn: localStorage.getItem('isLoggedIn') === 'true',
 };
-
-export const fetchUsers = createAsyncThunk('auth/fetchUsers', async () => {
-    const response = await fetch('/mock/users.json');
-    if (!response.ok) {
-        throw new Error('Failed to fetch users');
-    }
-    const data: User[] = (await response.json()) as User[];
-    return data;
-});
 
 export const authSlice = createSlice({
     name: 'auth',
@@ -41,7 +33,7 @@ export const authSlice = createSlice({
         /**
          * Stores the newly registered user's information in Redux and marks the user as logged in.
          */
-        signup: (state, action: PayloadAction<SignupFormData>) => {
+        signup: (state, action: PayloadAction<SignUpFormData>) => {
             state.currentUser = action.payload;
             state.isLoggedIn = true;
             localStorage.setItem('isLoggedIn', 'true');
@@ -52,16 +44,22 @@ export const authSlice = createSlice({
          */
         logout: (state) => {
             state.isLoggedIn = false;
+            state.currentUser = null;
             localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('currentUser');
         },
     },
 
-    // Add extraReducers here to handle the async thunk lifecycle
+    /** Listeners for external async thunk lifecycle events (fetchUsers).
+     * Manages status updates and state population during network request cycles.
+     */
     extraReducers: (builder) => {
         builder
+            // Set a loading indicator flag while the fetch request is actively processing in the background.
             .addCase(fetchUsers.pending, (state) => {
                 state.status = 'pending';
             })
+            // On success, save the downloaded user  array data directly into the central redux state store.
             .addCase(
                 fetchUsers.fulfilled,
                 (state, action: PayloadAction<User[]>) => {
@@ -69,6 +67,7 @@ export const authSlice = createSlice({
                     state.users = action.payload;
                 },
             )
+            // Switch the status state marker to failed if an error or rejection occurs during the network trip.
             .addCase(fetchUsers.rejected, (state) => {
                 state.status = 'failed';
             });

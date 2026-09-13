@@ -1,7 +1,6 @@
-import { useAppSelector } from '@store';
-
 import { Header as HeaderComponent } from '@components';
 import { useAuth } from '@hooks';
+import { useAppSelector } from '@store';
 
 /**
  * Header Container
