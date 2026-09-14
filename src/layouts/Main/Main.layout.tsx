@@ -2,9 +2,7 @@ import React from 'react';
 
 import { Outlet } from 'react-router-dom';
 
-import { Box } from '@mui/material';
-
-import { ErrorBoundary } from '@components';
+import { ErrorBoundary, ResponsiveContainer } from '@components';
 import { Header } from '@containers';
 import { fetchUsers } from '@services';
 import { useAppDispatch, useAppSelector } from '@store';
@@ -22,16 +20,18 @@ export const Main = () => {
     }, [authStatus, dispatch]);
 
     return (
-        <Box display="flex" flexDirection="column" minHeight="100vh">
+        <>
             <ErrorBoundary title="Something is wrong, we are fixing this.">
                 <Header />
             </ErrorBoundary>
-            <Box flex={1} display="flex">
+            <main>
                 {/* Child routes render here */}
-                <ErrorBoundary title="Something is wrong, we are fixing this.">
-                    <Outlet />
-                </ErrorBoundary>
-            </Box>
-        </Box>
+                <ResponsiveContainer>
+                    <ErrorBoundary title="Something is wrong, we are fixing this.">
+                        <Outlet />
+                    </ErrorBoundary>
+                </ResponsiveContainer>
+            </main>
+        </>
     );
 };

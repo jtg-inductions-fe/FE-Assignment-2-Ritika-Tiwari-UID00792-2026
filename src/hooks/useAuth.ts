@@ -104,5 +104,8 @@ export const useAuth = () => {
         }
     };
 
-    return { handleLogin, handleSignup, handleLogout, fetchUser };
+    // Selecting the current logged in state of the user from the redux store.
+    const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
+
+    return { handleLogin, handleSignup, handleLogout, fetchUser, isLoggedIn };
 };

@@ -111,7 +111,7 @@ export const Header = ({
     return (
         <StyledAppBar>
             <ResponsiveContainer>
-                <StyledToolbar disableGutters>
+                <StyledToolbar>
                     {/* Branding / logo */}
                     <LogoContainer aria-label="Brand name and logo">
                         <Link

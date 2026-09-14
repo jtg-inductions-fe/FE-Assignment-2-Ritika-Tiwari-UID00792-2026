@@ -4,8 +4,11 @@ import { SignUpFormData } from 'components/SignUpForm/SignUpForm.types';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
+import { Box } from '@mui/material';
+
 import ChefImage from '@assets/images/undraw_chef.webp';
 import { SignUpForm } from '@components';
+import { HEADER_HEIGHT } from '@constant';
 import { useAuth } from '@hooks';
 import { ROUTES } from '@routes';
 
@@ -85,22 +88,31 @@ export const SignUp = () => {
         setShowConfirmPassword((show) => !show);
 
     return (
-        <StyledBoxOuter alignSelf="center">
-            <SignUpForm
-                control={control}
-                handleSubmit={handleSubmit}
-                isSubmitting={isSubmitting}
-                onSubmit={onSubmit}
-                watchPassword={watchPassword}
-                showPassword={showPassword}
-                handleClickShowPassword={handleClickShowPassword}
-                showConfirmPassword={showConfirmPassword}
-                handleClickShowConfirmPassword={handleClickShowConfirmPassword}
-                isSnackbarOpen={isSnackbarOpen}
-                setIsSnackbarOpen={setIsSnackbarOpen}
-                snackbarMessage={snackbarMessage}
-            />
-            <StyledImage src={ChefImage} alt="Chef Image" />
-        </StyledBoxOuter>
+        <Box
+            display="flex"
+            minHeight={`calc(100vh - ${HEADER_HEIGHT}px)`}
+            alignItems="center"
+            justifyContent="center"
+        >
+            <StyledBoxOuter>
+                <SignUpForm
+                    control={control}
+                    handleSubmit={handleSubmit}
+                    isSubmitting={isSubmitting}
+                    onSubmit={onSubmit}
+                    watchPassword={watchPassword}
+                    showPassword={showPassword}
+                    handleClickShowPassword={handleClickShowPassword}
+                    showConfirmPassword={showConfirmPassword}
+                    handleClickShowConfirmPassword={
+                        handleClickShowConfirmPassword
+                    }
+                    isSnackbarOpen={isSnackbarOpen}
+                    setIsSnackbarOpen={setIsSnackbarOpen}
+                    snackbarMessage={snackbarMessage}
+                />
+                <StyledImage src={ChefImage} alt="Chef Image" />
+            </StyledBoxOuter>
+        </Box>
     );
 };

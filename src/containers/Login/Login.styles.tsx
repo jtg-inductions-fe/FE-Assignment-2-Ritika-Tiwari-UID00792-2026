@@ -5,6 +5,7 @@ export const StyledBoxOuter = styled(Box)(({ theme }) => ({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    margin: 'auto',
     gap: theme.spacing(4),
     backgroundColor: theme.palette.background.paper,
     borderRadius: theme.shape.borderRadius * 2,
@@ -19,7 +20,6 @@ export const StyledImage = styled('img')(({ theme }) => ({
     [theme.breakpoints.up('md')]: {
         width: '40%',
         maxWidth: 400,
-        height: 'auto',
         borderRadius: theme.shape.borderRadius,
         objectFit: 'cover',
         display: 'inline',

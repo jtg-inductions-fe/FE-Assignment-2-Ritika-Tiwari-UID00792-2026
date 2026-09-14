@@ -50,11 +50,11 @@ export const AppRoutes = createBrowserRouter([
                         path: ROUTES.ORDER_PORTAl,
                         element: <OrderPortal />,
                     },
-                    {
-                        path: ROUTES.NOT_FOUND_PAGE,
-                        element: <NotFoundPage />,
-                    },
                 ],
+            },
+            {
+                path: ROUTES.NOT_FOUND_PAGE,
+                element: <NotFoundPage />,
             },
         ],
     },

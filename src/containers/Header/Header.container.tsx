@@ -1,6 +1,5 @@
 import { Header as HeaderComponent } from '@components';
 import { useAuth } from '@hooks';
-import { useAppSelector } from '@store';
 
 /**
  * Header Container
@@ -9,12 +8,9 @@ import { useAppSelector } from '@store';
  * @returns The rendered global application header component.
  */
 export const Header = () => {
-    const { fetchUser } = useAuth();
+    const { fetchUser, isLoggedIn } = useAuth();
     const registeredUser = fetchUser();
     const cartCount = 4;
-
-    // Selecting the current logged in state of the user from the redux store.
-    const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
 
     return (
         <HeaderComponent

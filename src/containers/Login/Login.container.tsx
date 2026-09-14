@@ -4,8 +4,11 @@ import { LoginFormData } from 'components/LoginForm/LoginForm.types';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
+import { Box } from '@mui/material';
+
 import ChefImage from '@assets/images/undraw_chef.webp';
 import { LoginForm } from '@components';
+import { HEADER_HEIGHT } from '@constant';
 import { useAuth } from '@hooks';
 import { ROUTES } from '@routes';
 
@@ -69,19 +72,26 @@ export const Login = () => {
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
     return (
-        <StyledBoxOuter alignSelf="center">
-            <LoginForm
-                control={control}
-                handleSubmit={handleSubmit}
-                isSubmitting={isSubmitting}
-                onSubmit={onSubmit}
-                showPassword={showPassword}
-                handleClickShowPassword={handleClickShowPassword}
-                isSnackbarOpen={isSnackbarOpen}
-                setIsSnackbarOpen={setIsSnackbarOpen}
-                snackbarMessage={snackbarMessage}
-            />
-            <StyledImage src={ChefImage} alt="Chef Image" />
-        </StyledBoxOuter>
+        <Box
+            display="flex"
+            minHeight={`calc(100vh - ${HEADER_HEIGHT}px)`}
+            alignItems="center"
+            justifyContent="center"
+        >
+            <StyledBoxOuter>
+                <LoginForm
+                    control={control}
+                    handleSubmit={handleSubmit}
+                    isSubmitting={isSubmitting}
+                    onSubmit={onSubmit}
+                    showPassword={showPassword}
+                    handleClickShowPassword={handleClickShowPassword}
+                    isSnackbarOpen={isSnackbarOpen}
+                    setIsSnackbarOpen={setIsSnackbarOpen}
+                    snackbarMessage={snackbarMessage}
+                />
+                <StyledImage src={ChefImage} alt="Chef Image" />
+            </StyledBoxOuter>
+        </Box>
     );
 };
