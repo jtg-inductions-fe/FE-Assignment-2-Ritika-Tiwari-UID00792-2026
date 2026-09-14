@@ -9,3 +9,4 @@ export * from './Header/Header.component';
 export * from './SearchBar/SearchBar.component';
 export * from './RestaurantCard/RestaurantCard.component';
 export * from './RestaurantModal/RestaurantModal.component';
+export * from './MenuCard/MenuCard.component';
