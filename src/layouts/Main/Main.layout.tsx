@@ -26,7 +26,7 @@ export const Main = () => {
             <ErrorBoundary title="Something is wrong, we are fixing this.">
                 <Header />
             </ErrorBoundary>
-            <Box flex={1} display="flex" alignItems="center">
+            <Box flex={1} display="flex">
                 {/* Child routes render here */}
                 <ErrorBoundary title="Something is wrong, we are fixing this.">
                     <Outlet />

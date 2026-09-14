@@ -26,7 +26,7 @@ export const NotFoundPage = (): JSX.Element => {
     };
     return (
         <ResponsiveContainer>
-            <StyledBox>
+            <StyledBox alignSelf="center">
                 <StyledImage src={PageNotFound} alt="Page not found" />
                 <Typography
                     variant="body2"

@@ -4,9 +4,12 @@ import { LoginFormData } from 'components/LoginForm/LoginForm.types';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
+import ChefImage from '@assets/images/undraw_chef.webp';
 import { LoginForm } from '@components';
 import { useAuth } from '@hooks';
 import { ROUTES } from '@routes';
+
+import { StyledBoxOuter, StyledImage } from './Login.styles';
 
 /**
  * Login Container
@@ -66,16 +69,19 @@ export const Login = () => {
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
     return (
-        <LoginForm
-            control={control}
-            handleSubmit={handleSubmit}
-            isSubmitting={isSubmitting}
-            onSubmit={onSubmit}
-            showPassword={showPassword}
-            handleClickShowPassword={handleClickShowPassword}
-            isSnackbarOpen={isSnackbarOpen}
-            setIsSnackbarOpen={setIsSnackbarOpen}
-            snackbarMessage={snackbarMessage}
-        />
+        <StyledBoxOuter alignSelf="center">
+            <LoginForm
+                control={control}
+                handleSubmit={handleSubmit}
+                isSubmitting={isSubmitting}
+                onSubmit={onSubmit}
+                showPassword={showPassword}
+                handleClickShowPassword={handleClickShowPassword}
+                isSnackbarOpen={isSnackbarOpen}
+                setIsSnackbarOpen={setIsSnackbarOpen}
+                snackbarMessage={snackbarMessage}
+            />
+            <StyledImage src={ChefImage} alt="Chef Image" />
+        </StyledBoxOuter>
     );
 };

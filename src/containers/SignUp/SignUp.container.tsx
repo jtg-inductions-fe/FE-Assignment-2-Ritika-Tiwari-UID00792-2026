@@ -4,9 +4,12 @@ import { SignUpFormData } from 'components/SignUpForm/SignUpForm.types';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
+import ChefImage from '@assets/images/undraw_chef.webp';
 import { SignUpForm } from '@components';
 import { useAuth } from '@hooks';
 import { ROUTES } from '@routes';
+
+import { StyledBoxOuter, StyledImage } from './SignUp.styles';
 
 /**
  * Signup Container
@@ -82,19 +85,22 @@ export const SignUp = () => {
         setShowConfirmPassword((show) => !show);
 
     return (
-        <SignUpForm
-            control={control}
-            handleSubmit={handleSubmit}
-            isSubmitting={isSubmitting}
-            onSubmit={onSubmit}
-            watchPassword={watchPassword}
-            showPassword={showPassword}
-            handleClickShowPassword={handleClickShowPassword}
-            showConfirmPassword={showConfirmPassword}
-            handleClickShowConfirmPassword={handleClickShowConfirmPassword}
-            isSnackbarOpen={isSnackbarOpen}
-            setIsSnackbarOpen={setIsSnackbarOpen}
-            snackbarMessage={snackbarMessage}
-        />
+        <StyledBoxOuter alignSelf="center">
+            <SignUpForm
+                control={control}
+                handleSubmit={handleSubmit}
+                isSubmitting={isSubmitting}
+                onSubmit={onSubmit}
+                watchPassword={watchPassword}
+                showPassword={showPassword}
+                handleClickShowPassword={handleClickShowPassword}
+                showConfirmPassword={showConfirmPassword}
+                handleClickShowConfirmPassword={handleClickShowConfirmPassword}
+                isSnackbarOpen={isSnackbarOpen}
+                setIsSnackbarOpen={setIsSnackbarOpen}
+                snackbarMessage={snackbarMessage}
+            />
+            <StyledImage src={ChefImage} alt="Chef Image" />
+        </StyledBoxOuter>
     );
 };

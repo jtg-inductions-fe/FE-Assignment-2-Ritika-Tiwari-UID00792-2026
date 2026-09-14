@@ -13,6 +13,7 @@ import {
  */
 export const StyledContainer = styled(Container)(({ theme }) => ({
     paddingInline: theme.spacing(1.6),
+    display: 'flex',
 
     // Container styles for the mobile screens and up
     [theme.breakpoints.up('sm')]: {
