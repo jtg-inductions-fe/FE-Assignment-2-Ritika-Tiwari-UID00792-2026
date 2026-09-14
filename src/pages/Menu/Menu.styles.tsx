@@ -1,21 +1,24 @@
-import { Box, styled } from '@mui/material';
+import { Box, CardContent, styled } from '@mui/material';
 
-export const OuterContainer = styled(Box)(({ theme }) => ({
+export const StyledRestaurantBox = styled(Box)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
-    alignContent: 'center',
-    justifyContent: 'center',
-    gap: theme.spacing(1.6),
+    backgroundColor: theme.palette.background.default,
+    boxShadow: theme.shadows[2],
+    borderRadius: theme.shape.borderRadius,
     marginBlock: theme.spacing(3.2),
-    [theme.breakpoints.up('md')]: {
-        flexDirection: 'row',
-    },
 }));
 
-export const FilterContainer = styled(Box)(({ theme }) => ({
+export const StyledImage = styled('img')(({ theme }) => ({
+    width: '100%',
+    height: 300,
+    borderRadius: theme.shape.borderRadius,
+    objectFit: 'cover',
+}));
+
+export const StyledCardContent = styled(CardContent)(({ theme }) => ({
     display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'start',
-    gap: theme.spacing(1.6),
+    flexDirection: 'column',
+    width: '100%',
+    gap: theme.spacing(2),
 }));

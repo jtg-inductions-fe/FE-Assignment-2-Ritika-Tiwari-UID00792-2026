@@ -5,4 +5,8 @@ export interface MenuCardProps {
     menu: Menu;
     /** Stores the userRole to render the role based cards.  */
     userRole: string | undefined;
+    /** Callback function to handle the edit modal. */
+    onEditClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    /** Callback function to handle the delete functionality. */
+    onDelete: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
