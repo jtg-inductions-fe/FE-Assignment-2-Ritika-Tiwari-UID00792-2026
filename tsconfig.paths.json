@@ -12,7 +12,8 @@
             "@types": ["types/index"],
             "@containers": ["containers/index"],
             "@hooks": ["hooks/index"],
-            "@store": ["store/index"]
+            "@store": ["store/index"],
+            "@services": ["services/index"]
         }
     }
 }

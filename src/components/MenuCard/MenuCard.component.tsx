@@ -16,12 +16,18 @@ import {
 } from './MenuCard.styles';
 import { MenuCardProps } from './MenuCard.types';
 import restImage from '../../../public/res-image/res-image5.webp';
+
 /**
- * A Restaurant card that displays the details of restaurant.
- * @param RestaurantProps - the configuration property to render the card component for restaurant.
- * @returns The structured and styled restaurant card.
+ * A menu card that displays the details of menu.
+ * @param MenuProps - the configuration property to render the card component for menu.
+ * @returns The structured and styled menu card.
  */
-export function MenuCard({ menu, userRole }: MenuCardProps) {
+export function MenuCard({
+    menu,
+    userRole,
+    onEditClick,
+    onDelete,
+}: MenuCardProps) {
     const [imgSrc, setImgSrc] = useState(restImage || fallBackImage);
     return (
         <StyledCard>
@@ -40,14 +46,10 @@ export function MenuCard({ menu, userRole }: MenuCardProps) {
                 />
                 <StyledCardContent>
                     <StyledTitle gutterBottom variant="subtitle1">
-                        Chef and son
+                        {menu.name}
                     </StyledTitle>
                     <StyledDescription variant="body2" gutterBottom>
-                        Lorem, ipsum dolor sit amet consectetur adipisicing
-                        elit. Eligendi ad tempora accusamus temporibus ullam
-                        labore eius, quis delectus alias soluta velit expedita
-                        corrupti, cumque laboriosam deleniti quaerat? Dolor,
-                        totam repellat!
+                        {menu.description}
                     </StyledDescription>
                     <Box
                         display="flex"
@@ -55,12 +57,16 @@ export function MenuCard({ menu, userRole }: MenuCardProps) {
                         marginBlock={theme.spacing(1.6)}
                     >
                         <CurrencyRupee color="primary" />
-                        <span>1,500</span>
+                        <Typography variant="h6">{menu.price}</Typography>
                     </Box>
                     {/* Show the edit and delete buttons only to the owners */}
                     {userRole === 'owner' ? (
                         <Box display="flex" gap={1} alignSelf="end">
-                            <Button variant="text">
+                            <Button
+                                variant="text"
+                                onClick={onEditClick}
+                                fullWidth
+                            >
                                 <Typography
                                     variant="button"
                                     textTransform="none"
@@ -69,7 +75,11 @@ export function MenuCard({ menu, userRole }: MenuCardProps) {
                                     Edit
                                 </Typography>
                             </Button>
-                            <Button variant="error">
+                            <Button
+                                variant="error"
+                                onClick={onDelete}
+                                fullWidth
+                            >
                                 <Typography
                                     variant="button"
                                     textTransform="none"
