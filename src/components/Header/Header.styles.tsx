@@ -2,10 +2,14 @@ import { NavLinkProps } from 'react-router-dom';
 
 import { Avatar, Box, IconButton, styled, Toolbar } from '@mui/material';
 
+import { HEADER_HEIGHT } from '@constant';
+
 export const StyledAppBar = styled('header')(({ theme }) => ({
     position: 'sticky',
     top: 0,
     zIndex: 100,
+    height: HEADER_HEIGHT,
+    minHeight: HEADER_HEIGHT,
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[4],
 }));
@@ -14,7 +18,6 @@ export const StyledToolbar = styled(Toolbar)(({ theme }) => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-
     [theme.breakpoints.down('sm')]: {
         paddingLeft: theme.spacing(0.5),
         paddingRight: theme.spacing(0.5),

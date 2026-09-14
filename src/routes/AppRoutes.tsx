@@ -1,15 +1,14 @@
 import { createBrowserRouter } from 'react-router-dom';
 
 import { Main } from '@layouts';
+import { Login, SignUp } from '@pages';
 import {
     Cart,
     Home,
-    Login,
     Menu,
     NotFoundPage,
     OrderPortal,
     Restaurant,
-    SignUp,
 } from '@pages';
 
 import { ROUTES } from './AppRoutes.constants';
@@ -51,11 +50,11 @@ export const AppRoutes = createBrowserRouter([
                         path: ROUTES.ORDER_PORTAl,
                         element: <OrderPortal />,
                     },
-                    {
-                        path: ROUTES.NOT_FOUND_PAGE,
-                        element: <NotFoundPage />,
-                    },
                 ],
+            },
+            {
+                path: ROUTES.NOT_FOUND_PAGE,
+                element: <NotFoundPage />,
             },
         ],
     },

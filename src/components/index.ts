@@ -6,3 +6,5 @@ export * from './Snackbar/Snackbar.component';
 export * from './ResponsiveContainer/ResponsiveContainer.component';
 export * from './ErrorBoundary/ErrorBoundary.component';
 export * from './Header/Header.component';
+export * from './SignUpForm/SingUpForm.component';
+export * from './LoginForm/LoginForm.component';

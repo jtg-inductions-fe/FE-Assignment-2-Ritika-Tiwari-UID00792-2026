@@ -19,5 +19,12 @@
         "email": "marcus.vance@example.com",
         "password": "$argon2idv=19m=65536,t=3,p=4anNvbXNhbHRkYXRhtG4yQ7z",
         "role": "customer"
+    },
+    {
+        "id": "e0cc0ad8-a843-4c74-81c5-aabf5c0596db",
+        "name": "Ritika Tiwari",
+        "email": "ritika.tiwari@joshtechnologygroup.com",
+        "password": "Ritik@7840",
+        "role": "customer"
     }
 ]
