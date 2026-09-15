@@ -2,3 +2,4 @@
 export * from './useAuth';
 export * from './useRestaurant';
 export * from './useDebounce';
+export * from './useMenu';

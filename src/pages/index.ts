@@ -7,3 +7,4 @@ export * from './Restaurant/Restaurant.page';
 export * from './Menu/Menu.page';
 export * from './Cart/Cart.page';
 export * from './OrderPortal/OrderPortal.page';
+export * from './Menu/Menu.page';
