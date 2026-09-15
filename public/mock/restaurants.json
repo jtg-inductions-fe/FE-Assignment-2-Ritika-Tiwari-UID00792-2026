@@ -7,7 +7,7 @@
         "opening_time": "08:00 AM",
         "closing_time": "5:32 PM",
         "address": "123 Maple Street, Downtown District",
-        "image_url": "/res-image/res-image11.webp",
+        "image_url": "/res-image/res-image1.webp",
         "type": "veg"
     },
     {
@@ -104,7 +104,7 @@
         "name": "Waffle & Berry Cafe",
         "description": "Sweet and savory vegetarian breakfasts featuring Belgian waffles, fluffy pancakes, berry parfaits, and hot hot cocoa.",
         "opening_time": "07:30 AM",
-        "closing_time": "04:00 PM",
+        "closing_time": "02:00 AM",
         "address": "7 Sunrise Street, Morning Valley",
         "image_url": "/res-image/res-image10.webp",
         "type": "veg"

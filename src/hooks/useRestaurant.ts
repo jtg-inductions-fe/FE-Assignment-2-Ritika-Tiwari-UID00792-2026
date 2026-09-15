@@ -1,8 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import camelcaseKeys from 'camelcase-keys';
-
 import { useAuth, useDebounce } from '@hooks';
+import { fetchRestaurantData } from '@services';
 import {
     addRestaurant,
     deleteRestaurant,
@@ -36,41 +35,44 @@ export const useRestaurant = () => {
 
     // Fetch data from mock json on mount and convert the variables to camel case.
     useEffect(() => {
+        // Flag to track is the component is still mounted/valid.
+        let isCurrent = true;
         const fetchData = async () => {
             try {
                 dispatch(setLoading(true));
                 dispatch(setError(null));
 
-                const response = await fetch('/mock/restaurants.json');
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-
-                const data = (await response.json()) as Restaurant[];
-                let camelCaseData = camelcaseKeys(data, {
-                    deep: true,
-                }) as Restaurant[];
+                let restaurantData = await fetchRestaurantData();
 
                 // Filter based on user role
                 if (registeredUser?.role === 'owner') {
-                    camelCaseData = camelCaseData.filter(
+                    restaurantData = restaurantData.filter(
                         (restaurant: Restaurant) =>
                             restaurant.ownerId === registeredUser.id,
                     );
                 }
-
-                dispatch(setRestaurants(camelCaseData));
+                if (isCurrent) {
+                    dispatch(setRestaurants(restaurantData));
+                }
             } catch (err) {
-                dispatch(
-                    setError(
-                        err instanceof Error
-                            ? err.message
-                            : 'An error occurred',
-                    ),
-                );
+                if (isCurrent) {
+                    dispatch(
+                        setError(
+                            err instanceof Error
+                                ? err.message
+                                : 'An error occurred',
+                        ),
+                    );
+                }
             } finally {
-                dispatch(setLoading(false));
+                if (isCurrent) {
+                    dispatch(setLoading(false));
+                }
             }
+            // Return the cleanup function to invalidate the request if dependency changes.
+            return () => {
+                isCurrent = false;
+            };
         };
 
         void fetchData();
@@ -128,10 +130,15 @@ export const useRestaurant = () => {
     };
 
     /** Function to check whether restaurant is closed or not based on the closing time.
-     * @param closingTime- takes the closing time of restaurant.
+     * @param openingTime - takes the opening time of restaurant.
+     * @param closingTime - takes the closing time of restaurant.
      * @returns true/false
      */
-    const isRestaurantClosed = (closingTime: string): boolean => {
+    const isRestaurantClosed = (
+        openingTime: string,
+        closingTime: string,
+    ): boolean => {
+        // Get current time in the target timezone (Asia/Kolkata)
         const formatter = new Intl.DateTimeFormat('en-US', {
             timeZone: 'Asia/Kolkata',
             hour: 'numeric',
@@ -148,24 +155,41 @@ export const useRestaurant = () => {
             parts.find((p) => p.type === 'minute')!.value,
             10,
         );
+        const currentMinutes = currentHour * 60 + currentMinute;
 
-        const currentTotalMinutes = currentHour * 60 + currentMinute;
+        // Helper function to convert "HH:MM AM/PM" or "HH:MM" to total minutes from midnight
+        const parseTimeToMinutes = (timeStr: string): number => {
+            const [time, modifier] = timeStr.trim().split(' ');
+            const [hourStr, minuteStr] = time.split(':');
+            let hour = parseInt(hourStr, 10);
+            const minute = parseInt(minuteStr, 10);
 
-        const [time, modifier] = closingTime.split(' ');
-        const [closingHourStr, closingMinuteStr] = time.split(':');
-        let closingHour = parseInt(closingHourStr, 10);
-        const closingMinute = parseInt(closingMinuteStr, 10);
+            if (modifier) {
+                const upperModifier = modifier.toUpperCase();
+                if (upperModifier === 'PM' && hour < 12) hour += 12;
+                if (upperModifier === 'AM' && hour === 12) hour = 0;
+            }
 
-        if (modifier) {
-            if (modifier.toUpperCase() === 'PM' && closingHour < 12)
-                closingHour += 12;
-            if (modifier.toUpperCase() === 'AM' && closingHour === 12)
-                closingHour = 0;
+            return hour * 60 + minute;
+        };
+
+        const openMinutes = parseTimeToMinutes(openingTime);
+        const closeMinutes = parseTimeToMinutes(closingTime);
+
+        // Determine if the current time falls within operating hours
+        let isOpen = false;
+
+        if (closeMinutes > openMinutes) {
+            // Standard daytime shift (e.g., 10:00 AM to 11:00 PM)
+            isOpen =
+                currentMinutes >= openMinutes && currentMinutes < closeMinutes;
+        } else {
+            // Overnight shift crossing midnight (e.g., 6:00 PM to 3:00 AM)
+            isOpen =
+                currentMinutes >= openMinutes || currentMinutes < closeMinutes;
         }
 
-        const closingTotalMinutes = closingHour * 60 + closingMinute;
-
-        return currentTotalMinutes >= closingTotalMinutes;
+        return !isOpen;
     };
 
     return {
@@ -177,6 +201,7 @@ export const useRestaurant = () => {
         activeCategory,
         handleFilterToggle,
         userRole: registeredUser?.role,
+        ownerId: registeredUser?.id,
         handleAddRestaurant,
         handleEditRestaurant,
         handleDeleteRestaurant,

@@ -9,7 +9,6 @@ import {
     ConfirmationDialog,
     LoadingCardSkeleton,
     NullStateCard,
-    ResponsiveContainer,
     RestaurantCard,
     RestaurantModal,
     SearchBar,
@@ -35,6 +34,7 @@ export const Restaurant = () => {
         setSearchTerm,
         handleFilterToggle,
         userRole,
+        ownerId,
         handleDeleteRestaurant,
         isRestaurantClosed,
     } = useRestaurant();
@@ -63,9 +63,16 @@ export const Restaurant = () => {
     };
 
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+
+    const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
+    const [snackbarMessage, setSnackbarMessage] = useState<string>(
+        'Some Error Occurred, Try later.',
+    );
+    const [snackbarState, setSnackbarState] = useState<
+        'error' | 'success' | 'warning'
+    >('error');
     const [selectedRestaurantID, setSelectedRestaurantID] =
         useState<string>('');
-    const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
 
     /**
      * Handles the confirmation event from the confirmation dialog.
@@ -73,15 +80,20 @@ export const Restaurant = () => {
      */
     const handleSubmit = (confirmation: boolean) => {
         setIsDialogOpen(false);
-        if (confirmation) {
+        if (confirmation && selectedRestaurantID) {
             try {
                 handleDeleteRestaurant(selectedRestaurantID);
-                setIsDialogOpen(true);
-            } catch (err) {
-                if (err) {
-                    setIsSnackbarOpen(true);
-                }
+                setIsSnackbarOpen(true);
+                setSnackbarMessage('Restaurant deleted successfully');
+                setSnackbarState('success');
+            } catch {
+                setIsSnackbarOpen(true);
+            } finally {
+                setSelectedRestaurantID('');
+                setIsDialogOpen(false);
             }
+        } else {
+            setSelectedRestaurantID('');
         }
     };
 
@@ -115,7 +127,7 @@ export const Restaurant = () => {
     };
 
     return (
-        <ResponsiveContainer>
+        <>
             <OuterContainer>
                 <SearchBar onSearch={setSearchTerm} />
                 <FilterContainer
@@ -178,14 +190,15 @@ export const Restaurant = () => {
                     Add Restaurant
                 </Button>
             )}
+
             <Box
                 display="flex"
                 flexDirection="row"
                 flexWrap="wrap"
-                gap={theme.spacing(2)}
+                gap={theme.spacing(4)}
                 alignItems="center"
                 justifyContent="center"
-                marginBlock={theme.spacing(3.2)}
+                marginBlock={theme.spacing(8)}
             >
                 {loading && (
                     <>
@@ -228,6 +241,7 @@ export const Restaurant = () => {
                                 handleRestaurantClick(restaurant.restaurantId)
                             }
                             isRestaurantClosed={isRestaurantClosed(
+                                restaurant.openingTime,
                                 restaurant.closingTime,
                             )}
                         />
@@ -235,12 +249,14 @@ export const Restaurant = () => {
             </Box>
 
             {/* Reusable form modal for both edit and add restaurant */}
-            <RestaurantModal
-                open={isModalOpen}
-                onClose={handleCloseModal}
-                ownerId="current_owner_id"
-                restaurantToEdit={editingRestaurant}
-            />
+            {ownerId && (
+                <RestaurantModal
+                    open={isModalOpen}
+                    onClose={handleCloseModal}
+                    ownerId={ownerId}
+                    restaurantToEdit={editingRestaurant}
+                />
+            )}
             <ConfirmationDialog
                 open={isDialogOpen}
                 onClose={handleClose}
@@ -252,9 +268,9 @@ export const Restaurant = () => {
                 open={isSnackbarOpen}
                 autoHideDuration={2000}
                 onClose={() => setIsSnackbarOpen(false)}
-                message="Some Error Occurred, Try later."
-                state="error"
+                message={snackbarMessage}
+                state={snackbarState}
             />
-        </ResponsiveContainer>
+        </>
     );
 };

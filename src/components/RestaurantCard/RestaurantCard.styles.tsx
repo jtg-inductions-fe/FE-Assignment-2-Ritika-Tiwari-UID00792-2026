@@ -9,12 +9,12 @@ import {
 export const StyledCard = styled(Card)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
-    gap: theme.spacing(2),
+    gap: theme.spacing(8),
     minWidth: 180,
     maxWidth: 300,
     flexGrow: 1,
     width: '40%',
-    borderRadius: theme.spacing(2),
+    borderRadius: theme.spacing(4),
     [theme.breakpoints.up('md')]: {
         minWidth: 280,
         width: '30%',
@@ -22,10 +22,9 @@ export const StyledCard = styled(Card)(({ theme }) => ({
 }));
 export const StyledCardMedia = styled(CardMedia)(({ theme }) => ({
     position: 'relative',
-    paddingInline: 5,
-    paddingTop: 5,
+    height: 200,
     minHeight: 200,
-    borderRadius: theme.spacing(2),
+    borderRadius: theme.spacing(4),
 })) as typeof CardMedia;
 
 export const StyledImageIndicator = styled(CardMedia)({

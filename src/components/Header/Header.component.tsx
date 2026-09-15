@@ -130,7 +130,7 @@ export const Header = ({
                             color="text.primary"
                             noWrap
                             fontWeight={theme.typography.fontWeightBold}
-                            marginLeft={theme.spacing(2)}
+                            marginLeft={theme.spacing(4)}
                         >
                             Swaad
                         </Typography>

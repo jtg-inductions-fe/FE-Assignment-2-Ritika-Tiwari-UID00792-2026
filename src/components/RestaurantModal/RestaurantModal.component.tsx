@@ -1,6 +1,7 @@
 import { JSX, useEffect } from 'react';
 
-import { Controller, useForm } from 'react-hook-form';
+import { FormTextField } from 'components/FormTextField/FormTextField.component';
+import { useForm } from 'react-hook-form';
 
 import CloseIcon from '@mui/icons-material/Close';
 import {
@@ -9,7 +10,6 @@ import {
     MenuItem,
     Modal,
     Stack,
-    TextField,
     Typography,
 } from '@mui/material';
 
@@ -19,7 +19,7 @@ import { Restaurant, Restaurant as RestaurantData } from '@types';
 
 import { StyledModal } from './RestaurantModal.styles';
 import { RestaurantModalProps } from './RestaurantModal.types';
-import { RestaurantValidation } from './RestaurantModal.validations';
+import { restaurantValidation } from './RestaurantModal.validations';
 
 /**
  * RestaurantModal Component
@@ -171,6 +171,7 @@ export const RestaurantModal = ({
                         id="restaurant-modal-title"
                         variant="h6"
                         fontWeight="bold"
+                        color={theme.palette.text.primary}
                     >
                         {isEditMode
                             ? 'Edit Restaurant Details'
@@ -187,133 +188,105 @@ export const RestaurantModal = ({
 
                 <Stack
                     component="form"
-                    gap={theme.spacing(2)}
+                    gap={theme.spacing(4)}
                     onSubmit={(e) => {
                         void handleSubmit(onSubmit)(e);
                     }}
                 >
-                    <Controller
+                    <FormTextField
                         name="name"
                         control={control}
-                        rules={RestaurantValidation.name}
-                        render={({ field }) => (
-                            <TextField
-                                {...field}
-                                label="Restaurant Name"
-                                error={!!errors.name}
-                                helperText={errors.name?.message}
-                                fullWidth
-                            />
-                        )}
+                        rules={restaurantValidation.name}
+                        label="Restaurant Name"
+                        error={!!errors.name}
+                        helperText={errors.name?.message}
+                        autoComplete="name"
+                        fullWidth
                     />
 
-                    <Controller
+                    <FormTextField
                         name="type"
                         control={control}
-                        rules={RestaurantValidation.type}
-                        render={({ field }) => (
-                            <TextField
-                                {...field}
-                                select
-                                label="Cuisine Type"
-                                error={!!errors.type}
-                                helperText={errors.type?.message}
-                                fullWidth
-                            >
-                                <MenuItem value="veg">Veg</MenuItem>
-                                <MenuItem value="non-veg">Non-veg</MenuItem>
-                            </TextField>
-                        )}
-                    />
+                        rules={restaurantValidation.type}
+                        select
+                        label="Cuisine Type"
+                        error={!!errors.type}
+                        helperText={errors.type?.message}
+                        autoComplete="type"
+                        fullWidth
+                    >
+                        <MenuItem value="veg">Veg</MenuItem>
+                        <MenuItem value="non-veg">Non-veg</MenuItem>
+                    </FormTextField>
 
-                    <Controller
+                    <FormTextField
                         name="description"
                         control={control}
-                        rules={RestaurantValidation.description}
-                        render={({ field }) => (
-                            <TextField
-                                {...field}
-                                label="Description"
-                                multiline
-                                rows={2}
-                                error={!!errors.description}
-                                helperText={errors.description?.message}
-                                fullWidth
-                            />
-                        )}
+                        rules={restaurantValidation.description}
+                        label="Description"
+                        multiline
+                        rows={2}
+                        error={!!errors.description}
+                        helperText={errors.description?.message}
+                        autoComplete="description"
+                        fullWidth
                     />
 
-                    <Stack direction="row" gap={theme.spacing(2)}>
-                        <Controller
+                    <Stack direction="row" gap={theme.spacing(4)}>
+                        <FormTextField
                             name="openingTime"
                             control={control}
-                            rules={RestaurantValidation.openingTime}
-                            render={({ field }) => (
-                                <TextField
-                                    {...field}
-                                    label="Opening Time"
-                                    type="time"
-                                    InputLabelProps={{ shrink: true }}
-                                    error={!!errors.openingTime}
-                                    helperText={errors.openingTime?.message}
-                                    fullWidth
-                                />
-                            )}
+                            rules={restaurantValidation.openingTime}
+                            label="Opening Time"
+                            type="time"
+                            slotProps={{ inputLabel: { shrink: true } }}
+                            error={!!errors.openingTime}
+                            helperText={errors.openingTime?.message}
+                            autoComplete="opening time"
+                            fullWidth
                         />
 
-                        <Controller
+                        <FormTextField
                             name="closingTime"
                             control={control}
-                            rules={RestaurantValidation.closingTime}
-                            render={({ field }) => (
-                                <TextField
-                                    {...field}
-                                    label="Closing Time"
-                                    type="time"
-                                    InputLabelProps={{ shrink: true }}
-                                    error={!!errors.closingTime}
-                                    helperText={errors.closingTime?.message}
-                                    fullWidth
-                                />
-                            )}
+                            rules={restaurantValidation.closingTime}
+                            label="Closing Time"
+                            type="time"
+                            slotProps={{ inputLabel: { shrink: true } }}
+                            error={!!errors.closingTime}
+                            helperText={errors.closingTime?.message}
+                            autoComplete="closing time"
+                            fullWidth
                         />
                     </Stack>
 
-                    <Controller
+                    <FormTextField
                         name="address"
                         control={control}
-                        rules={RestaurantValidation.address}
-                        render={({ field }) => (
-                            <TextField
-                                {...field}
-                                label="Street Address"
-                                error={!!errors.address}
-                                helperText={errors.address?.message}
-                                fullWidth
-                            />
-                        )}
+                        rules={restaurantValidation.address}
+                        label="Street Address"
+                        error={!!errors.address}
+                        helperText={errors.address?.message}
+                        autoComplete="address"
+                        fullWidth
                     />
 
-                    <Controller
+                    <FormTextField
                         name="imageUrl"
                         control={control}
-                        rules={RestaurantValidation.imageUrl}
-                        render={({ field }) => (
-                            <TextField
-                                {...field}
-                                label="Display Image URL"
-                                error={!!errors.imageUrl}
-                                helperText={errors.imageUrl?.message}
-                                fullWidth
-                            />
-                        )}
+                        rules={restaurantValidation.imageUrl}
+                        label="Display Image URL"
+                        error={!!errors.imageUrl}
+                        helperText={errors.imageUrl?.message}
+                        autoComplete="image url"
+                        fullWidth
                     />
 
                     <Stack
                         direction="row"
                         justifyContent="flex-end"
-                        gap={theme.spacing(1.6)}
-                        mt={1}
+                        gap={theme.spacing(4)}
+                        mt={theme.spacing(4)}
                     >
                         <Button
                             onClick={handleCancel}

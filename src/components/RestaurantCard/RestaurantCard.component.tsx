@@ -6,6 +6,7 @@ import closedTag from '@assets/images/closed-restaurant.webp';
 import fallBackImage from '@assets/images/fallback-image.webp';
 import nonVegIndicator from '@assets/images/non-veg-indicator.webp';
 import vegIndicator from '@assets/images/veg-indicator.webp';
+import { theme } from '@theme';
 
 import {
     StyledCard,
@@ -38,7 +39,6 @@ export function RestaurantCard({
             <CardActionArea>
                 <StyledCardMedia
                     component="img"
-                    height="140"
                     image={imgSrc}
                     alt={restaurant.name || 'Restaurant'}
                     onError={() => {
@@ -75,18 +75,17 @@ export function RestaurantCard({
                     </StyledDescription>
                 </StyledCardContent>
             </CardActionArea>
+
             {/* Show the edit and delete buttons only to the owners */}
             {userRole === 'owner' && (
-                <Box display="flex" gap={1}>
+                <Box display="flex" gap={theme.spacing(4)}>
                     <Button variant="text" onClick={onEditClick} fullWidth>
                         <Typography variant="button" textTransform="none">
-                            {' '}
                             Edit
                         </Typography>
                     </Button>
                     <Button variant="error" onClick={onDelete} fullWidth>
                         <Typography variant="button" textTransform="none">
-                            {' '}
                             Delete
                         </Typography>
                     </Button>

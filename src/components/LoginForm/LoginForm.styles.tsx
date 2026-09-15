@@ -5,9 +5,9 @@ export const StyledBoxInner = styled(Box)(({ theme }) => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: theme.spacing(2),
+    gap: theme.spacing(6),
     backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(2.4),
+    padding: theme.spacing(6),
 }));
 
 export const LogoImage = styled('img')(({ theme }) => ({

@@ -1,7 +1,9 @@
+import { REGEX } from '@constant';
+
 /**
  * Validation for the Add and Edit modal's form fields.
  */
-export const RestaurantValidation = {
+export const restaurantValidation = {
     /** Validations for restaurant's name. */
     name: {
         required: 'Restaurant name is required',
@@ -40,7 +42,7 @@ export const RestaurantValidation = {
     imageUrl: {
         required: 'Image URL is required',
         pattern: {
-            value: /^\/?([\w.-]+\/)*[\w.-]+\.[a-zA-Z0-9]{2,6}$/,
+            value: REGEX.IMAGE_URL,
             message: 'Please enter a valid URL',
         },
     },

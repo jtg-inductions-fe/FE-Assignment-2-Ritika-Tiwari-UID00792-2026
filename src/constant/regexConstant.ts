@@ -5,4 +5,5 @@ export const REGEX = {
         HAS_NUMBER: /\d/,
         HAS_SPECIAL_CHARACTER: /[!@#$%^&*]/,
     },
+    IMAGE_URL: /^\/?([\w.-]+\/)*[\w.-]+\.[a-zA-Z0-9]{2,6}$/,
 };
