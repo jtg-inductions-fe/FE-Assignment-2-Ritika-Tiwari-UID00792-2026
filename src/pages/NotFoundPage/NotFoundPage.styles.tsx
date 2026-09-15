@@ -9,7 +9,7 @@ export const StyledBox = styled(Box)(({ theme }) => ({
     alignItems: 'center',
     justifyContent: 'center',
     minHeight: `calc(100vh - ${HEADER_HEIGHT}px)`,
-    gap: theme.spacing(4),
+    gap: theme.spacing(8),
     backgroundColor: theme.palette.background.default,
 }));
 

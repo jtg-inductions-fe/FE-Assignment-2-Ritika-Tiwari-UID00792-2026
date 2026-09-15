@@ -12,7 +12,7 @@ export const Login = () => {
     const navigate = useNavigate();
     const { isLoggedIn } = useAuth();
     if (isLoggedIn) {
-       void navigate(ROUTES.ROOT);
+        void navigate(ROUTES.ROOT);
     }
     return <LoginContainer />;
 };

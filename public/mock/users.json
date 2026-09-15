@@ -26,5 +26,12 @@
         "email": "ritika.tiwari@joshtechnologygroup.com",
         "password": "Ritik@7840",
         "role": "customer"
+    },
+    {
+        "id": "47f1852d-f0ed-4d63-9bc3-77f295c94dfb",
+        "name": "RT",
+        "email": "ritikatiwari784@gmail.com",
+        "password": "Ritik@7840",
+        "role": "owner"
     }
 ]
