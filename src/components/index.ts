@@ -12,3 +12,4 @@ export * from './SearchBar/SearchBar.component';
 export * from './RestaurantCard/RestaurantCard.component';
 export * from './RestaurantModal/RestaurantModal.component';
 export * from './MenuCard/MenuCard.component';
+export * from './QuantityDropdown/QuantityDropdown.component';

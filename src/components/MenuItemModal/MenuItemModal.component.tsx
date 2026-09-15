@@ -24,7 +24,7 @@ import { menuItemValidation } from './MenuItemModal.validations';
 /**
  * MenuItemModal Component
  *
- * A modal dialog that handles both creating a new MenuItem and editing an existing one.
+ * A modal dialog that handles both creating a new menu item and editing an existing one.
  * It uses `react-hook-form` for form state management and validation, and Material UI for the UI components.
  * @props MenuItemModalProps - configuration properties to show a modal to add and edit the MenuItem.
  *
@@ -38,7 +38,7 @@ export const MenuItemModal = ({
     // Determine if the modal is in edit mode based MenuItem data to be edited
     const isEditMode = Boolean(MenuItemToEdit);
 
-    // fetching functions to handle add MenuItem and edit MenuItem functionality
+    // fetching functions to handle add menu item and edit menu item functionality
     const { handleAddMenuItem, handleEditMenuItem } = useMenu(restaurantId);
 
     // Initialize form controls, error states, and validation tracking via react-hook-form
@@ -60,7 +60,7 @@ export const MenuItemModal = ({
 
     /**
      * Syncs form fields whenever the modal visibility changes or a different
-     * MenuItem is selected for editing.
+     * menu item is selected for editing.
      */
     useEffect(() => {
         if (MenuItemToEdit) {
@@ -68,8 +68,8 @@ export const MenuItemModal = ({
             reset({
                 name: MenuItemToEdit.name,
                 description: MenuItemToEdit.description,
-                price: MenuItemToEdit.price,
-                stock: MenuItemToEdit.stock,
+                price: Number(MenuItemToEdit.price),
+                stock: Number(MenuItemToEdit.stock),
                 imageUrl: MenuItemToEdit.imageUrl,
                 type: MenuItemToEdit.type,
             });
@@ -91,14 +91,14 @@ export const MenuItemModal = ({
      */
     const onSubmit = (data: Menu) => {
         if (isEditMode && MenuItemToEdit) {
-            // Merge new modifications into the existing MenuItem object
+            // Merge new modifications into the existing menu item object
             const updatedMenuItem: Menu = {
                 ...MenuItemToEdit,
                 ...data,
             };
             handleEditMenuItem(updatedMenuItem);
         } else {
-            // Generate unique IDs and associate the owner for a brand new MenuItem
+            // Generate unique IDs and associate the owner for a brand new menu item
             const newMenuItem: Menu = {
                 ...data,
                 itemId: crypto.randomUUID(),
@@ -106,6 +106,7 @@ export const MenuItemModal = ({
             };
             handleAddMenuItem(newMenuItem);
         }
+
         // Clean up and close the modal after a successful edit or add MenuItem.
         handleCancel();
     };
@@ -212,29 +213,42 @@ export const MenuItemModal = ({
                             name="price"
                             control={control}
                             rules={menuItemValidation.price}
-                            render={({ field }) => (
+                            render={({ field: { onChange, ...field } }) => (
                                 <TextField
                                     {...field}
+                                    onChange={(e) =>
+                                        onChange(
+                                            e.target.value === ''
+                                                ? ''
+                                                : Number(e.target.value),
+                                        )
+                                    }
                                     label="Price"
                                     type="number"
-                                    InputLabelProps={{ shrink: true }}
+                                    inputProps={{ min: 0 }}
                                     error={!!errors.price}
                                     helperText={errors.price?.message}
                                     fullWidth
                                 />
                             )}
                         />
-
                         <Controller
                             name="stock"
                             control={control}
                             rules={menuItemValidation.stockQuantity}
-                            render={({ field }) => (
+                            render={({ field: { onChange, ...field } }) => (
                                 <TextField
                                     {...field}
+                                    onChange={(e) =>
+                                        onChange(
+                                            e.target.value === ''
+                                                ? ''
+                                                : Number(e.target.value),
+                                        )
+                                    }
                                     label="Stock quantity"
                                     type="number"
-                                    InputLabelProps={{ shrink: true }}
+                                    inputProps={{ min: 0 }}
                                     error={!!errors.stock}
                                     helperText={errors.stock?.message}
                                     fullWidth

@@ -15,6 +15,7 @@ export const StyledCard = styled(Card)(({ theme }) => ({
     maxWidth: 300,
     flexGrow: 1,
     width: '40%',
+    padding: theme.spacing(1),
     boxShadow: theme.shadows[10],
     borderRadius: theme.spacing(2),
     [theme.breakpoints.up('md')]: {

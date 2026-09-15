@@ -22,10 +22,12 @@ export const useMenu = (restaurantId: string | undefined) => {
     const registeredUser = fetchUser();
     const dispatch = useAppDispatch();
 
-    // 1. Extract values directly from Redux state
-    const { menuItems, loading, error } = useAppSelector((state) => state.menu);
+    //  Extract values directly from Redux state
+    const { menuItems, menuLoading, menuError } = useAppSelector(
+        (state) => state.menu,
+    );
 
-    // 2. Fetch data only when restaurantId or dispatch changes
+    //  Fetch data only when restaurantId or dispatch changes
     useEffect(() => {
         if (!restaurantId) return;
 
@@ -50,43 +52,66 @@ export const useMenu = (restaurantId: string | undefined) => {
         };
 
         void fetchData();
-    }, [dispatch, restaurantId]); // Removed menuItems to prevent infinite loop
+    }, [dispatch, restaurantId]);
 
-    /** Function to handle adding a new menuItem in the redux store. */
+    /** Function to handle adding a new menu item in the redux store.
+     * @param data - new item's data
+     * @returns void
+     */
     const handleAddMenuItem = (data: Menu) => {
         if (data) dispatch(addMenuItems(data));
     };
 
-    /** Function to handle editing an existing MenuItem in the redux store. */
+    /** Function to handle editing an existing MenuItem in the redux store.
+     * @param data - updated item's data
+     * @returns void
+     */
     const handleEditMenuItem = (data: Menu) => {
         if (data) dispatch(editMenuItems(data));
     };
 
-    /** Function to handle deleting a MenuItem in the redux store. */
+    /** Function to handle deleting a MenuItem in the redux store.
+     * @param itemId - item id of the item
+     * @returns void
+     */
     const handleDeleteMenuItem = (itemId: string) => {
         if (itemId) dispatch(deleteMenuItems(itemId));
     };
-    /** Function to handle deleting a MenuItem in the redux store. */
-    const handleAddToCart = (menu: Menu) => {
-        if (menu.stock <= 0) return;
 
-        dispatch(decrementStock(menu.itemId));
+    /** Function to handle add to cart a menu item and decrement the stock quantity.
+     * @param id - id of the item
+     * @param quantity - selected quantity of the item.
+     * @returns void
+     */
+    const handleAddToCart = (id: string, quantity: number) => {
+        const item = menuItems.find((i) => id === i.itemId);
+        if (item) {
+            if (item.stock <= 0) return;
+        } else {
+            return quantity;
+        }
     };
 
-    /** Function to handle restock a MenuItem in the redux store. */
+    /** Function to handle restock a MenuItem in the redux store.
+     *  @param id - id of the item
+     *  @returns void
+     */
     const handleIncreaseStock = (id: string) => {
         dispatch(incrementStock(id));
     };
 
-    /** Function to handle restock a MenuItem in the redux store. */
+    /** Function to handle decrement the stock quantity of a menu item in the redux store.
+     *  @param id - id of the item
+     *  @returns void
+     */
     const handleDecreaseStock = (id: string) => {
-        dispatch(decrementStock(id));
+        dispatch(decrementStock({ id }));
     };
 
     return {
         userRole: registeredUser?.role,
-        loading,
-        error,
+        menuLoading,
+        menuError,
         filteredMenuItems: menuItems,
         handleAddMenuItem,
         handleEditMenuItem,

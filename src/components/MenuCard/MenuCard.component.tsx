@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import { QuantityDropdown } from 'components/QuantityDropdown/QuantityDropdown.component';
+
 import { CurrencyRupee } from '@mui/icons-material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import BlockIcon from '@mui/icons-material/Block';
@@ -12,6 +14,7 @@ import {
     IconButton,
     Stack,
     Typography,
+    useMediaQuery,
 } from '@mui/material';
 
 import fallBackImage from '@assets/images/fallback-image.webp';
@@ -34,6 +37,8 @@ import { MenuCardProps } from './MenuCard.types';
 export function MenuCard({
     menu,
     userRole,
+    quantities,
+    setQuantities,
     onEditClick,
     onDelete,
     onAddToCart,
@@ -41,6 +46,9 @@ export function MenuCard({
     onDecreaseStock,
 }: MenuCardProps) {
     const [imgSrc, setImgSrc] = useState(menu.imageUrl || fallBackImage);
+     // Returns true if screen width is smaller than the 'md' breakpoint.
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
     return (
         <StyledCard>
             <StyledCardMedia
@@ -66,51 +74,46 @@ export function MenuCard({
                 <StyledDescription variant="body2" gutterBottom>
                     {menu.description}
                 </StyledDescription>
-                <Stack direction="row" spacing={2} alignItems="center">
-                    {/* Flexible Owner Controls */}
-                    {userRole === 'owner' ? (
-                        <Stack
-                            direction="row"
-                            alignItems="center"
-                            spacing={1}
-                            sx={{
-                                border: '1px dashed #ccc',
-                                borderRadius: 2,
-                                px: 1,
-                            }}
+                {/* Flexible Owner Controls */}
+                {userRole === 'owner' ? (
+                    <Stack
+                        direction="row"
+                        alignItems="center"
+                        spacing={1}
+                        border="1px dashed #ccc"
+                        borderRadius={theme.shape.borderRadius}
+                        padding={theme.spacing(1)}
+                    >
+                        <Typography variant="caption" color="text.secondary">
+                            Stock Quantity:
+                        </Typography>
+
+                        {/* Decrement Button (-1) */}
+                        <IconButton
+                            size="small"
+                            color="warning"
+                            disabled={menu.stock <= 0}
+                            onClick={onDecreaseStock}
                         >
-                            <Typography
-                                variant="caption"
-                                color="text.secondary"
-                            >
-                                Stock Quantity:
-                            </Typography>
+                            <RemoveCircleOutlineIcon fontSize="small" />
+                        </IconButton>
 
-                            {/* Decrement Button (-1) */}
-                            <IconButton
-                                size="small"
-                                color="warning"
-                                disabled={menu.stock <= 0}
-                                onClick={onDecreaseStock}
-                            >
-                                <RemoveCircleOutlineIcon fontSize="small" />
-                            </IconButton>
+                        {/* Display Current Stock Value */}
+                        <Typography variant="body2" fontWeight="bold">
+                            {menu.stock}
+                        </Typography>
 
-                            {/* Display Current Stock Value */}
-                            <Typography variant="body2" fontWeight="bold">
-                                {menu.stock}
-                            </Typography>
-
-                            {/* Increment Button (+1) */}
-                            <IconButton
-                                size="small"
-                                color="primary"
-                                onClick={onIncreaseStock}
-                            >
-                                <AddCircleOutlineIcon fontSize="small" />
-                            </IconButton>
-                        </Stack>
-                    ) : (
+                        {/* Increment Button (+1) */}
+                        <IconButton
+                            size="small"
+                            color="primary"
+                            onClick={onIncreaseStock}
+                        >
+                            <AddCircleOutlineIcon fontSize="small" />
+                        </IconButton>
+                    </Stack>
+                ) : (
+                    <Stack minHeight={isMobile?100:'initial'} direction={isMobile ?"column":"row"} spacing={2} alignItems="start">
                         <Chip
                             icon={
                                 menu.stock > 0 ? (
@@ -126,8 +129,21 @@ export function MenuCard({
                             }
                             color={menu.stock > 0 ? 'success' : 'error'}
                         />
-                    )}
-                </Stack>
+                        {menu.stock > 0 && (
+                            <QuantityDropdown
+                                key={menu.itemId}
+                                quantity={quantities[menu.itemId] ?? 1}
+                                setQuantity={(newQty: number) => {
+                                    setQuantities((prev) => ({
+                                        ...prev,
+                                        [menu.itemId]: newQty,
+                                    }));
+                                }}
+                                maxQuantity={menu.stock}
+                            />
+                        )}
+                    </Stack>
+                )}
                 <Box
                     display="flex"
                     alignItems="center"
@@ -156,7 +172,11 @@ export function MenuCard({
                         </Button>
                     </Box>
                 ) : (
-                    <Button variant="contained" onClick={onAddToCart}>
+                    <Button
+                        variant="contained"
+                        onClick={onAddToCart}
+                        disabled={menu.stock === 0}
+                    >
                         <Typography variant="button" textTransform="none">
                             Add to cart
                         </Typography>

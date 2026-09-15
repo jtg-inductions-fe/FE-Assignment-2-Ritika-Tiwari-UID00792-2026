@@ -5,6 +5,14 @@ export interface MenuCardProps {
     menu: Menu;
     /** Stores the userRole to render the role based cards.  */
     userRole: string | undefined;
+    /** Stores the set quantity of items mapped by Card ID. */
+    quantities: Record<string, number>;
+    /** Callback function to handle the set quantity of items. */
+    setQuantities: (
+        quantities:
+            | Record<string, number>
+            | ((prev: Record<string, number>) => Record<string, number>),
+    ) => void;
     /** Callback function to handle the edit modal. */
     onEditClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
     /** Callback function to handle the delete functionality. */

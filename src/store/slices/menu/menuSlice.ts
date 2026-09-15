@@ -4,12 +4,12 @@ import { Menu } from '@types';
 import { MenuState } from './menu.types';
 
 /**
- * Initialize the menus state
+ * Initialize the menu state
  */
 const initialState: MenuState = {
     menuItems: [],
-    loading: false,
-    error: null,
+    menuLoading: false,
+    menuError: null,
 };
 
 const menuSlice = createSlice({
@@ -21,13 +21,14 @@ const menuSlice = createSlice({
             state.menuItems = action.payload;
         },
 
-        /** Add new menu data in the redux store. */
+        /** Add new menu item data in the redux store. */
         addMenuItems: (state, action: PayloadAction<Menu>) => {
             state.menuItems.push(action.payload);
         },
-        /** Edit the menu data in the redux store. */
+
+        /** Edit the menu item data in the redux store. */
         editMenuItems: (state, action: PayloadAction<Menu>) => {
-            // find the menu index from the redux store and update the data of menu.
+            // find the menu item index from the redux store and update the data of menu item.
             const index = state.menuItems.findIndex(
                 (m) => m.itemId === action.payload.itemId,
             );
@@ -35,40 +36,44 @@ const menuSlice = createSlice({
                 state.menuItems[index] = action.payload;
             }
         },
-        /** Delete the menu for the given menu id from the redux store. */
+
+        /** Delete the menu item for the given menu id from the redux store. */
         deleteMenuItems: (state, action: PayloadAction<string>) => {
             const idToDelete = action.payload;
             state.menuItems = state.menuItems.filter(
                 (m) => m.itemId !== idToDelete,
             );
         },
-        /** Reducer to decrement stock when added to cart */
-        decrementStock: (state, action: PayloadAction<string>) => {
-            const menuItem = state.menuItems.find(
-                (item) => item.itemId === action.payload,
-            );
+
+        /** Reducer to decrement stock of a menu item. */
+        decrementStock: (
+            state,
+            action: PayloadAction<{ id: string; quantity?: number }>,
+        ) => {
+            const { id, quantity = 1 } = action.payload;
+            const menuItem = state.menuItems.find((item) => item.itemId === id);
             if (menuItem && menuItem.stock > 0) {
-                menuItem.stock -= 1; // Immer allows direct mutation safely
+                menuItem.stock -= quantity;
             }
         },
 
-        /** Reducer to decrement stock when added to cart */
+        /** Reducer to increment stock of a menu item. */
         incrementStock: (state, action: PayloadAction<string>) => {
             const menuItem = state.menuItems.find(
                 (item) => item.itemId === action.payload,
             );
-            if (menuItem && menuItem.stock > 0) {
-                menuItem.stock += 1; // Immer allows direct mutation safely
+            if (menuItem) {
+                menuItem.stock += 1;
             }
         },
 
         /** Sets the loading state. */
         setMenuLoading: (state, action: PayloadAction<boolean>) => {
-            state.loading = action.payload;
+            state.menuLoading = action.payload;
         },
         /** Sets the error state. */
         setMenuError: (state, action: PayloadAction<string | null>) => {
-            state.error = action.payload;
+            state.menuError = action.payload;
         },
     },
 });
