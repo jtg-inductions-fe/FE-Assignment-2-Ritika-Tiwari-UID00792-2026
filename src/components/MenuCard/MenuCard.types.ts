@@ -9,4 +9,10 @@ export interface MenuCardProps {
     onEditClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
     /** Callback function to handle the delete functionality. */
     onDelete: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    /** Callback function to handle the add to cart functionality. */
+    onAddToCart: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    /** Callback function to handle the add to cart functionality. */
+    onIncreaseStock: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    /** Callback function to handle the add to cart functionality. */
+    onDecreaseStock: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }

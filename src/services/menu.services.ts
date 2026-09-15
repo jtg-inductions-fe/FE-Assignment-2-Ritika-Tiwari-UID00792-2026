@@ -7,7 +7,7 @@ export const fetchMenuItemsByRestaurantId = async (restaurantId: string) => {
     if (!response.ok) {
         throw new Error('Network response was not ok');
     }
-    const data = await response.json() as Menu[];
+    const data = (await response.json()) as Menu[];
     const camelCaseData = camelcaseKeys(data, {
         deep: true,
     }) as Menu[];

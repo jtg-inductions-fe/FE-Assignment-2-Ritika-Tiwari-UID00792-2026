@@ -1,37 +1,41 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { useAuth } from '@hooks';
 import { fetchMenuItemsByRestaurantId } from '@services';
 import {
     addMenuItems,
+    decrementStock,
     deleteMenuItems,
     editMenuItems,
+    incrementStock,
     setMenuError,
     setMenuItems,
     setMenuLoading,
+    useAppDispatch,
+    useAppSelector,
 } from '@store';
-import { useAppDispatch } from '@store';
 import { Menu } from '@types';
 
 /** Custom hook to manage and provide Menu data. */
 export const useMenu = (restaurantId: string | undefined) => {
     const { fetchUser } = useAuth();
     const registeredUser = fetchUser();
-    const [filteredMenuItems, setFilteredMenuItems] = useState<Menu[]>([]);
     const dispatch = useAppDispatch();
 
-    // Fetch data from mock json on mount and convert the variables to camel case.
+    // 1. Extract values directly from Redux state
+    const { menuItems, loading, error } = useAppSelector((state) => state.menu);
+
+    // 2. Fetch data only when restaurantId or dispatch changes
     useEffect(() => {
+        if (!restaurantId) return;
+
         const fetchData = async () => {
             try {
                 dispatch(setMenuLoading(true));
                 dispatch(setMenuError(null));
-                if (restaurantId) {
-                    const filteredData =
-                        await fetchMenuItemsByRestaurantId(restaurantId);
-                    setFilteredMenuItems(filteredData);
-                    dispatch(setMenuItems(filteredData));
-                }
+                const filteredData =
+                    await fetchMenuItemsByRestaurantId(restaurantId);
+                dispatch(setMenuItems(filteredData));
             } catch (err) {
                 dispatch(
                     setMenuError(
@@ -46,41 +50,49 @@ export const useMenu = (restaurantId: string | undefined) => {
         };
 
         void fetchData();
-    }, [dispatch, restaurantId]);
+    }, [dispatch, restaurantId]); // Removed menuItems to prevent infinite loop
 
-    /** Function to handle add new menuItem in the redux store.
-     * @param data- takes the MenuItem data.
-     */
+    /** Function to handle adding a new menuItem in the redux store. */
     const handleAddMenuItem = (data: Menu) => {
-        if (data) {
-            dispatch(addMenuItems(data));
-        }
+        if (data) dispatch(addMenuItems(data));
     };
 
-    /** Function to handle edit existing MenuItem in the redux store.
-     * @param data- takes the MenuItem data.
-     */
+    /** Function to handle editing an existing MenuItem in the redux store. */
     const handleEditMenuItem = (data: Menu) => {
-
-        if (data) {
-            dispatch(editMenuItems(data));
-        }
+        if (data) dispatch(editMenuItems(data));
     };
 
-    /** Function to handle delete MenuItem in the redux store.
-     * @param MenuItemId- takes the MenuItem id to delete the MenuItem.
-     */
-    const handleDeleteMenuItem = (ItemId: string) => {
-        if (ItemId) {
-            dispatch(deleteMenuItems(ItemId));
-        }
+    /** Function to handle deleting a MenuItem in the redux store. */
+    const handleDeleteMenuItem = (itemId: string) => {
+        if (itemId) dispatch(deleteMenuItems(itemId));
+    };
+    /** Function to handle deleting a MenuItem in the redux store. */
+    const handleAddToCart = (menu: Menu) => {
+        if (menu.stock <= 0) return;
+
+        dispatch(decrementStock(menu.itemId));
+    };
+
+    /** Function to handle restock a MenuItem in the redux store. */
+    const handleIncreaseStock = (id: string) => {
+        dispatch(incrementStock(id));
+    };
+
+    /** Function to handle restock a MenuItem in the redux store. */
+    const handleDecreaseStock = (id: string) => {
+        dispatch(decrementStock(id));
     };
 
     return {
         userRole: registeredUser?.role,
-        filteredMenuItems,
+        loading,
+        error,
+        filteredMenuItems: menuItems,
         handleAddMenuItem,
         handleEditMenuItem,
         handleDeleteMenuItem,
+        handleAddToCart,
+        handleIncreaseStock,
+        handleDecreaseStock,
     };
 };
