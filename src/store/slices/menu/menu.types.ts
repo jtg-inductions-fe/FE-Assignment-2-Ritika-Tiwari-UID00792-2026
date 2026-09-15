@@ -4,7 +4,7 @@ export interface MenuState {
     /** Stores menu Items list */
     menuItems: Menu[];
     /** Stores loading state for menu Items list */
-    loading: boolean;
+    menuLoading: boolean;
     /** Stores error state for menu Items list */
-    error: string | null;
+    menuError: string | null;
 }

@@ -17,7 +17,7 @@
         "image_url": "/food-image/food-item2.webp",
         "type": "veg",
         "price": 120,
-        "stock": 45
+        "stock": 0
     },
     {
         "restaurant_id": "8f3b2c1a-4d6e-4a7b-8c9d-0e1f2a3b4c5d",
@@ -37,7 +37,7 @@
         "image_url": "/food-image/food-item4.webp",
         "type": "veg",
         "price": 110,
-        "stock": 40
+        "stock": 0
     },
     {
         "restaurant_id": "8f3b2c1a-4d6e-4a7b-8c9d-0e1f2a3b4c5d",

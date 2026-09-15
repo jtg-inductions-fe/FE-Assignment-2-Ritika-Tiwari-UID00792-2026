@@ -2,13 +2,13 @@
  * Validation for the Add and Edit modal's form fields.
  */
 export const menuItemValidation = {
-    /** Validations for MenuItem's name. */
+    /** Validations for menu item's name. */
     name: {
         required: 'MenuItem name is required',
         minLength: { value: 3, message: 'Name must be at least 3 characters' },
         maxLength: { value: 50, message: 'Name cannot exceed 50 characters' },
     },
-    /** Validations for MenuItem's description. */
+    /** Validations for menu item's description. */
     description: {
         required: 'Description is required',
         minLength: {

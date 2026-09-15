@@ -4,12 +4,21 @@ import { MenuItemModal } from 'components/MenuItemModal/MenuItemModal.component'
 import { useParams } from 'react-router-dom';
 
 import AddIcon from '@mui/icons-material/Add';
-import { Box, Button, Fab, Typography, useMediaQuery } from '@mui/material';
+import {
+    Box,
+    Button,
+    CardContent,
+    Fab,
+    Typography,
+    useMediaQuery,
+} from '@mui/material';
 
 import fallBackImage from '@assets/images/fallback-image.webp';
 import {
     ConfirmationDialog,
+    LoadingCardSkeleton,
     MenuCard,
+    NullStateCard,
     ResponsiveContainer,
     Snackbar,
 } from '@components';
@@ -17,11 +26,7 @@ import { useMenu, useRestaurant } from '@hooks';
 import { theme } from '@theme';
 import { Menu as MenuData } from '@types';
 
-import {
-    StyledCardContent,
-    StyledImage,
-    StyledRestaurantBox,
-} from './Menu.styles';
+import { StyledImage, StyledRestaurantBanner } from './Menu.styles';
 
 /**
  * Renders the Menu page.
@@ -30,10 +35,14 @@ import {
 export const Menu = () => {
     const { restaurantId } = useParams();
     const { filteredRestaurants } = useRestaurant();
+
+    // Find the restaurant data from the filtered restaurants.
     const restaurantData = filteredRestaurants.find(
         (restaurant) => restaurant.restaurantId === restaurantId,
     );
     const {
+        menuLoading,
+        menuError,
         userRole,
         filteredMenuItems,
         handleDeleteMenuItem,
@@ -44,17 +53,28 @@ export const Menu = () => {
 
     /** State to control the Add and edit modals. */
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    /** State to control the editing mode of the modal. */
     const [editingMenuItem, setEditingMenuItem] = useState<MenuData | null>(
         null,
     );
 
-    // Track the item ID currently staged for deletion
+    // Track the item Id currently staged for deletion.
     const [itemStagedForDeletion, setItemStagedForDeletion] = useState<
         string | null
     >(null);
 
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
     const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
+    const [snackbarMessage, setSnackbarMessage] = useState<string>(
+        'Some Error Occurred, Try later.',
+    );
+    const [snackbarState, setSnackbarState] = useState<
+        'error' | 'success' | 'warning'
+    >('error');
+
+    /** State to control the quantity of a menu item. */
+    const [quantities, setQuantities] = useState<Record<string, number>>({});
 
     /** Handle Add restaurant modal open state. */
     const handleOpenAddModal = () => {
@@ -85,7 +105,11 @@ export const Menu = () => {
             try {
                 // Execute the deletion only after confirmation
                 handleDeleteMenuItem(itemStagedForDeletion);
-            } catch  {
+
+                setIsSnackbarOpen(true);
+                setSnackbarMessage('Item deleted successfully');
+                setSnackbarState('success');
+            } catch {
                 setIsSnackbarOpen(true);
             } finally {
                 setItemStagedForDeletion(null);
@@ -106,34 +130,50 @@ export const Menu = () => {
     /**
      * Function to handle staging a menu item for deletion.
      * @param itemId - menu item id used to stage the deletion.
+     * @returns void
      */
     const handleOnDelete = (itemId: string) => {
         setItemStagedForDeletion(itemId);
         setIsDialogOpen(true);
     };
 
-    /** Handle om add to cart functionality. */
-    const handleOnAddToCart = (menu: MenuData) => {
-        handleAddToCart(menu);
+    /** Handle on add to cart functionality.
+     * @param itemId - menu item id used to add the item in the cart.
+     * @param quantity - quantity of the selected item added in the cart.
+     * @returns void
+     */
+    const handleOnAddToCart = (itemId: string, quantity: number) => {
+        handleAddToCart(itemId, quantity);
+        setIsSnackbarOpen(true);
+        setSnackbarMessage('Item added to cart successfully');
+        setSnackbarState('success');
     };
-    /** Handle om add to cart functionality. */
-    const handleOnIncreaseStock = (id: string) => {
-        handleIncreaseStock(id);
+
+    /** Handle on increment the count of items in the stock.
+     * @param itemId - id of the item whose stock quantity will be decreased.
+     * @returns void
+     */
+    const handleOnIncreaseStock = (itemId: string) => {
+        handleIncreaseStock(itemId);
     };
-    /** Handle om add to cart functionality. */
-    const handleOnDecreaseStock = (id: string) => {
-        handleDecreaseStock(id);
+    /** Handle on decrement the count of items in the stock.
+     * @param itemId - id of the item whose stock quantity will be decreased.
+     * @returns void
+     */
+    const handleOnDecreaseStock = (itemId: string) => {
+        handleDecreaseStock(itemId);
     };
 
     // Returns true if screen width is smaller than the 'md' breakpoint.
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
+    // handle the fallback state of the banner image.
     const [restImgSrc, setRestImgSrc] = useState(
         restaurantData?.imageUrl || fallBackImage,
     );
     return (
         <ResponsiveContainer>
-            <StyledRestaurantBox>
+            <StyledRestaurantBanner>
                 <StyledImage
                     src={restImgSrc}
                     onError={() => {
@@ -142,9 +182,11 @@ export const Menu = () => {
                         }
                     }}
                 />
-                <StyledCardContent>
-                    <Typography variant="h4">{restaurantData?.name}</Typography>
-                    <Typography variant="body2">
+                <CardContent>
+                    <Typography variant="h4" gutterBottom>
+                        {restaurantData?.name}
+                    </Typography>
+                    <Typography variant="body2" gutterBottom>
                         {restaurantData?.description}
                     </Typography>
                     {userRole === 'owner' && !isMobile && (
@@ -153,12 +195,15 @@ export const Menu = () => {
                             startIcon={<AddIcon />}
                             onClick={handleOpenAddModal}
                         >
-                            Add menu items
+                            <Typography variant="button" textTransform="none">
+                                Add menu items
+                            </Typography>
                         </Button>
                     )}
-                </StyledCardContent>
-            </StyledRestaurantBox>
-            {/* Add Menu option will only show to owners */}
+                </CardContent>
+            </StyledRestaurantBanner>
+
+            {/* Add Menu Item option will only show to owners */}
             {userRole === 'owner' && isMobile && (
                 <Fab
                     color="primary"
@@ -178,34 +223,64 @@ export const Menu = () => {
                 justifyContent="center"
                 marginBlock={theme.spacing(3.2)}
             >
-                {filteredMenuItems.map((menu) => (
-                    <MenuCard
-                        key={menu.itemId}
-                        menu={menu}
-                        userRole={userRole}
-                        onEditClick={(event) => {
-                            event.stopPropagation();
-                            handleOpenEditModal(menu);
-                        }}
-                        onDelete={(event) => {
-                            event.stopPropagation();
-                            handleOnDelete(menu.itemId);
-                        }}
-                        onAddToCart={(event) => {
-                            event.stopPropagation();
-                            handleOnAddToCart(menu);
-                        }}
-                        onDecreaseStock={(event) => {
-                            event.stopPropagation();
-                            handleOnDecreaseStock(menu.itemId);
-                        }}
-                        onIncreaseStock={(event) => {
-                            event.stopPropagation();
-                            handleOnIncreaseStock(menu.itemId);
-                        }}
-                    />
-                ))}
+                {menuLoading && (
+                    <>
+                        <LoadingCardSkeleton />
+                        <LoadingCardSkeleton />
+                        <LoadingCardSkeleton />
+                        <LoadingCardSkeleton />
+                        <LoadingCardSkeleton />
+                        <LoadingCardSkeleton />
+                    </>
+                )}
+
+                {!menuLoading &&
+                    (menuError || filteredMenuItems.length === 0) && (
+                        <NullStateCard
+                            title=""
+                            description={
+                                menuError
+                                    ? 'Failed to load data.'
+                                    : 'No items found for this restaurant.'
+                            }
+                        />
+                    )}
+                {!menuLoading &&
+                    !menuError &&
+                    filteredMenuItems.map((menu) => (
+                        <MenuCard
+                            key={menu.itemId}
+                            menu={menu}
+                            userRole={userRole}
+                            quantities={quantities}
+                            setQuantities={setQuantities}
+                            onEditClick={(event) => {
+                                event.stopPropagation();
+                                handleOpenEditModal(menu);
+                            }}
+                            onDelete={(event) => {
+                                event.stopPropagation();
+                                handleOnDelete(menu.itemId);
+                            }}
+                            onAddToCart={(event) => {
+                                event.stopPropagation();
+                                handleOnAddToCart(
+                                    menu.itemId,
+                                    quantities[menu.itemId],
+                                );
+                            }}
+                            onDecreaseStock={(event) => {
+                                event.stopPropagation();
+                                handleOnDecreaseStock(menu.itemId);
+                            }}
+                            onIncreaseStock={(event) => {
+                                event.stopPropagation();
+                                handleOnIncreaseStock(menu.itemId);
+                            }}
+                        />
+                    ))}
             </Box>
+
             {/* Reusable form modal for both edit and add menu item */}
             <MenuItemModal
                 open={isModalOpen}
@@ -224,8 +299,8 @@ export const Menu = () => {
                 open={isSnackbarOpen}
                 autoHideDuration={2000}
                 onClose={() => setIsSnackbarOpen(false)}
-                message="Some Error Occurred, Try later."
-                state="error"
+                message={snackbarMessage}
+                state={snackbarState}
             />
         </ResponsiveContainer>
     );
