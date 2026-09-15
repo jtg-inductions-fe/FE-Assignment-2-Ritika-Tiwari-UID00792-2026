@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import { Box, Button, Fab, Typography, useMediaQuery } from '@mui/material';
 
+import fallBackImage from '@assets/images/fallback-image.webp';
 import {
     ConfirmationDialog,
     MenuCard,
@@ -32,14 +33,28 @@ export const Menu = () => {
     const restaurantData = filteredRestaurants.find(
         (restaurant) => restaurant.restaurantId === restaurantId,
     );
-    const { userRole, filteredMenuItems, handleDeleteMenuItem } =
-        useMenu(restaurantId);
+    const {
+        userRole,
+        filteredMenuItems,
+        handleDeleteMenuItem,
+        handleAddToCart,
+        handleIncreaseStock,
+        handleDecreaseStock,
+    } = useMenu(restaurantId);
 
     /** State to control the Add and edit modals. */
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingMenuItem, setEditingMenuItem] = useState<MenuData | null>(
         null,
     );
+
+    // Track the item ID currently staged for deletion
+    const [itemStagedForDeletion, setItemStagedForDeletion] = useState<
+        string | null
+    >(null);
+
+    const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+    const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
 
     /** Handle Add restaurant modal open state. */
     const handleOpenAddModal = () => {
@@ -59,23 +74,24 @@ export const Menu = () => {
         setEditingMenuItem(null);
     };
 
-    const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-    const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
-
     /**
      * Handles the confirmation event from the confirmation dialog.
      * @param confirmation - A boolean value defining user confirmation from the dialog.
      */
     const handleSubmit = (confirmation: boolean) => {
         setIsDialogOpen(false);
-        if (confirmation) {
+
+        if (confirmation && itemStagedForDeletion) {
             try {
-                setIsDialogOpen(true);
-            } catch (err) {
-                if (err) {
-                    setIsSnackbarOpen(true);
-                }
+                // Execute the deletion only after confirmation
+                handleDeleteMenuItem(itemStagedForDeletion);
+            } catch  {
+                setIsSnackbarOpen(true);
+            } finally {
+                setItemStagedForDeletion(null);
             }
+        } else {
+            setItemStagedForDeletion(null);
         }
     };
 
@@ -84,24 +100,48 @@ export const Menu = () => {
      */
     const handleClose = () => {
         setIsDialogOpen(false);
+        setItemStagedForDeletion(null);
     };
 
     /**
-     * Function to handle delete restaurant event.
-     * @param restaurantId - restaurant id is used to delete the selected restaurant.
+     * Function to handle staging a menu item for deletion.
+     * @param itemId - menu item id used to stage the deletion.
      */
     const handleOnDelete = (itemId: string) => {
+        setItemStagedForDeletion(itemId);
         setIsDialogOpen(true);
-        handleDeleteMenuItem(itemId);
+    };
+
+    /** Handle om add to cart functionality. */
+    const handleOnAddToCart = (menu: MenuData) => {
+        handleAddToCart(menu);
+    };
+    /** Handle om add to cart functionality. */
+    const handleOnIncreaseStock = (id: string) => {
+        handleIncreaseStock(id);
+    };
+    /** Handle om add to cart functionality. */
+    const handleOnDecreaseStock = (id: string) => {
+        handleDecreaseStock(id);
     };
 
     // Returns true if screen width is smaller than the 'md' breakpoint.
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
+    const [restImgSrc, setRestImgSrc] = useState(
+        restaurantData?.imageUrl || fallBackImage,
+    );
     return (
         <ResponsiveContainer>
             <StyledRestaurantBox>
-                <StyledImage src={restaurantData?.imageUrl} />
+                <StyledImage
+                    src={restImgSrc}
+                    onError={() => {
+                        if (restImgSrc !== fallBackImage) {
+                            setRestImgSrc(fallBackImage);
+                        }
+                    }}
+                />
                 <StyledCardContent>
                     <Typography variant="h4">{restaurantData?.name}</Typography>
                     <Typography variant="body2">
@@ -150,6 +190,18 @@ export const Menu = () => {
                         onDelete={(event) => {
                             event.stopPropagation();
                             handleOnDelete(menu.itemId);
+                        }}
+                        onAddToCart={(event) => {
+                            event.stopPropagation();
+                            handleOnAddToCart(menu);
+                        }}
+                        onDecreaseStock={(event) => {
+                            event.stopPropagation();
+                            handleOnDecreaseStock(menu.itemId);
+                        }}
+                        onIncreaseStock={(event) => {
+                            event.stopPropagation();
+                            handleOnIncreaseStock(menu.itemId);
                         }}
                     />
                 ))}

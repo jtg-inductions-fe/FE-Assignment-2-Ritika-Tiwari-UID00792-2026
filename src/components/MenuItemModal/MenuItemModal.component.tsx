@@ -163,7 +163,7 @@ export const MenuItemModal = ({
                         render={({ field }) => (
                             <TextField
                                 {...field}
-                                label="MenuItem Name"
+                                label="Item Name"
                                 error={!!errors.name}
                                 helperText={errors.name?.message}
                                 fullWidth
@@ -211,7 +211,7 @@ export const MenuItemModal = ({
                         <Controller
                             name="price"
                             control={control}
-                            rules={menuItemValidation.openingTime}
+                            rules={menuItemValidation.price}
                             render={({ field }) => (
                                 <TextField
                                     {...field}
@@ -228,7 +228,7 @@ export const MenuItemModal = ({
                         <Controller
                             name="stock"
                             control={control}
-                            rules={menuItemValidation.closingTime}
+                            rules={menuItemValidation.stockQuantity}
                             render={({ field }) => (
                                 <TextField
                                     {...field}

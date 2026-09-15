@@ -1,21 +1,30 @@
 import { useState } from 'react';
 
 import { CurrencyRupee } from '@mui/icons-material';
-import { Box, Button, Typography } from '@mui/material';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import BlockIcon from '@mui/icons-material/Block';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import {
+    Box,
+    Button,
+    Chip,
+    IconButton,
+    Stack,
+    Typography,
+} from '@mui/material';
 
 import fallBackImage from '@assets/images/fallback-image.webp';
 import { theme } from '@theme';
 
 import {
     StyledCard,
-    StyledCardActionArea,
     StyledCardContent,
     StyledCardMedia,
     StyledDescription,
     StyledTitle,
 } from './MenuCard.styles';
 import { MenuCardProps } from './MenuCard.types';
-import restImage from '../../../public/res-image/res-image5.webp';
 
 /**
  * A menu card that displays the details of menu.
@@ -27,77 +36,133 @@ export function MenuCard({
     userRole,
     onEditClick,
     onDelete,
+    onAddToCart,
+    onIncreaseStock,
+    onDecreaseStock,
 }: MenuCardProps) {
-    const [imgSrc, setImgSrc] = useState(restImage || fallBackImage);
+    const [imgSrc, setImgSrc] = useState(menu.imageUrl || fallBackImage);
     return (
         <StyledCard>
-            <StyledCardActionArea>
-                <StyledCardMedia
-                    component="img"
-                    height="140"
-                    image={restImage}
-                    alt={menu.name}
-                    onError={() => {
-                        // Compare state variable directly to avoid endless loop
-                        if (imgSrc !== fallBackImage) {
-                            setImgSrc(fallBackImage);
-                        }
-                    }}
-                />
-                <StyledCardContent>
-                    <StyledTitle gutterBottom variant="subtitle1">
-                        {menu.name}
-                    </StyledTitle>
-                    <StyledDescription variant="body2" gutterBottom>
-                        {menu.description}
-                    </StyledDescription>
-                    <Box
-                        display="flex"
-                        alignItems="center"
-                        marginBlock={theme.spacing(1.6)}
-                    >
-                        <CurrencyRupee color="primary" />
-                        <Typography variant="h6">{menu.price}</Typography>
-                    </Box>
-                    {/* Show the edit and delete buttons only to the owners */}
+            <StyledCardMedia
+                color={
+                    menu.stock === 0
+                        ? theme.palette.action.disabledBackground
+                        : theme.palette.background.default
+                }
+                component="img"
+                height="140"
+                image={imgSrc}
+                alt={menu.name}
+                onError={() => {
+                    if (imgSrc !== fallBackImage) {
+                        setImgSrc(fallBackImage);
+                    }
+                }}
+            />
+            <StyledCardContent>
+                <StyledTitle gutterBottom variant="subtitle1">
+                    {menu.name}
+                </StyledTitle>
+                <StyledDescription variant="body2" gutterBottom>
+                    {menu.description}
+                </StyledDescription>
+                <Stack direction="row" spacing={2} alignItems="center">
+                    {/* Flexible Owner Controls */}
                     {userRole === 'owner' ? (
-                        <Box display="flex" gap={1} alignSelf="end">
-                            <Button
-                                variant="text"
-                                onClick={onEditClick}
-                                fullWidth
+                        <Stack
+                            direction="row"
+                            alignItems="center"
+                            spacing={1}
+                            sx={{
+                                border: '1px dashed #ccc',
+                                borderRadius: 2,
+                                px: 1,
+                            }}
+                        >
+                            <Typography
+                                variant="caption"
+                                color="text.secondary"
                             >
-                                <Typography
-                                    variant="button"
-                                    textTransform="none"
-                                >
-                                    {' '}
-                                    Edit
-                                </Typography>
-                            </Button>
-                            <Button
-                                variant="error"
-                                onClick={onDelete}
-                                fullWidth
+                                Stock Quantity:
+                            </Typography>
+
+                            {/* Decrement Button (-1) */}
+                            <IconButton
+                                size="small"
+                                color="warning"
+                                disabled={menu.stock <= 0}
+                                onClick={onDecreaseStock}
                             >
-                                <Typography
-                                    variant="button"
-                                    textTransform="none"
-                                >
-                                    {' '}
-                                    Delete
-                                </Typography>
-                            </Button>
-                        </Box>
+                                <RemoveCircleOutlineIcon fontSize="small" />
+                            </IconButton>
+
+                            {/* Display Current Stock Value */}
+                            <Typography variant="body2" fontWeight="bold">
+                                {menu.stock}
+                            </Typography>
+
+                            {/* Increment Button (+1) */}
+                            <IconButton
+                                size="small"
+                                color="primary"
+                                onClick={onIncreaseStock}
+                            >
+                                <AddCircleOutlineIcon fontSize="small" />
+                            </IconButton>
+                        </Stack>
                     ) : (
-                        <Button variant="contained">
+                        <Chip
+                            icon={
+                                menu.stock > 0 ? (
+                                    <CheckCircleIcon />
+                                ) : (
+                                    <BlockIcon />
+                                )
+                            }
+                            label={
+                                menu.stock > 0
+                                    ? `${menu.stock} in Stock`
+                                    : `Out of Stock`
+                            }
+                            color={menu.stock > 0 ? 'success' : 'error'}
+                        />
+                    )}
+                </Stack>
+                <Box
+                    display="flex"
+                    alignItems="center"
+                    marginBlock={theme.spacing(1.6)}
+                >
+                    <CurrencyRupee color="primary" />
+                    <Typography variant="h6">{menu.price}</Typography>
+                </Box>
+
+                {/* Show the edit and delete buttons only to the owners */}
+                {userRole === 'owner' ? (
+                    <Box display="flex" gap={1} alignSelf="end" width="100%">
+                        <Button variant="text" onClick={onEditClick}>
                             <Typography variant="button" textTransform="none">
-                                Add to card
+                                Edit
                             </Typography>
                         </Button>
-                    )}
-                </StyledCardContent>
-            </StyledCardActionArea>
+                        <Button
+                            variant="outlined"
+                            color="error"
+                            onClick={onDelete}
+                        >
+                            <Typography variant="button" textTransform="none">
+                                Delete
+                            </Typography>
+                        </Button>
+                    </Box>
+                ) : (
+                    <Button variant="contained" onClick={onAddToCart}>
+                        <Typography variant="button" textTransform="none">
+                            Add to cart
+                        </Typography>
+                    </Button>
+                )}
+            </StyledCardContent>
         </StyledCard>
     );
 }

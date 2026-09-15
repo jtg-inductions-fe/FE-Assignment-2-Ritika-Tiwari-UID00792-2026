@@ -20,22 +20,20 @@ export const menuItemValidation = {
             message: 'Description cannot exceed 300 characters',
         },
     },
-    /** Validations for MenuItem's opening time. */
-    openingTime: {
-        required: 'Opening time is required',
+
+    /** Validation for price. */
+    price: {
+        required: 'Price is required',
+        min: 'Price must be greater than or equal to 0',
     },
-    /** Validations for MenuItem's closing time. */
-    closingTime: {
-        required: 'Closing time is required',
+
+    /** Validation for stock quantity. */
+    stockQuantity: {
+        required: 'Stock quantity is required',
+        min: 'Stock quantity cannot be less than 0',
+        integer: 'Stock quantity must be a whole number',
     },
-    /** Validations for MenuItem's Address. */
-    address: {
-        required: 'Address is required',
-        minLength: {
-            value: 5,
-            message: 'Address must be at least 5 characters',
-        },
-    },
+
     /** Validations for MenuItem's imageUrl. */
     imageUrl: {
         required: 'Image URL is required',

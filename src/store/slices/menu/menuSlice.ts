@@ -42,6 +42,26 @@ const menuSlice = createSlice({
                 (m) => m.itemId !== idToDelete,
             );
         },
+        /** Reducer to decrement stock when added to cart */
+        decrementStock: (state, action: PayloadAction<string>) => {
+            const menuItem = state.menuItems.find(
+                (item) => item.itemId === action.payload,
+            );
+            if (menuItem && menuItem.stock > 0) {
+                menuItem.stock -= 1; // Immer allows direct mutation safely
+            }
+        },
+
+        /** Reducer to decrement stock when added to cart */
+        incrementStock: (state, action: PayloadAction<string>) => {
+            const menuItem = state.menuItems.find(
+                (item) => item.itemId === action.payload,
+            );
+            if (menuItem && menuItem.stock > 0) {
+                menuItem.stock += 1; // Immer allows direct mutation safely
+            }
+        },
+
         /** Sets the loading state. */
         setMenuLoading: (state, action: PayloadAction<boolean>) => {
             state.loading = action.payload;
@@ -60,6 +80,8 @@ export const {
     editMenuItems,
     setMenuLoading,
     setMenuError,
+    incrementStock,
+    decrementStock,
 } = menuSlice.actions;
 
 export default menuSlice.reducer;
