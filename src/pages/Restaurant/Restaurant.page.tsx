@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -45,10 +45,10 @@ export const Restaurant = () => {
         useState<RestaurantData | null>(null);
 
     /** Handle Add restaurant modal open state. */
-    const handleOpenAddModal = () => {
+    const handleOpenAddModal = useCallback(() => {
         setEditingRestaurant(null);
         setIsModalOpen(true);
-    };
+    }, []);
 
     /** Handle Edit restaurant modal open state. */
     const handleOpenEditModal = (restaurant: RestaurantData) => {
@@ -57,10 +57,10 @@ export const Restaurant = () => {
     };
 
     /** Handle edit and add restaurant modal closing state */
-    const handleCloseModal = () => {
+    const handleCloseModal = useCallback(() => {
         setIsModalOpen(false);
         setEditingRestaurant(null);
-    };
+    }, []);
 
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
@@ -78,40 +78,43 @@ export const Restaurant = () => {
      * Handles the confirmation event from the confirmation dialog.
      * @param confirmation - A boolean value defining user confirmation from the dialog.
      */
-    const handleSubmit = (confirmation: boolean) => {
-        setIsDialogOpen(false);
-        if (confirmation && selectedRestaurantID) {
-            try {
-                handleDeleteRestaurant(selectedRestaurantID);
-                setIsSnackbarOpen(true);
-                setSnackbarMessage('Restaurant deleted successfully');
-                setSnackbarState('success');
-            } catch {
-                setIsSnackbarOpen(true);
-            } finally {
+    const handleSubmit = useCallback(
+        (confirmation: boolean) => {
+            setIsDialogOpen(false);
+            if (confirmation && selectedRestaurantID) {
+                try {
+                    handleDeleteRestaurant(selectedRestaurantID);
+                    setIsSnackbarOpen(true);
+                    setSnackbarMessage('Restaurant deleted successfully');
+                    setSnackbarState('success');
+                } catch {
+                    setIsSnackbarOpen(true);
+                } finally {
+                    setSelectedRestaurantID('');
+                    setIsDialogOpen(false);
+                }
+            } else {
                 setSelectedRestaurantID('');
-                setIsDialogOpen(false);
             }
-        } else {
-            setSelectedRestaurantID('');
-        }
-    };
+        },
+        [handleDeleteRestaurant, selectedRestaurantID],
+    );
 
     /**
      * Function to handle close event of confirmation dialog.
      */
-    const handleClose = () => {
+    const handleClose = useCallback(() => {
         setIsDialogOpen(false);
-    };
+    }, []);
 
     /**
      * Function to handle delete restaurant event.
      * @param restaurantId - restaurant id is used to delete the selected restaurant.
      */
-    const handleOnDelete = (restaurantId: string) => {
+    const handleOnDelete = useCallback((restaurantId: string) => {
         setIsDialogOpen(true);
         setSelectedRestaurantID(restaurantId);
-    };
+    }, []);
 
     // Returns true if screen width is smaller than the 'md' breakpoint.
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
@@ -122,9 +125,12 @@ export const Restaurant = () => {
      * Function to handle click event on the restaurant card.
      * @param restaurantId - restaurant id of clicked restaurant.
      */
-    const handleRestaurantClick = (restaurantId: string) => {
-        void navigate(ROUTES.MENU.replace(':restaurantId', restaurantId));
-    };
+    const handleRestaurantClick = useCallback(
+        (restaurantId: string) => {
+            void navigate(ROUTES.MENU.replace(':restaurantId', restaurantId));
+        },
+        [navigate],
+    );
 
     return (
         <>

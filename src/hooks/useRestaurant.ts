@@ -105,92 +105,103 @@ export const useRestaurant = () => {
     /** Function to handle add new restaurant in the redux store.
      * @param data- takes the restaurant data.
      */
-    const handleAddRestaurant = (data: Restaurant) => {
-        if (data) {
-            dispatch(addRestaurant(data));
-        }
-    };
+    const handleAddRestaurant = useCallback(
+        (data: Restaurant) => {
+            if (data) {
+                dispatch(addRestaurant(data));
+            }
+        },
+        [dispatch],
+    );
 
     /** Function to handle edit existing restaurant in the redux store.
      * @param data- takes the restaurant data.
      */
-    const handleEditRestaurant = (data: Restaurant) => {
-        if (data) {
-            dispatch(editRestaurant(data));
-        }
-    };
+    const handleEditRestaurant = useCallback(
+        (data: Restaurant) => {
+            if (data) {
+                dispatch(editRestaurant(data));
+            }
+        },
+        [dispatch],
+    );
 
     /** Function to handle delete restaurant in the redux store.
      * @param restaurantId- takes the restaurant id to delete the restaurant.
      */
-    const handleDeleteRestaurant = (restaurantId: string) => {
-        if (restaurantId) {
-            dispatch(deleteRestaurant(restaurantId));
-        }
-    };
+    const handleDeleteRestaurant = useCallback(
+        (restaurantId: string) => {
+            if (restaurantId) {
+                dispatch(deleteRestaurant(restaurantId));
+            }
+        },
+        [dispatch],
+    );
 
     /** Function to check whether restaurant is closed or not based on the closing time.
      * @param openingTime - takes the opening time of restaurant.
      * @param closingTime - takes the closing time of restaurant.
      * @returns true/false
      */
-    const isRestaurantClosed = (
-        openingTime: string,
-        closingTime: string,
-    ): boolean => {
-        // Get current time in the target timezone (Asia/Kolkata)
-        const formatter = new Intl.DateTimeFormat('en-US', {
-            timeZone: 'Asia/Kolkata',
-            hour: 'numeric',
-            minute: '2-digit',
-            hour12: false,
-        });
+    const isRestaurantClosed = useCallback(
+        (openingTime: string, closingTime: string): boolean => {
+            // Get current time in the target timezone (Asia/Kolkata)
+            const formatter = new Intl.DateTimeFormat('en-US', {
+                timeZone: 'Asia/Kolkata',
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: false,
+            });
 
-        const parts = formatter.formatToParts(new Date());
-        const currentHour = parseInt(
-            parts.find((p) => p.type === 'hour')!.value,
-            10,
-        );
-        const currentMinute = parseInt(
-            parts.find((p) => p.type === 'minute')!.value,
-            10,
-        );
-        const currentMinutes = currentHour * 60 + currentMinute;
+            const parts = formatter.formatToParts(new Date());
+            const currentHour = parseInt(
+                parts.find((p) => p.type === 'hour')!.value,
+                10,
+            );
+            const currentMinute = parseInt(
+                parts.find((p) => p.type === 'minute')!.value,
+                10,
+            );
+            const currentMinutes = currentHour * 60 + currentMinute;
 
-        // Helper function to convert "HH:MM AM/PM" or "HH:MM" to total minutes from midnight
-        const parseTimeToMinutes = (timeStr: string): number => {
-            const [time, modifier] = timeStr.trim().split(' ');
-            const [hourStr, minuteStr] = time.split(':');
-            let hour = parseInt(hourStr, 10);
-            const minute = parseInt(minuteStr, 10);
+            // Helper function to convert "HH:MM AM/PM" or "HH:MM" to total minutes from midnight
+            const parseTimeToMinutes = (timeStr: string): number => {
+                const [time, modifier] = timeStr.trim().split(' ');
+                const [hourStr, minuteStr] = time.split(':');
+                let hour = parseInt(hourStr, 10);
+                const minute = parseInt(minuteStr, 10);
 
-            if (modifier) {
-                const upperModifier = modifier.toUpperCase();
-                if (upperModifier === 'PM' && hour < 12) hour += 12;
-                if (upperModifier === 'AM' && hour === 12) hour = 0;
+                if (modifier) {
+                    const upperModifier = modifier.toUpperCase();
+                    if (upperModifier === 'PM' && hour < 12) hour += 12;
+                    if (upperModifier === 'AM' && hour === 12) hour = 0;
+                }
+
+                return hour * 60 + minute;
+            };
+
+            const openMinutes = parseTimeToMinutes(openingTime);
+            const closeMinutes = parseTimeToMinutes(closingTime);
+
+            // Determine if the current time falls within operating hours
+            let isOpen = false;
+
+            if (closeMinutes > openMinutes) {
+                // Standard daytime shift (e.g., 10:00 AM to 11:00 PM)
+                isOpen =
+                    currentMinutes >= openMinutes &&
+                    currentMinutes < closeMinutes;
+            } else {
+                // Overnight shift crossing midnight (e.g., 6:00 PM to 3:00 AM)
+                isOpen =
+                    currentMinutes >= openMinutes ||
+                    currentMinutes < closeMinutes;
             }
 
-            return hour * 60 + minute;
-        };
-
-        const openMinutes = parseTimeToMinutes(openingTime);
-        const closeMinutes = parseTimeToMinutes(closingTime);
-
-        // Determine if the current time falls within operating hours
-        let isOpen = false;
-
-        if (closeMinutes > openMinutes) {
-            // Standard daytime shift (e.g., 10:00 AM to 11:00 PM)
-            isOpen =
-                currentMinutes >= openMinutes && currentMinutes < closeMinutes;
-        } else {
-            // Overnight shift crossing midnight (e.g., 6:00 PM to 3:00 AM)
-            isOpen =
-                currentMinutes >= openMinutes || currentMinutes < closeMinutes;
-        }
-
-        return !isOpen;
-    };
+            return !isOpen;
+        },
+        [],
+    );
 
     return {
         filteredRestaurants,

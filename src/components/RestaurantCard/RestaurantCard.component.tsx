@@ -24,14 +24,14 @@ import { RestaurantProps } from './RestaurantCard.types';
  * @param RestaurantProps - the configuration property to render the card component for restaurant.
  * @returns The structured and styled restaurant card.
  */
-export function RestaurantCard({
+export const  RestaurantCard=({
     restaurant,
     userRole,
     onEditClick,
     onDelete,
     onRestaurantClick,
     isRestaurantClosed,
-}: RestaurantProps) {
+}: RestaurantProps) =>{
     // Handle the fallback case, if image is null or url is wrong.
     const [imgSrc, setImgSrc] = useState(restaurant.imageUrl || fallBackImage);
     return (
