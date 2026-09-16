@@ -7,17 +7,18 @@ import {
 } from '@mui/material';
 
 export const StyledCard = styled(Card)(({ theme }) => ({
+    position: 'relative',
     display: 'flex',
     flexDirection: 'column',
-    gap: theme.spacing(2),
+    gap: theme.spacing(4),
     alignItems: 'center',
     minWidth: 220,
     maxWidth: 300,
     flexGrow: 1,
     width: '40%',
-    padding: theme.spacing(1),
+    padding: theme.spacing(4),
     boxShadow: theme.shadows[10],
-    borderRadius: theme.spacing(2),
+    borderRadius: theme.spacing(4),
     [theme.breakpoints.up('md')]: {
         flexDirection: 'row',
         width: '100%',
@@ -27,11 +28,19 @@ export const StyledCard = styled(Card)(({ theme }) => ({
 
 export const StyledCardMedia = styled(CardMedia)(({ theme }) => ({
     minHeight: 200,
-    borderRadius: theme.spacing(2),
+    borderRadius: theme.spacing(4),
     [theme.breakpoints.up('md')]: {
         width: '50%',
     },
 })) as typeof CardMedia;
+
+export const StyledImageIndicator = styled(CardMedia)({
+    width: 20,
+    height: 20,
+    right: 30,
+    top: 30,
+    position: 'absolute',
+}) as typeof CardMedia;
 
 export const StyledCardContent = styled(CardContent)(({ theme }) => ({
     backgroundColor: theme.palette.background.default,

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { QuantityDropdown } from 'components/QuantityDropdown/QuantityDropdown.component';
+import { ItemQuantitySelector } from 'components/ItemQuantitySelector/ItemQuantitySelector.component';
 
 import { CurrencyRupee } from '@mui/icons-material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -18,6 +18,8 @@ import {
 } from '@mui/material';
 
 import fallBackImage from '@assets/images/fallback-image.webp';
+import nonVegIndicator from '@assets/images/non-veg-indicator.webp';
+import vegIndicator from '@assets/images/veg-indicator.webp';
 import { theme } from '@theme';
 
 import {
@@ -25,6 +27,7 @@ import {
     StyledCardContent,
     StyledCardMedia,
     StyledDescription,
+    StyledImageIndicator,
     StyledTitle,
 } from './MenuCard.styles';
 import { MenuCardProps } from './MenuCard.types';
@@ -35,7 +38,7 @@ import { MenuCardProps } from './MenuCard.types';
  * @returns The structured and styled menu card.
  */
 export function MenuCard({
-    menu,
+    menuItem,
     userRole,
     quantities,
     setQuantities,
@@ -45,65 +48,71 @@ export function MenuCard({
     onIncreaseStock,
     onDecreaseStock,
 }: MenuCardProps) {
-    const [imgSrc, setImgSrc] = useState(menu.imageUrl || fallBackImage);
-     // Returns true if screen width is smaller than the 'md' breakpoint.
+    const [imgSrc, setImgSrc] = useState(menuItem.imageUrl || fallBackImage);
+    // Returns true if screen width is smaller than the 'md' breakpoint.
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
     return (
         <StyledCard>
             <StyledCardMedia
                 color={
-                    menu.stock === 0
+                    menuItem.stock === 0
                         ? theme.palette.action.disabledBackground
                         : theme.palette.background.default
                 }
                 component="img"
                 height="140"
                 image={imgSrc}
-                alt={menu.name}
+                alt={menuItem.name}
                 onError={() => {
                     if (imgSrc !== fallBackImage) {
                         setImgSrc(fallBackImage);
                     }
                 }}
             />
+            <StyledImageIndicator
+                component="img"
+                image={menuItem.type === 'veg' ? vegIndicator : nonVegIndicator}
+                alt={menuItem.type}
+            />
             <StyledCardContent>
                 <StyledTitle gutterBottom variant="subtitle1">
-                    {menu.name}
+                    {menuItem.name}
                 </StyledTitle>
                 <StyledDescription variant="body2" gutterBottom>
-                    {menu.description}
+                    {menuItem.description}
                 </StyledDescription>
-                {/* Flexible Owner Controls */}
+                {/* owner controls on the stock quantity */}
                 {userRole === 'owner' ? (
                     <Stack
                         direction="row"
                         alignItems="center"
-                        spacing={1}
+                        spacing={theme.spacing(1)}
                         border="1px dashed #ccc"
                         borderRadius={theme.shape.borderRadius}
-                        padding={theme.spacing(1)}
+                        padding={theme.spacing(2)}
+                        marginBlock={theme.spacing(4)}
                     >
                         <Typography variant="caption" color="text.secondary">
                             Stock Quantity:
                         </Typography>
 
-                        {/* Decrement Button (-1) */}
+                        {/* Decrement stock quantity (-1) */}
                         <IconButton
                             size="small"
                             color="warning"
-                            disabled={menu.stock <= 0}
+                            disabled={menuItem.stock <= 0}
                             onClick={onDecreaseStock}
                         >
                             <RemoveCircleOutlineIcon fontSize="small" />
                         </IconButton>
 
-                        {/* Display Current Stock Value */}
+                        {/* Display current stock value */}
                         <Typography variant="body2" fontWeight="bold">
-                            {menu.stock}
+                            {menuItem.stock}
                         </Typography>
 
-                        {/* Increment Button (+1) */}
+                        {/* Increment stock quantity (+1) */}
                         <IconButton
                             size="small"
                             color="primary"
@@ -113,33 +122,39 @@ export function MenuCard({
                         </IconButton>
                     </Stack>
                 ) : (
-                    <Stack minHeight={isMobile?100:'initial'} direction={isMobile ?"column":"row"} spacing={2} alignItems="start">
+                    <Stack
+                        minHeight={isMobile ? 100 : 'initial'}
+                        direction={isMobile ? 'column' : 'row'}
+                        spacing={theme.spacing(4)}
+                        alignItems="start"
+                        marginTop={theme.spacing(4)}
+                    >
                         <Chip
                             icon={
-                                menu.stock > 0 ? (
+                                menuItem.stock > 0 ? (
                                     <CheckCircleIcon />
                                 ) : (
                                     <BlockIcon />
                                 )
                             }
                             label={
-                                menu.stock > 0
-                                    ? `${menu.stock} in Stock`
+                                menuItem.stock > 0
+                                    ? `${menuItem.stock} in Stock`
                                     : `Out of Stock`
                             }
-                            color={menu.stock > 0 ? 'success' : 'error'}
+                            color={menuItem.stock > 0 ? 'success' : 'error'}
                         />
-                        {menu.stock > 0 && (
-                            <QuantityDropdown
-                                key={menu.itemId}
-                                quantity={quantities[menu.itemId] ?? 1}
+                        {menuItem.stock > 0 && (
+                            <ItemQuantitySelector
+                                key={menuItem.itemId}
+                                quantity={quantities[menuItem.itemId] ?? 1}
                                 setQuantity={(newQty: number) => {
                                     setQuantities((prev) => ({
                                         ...prev,
-                                        [menu.itemId]: newQty,
+                                        [menuItem.itemId]: newQty,
                                     }));
                                 }}
-                                maxQuantity={menu.stock}
+                                maxQuantity={menuItem.stock}
                             />
                         )}
                     </Stack>
@@ -147,15 +162,20 @@ export function MenuCard({
                 <Box
                     display="flex"
                     alignItems="center"
-                    marginBlock={theme.spacing(1.6)}
+                    marginBlock={theme.spacing(4)}
                 >
                     <CurrencyRupee color="primary" />
-                    <Typography variant="h6">{menu.price}</Typography>
+                    <Typography variant="h6">{menuItem.price}</Typography>
                 </Box>
 
                 {/* Show the edit and delete buttons only to the owners */}
                 {userRole === 'owner' ? (
-                    <Box display="flex" gap={1} alignSelf="end" width="100%">
+                    <Box
+                        display="flex"
+                        gap={theme.spacing(4)}
+                        alignSelf="end"
+                        width="100%"
+                    >
                         <Button variant="text" onClick={onEditClick}>
                             <Typography variant="button" textTransform="none">
                                 Edit
@@ -175,7 +195,7 @@ export function MenuCard({
                     <Button
                         variant="contained"
                         onClick={onAddToCart}
-                        disabled={menu.stock === 0}
+                        disabled={menuItem.stock === 0}
                     >
                         <Typography variant="button" textTransform="none">
                             Add to cart

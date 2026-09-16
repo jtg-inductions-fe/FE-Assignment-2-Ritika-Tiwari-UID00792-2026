@@ -19,7 +19,6 @@ import {
     LoadingCardSkeleton,
     MenuCard,
     NullStateCard,
-    ResponsiveContainer,
     Snackbar,
 } from '@components';
 import { useMenu, useRestaurant } from '@hooks';
@@ -59,8 +58,8 @@ export const Menu = () => {
         null,
     );
 
-    // Track the item Id currently staged for deletion.
-    const [itemStagedForDeletion, setItemStagedForDeletion] = useState<
+    // Track the item Id currently Selected for deletion.
+    const [itemSelectedForDeletion, setItemSelectedForDeletion] = useState<
         string | null
     >(null);
 
@@ -101,10 +100,10 @@ export const Menu = () => {
     const handleSubmit = (confirmation: boolean) => {
         setIsDialogOpen(false);
 
-        if (confirmation && itemStagedForDeletion) {
+        if (confirmation && itemSelectedForDeletion) {
             try {
                 // Execute the deletion only after confirmation
-                handleDeleteMenuItem(itemStagedForDeletion);
+                handleDeleteMenuItem(itemSelectedForDeletion);
 
                 setIsSnackbarOpen(true);
                 setSnackbarMessage('Item deleted successfully');
@@ -112,10 +111,10 @@ export const Menu = () => {
             } catch {
                 setIsSnackbarOpen(true);
             } finally {
-                setItemStagedForDeletion(null);
+                setItemSelectedForDeletion(null);
             }
         } else {
-            setItemStagedForDeletion(null);
+            setItemSelectedForDeletion(null);
         }
     };
 
@@ -124,7 +123,7 @@ export const Menu = () => {
      */
     const handleClose = () => {
         setIsDialogOpen(false);
-        setItemStagedForDeletion(null);
+        setItemSelectedForDeletion(null);
     };
 
     /**
@@ -133,7 +132,7 @@ export const Menu = () => {
      * @returns void
      */
     const handleOnDelete = (itemId: string) => {
-        setItemStagedForDeletion(itemId);
+        setItemSelectedForDeletion(itemId);
         setIsDialogOpen(true);
     };
 
@@ -172,7 +171,7 @@ export const Menu = () => {
         restaurantData?.imageUrl || fallBackImage,
     );
     return (
-        <ResponsiveContainer>
+        <>
             <StyledRestaurantBanner>
                 <StyledImage
                     src={restImgSrc}
@@ -196,7 +195,7 @@ export const Menu = () => {
                             onClick={handleOpenAddModal}
                         >
                             <Typography variant="button" textTransform="none">
-                                Add menu items
+                                Add menu item
                             </Typography>
                         </Button>
                     )}
@@ -218,10 +217,10 @@ export const Menu = () => {
                 display="flex"
                 flexDirection="row"
                 flexWrap="wrap"
-                gap={theme.spacing(2)}
+                gap={theme.spacing(4)}
                 alignItems="center"
                 justifyContent="center"
-                marginBlock={theme.spacing(3.2)}
+                marginBlock={theme.spacing(8)}
             >
                 {menuLoading && (
                     <>
@@ -247,35 +246,35 @@ export const Menu = () => {
                     )}
                 {!menuLoading &&
                     !menuError &&
-                    filteredMenuItems.map((menu) => (
+                    filteredMenuItems.map((menuItem) => (
                         <MenuCard
-                            key={menu.itemId}
-                            menu={menu}
+                            key={menuItem.itemId}
+                            menuItem={menuItem}
                             userRole={userRole}
                             quantities={quantities}
                             setQuantities={setQuantities}
                             onEditClick={(event) => {
                                 event.stopPropagation();
-                                handleOpenEditModal(menu);
+                                handleOpenEditModal(menuItem);
                             }}
                             onDelete={(event) => {
                                 event.stopPropagation();
-                                handleOnDelete(menu.itemId);
+                                handleOnDelete(menuItem.itemId);
                             }}
                             onAddToCart={(event) => {
                                 event.stopPropagation();
                                 handleOnAddToCart(
-                                    menu.itemId,
-                                    quantities[menu.itemId],
+                                    menuItem.itemId,
+                                    quantities[menuItem.itemId],
                                 );
                             }}
                             onDecreaseStock={(event) => {
                                 event.stopPropagation();
-                                handleOnDecreaseStock(menu.itemId);
+                                handleOnDecreaseStock(menuItem.itemId);
                             }}
                             onIncreaseStock={(event) => {
                                 event.stopPropagation();
-                                handleOnIncreaseStock(menu.itemId);
+                                handleOnIncreaseStock(menuItem.itemId);
                             }}
                         />
                     ))}
@@ -302,6 +301,6 @@ export const Menu = () => {
                 message={snackbarMessage}
                 state={snackbarState}
             />
-        </ResponsiveContainer>
+        </>
     );
 };

@@ -10,8 +10,8 @@ export const StyledModal = styled(Box)(({ theme }) => ({
     borderRadius: theme.shape.borderRadius,
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[24],
-    padding: theme.spacing(2),
+    padding: theme.spacing(8),
     [theme.breakpoints.up('md')]: {
-        padding: theme.spacing(4),
+        padding: theme.spacing(12),
     },
 }));

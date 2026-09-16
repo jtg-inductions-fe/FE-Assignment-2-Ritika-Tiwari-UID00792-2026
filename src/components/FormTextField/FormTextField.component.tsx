@@ -14,9 +14,9 @@ export const FormTextField = <TFieldValues extends FieldValues>({
     control,
     rules,
     defaultValue,
-    ...textFieldProps //Captures any remaining material ui standard input props passed to the component.
+    onChange: externalOnChange,
+    ...textFieldProps
 }: FormTextFieldProps<TFieldValues>) => {
-    // useController wires up the field state automatically
     const {
         field,
         fieldState: { error },
@@ -31,6 +31,19 @@ export const FormTextField = <TFieldValues extends FieldValues>({
         <TextField
             {...textFieldProps}
             {...field}
+            // Intercept and safely run both standard and external onChange logic
+            onChange={(e) => {
+                if (externalOnChange) {
+                    // Let the external handler transform or manage the value
+                    const processedValue = externalOnChange(e);
+                    // Pass the processed result back to React Hook Form
+                    field.onChange(
+                        processedValue !== undefined ? processedValue : e,
+                    );
+                } else {
+                    field.onChange(e);
+                }
+            }}
             error={!!error}
             helperText={error ? error.message : textFieldProps.helperText}
             fullWidth

@@ -5,7 +5,7 @@ export const StyledRestaurantBanner = styled(Card)(({ theme }) => ({
     flexDirection: 'column',
     backgroundColor: theme.palette.background.default,
     borderRadius: theme.shape.borderRadius,
-    marginBlock: theme.spacing(3.2),
+    marginBlock: theme.spacing(8),
 }));
 
 export const StyledImage = styled('img')(({ theme }) => ({

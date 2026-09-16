@@ -1,6 +1,7 @@
 import { JSX, useEffect } from 'react';
 
-import { Controller, useForm } from 'react-hook-form';
+import { FormTextField } from 'components/FormTextField/FormTextField.component';
+import { useForm } from 'react-hook-form';
 
 import CloseIcon from '@mui/icons-material/Close';
 import {
@@ -9,7 +10,6 @@ import {
     MenuItem,
     Modal,
     Stack,
-    TextField,
     Typography,
 } from '@mui/material';
 
@@ -137,9 +137,7 @@ export const MenuItemModal = ({
                         variant="h6"
                         fontWeight="bold"
                     >
-                        {isEditMode
-                            ? 'Edit MenuItem Details'
-                            : 'Add New MenuItem'}
+                        {isEditMode ? 'Edit Item Details' : 'Add Item'}
                     </Typography>
                     <IconButton
                         onClick={handleCancel}
@@ -152,130 +150,97 @@ export const MenuItemModal = ({
 
                 <Stack
                     component="form"
-                    gap={theme.spacing(2)}
+                    gap={theme.spacing(4)}
                     onSubmit={(e) => {
                         void handleSubmit(onSubmit)(e);
                     }}
                 >
-                    <Controller
+                    <FormTextField
                         name="name"
                         control={control}
                         rules={menuItemValidation.name}
-                        render={({ field }) => (
-                            <TextField
-                                {...field}
-                                label="Item Name"
-                                error={!!errors.name}
-                                helperText={errors.name?.message}
-                                fullWidth
-                            />
-                        )}
+                        label="Item Name"
+                        error={!!errors.name}
+                        helperText={errors.name?.message}
+                        fullWidth
                     />
 
-                    <Controller
+                    <FormTextField
                         name="type"
                         control={control}
                         rules={menuItemValidation.type}
-                        render={({ field }) => (
-                            <TextField
-                                {...field}
-                                select
-                                label="Cuisine Type"
-                                error={!!errors.type}
-                                helperText={errors.type?.message}
-                                fullWidth
-                            >
-                                <MenuItem value="veg">Veg</MenuItem>
-                                <MenuItem value="non-veg">Non-veg</MenuItem>
-                            </TextField>
-                        )}
-                    />
+                        select
+                        label="Cuisine Type"
+                        error={!!errors.type}
+                        helperText={errors.type?.message}
+                        fullWidth
+                    >
+                        <MenuItem value="veg">Veg</MenuItem>
+                        <MenuItem value="non-veg">Non-veg</MenuItem>
+                    </FormTextField>
 
-                    <Controller
+                    <FormTextField
                         name="description"
                         control={control}
                         rules={menuItemValidation.description}
-                        render={({ field }) => (
-                            <TextField
-                                {...field}
-                                label="Description"
-                                multiline
-                                rows={2}
-                                error={!!errors.description}
-                                helperText={errors.description?.message}
-                                fullWidth
-                            />
-                        )}
+                        label="Description"
+                        multiline
+                        rows={2}
+                        error={!!errors.description}
+                        helperText={errors.description?.message}
+                        fullWidth
                     />
 
                     <Stack direction="row" gap={theme.spacing(2)}>
-                        <Controller
+                        <FormTextField
                             name="price"
                             control={control}
                             rules={menuItemValidation.price}
-                            render={({ field: { onChange, ...field } }) => (
-                                <TextField
-                                    {...field}
-                                    onChange={(e) =>
-                                        onChange(
-                                            e.target.value === ''
-                                                ? ''
-                                                : Number(e.target.value),
-                                        )
-                                    }
-                                    label="Price"
-                                    type="number"
-                                    inputProps={{ min: 0 }}
-                                    error={!!errors.price}
-                                    helperText={errors.price?.message}
-                                    fullWidth
-                                />
-                            )}
+                            label="Price"
+                            type="number"
+                            slotProps={{
+                                htmlInput: { min: 0 },
+                            }}
+                            error={!!errors.price}
+                            helperText={errors.price?.message}
+                            fullWidth
+                            onChange={(e) => {
+                                const val = e.target.value;
+                                return val === '' ? '' : Number(val);
+                            }}
                         />
-                        <Controller
+                        <FormTextField
                             name="stock"
                             control={control}
                             rules={menuItemValidation.stockQuantity}
-                            render={({ field: { onChange, ...field } }) => (
-                                <TextField
-                                    {...field}
-                                    onChange={(e) =>
-                                        onChange(
-                                            e.target.value === ''
-                                                ? ''
-                                                : Number(e.target.value),
-                                        )
-                                    }
-                                    label="Stock quantity"
-                                    type="number"
-                                    inputProps={{ min: 0 }}
-                                    error={!!errors.stock}
-                                    helperText={errors.stock?.message}
-                                    fullWidth
-                                />
-                            )}
+                            label="Stock quantity"
+                            type="number"
+                            slotProps={{
+                                htmlInput: { min: 0 },
+                            }}
+                            error={!!errors.stock}
+                            helperText={errors.stock?.message}
+                            fullWidth
+                            onChange={(e) => {
+                                const val = e.target.value;
+                                return val === '' ? '' : Number(val);
+                            }}
                         />
                     </Stack>
-
-                    <Controller
+                    <FormTextField
                         name="imageUrl"
                         control={control}
                         rules={menuItemValidation.imageUrl}
-                        render={({ field }) => (
-                            <TextField
-                                {...field}
-                                label="Display Image URL"
-                                error={!!errors.imageUrl}
-                                helperText={errors.imageUrl?.message}
-                                fullWidth
-                            />
-                        )}
+                        label="Display Image URL"
+                        error={!!errors.imageUrl}
+                        helperText={errors.imageUrl?.message}
+                        fullWidth
                     />
 
                     <Stack
                         direction="row"
                         justifyContent="flex-end"
-                        gap={theme.spacing(1.6)}
+                        gap={theme.spacing(4)}
                         mt={1}
                     >
                         <Button
