@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { CartItem } from '@types';
+import { Cart, CartItem } from '@types';
 
 import { CartState } from './cartSlice.types';
 
@@ -13,8 +13,8 @@ const initialState: CartState = {
         grandTotal: 0,
         itemsCount: 0,
     },
-    loading: false,
-    error: null,
+    cartLoading: false,
+    cartError: null,
 };
 
 const recalculateTotals = (state: CartState) => {
@@ -44,27 +44,45 @@ export const cartSlice = createSlice({
     name: 'cart',
     initialState,
     reducers: {
-        setCart: (state, action: PayloadAction<CartItem[]>) => {
-            state.items = action.payload;
-        },
-        addItemToCart: (state, action: PayloadAction<CartItem>) => {
-            const existingItem = state.items.find(
-                (item) => item.menuItemId === action.payload.menuItemId,
-            );
-            if (existingItem) {
-                if (existingItem.quantity < existingItem.stock) {
-                    existingItem.quantity += 1;
-                } else {
-                    state.items.push({
-                        ...action.payload,
-                        quantity: 1,
-                        itemSubtotal: action.payload.price,
-                    });
-                }
-            }
-            recalculateTotals(state);
+        setCart: (state, action: PayloadAction<Cart>) => {
+            state.cartId = action.payload.cartId;
+            state.restaurant = action.payload.restaurant;
+            state.items = action.payload.items;
         },
 
+        addItemToCart: (
+            state,
+            action: PayloadAction<{
+                item: Omit<CartItem, 'quantity' | 'subtotal'>;
+                quantity: number;
+            }>,
+        ) => {
+            const { item, quantity } = action.payload;
+
+            // Look for the item using item.menuItemId
+            const existingItem = state.items.find(
+                (cartItem) => cartItem.menuItemId === item.menuItemId,
+            );
+
+            if (existingItem) {
+                // Check if adding the new quantity exceeds available stock
+                if (existingItem.quantity + quantity <= existingItem.stock) {
+                    existingItem.quantity += quantity;
+                } else {
+                    // Optional: Handle the out-of-stock error case here (e.g., set maximum allowed stock)
+                    existingItem.quantity = existingItem.stock;
+                }
+            } else {
+                // If it doesn't exist, push the new item with its initial quantity and subtotal
+                state.items.push({
+                    ...item,
+                    quantity: quantity,
+                    itemSubtotal: item.price * quantity,
+                });
+            }
+
+            recalculateTotals(state);
+        },
         removeItemFromCart: (state, action: PayloadAction<string>) => {
             const existingItem = state.items.find(
                 (item) => item.menuItemId === action.payload,
@@ -74,7 +92,7 @@ export const cartSlice = createSlice({
                     existingItem.quantity -= 1;
                 } else {
                     state.items = state.items.filter(
-                        (item) => item.menuItemId != action.payload
+                        (item) => item.menuItemId != action.payload,
                     );
                 }
             }
@@ -87,19 +105,26 @@ export const cartSlice = createSlice({
             );
             recalculateTotals(state);
         },
-          /** Sets the loading state. */
-        setLoading: (state, action: PayloadAction<boolean>) => {
-            state.loading = action.payload;
+        /** Sets the loading state. */
+        setCartLoading: (state, action: PayloadAction<boolean>) => {
+            state.cartLoading = action.payload;
         },
         /** Sets the error state. */
-        setError: (state, action: PayloadAction<string | null>) => {
-            state.error = action.payload;
+        setCartError: (state, action: PayloadAction<string | null>) => {
+            state.cartError = action.payload;
         },
 
         clearCart: () => initialState,
     },
 });
 
-export const { setCart, addItemToCart, removeItemFromCart,deleteCompletely,setLoading,setError, clearCart } =
-    cartSlice.actions;
+export const {
+    setCart,
+    addItemToCart,
+    removeItemFromCart,
+    deleteCompletely,
+    setCartLoading,
+    setCartError,
+    clearCart,
+} = cartSlice.actions;
 export default cartSlice.reducer;
