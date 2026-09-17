@@ -56,7 +56,7 @@ export const useMenu = (restaurantId: string | undefined) => {
      * @param quantity - selected quantity of the item.
      * @returns void
      */
-    const handleAddToCart = (id: string, quantity: number) => {
+    const handleAddToCart = (id: string) => {
         const item = menuItems.find((i) => id === i.itemId);
         if (item) {
             if (item.stock <= 0) return;
@@ -69,8 +69,9 @@ export const useMenu = (restaurantId: string | undefined) => {
                         price: item.price,
                         stock: item.stock,
                         type: item.type,
+                        quantity: 0,
+                        itemSubtotal: 0,
                     },
-                    quantity: quantity,
                 }),
             );
         } else {

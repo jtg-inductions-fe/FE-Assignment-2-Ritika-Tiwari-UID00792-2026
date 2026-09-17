@@ -6,4 +6,6 @@ export interface ItemQuantitySelectorProps {
     setQuantity: (quantity: number) => void;
     /** Stores the available items in stock. */
     maxQuantity: number;
+    onIncrease: () => void;
+    onDecrease: () => void;
 }

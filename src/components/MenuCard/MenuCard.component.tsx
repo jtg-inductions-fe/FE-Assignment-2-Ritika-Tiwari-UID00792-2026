@@ -20,6 +20,7 @@ import {
 import FALLBACK_IMAGE from '@assets/images/fallback-image.webp';
 import nonVegIndicator from '@assets/images/non-veg-indicator.webp';
 import vegIndicator from '@assets/images/veg-indicator.webp';
+import { useCart } from '@hooks';
 import { theme } from '@theme';
 
 import {
@@ -53,6 +54,8 @@ export function MenuCard({
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
     const [imgSrc, setImgSrc] = useState(item.imageUrl || FALLBACK_IMAGE);
 
+    // Returns true if screen width is smaller than the 'md' breakpoint.
+    const { handleRemoveFromCart } = useCart();
     return (
         <StyledCard>
             <StyledCardMedia
@@ -156,6 +159,8 @@ export function MenuCard({
                                     }));
                                 }}
                                 maxQuantity={item.stock}
+                                onIncrease={onIncrease}
+                                onDecrease={onDecrease}
                             />
                         )}
                     </Stack>
@@ -188,6 +193,21 @@ export function MenuCard({
                             <Typography variant="button">Delete</Typography>
                         </Button>
                     </Box>
+                ) : /* For customers: swap between ItemQuantitySelector and Add to Cart button */
+                quantities[item.itemId] > 0 ? (
+                    <ItemQuantitySelector
+                        key={item.itemId}
+                        quantity={quantities[item.itemId]}
+                        setQuantity={(newQty: number) => {
+                            setQuantities((prev) => ({
+                                ...prev,
+                                [item.itemId]: newQty,
+                            }));
+                        }}
+                        maxQuantity={item.stock}
+                        onIncrease={onPrimaryAction}
+                        onDecrease={() => handleRemoveFromCart(item.itemId)}
+                    />
                 ) : (
                     <Button
                         variant="contained"
