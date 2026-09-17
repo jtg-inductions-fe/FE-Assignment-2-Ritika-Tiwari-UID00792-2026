@@ -53,27 +53,24 @@ export const cartSlice = createSlice({
         addItemToCart: (
             state,
             action: PayloadAction<{
-                item: Omit<CartItem, 'quantity' | 'subtotal'>;
+                item: Omit<CartItem, 'quantity' | 'itemSubtotal'>;
                 quantity: number;
             }>,
         ) => {
             const { item, quantity } = action.payload;
 
-            // Look for the item using item.menuItemId
             const existingItem = state.items.find(
                 (cartItem) => cartItem.menuItemId === item.menuItemId,
             );
 
             if (existingItem) {
-                // Check if adding the new quantity exceeds available stock
                 if (existingItem.quantity + quantity <= existingItem.stock) {
                     existingItem.quantity += quantity;
+                    existingItem.itemSubtotal += quantity * existingItem.price;
                 } else {
-                    // Optional: Handle the out-of-stock error case here (e.g., set maximum allowed stock)
                     existingItem.quantity = existingItem.stock;
                 }
             } else {
-                // If it doesn't exist, push the new item with its initial quantity and subtotal
                 state.items.push({
                     ...item,
                     quantity: quantity,
