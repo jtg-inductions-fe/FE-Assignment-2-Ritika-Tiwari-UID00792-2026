@@ -1,7 +1,6 @@
 import { Restaurant } from './restaurant';
 
 export interface CartItem {
-    cartItemId: string;
     menuItemId: string;
     name: string;
     imageUrl: string;
@@ -15,9 +14,8 @@ export interface CartItem {
 export interface BillDetails {
     itemsSubtotal: number;
     deliveryFee?: number;
-    tax?: number;
     grandTotal: number;
-    itemCount: number;
+    itemsCount: number;
 }
 
 export interface Cart {
