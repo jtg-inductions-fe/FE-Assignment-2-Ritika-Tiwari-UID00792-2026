@@ -1,3 +1,5 @@
+import { useCart } from 'hooks/useCart';
+
 import { Header as HeaderComponent } from '@components';
 import { useAuth } from '@hooks';
 import { User } from '@types';
@@ -11,14 +13,13 @@ import { User } from '@types';
 export const Header = () => {
     const { fetchCurrentUser, isLoggedIn } = useAuth();
     const registeredUser = fetchCurrentUser() as User;
-
-    // TODO: This will be remove and actual cartCount will be used here after cart section.
-    const cartCount = 4;
+    const { cartCount } = useCart();
+    const cartItemsCount = cartCount();
 
     return (
         <HeaderComponent
             user={registeredUser}
-            cartCount={cartCount}
+            cartCount={cartItemsCount}
             isLoggedIn={isLoggedIn}
         />
     );

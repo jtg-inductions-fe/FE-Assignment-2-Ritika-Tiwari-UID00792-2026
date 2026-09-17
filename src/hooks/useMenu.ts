@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useAuth } from '@hooks';
 import { fetchMenuItemsByRestaurantId } from '@services';
 import {
+    addItemToCart,
     decrementStock,
     incrementStock,
     setMenuError,
@@ -57,7 +58,24 @@ export const useMenu = (restaurantId: string | undefined) => {
      */
     const handleAddToCart = (id: string, quantity: number) => {
         const item = menuItems.find((i) => id === i.itemId);
-        return item?.stock ? quantity : undefined;
+        if (item) {
+            if (item.stock <= 0) return;
+            dispatch(
+                addItemToCart({
+                    item: {
+                        menuItemId: item.itemId,
+                        name: item.name,
+                        imageUrl: item.imageUrl,
+                        price: item.price,
+                        stock: item.stock,
+                        type: item.type,
+                    },
+                    quantity: quantity,
+                }),
+            );
+        } else {
+            return null;
+        }
     };
 
     /** Function to handle restock a MenuItem in the redux store.
