@@ -87,11 +87,19 @@ export const cartSlice = createSlice({
             );
             recalculateTotals(state);
         },
+          /** Sets the loading state. */
+        setLoading: (state, action: PayloadAction<boolean>) => {
+            state.loading = action.payload;
+        },
+        /** Sets the error state. */
+        setError: (state, action: PayloadAction<string | null>) => {
+            state.error = action.payload;
+        },
 
         clearCart: () => initialState,
     },
 });
 
-export const { setCart, addItemToCart, removeItemFromCart, clearCart } =
+export const { setCart, addItemToCart, removeItemFromCart,deleteCompletely,setLoading,setError, clearCart } =
     cartSlice.actions;
 export default cartSlice.reducer;
