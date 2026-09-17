@@ -1,7 +1,7 @@
 import { Restaurant } from './restaurant';
 
 export interface CartItem {
-    menuItemId: string;
+    itemId: string;
     name: string;
     imageUrl: string;
     type: string;

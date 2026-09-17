@@ -80,22 +80,22 @@
         "stock": 35
     },
     {
-        "restaurant_id": "8f3b2c1a-4d6e-4a7b-8c9d-0e1f2a3b4c5d",
+        "restaurant_id": "9d8c7b6a-5e4d-3c2b-1a0f-9e8d7c6b5a4d",
         "item_id": "8d8f581c-a2b3-4e64-b486-9f9b76dbdac5",
         "name": "Vanilla Milkshake",
         "description": "Classic smooth vanilla bean milkshake made with real ice cream.",
         "image_url": "/food-image/food-item9.webp",
-        "type": "non-veg",
+        "type": "veg",
         "price": 70,
         "stock": 30
     },
     {
-        "restaurant_id": "8f3b2c1a-4d6e-4a7b-8c9d-0e1f2a3b4c5d",
+        "restaurant_id": "9d8c7b6a-5e4d-3c2b-1a0f-9e8d7c6b5a4d",
         "item_id": "21672263-ef13-45fd-8995-c1a5a9ef0763",
         "name": "Soft Drink",
         "description": "Reffoodhing ice-cold carbonated beverage of your choice.",
         "image_url": "/food-image/food-item10.webp",
-        "type": "non-veg",
+        "type": "veg",
         "price": 40,
         "stock": 200
     }

@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 
 import { CartCard } from 'components/CartCard/CartCard.component';
-import { useCart } from 'hooks/useCart';
 import { useNavigate } from 'react-router-dom';
 
+import { CurrencyRupee } from '@mui/icons-material';
 import {
     Box,
     Button,
@@ -15,8 +15,9 @@ import {
 
 import fallBackImage from '@assets/images/fallback-image.webp';
 import { LoadingCardSkeleton, NullStateCard, Snackbar } from '@components';
-import { useMenu } from '@hooks';
+import { useCart } from '@hooks';
 import { theme } from '@theme';
+import { CartItem } from '@types';
 
 export const Cart = () => {
     const navigate = useNavigate();
@@ -30,6 +31,7 @@ export const Cart = () => {
         cartError,
         handleRemoveItemCompletely,
         handleClearCart,
+        handleAddToCart,
     } = useCart();
 
     const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
@@ -40,7 +42,6 @@ export const Cart = () => {
         'error' | 'success' | 'warning'
     >('error');
 
-    const { handleAddToCart } = useMenu(restaurant?.restaurantId);
     const [imgSrc, setImgSrc] = useState(fallBackImage);
 
     useEffect(() => {
@@ -71,8 +72,8 @@ export const Cart = () => {
      * @param quantity - quantity of the selected item added in the cart.
      * @returns void
      */
-    const handleOnAddToCart = (itemId: string) => {
-        handleAddToCart(itemId);
+    const handleOnAddToCart = (item: CartItem) => {
+        handleAddToCart(item);
         setIsSnackbarOpen(true);
         setSnackbarMessage('Item added to cart successfully');
         setSnackbarState('success');
@@ -120,7 +121,7 @@ export const Cart = () => {
             >
                 {items.map((item) => (
                     <CartCard
-                        key={item.menuItemId}
+                        key={item.itemId}
                         restaurantData={restaurant}
                         cartItem={item}
                         billDetails={billDetails}
@@ -128,9 +129,9 @@ export const Cart = () => {
                         setQuantities={setQuantities}
                         onAddToCart={(event) => {
                             event.stopPropagation();
-                            handleOnAddToCart(item.menuItemId);
+                            handleOnAddToCart(item);
                         }}
-                        onRemoveItem={() => handleRemoveItem(item.menuItemId)}
+                        onRemoveItem={() => handleRemoveItem(item.itemId)}
                     />
                 ))}
             </Box>
@@ -202,12 +203,15 @@ export const Cart = () => {
                         >
                             Delivery Charges
                         </Typography>
-                        <Typography
-                            variant="subtitle2"
-                            color={theme.palette.text.secondary}
-                        >
-                            {billDetails.deliveryFee}
-                        </Typography>
+                        <Box display="flex" alignItems="center">
+                            <CurrencyRupee color="primary" fontSize="small" />
+                            <Typography
+                                variant="subtitle2"
+                                color={theme.palette.text.secondary}
+                            >
+                                {billDetails.deliveryFee}
+                            </Typography>
+                        </Box>
                     </Box>
                     <Box
                         display="flex"
@@ -221,12 +225,15 @@ export const Cart = () => {
                         >
                             Grand Total
                         </Typography>
-                        <Typography
-                            variant="subtitle2"
-                            color={theme.palette.text.secondary}
-                        >
-                            {billDetails.grandTotal}
-                        </Typography>
+                        <Box display="flex" alignItems="center">
+                            <CurrencyRupee color="primary" fontSize="small" />
+                            <Typography
+                                variant="subtitle2"
+                                color={theme.palette.text.secondary}
+                            >
+                                {billDetails.grandTotal}
+                            </Typography>
+                        </Box>
                     </Box>
                 </Box>
             )}
@@ -241,11 +248,7 @@ export const Cart = () => {
                     position="sticky"
                     bottom={32}
                 >
-                    <Button
-                        variant="outlined"
-                        color="error"
-                        onClick={handleClearCart}
-                    >
+                    <Button variant="error" onClick={handleClearCart}>
                         <Typography variant="button" textTransform="none">
                             Clear cart
                         </Typography>

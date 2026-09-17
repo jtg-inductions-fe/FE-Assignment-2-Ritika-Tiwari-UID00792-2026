@@ -63,7 +63,7 @@ export const useMenu = (restaurantId: string | undefined) => {
             dispatch(
                 addItemToCart({
                     item: {
-                        menuItemId: item.itemId,
+                        itemId: item.itemId,
                         name: item.name,
                         imageUrl: item.imageUrl,
                         price: item.price,
