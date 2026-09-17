@@ -38,7 +38,7 @@ export function CartCard({
     onRemoveItem,
 }: CartItemProps) {
     const [imgSrc, setImgSrc] = useState(
-        restaurantData.imageUrl || fallBackImage,
+        restaurantData?.imageUrl || fallBackImage,
     );
     // Returns true if screen width is smaller than the 'md' breakpoint.
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
@@ -64,7 +64,7 @@ export function CartCard({
                     <CardMedia
                         component="img"
                         image={imgSrc}
-                        alt={restaurantData.name}
+                        alt={restaurantData?.name}
                         onError={() => {
                             if (imgSrc !== fallBackImage) {
                                 setImgSrc(fallBackImage);
@@ -78,7 +78,7 @@ export function CartCard({
                         }}
                     />
                     <Typography variant="subtitle2">
-                        {restaurantData.name}
+                        {restaurantData?.name}
                     </Typography>
                 </Stack>
 

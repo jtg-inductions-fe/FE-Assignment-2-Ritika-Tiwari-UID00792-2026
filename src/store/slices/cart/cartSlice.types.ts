@@ -6,7 +6,7 @@ export interface CartState {
     items: CartItem[];
     billDetails: BillDetails;
     /** Stores loading state for restaurants list */
-    loading: boolean;
+    cartLoading: boolean;
     /** Stores error state for restaurants list */
-    error: string | null;
+    cartError: string | null;
 }
