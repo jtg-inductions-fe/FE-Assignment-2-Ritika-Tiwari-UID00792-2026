@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { CartCard } from 'components/CartCard/CartCard.component';
 import { useCart } from 'hooks/useCart';
+import { useNavigate } from 'react-router-dom';
 
 import {
     Box,
@@ -14,11 +15,13 @@ import {
 
 import fallBackImage from '@assets/images/fallback-image.webp';
 import { LoadingCardSkeleton, NullStateCard, Snackbar } from '@components';
+import { useMenu } from '@hooks';
 import { theme } from '@theme';
 
 export const Cart = () => {
-    /** State to control the quantity of a menu item. */
+    const navigate = useNavigate();
     const [quantities, setQuantities] = useState<Record<string, number>>({});
+
     const {
         items,
         restaurant,
@@ -28,6 +31,7 @@ export const Cart = () => {
         handleRemoveItemCompletely,
         handleClearCart,
     } = useCart();
+
     const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
     const [snackbarMessage, setSnackbarMessage] = useState<string>(
         'Some Error Occurred, Try later.',
@@ -36,38 +40,62 @@ export const Cart = () => {
         'error' | 'success' | 'warning'
     >('error');
 
-    /**
-     * Function to handle removing a cart item.
-     * @param itemId - menu item id used to delete the item in the cart.
+    const { handleAddToCart } = useMenu(restaurant?.restaurantId);
+    const [imgSrc, setImgSrc] = useState(fallBackImage);
+
+    useEffect(() => {
+        if (restaurant?.imageUrl) {
+            setImgSrc(restaurant.imageUrl);
+        }
+    }, [restaurant]);
+
+    function handleBackNavigation(): void {
+        void navigate(-1);
+    }
+
+    const handleRemoveItem = (id: string) => {
+        try {
+            handleRemoveItemCompletely(id);
+            setSnackbarMessage('Item is removed from the cart.');
+            setSnackbarState('success');
+            setIsSnackbarOpen(true);
+        } catch {
+            setSnackbarMessage('Failed to remove item.');
+            setSnackbarState('error');
+            setIsSnackbarOpen(true);
+        }
+    };
+
+    /** Handle on add to cart functionality.
+     * @param itemId - menu item id used to add the item in the cart.
+     * @param quantity - quantity of the selected item added in the cart.
      * @returns void
      */
-    const handleRemoveItem = (id: string) => {
-        handleRemoveItemCompletely(id);
-        setSnackbarMessage('Item is removed from the cart.');
-        setSnackbarState('success');
+    const handleOnAddToCart = (itemId: string) => {
+        handleAddToCart(itemId);
         setIsSnackbarOpen(true);
+        setSnackbarMessage('Item added to cart successfully');
+        setSnackbarState('success');
     };
-    const [imgSrc, setImgSrc] = useState(restaurant?.imageUrl || fallBackImage);
+
     return (
         <Box
             display="flex"
             flexDirection="column"
             gap={theme.spacing(4)}
-            minHeight={'85'}
+            minHeight={'85vh'}
             width="100%"
             alignItems="start"
             marginBlock={theme.spacing(8)}
         >
-            <Button variant="contained">
+            <Button variant="contained" onClick={handleBackNavigation}>
                 <Typography variant="button" textTransform="none">
                     Add More Items
                 </Typography>
             </Button>
+
             {cartLoading && (
                 <>
-                    <LoadingCardSkeleton />
-                    <LoadingCardSkeleton />
-                    <LoadingCardSkeleton />
                     <LoadingCardSkeleton />
                     <LoadingCardSkeleton />
                     <LoadingCardSkeleton />
@@ -82,11 +110,13 @@ export const Cart = () => {
                     }
                 />
             )}
+
             <Box
                 display="flex"
                 flexDirection="row"
                 flexWrap="wrap"
                 gap={theme.spacing(4)}
+                width="100%"
             >
                 {items.map((item) => (
                     <CartCard
@@ -96,9 +126,11 @@ export const Cart = () => {
                         billDetails={billDetails}
                         quantities={quantities}
                         setQuantities={setQuantities}
-                        onRemoveItem={() => {
-                            handleRemoveItem(item.menuItemId);
+                        onAddToCart={(event) => {
+                            event.stopPropagation();
+                            handleOnAddToCart(item.menuItemId);
                         }}
+                        onRemoveItem={() => handleRemoveItem(item.menuItemId)}
                     />
                 ))}
             </Box>
@@ -138,6 +170,7 @@ export const Cart = () => {
                             {restaurant?.name}
                         </Typography>
                     </Stack>
+
                     <Box
                         display="flex"
                         flexDirection="row"
@@ -197,26 +230,34 @@ export const Cart = () => {
                     </Box>
                 </Box>
             )}
-            <Box
-                display="flex"
-                flexDirection="row"
-                justifyContent="flex-end"
-                gap={theme.spacing(4)}
-                width="100%"
-                position="sticky"
-                bottom={32}
-            >
-                <Button variant="error" onClick={handleClearCart}>
-                    <Typography variant="button" textTransform="none">
-                        Clear cart
-                    </Typography>
-                </Button>
-                <Button variant="contained">
-                    <Typography variant="button" textTransform="none">
-                        Proceed to pay
-                    </Typography>
-                </Button>
-            </Box>
+
+            {items.length > 0 && (
+                <Box
+                    display="flex"
+                    flexDirection="row"
+                    justifyContent="flex-end"
+                    gap={theme.spacing(4)}
+                    width="100%"
+                    position="sticky"
+                    bottom={32}
+                >
+                    <Button
+                        variant="outlined"
+                        color="error"
+                        onClick={handleClearCart}
+                    >
+                        <Typography variant="button" textTransform="none">
+                            Clear cart
+                        </Typography>
+                    </Button>
+                    <Button variant="contained">
+                        <Typography variant="button" textTransform="none">
+                            Proceed to pay
+                        </Typography>
+                    </Button>
+                </Box>
+            )}
+
             <Snackbar
                 open={isSnackbarOpen}
                 autoHideDuration={2000}

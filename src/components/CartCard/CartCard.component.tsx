@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 import { CurrencyRupee } from '@mui/icons-material';
 import BlockIcon from '@mui/icons-material/Block';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -9,45 +7,20 @@ import { Box, CardMedia, Chip, IconButton, Typography } from '@mui/material';
 import nonVegIndicator from '@assets/images/non-veg-indicator.webp';
 import vegIndicator from '@assets/images/veg-indicator.webp';
 import { ItemQuantitySelector } from '@components';
-import { useCart, useMenu } from '@hooks';
+import { useCart } from '@hooks';
 import { theme } from '@theme';
 
 import { StyledCard } from './CartCard.styles';
 import { CartItemProps } from './CartCard.types';
 
 export function CartCard({
-    restaurantData,
     cartItem,
     quantities,
     setQuantities,
+    onAddToCart,
     onRemoveItem,
 }: CartItemProps) {
-    const { handleAddToCart } = useMenu(restaurantData?.restaurantId);
     const { handleRemoveFromCart } = useCart();
-    const currentQuantity =
-        quantities[cartItem.menuItemId] ?? cartItem.quantity ?? 1;
-
-    useEffect(() => {
-        if (cartItem) {
-            setQuantities((prev) => ({
-                ...prev,
-                [cartItem.menuItemId]: cartItem.quantity,
-            }));
-        }
-    }, [cartItem,cartItem?.menuItemId, cartItem?.quantity, setQuantities]);
-
-    const handleQuantityChange = (newQty: number) => {
-        if (newQty <= 0) {
-            handleRemoveFromCart(cartItem.menuItemId);
-            return;
-        }
-
-        setQuantities((prev) => ({
-            ...prev,
-            [cartItem.menuItemId]: newQty,
-        }));
-        handleAddToCart(cartItem.menuItemId, newQty);
-    };
 
     return (
         <StyledCard>
@@ -81,7 +54,6 @@ export function CartCard({
                 />
                 <Typography>{cartItem.name}</Typography>
             </Box>
-
             <Box
                 display="flex"
                 flexDirection="row"
@@ -102,9 +74,24 @@ export function CartCard({
                 {cartItem.stock > 0 && (
                     <ItemQuantitySelector
                         key={cartItem.menuItemId}
-                        quantity={currentQuantity}
-                        setQuantity={handleQuantityChange}
+                        quantity={
+                            quantities[cartItem.menuItemId] ?? cartItem.quantity
+                        }
+                        setQuantity={(newQty: number) => {
+                            setQuantities((prev) => ({
+                                ...prev,
+                                [cartItem.menuItemId]: newQty,
+                            }));
+                        }}
                         maxQuantity={cartItem.stock}
+                        onIncrease={() =>
+                            onAddToCart({
+                                stopPropagation: () => {},
+                            } as React.MouseEvent)
+                        }
+                        onDecrease={() =>
+                            handleRemoveFromCart(cartItem.menuItemId)
+                        }
                     />
                 )}
             </Box>

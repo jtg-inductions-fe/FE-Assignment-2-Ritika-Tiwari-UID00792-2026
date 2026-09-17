@@ -15,6 +15,8 @@ export interface CartItemProps {
             | Record<string, number>
             | ((prev: Record<string, number>) => Record<string, number>),
     ) => void;
+    /** Callback function to handle the add to cart functionality. */
+    onAddToCart: (event: React.MouseEvent) => void;
     /** Callback function to handle the delete functionality. */
     onRemoveItem: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }

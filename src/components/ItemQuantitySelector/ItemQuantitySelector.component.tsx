@@ -17,17 +17,21 @@ export const ItemQuantitySelector = ({
     quantity,
     setQuantity,
     maxQuantity = 10,
+    onIncrease,
+    onDecrease,
 }: ItemQuantitySelectorProps) => {
     const handleIncrement = () => {
         if (quantity < maxQuantity) {
             setQuantity(quantity + 1);
         }
+        onIncrease();
     };
 
     const handleDecrement = () => {
         if (quantity > 0) {
             setQuantity(quantity - 1);
         }
+        onDecrease();
     };
 
     return (
