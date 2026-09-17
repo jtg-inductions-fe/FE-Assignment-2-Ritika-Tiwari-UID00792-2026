@@ -67,7 +67,7 @@ export const cartSlice = createSlice({
             const { item } = action.payload;
 
             const existingItem = state.items.find(
-                (cartItem) => cartItem.menuItemId === item.menuItemId,
+                (cartItem) => cartItem.itemId === item.itemId,
             );
 
             if (existingItem) {
@@ -89,14 +89,14 @@ export const cartSlice = createSlice({
 
         removeItemFromCart: (state, action: PayloadAction<string>) => {
             const existingItem = state.items.find(
-                (item) => item.menuItemId === action.payload,
+                (item) => item.itemId === action.payload,
             );
             if (existingItem) {
                 if (existingItem.quantity > 1) {
                     existingItem.quantity -= 1;
                 } else {
                     state.items = state.items.filter(
-                        (item) => item.menuItemId !== action.payload,
+                        (item) => item.itemId !== action.payload,
                     );
                 }
             }
@@ -105,7 +105,7 @@ export const cartSlice = createSlice({
 
         deleteCompletely: (state, action: PayloadAction<string>) => {
             state.items = state.items.filter(
-                (item) => item.menuItemId !== action.payload,
+                (item) => item.itemId !== action.payload,
             );
             recalculateTotals(state);
         },

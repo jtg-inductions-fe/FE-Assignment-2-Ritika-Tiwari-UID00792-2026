@@ -53,7 +53,6 @@ export function MenuCard({
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
     const [imgSrc, setImgSrc] = useState(item.imageUrl || FALLBACK_IMAGE);
 
-    // Returns true if screen width is smaller than the 'md' breakpoint.
     const { handleRemoveFromCart } = useCart();
     return (
         <StyledCard>

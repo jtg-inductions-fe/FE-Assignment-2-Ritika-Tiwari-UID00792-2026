@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 import { fetchCartData } from '@services';
-import { useAppDispatch, useAppSelector } from '@store';
+import { addItemToCart, useAppDispatch, useAppSelector } from '@store';
 import {
     clearCart,
     deleteCompletely,
@@ -10,6 +10,7 @@ import {
     setCartError,
     setCartLoading,
 } from '@store';
+import { CartItem } from '@types';
 
 export const useCart = () => {
     const dispatch = useAppDispatch();
@@ -39,16 +40,55 @@ export const useCart = () => {
         void fetchData();
     }, [dispatch]);
 
-    const handleRemoveFromCart = (menuItemId: string) => {
-        dispatch(removeItemFromCart(menuItemId));
+    /** Function to handle add to cart a menu item and decrement the stock quantity.
+     * @param id - id of the item
+     * @param quantity - selected quantity of the item.
+     * @returns void
+     */
+    const handleAddToCart = (item: CartItem) => {
+        if (item) {
+            if (item.stock <= 0) return;
+            dispatch(
+                addItemToCart({
+                    item: {
+                        itemId: item.itemId,
+                        name: item.name,
+                        imageUrl: item.imageUrl,
+                        price: item.price,
+                        stock: item.stock,
+                        type: item.type,
+                        quantity: 0,
+                        itemSubtotal: 0,
+                    },
+                }),
+            );
+        } else {
+            return null;
+        }
     };
 
-    const handleRemoveItemCompletely = (menuItemId: string) => {
-        dispatch(deleteCompletely(menuItemId));
+    const handleRemoveFromCart = (itemId: string) => {
+        dispatch(removeItemFromCart(itemId));
+    };
+
+    const handleRemoveItemCompletely = (itemId: string) => {
+        dispatch(deleteCompletely(itemId));
     };
 
     const handleClearCart = () => {
         dispatch(clearCart());
+    };
+    const checkCurrentActiveRestaurant = (restaurantId: string | undefined) => {
+        if (
+            restaurant?.restaurantId === null ||
+            restaurant?.restaurantId === undefined
+        ) {
+            return true;
+        }
+        if (restaurant?.restaurantId === restaurantId) {
+            return true;
+        }
+        return false;
     };
 
     const cartCount = () => items.length;
@@ -60,9 +100,11 @@ export const useCart = () => {
         cartError,
         cartId,
         restaurant,
+        handleAddToCart,
         handleClearCart,
         handleRemoveFromCart,
         handleRemoveItemCompletely,
+        checkCurrentActiveRestaurant,
         cartCount,
     };
 };

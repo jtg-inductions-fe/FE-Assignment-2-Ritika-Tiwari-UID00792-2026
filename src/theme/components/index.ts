@@ -149,8 +149,11 @@ export const components: Components<Theme> = {
             {
                 props: { variant: 'error' },
                 style: ({ theme }) => ({
-                    border: `3px solid ${theme.palette.error.main}`,
+                    border: `1px solid ${theme.palette.error.main}`,
                     padding: theme.spacing(0),
+                    '&:hover': {
+                        color: theme.palette.error.dark,
+                    },
                     '&:focus-visible': {
                         outlineOffset: theme.spacing(0),
                     },
