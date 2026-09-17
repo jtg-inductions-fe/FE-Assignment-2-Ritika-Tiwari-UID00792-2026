@@ -1,28 +1,27 @@
 import { useState } from 'react';
 
-import { QuantityDropdown } from 'components/QuantityDropdown/QuantityDropdown.component';
-
 import { CurrencyRupee } from '@mui/icons-material';
 import BlockIcon from '@mui/icons-material/Block';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CloseIcon from '@mui/icons-material/Close';
 import {
     Box,
-    Button,
+    CardMedia,
     Chip,
+    Divider,
+    IconButton,
     Stack,
     Typography,
     useMediaQuery,
 } from '@mui/material';
 
 import fallBackImage from '@assets/images/fallback-image.webp';
+import nonVegIndicator from '@assets/images/non-veg-indicator.webp';
+import vegIndicator from '@assets/images/veg-indicator.webp';
+import { ItemQuantitySelector } from '@components';
 import { theme } from '@theme';
 
-import {
-    StyledCard,
-    StyledCardContent,
-    StyledCardMedia,
-    StyledTitle,
-} from './CartCard.styles';
+import { StyledBox, StyledCard } from './CartCard.styles';
 import { CartItemProps } from './CartCard.types';
 
 /**
@@ -33,6 +32,7 @@ import { CartItemProps } from './CartCard.types';
 export function CartCard({
     restaurantData,
     cartItem,
+    billDetails,
     quantities,
     setQuantities,
     onRemoveItem,
@@ -45,80 +45,155 @@ export function CartCard({
 
     return (
         <StyledCard>
-            <StyledCardMedia
-                color={theme.palette.background.default}
-                component="img"
-                height="140"
-                image={imgSrc}
-                alt={restaurantData.name}
-                onError={() => {
-                    if (imgSrc !== fallBackImage) {
-                        setImgSrc(fallBackImage);
-                    }
-                }}
-            />
-            <StyledCardContent>
-                <StyledTitle gutterBottom variant="subtitle1">
-                    {cartItem.name}
-                </StyledTitle>
+            <IconButton
+                variant="error"
+                size="small"
+                color="error"
+                disabled={cartItem.stock <= 0}
+                onClick={onRemoveItem}
+            >
+                <CloseIcon fontSize="small" />
+            </IconButton>
+            <StyledBox>
                 <Stack
-                    minHeight={isMobile ? 100 : 'initial'}
-                    direction={isMobile ? 'column' : 'row'}
-                    spacing={2}
-                    alignItems="start"
+                    direction="row"
+                    spacing={theme.spacing(4)}
+                    alignItems="center"
+                    divider={<Divider orientation="vertical" flexItem />}
                 >
-                    <Chip
-                        icon={
-                            cartItem.stock > 0 ? (
-                                <CheckCircleIcon />
-                            ) : (
-                                <BlockIcon />
-                            )
-                        }
-                        label={
-                            cartItem.stock > 0
-                                ? `${cartItem.stock} in Stock`
-                                : `Out of Stock`
-                        }
-                        color={cartItem.stock > 0 ? 'success' : 'error'}
+                    <CardMedia
+                        component="img"
+                        image={imgSrc}
+                        alt={restaurantData.name}
+                        onError={() => {
+                            if (imgSrc !== fallBackImage) {
+                                setImgSrc(fallBackImage);
+                            }
+                        }}
+                        sx={{
+                            width: 100,
+                            height: 50,
+                            objectFit: 'cover',
+                            backgroundColor: theme.palette.background.default,
+                        }}
                     />
-                    {cartItem.stock > 0 && (
-                        <QuantityDropdown
-                            key={cartItem.cartItemId}
-                            quantity={quantities[cartItem.cartItemId] ?? 1}
-                            setQuantity={(newQty: number) => {
-                                setQuantities((prev) => ({
-                                    ...prev,
-                                    [cartItem.cartItemId]: newQty,
-                                }));
-                            }}
-                            maxQuantity={cartItem.stock}
-                        />
-                    )}
+                    <Typography variant="subtitle2">
+                        {restaurantData.name}
+                    </Typography>
                 </Stack>
 
-                <Box
-                    display="flex"
+                <Stack
+                    direction="row"
+                    spacing={theme.spacing(4)}
                     alignItems="center"
-                    marginBlock={theme.spacing(1.6)}
                 >
-                    <CurrencyRupee color="primary" />
-                    <Typography variant="h6">{cartItem.price}</Typography>
-                </Box>
-
-                {/* Show the edit and delete buttons only to the owners */}
-                <Box display="flex" gap={1} alignSelf="end" width="100%">
-                    <Button
-                        variant="outlined"
-                        color="error"
-                        onClick={onRemoveItem}
+                    <CardMedia
+                        component="img"
+                        height={20}
+                        image={
+                            cartItem.type === 'veg'
+                                ? vegIndicator
+                                : nonVegIndicator
+                        }
+                        alt={cartItem.type}
+                        sx={{
+                            width: 20,
+                            height: 20,
+                            objectFit: 'cover',
+                            backgroundColor: theme.palette.background.default,
+                        }}
+                    />
+                    <Typography>{cartItem.name}</Typography>
+                    <Stack
+                        minHeight={isMobile ? 100 : 'initial'}
+                        direction={isMobile ? 'column' : 'row'}
+                        spacing={2}
+                        alignItems="start"
                     >
-                        <Typography variant="button" textTransform="none">
-                            Remove Item
+                        <Chip
+                            icon={
+                                cartItem.stock > 0 ? (
+                                    <CheckCircleIcon />
+                                ) : (
+                                    <BlockIcon />
+                                )
+                            }
+                            label={
+                                cartItem.stock > 0
+                                    ? `${cartItem.stock} in Stock`
+                                    : `Out of Stock`
+                            }
+                            color={cartItem.stock > 0 ? 'success' : 'error'}
+                        />
+                        {cartItem.stock > 0 && (
+                            <ItemQuantitySelector
+                                key={cartItem.menuItemId}
+                                quantity={quantities[cartItem.menuItemId] ?? 1}
+                                setQuantity={(newQty: number) => {
+                                    setQuantities((prev) => ({
+                                        ...prev,
+                                        [cartItem.menuItemId]: newQty,
+                                    }));
+                                }}
+                                maxQuantity={cartItem.stock}
+                            />
+                        )}
+                    </Stack>
+                    <Box
+                        display="flex"
+                        alignItems="center"
+                        marginBlock={theme.spacing(1.6)}
+                    >
+                        <CurrencyRupee color="primary" />
+                        <Typography variant="h6">{cartItem.price}</Typography>
+                    </Box>
+                </Stack>
+
+                <Typography variant="subtitle1">Bill Details</Typography>
+                <Stack
+                    direction="column"
+                    spacing={theme.spacing(4)}
+                    divider={<Divider orientation="horizontal" flexItem />}
+                >
+                    <Stack
+                        direction="row"
+                        spacing={theme.spacing(4)}
+                        alignItems="center"
+                        justifyContent="space-between"
+                    >
+                        <Typography
+                            variant="subtitle2"
+                            color={theme.palette.text.secondary}
+                        >
+                            Item Total
                         </Typography>
-                    </Button>
-                </Box>
-            </StyledCardContent>
+                        <Typography
+                            variant="subtitle2"
+                            color={theme.palette.text.secondary}
+                        >
+                            {billDetails.itemsSubtotal}
+                        </Typography>
+                    </Stack>
+                    <Stack
+                        direction="row"
+                        spacing={theme.spacing(4)}
+                        alignItems="center"
+                        justifyContent="space-between"
+                    >
+                        <Typography variant="subtitle2">To Pay</Typography>
+                        <Box
+                            display="flex"
+                            alignItems="center"
+                            marginBlock={theme.spacing(1.6)}
+                        >
+                            <CurrencyRupee color="primary" />
+                            <Typography variant="h6">
+                                {cartItem.price}
+                            </Typography>
+                        </Box>
+                    </Stack>
+                </Stack>
+            </StyledBox>
         </StyledCard>
     );
 }
