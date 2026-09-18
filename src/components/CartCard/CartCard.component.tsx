@@ -1,8 +1,5 @@
 import { CurrencyRupee } from '@mui/icons-material';
-import BlockIcon from '@mui/icons-material/Block';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import CloseIcon from '@mui/icons-material/Close';
-import { Chip, IconButton, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 
 import nonVegIndicator from '@assets/images/non-veg-indicator.webp';
 import vegIndicator from '@assets/images/veg-indicator.webp';
@@ -14,7 +11,6 @@ import {
     InteractiveControlsGroup,
     ItemDetailsGroup,
     PriceWrapper,
-    StyledBox,
     StyledCard,
     StyledTitle,
 } from './CartCard.styles';
@@ -30,7 +26,6 @@ export function CartCard({
     quantities,
     setQuantities,
     onAddToCart,
-    onRemoveItem,
 }: CartItemProps) {
     const { handleRemoveFromCart } = useCart();
 
@@ -38,17 +33,6 @@ export function CartCard({
         <StyledCard>
             {/* Shows the details of the items. */}
             <ItemDetailsGroup>
-                {/* this icon button is used to remove the item. */}
-                <IconButton
-                    size="small"
-                    variant="error"
-                    color="error"
-                    disabled={cartItem.stock <= 0}
-                    onClick={onRemoveItem}
-                >
-                    <CloseIcon fontSize="small" />
-                </IconButton>
-
                 {/* Image to indicate the type of the food item. */}
                 <img
                     src={
@@ -62,27 +46,9 @@ export function CartCard({
                         backgroundColor: theme.palette.background.default,
                     }}
                 />
-                <StyledBox>
-                    <StyledTitle variant="body1" fontWeight={500}>
-                        {cartItem.name}
-                    </StyledTitle>
-                    <Chip
-                        size="small"
-                        icon={
-                            cartItem.stock > 0 ? (
-                                <CheckCircleIcon />
-                            ) : (
-                                <BlockIcon />
-                            )
-                        }
-                        label={
-                            cartItem.stock > 0
-                                ? `${cartItem.stock} in Stock`
-                                : 'Out of Stock'
-                        }
-                        color={cartItem.stock > 0 ? 'success' : 'error'}
-                    />
-                </StyledBox>
+                <StyledTitle variant="body2" fontWeight={500}>
+                    {cartItem.name}
+                </StyledTitle>
             </ItemDetailsGroup>
 
             {/* Shows the cart item quantity selector and sub total of the item. */}
@@ -112,7 +78,7 @@ export function CartCard({
                 <PriceWrapper>
                     <CurrencyRupee color="primary" fontSize="small" />
                     <Typography
-                        variant="subtitle1"
+                        variant="body2"
                         fontWeight={600}
                         color={theme.palette.text.secondary}
                     >

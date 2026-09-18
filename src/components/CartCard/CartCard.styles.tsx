@@ -7,27 +7,12 @@ export const StyledCard = styled(Card)(({ theme }) => ({
     boxSizing: 'border-box',
     flexDirection: 'row',
     alignItems: 'start',
+    flexGrow: 1,
     gap: theme.spacing(4),
     padding: theme.spacing(2),
     justifyContent: 'space-between',
-
-    [theme.breakpoints.up('sm')]: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        padding: theme.spacing(2.5),
-        paddingRight: theme.spacing(6),
-    },
-}));
-export const StyledBox = styled(Box)(({ theme }) => ({
-    display: 'flex',
-    boxSizing: 'border-box',
-    flexDirection: 'column',
-    alignItems: 'center',
-    [theme.breakpoints.up('sm')]: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: theme.spacing(4),
-        padding: theme.spacing(2.5),
+    [theme.breakpoints.up('lg')]: {
+        width: '45%',
     },
 }));
 
@@ -36,16 +21,17 @@ export const ItemDetailsGroup = styled(Box)(({ theme }) => ({
     flexDirection: 'row',
     alignItems: 'center',
     justifyItems: 'space-between',
-    gap: theme.spacing(4),
+    gap: theme.spacing(2),
     flexShrink: 0,
 }));
 
 export const InteractiveControlsGroup = styled(Box)(({ theme }) => ({
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'end',
     gap: theme.spacing(3),
-
+    flexWrap: 'wrap',
     [theme.breakpoints.up('md')]: {
         flexDirection: 'row',
         gap: theme.spacing(1),
@@ -57,8 +43,10 @@ export const PriceWrapper = styled(Box)({
     flexDirection: 'row',
     alignItems: 'center',
 });
+export const StyledTitle = styled(Typography)(({ theme }) => ({
+    maxWidth: 150,
 
-export const StyledTitle = styled(Typography)({
-    width: 100,
-    textAlign: 'center',
-});
+    [theme.breakpoints.up('sm')]: {
+        maxWidth: '100%',
+    },
+}));
