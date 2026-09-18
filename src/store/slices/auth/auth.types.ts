@@ -6,8 +6,6 @@ export interface AuthState {
     users: User[];
     /** Stores the currently authenticated user. */
     currentUser: User | null;
-    /** Represents the current status of an authentication operation. */
-    status: Status;
     /** Indicated whether a user is currently logged in. */
     isLoggedIn: boolean;
 }

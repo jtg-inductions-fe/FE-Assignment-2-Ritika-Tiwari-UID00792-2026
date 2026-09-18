@@ -1,5 +1,7 @@
 import { Control, UseFormHandleSubmit } from 'react-hook-form';
 
+import { UserRole } from '@types';
+
 /**
  * Interface defining the configuration properties of the SignUp form.
  */
@@ -17,11 +19,6 @@ export interface SignUpFormData {
     /** Confirmation password field for to confirm the password */
     confirmPassword?: string;
 }
-
-/**
- * Types for the user role
- */
-export type UserRole = 'customer' | 'owner';
 
 /**Interface defining the configuration properties, that needed to be passed to the SignUp form */
 export interface SignUpFormProps {

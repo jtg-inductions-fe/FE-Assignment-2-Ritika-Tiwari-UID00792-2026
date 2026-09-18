@@ -42,7 +42,6 @@ export const RestaurantCard = ({
                     image={imgSrc}
                     alt={restaurant.name || 'Restaurant'}
                     onError={() => {
-                        // Compare state variable directly to avoid endless loop
                         if (imgSrc !== fallBackImage) {
                             setImgSrc(fallBackImage);
                         }

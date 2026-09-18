@@ -10,10 +10,11 @@ export interface Menu {
     description: string;
     /** Image Url of the image of the item */
     imageUrl: string;
-    /** Define the type of the type of the item. */
-    type: string;
+    /** Define the type of item (veg/non-veg). */
+    type: Type;
     /** Price of the menu Item. */
     price: number;
     /** Stock quantity for the menu item. */
     stock: number;
 }
+export type Type = 'veg' | 'non-veg';

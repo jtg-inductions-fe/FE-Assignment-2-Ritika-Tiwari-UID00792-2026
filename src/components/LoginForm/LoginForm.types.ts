@@ -20,10 +20,6 @@ export interface LoginFormProps {
     isSubmitting: boolean;
     /** Callback function to handle the submission login after the form validation. */
     onSubmit: (data: LoginFormData) => void;
-    /** State to handle the password visibility state. */
-    showPassword: boolean;
-    /** Callback function to set the visibility state of the show password.  */
-    handleClickShowPassword: () => void;
     /** State to handle the snackbar open state. */
     isSnackbarOpen: boolean;
     /** React state dispatcher to update the visibility status of the snackbar. */

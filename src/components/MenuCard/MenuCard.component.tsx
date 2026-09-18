@@ -131,14 +131,14 @@ export function MenuCard({
                     >
                         <Chip
                             icon={
-                                menuItem.stock > 0 ? (
+                                menuItem.stock ? (
                                     <CheckCircleIcon />
                                 ) : (
                                     <BlockIcon />
                                 )
                             }
                             label={
-                                menuItem.stock > 0
+                                menuItem.stock
                                     ? `${menuItem.stock} in Stock`
                                     : `Out of Stock`
                             }
@@ -176,7 +176,7 @@ export function MenuCard({
                         alignSelf="end"
                         width="100%"
                     >
-                        <Button variant="text" onClick={onEditClick}>
+                        <Button variant="outlined" onClick={onEditClick}>
                             <Typography variant="button" textTransform="none">
                                 Edit
                             </Typography>

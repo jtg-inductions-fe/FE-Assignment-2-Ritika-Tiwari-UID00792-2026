@@ -8,8 +8,9 @@ import { useAuth } from '@hooks';
  * @returns The rendered global application header component.
  */
 export const Header = () => {
-    const { fetchUser, isLoggedIn } = useAuth();
-    const registeredUser = fetchUser();
+    const { fetchCurrentUser, isLoggedIn } = useAuth();
+    const registeredUser = fetchCurrentUser();
+    // TODO: This will be remove and actual cartCount will be used here after cart section.
     const cartCount = 4;
 
     return (

@@ -1,7 +1,6 @@
 /** Constants that define the app routes. */
 export const ROUTES = {
     ROOT: '/',
-    HOME: '/home',
     SING_UP: '/sign-up',
     LOGIN: '/login',
     RESTAURANT: '/restaurant',

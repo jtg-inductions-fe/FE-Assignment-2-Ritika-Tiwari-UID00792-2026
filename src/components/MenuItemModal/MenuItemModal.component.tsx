@@ -33,10 +33,10 @@ export const MenuItemModal = ({
     open,
     onClose,
     restaurantId,
-    MenuItemToEdit,
+    menuItemToEdit,
 }: MenuItemModalProps): JSX.Element => {
     // Determine if the modal is in edit mode based MenuItem data to be edited
-    const isEditMode = Boolean(MenuItemToEdit);
+    const isEditMode = Boolean(menuItemToEdit);
 
     // fetching functions to handle add menu item and edit menu item functionality
     const { handleAddMenuItem, handleEditMenuItem } = useMenu(restaurantId);
@@ -54,7 +54,7 @@ export const MenuItemModal = ({
             price: 0,
             stock: 0,
             imageUrl: '',
-            type: '',
+            type: 'veg',
         },
     });
 
@@ -63,37 +63,27 @@ export const MenuItemModal = ({
      * menu item is selected for editing.
      */
     useEffect(() => {
-        if (MenuItemToEdit) {
+        if (menuItemToEdit) {
             // Populate fields with existing data for editing
             reset({
-                name: MenuItemToEdit.name,
-                description: MenuItemToEdit.description,
-                price: Number(MenuItemToEdit.price),
-                stock: Number(MenuItemToEdit.stock),
-                imageUrl: MenuItemToEdit.imageUrl,
-                type: MenuItemToEdit.type,
-            });
-        } else {
-            // Clear fields back to default states
-            reset({
-                name: '',
-                description: '',
-                price: 0,
-                stock: 0,
-                imageUrl: '',
-                type: '',
+                name: menuItemToEdit.name,
+                description: menuItemToEdit.description,
+                price: Number(menuItemToEdit.price),
+                stock: Number(menuItemToEdit.stock),
+                imageUrl: menuItemToEdit.imageUrl,
+                type: menuItemToEdit.type,
             });
         }
-    }, [MenuItemToEdit, reset, open]);
+    }, [menuItemToEdit, reset, open]);
 
     /**
      * Handle the form submission.
      */
     const onSubmit = (data: Menu) => {
-        if (isEditMode && MenuItemToEdit) {
+        if (isEditMode && menuItemToEdit) {
             // Merge new modifications into the existing menu item object
             const updatedMenuItem: Menu = {
-                ...MenuItemToEdit,
+                ...menuItemToEdit,
                 ...data,
             };
             handleEditMenuItem(updatedMenuItem);
@@ -255,11 +245,11 @@ export const MenuItemModal = ({
                             variant="contained"
                             disabled={isSubmitting}
                         >
-                            {isSubmitting
-                                ? 'Submitting...'
-                                : isEditMode
-                                  ? 'Save'
-                                  : 'Submit'}
+                            {(() => {
+                                if (isSubmitting) return 'Submitting...';
+                                if (isEditMode) return 'Save';
+                                return 'Submit';
+                            })()}
                         </Button>
                     </Stack>
                 </Stack>

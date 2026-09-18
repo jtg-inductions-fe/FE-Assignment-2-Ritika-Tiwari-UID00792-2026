@@ -25,7 +25,7 @@ export const ItemQuantitySelector = ({
     };
 
     const handleDecrement = () => {
-        if (quantity > 1) {
+        if (quantity > 0) {
             setQuantity(quantity - 1);
         }
     };
@@ -40,13 +40,13 @@ export const ItemQuantitySelector = ({
             <IconButton
                 size="small"
                 onClick={handleDecrement}
-                disabled={quantity <= 1}
+                disabled={quantity === 0}
                 aria-label="decrease quantity"
             >
                 <RemoveIcon fontSize="small" />
             </IconButton>
 
-            <Typography variant="body2" fontWeight="medium">
+            <Typography variant="body2" fontWeight="medium" component="span">
                 {quantity}
             </Typography>
 

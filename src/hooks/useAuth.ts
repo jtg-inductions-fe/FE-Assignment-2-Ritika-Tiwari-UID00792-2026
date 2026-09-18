@@ -1,19 +1,46 @@
+import { useEffect } from 'react';
+
 import { LoginFormData } from 'components/LoginForm/LoginForm.types';
 import { SignUpFormData } from 'components/SignUpForm/SignUpForm.types';
 import { UseFormSetError } from 'react-hook-form';
 
-import { login, logout, signup, useAppDispatch, useAppSelector } from '@store';
+import { fetchRegisteredUsers } from '@services';
+import {
+    login,
+    logout,
+    setRegisteredUsers,
+    signup,
+    useAppDispatch,
+    useAppSelector,
+} from '@store';
 import { User } from '@types';
 
 export const useAuth = () => {
     const dispatch = useAppDispatch();
     /**  This variable contains the registered users from the redux store. */
     const registeredUsers = useAppSelector((state) => state.auth.users);
+    //  Fetch data only when restaurantId or dispatch changes
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const users: User[] = (await fetchRegisteredUsers()) ?? [];
+                dispatch(setRegisteredUsers(users));
+            } catch (err) {
+                if(err){
+                return [];
+                }
+            } finally {
+                return [];
+            }
+        };
+
+        void fetchUsers();
+    }, []);
 
     /**
      * Helper function to locate a user by their email address.
      * @param users - take the list of registered users.
-     * @param email - take the new user email to check whether the user with this email exists in the registered users list or not.
+     * @param email - take the new email to check whether the user with this email exists in the registered users list or not.
      * @return registeredUser - the user exist with given email.
      */
     const findUserByEmail = (users: User[], email: string): User | undefined =>
@@ -94,7 +121,7 @@ export const useAuth = () => {
      * Function used to find the current registered user from the local storage.
      * @returns Current registered user
      */
-    const fetchUser = () => {
+    const fetchCurrentUser = () => {
         const user: string = localStorage.getItem('currentUser') || '';
         try {
             const currentRegisteredUser: User = JSON.parse(user) as User;
@@ -107,5 +134,11 @@ export const useAuth = () => {
     // Selecting the current logged in state of the user from the redux store.
     const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
 
-    return { handleLogin, handleSignup, handleLogout, fetchUser, isLoggedIn };
+    return {
+        handleLogin,
+        handleSignup,
+        handleLogout,
+        fetchCurrentUser,
+        isLoggedIn,
+    };
 };

@@ -2,7 +2,6 @@
 export * from './NotFoundPage/NotFoundPage.page';
 export * from './Login/Login.page';
 export * from './SignUp/SignUp.page';
-export * from './Home/Home.page';
 export * from './Restaurant/Restaurant.page';
 export * from './Menu/Menu.page';
 export * from './Cart/Cart.page';

@@ -2,14 +2,7 @@ import { createBrowserRouter } from 'react-router-dom';
 
 import { Main } from '@layouts';
 import { Login, SignUp } from '@pages';
-import {
-    Cart,
-    Home,
-    Menu,
-    NotFoundPage,
-    OrderPortal,
-    Restaurant,
-} from '@pages';
+import { Cart, Menu, NotFoundPage, OrderPortal, Restaurant } from '@pages';
 
 import { ROUTES } from './AppRoutes.constants';
 import { ProtectedRoutes } from './ProtectedRoutes';
@@ -30,10 +23,6 @@ export const AppRoutes = createBrowserRouter([
             {
                 element: <ProtectedRoutes />,
                 children: [
-                    {
-                        path: ROUTES.HOME,
-                        element: <Home />,
-                    },
                     {
                         index: true,
                         element: <Restaurant />,

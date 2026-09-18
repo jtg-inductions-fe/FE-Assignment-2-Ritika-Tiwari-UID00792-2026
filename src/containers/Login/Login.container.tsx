@@ -63,14 +63,6 @@ export const Login = () => {
         }
     };
 
-    // State to manage password visibility state.
-    const [showPassword, setShowPassword] = useState(false);
-
-    /**
-     * Function to set the show password state to show password when user click the icon.
-     */
-    const handleClickShowPassword = () => setShowPassword((show) => !show);
-
     return (
         <Box
             display="flex"
@@ -84,8 +76,6 @@ export const Login = () => {
                     handleSubmit={handleSubmit}
                     isSubmitting={isSubmitting}
                     onSubmit={onSubmit}
-                    showPassword={showPassword}
-                    handleClickShowPassword={handleClickShowPassword}
                     isSnackbarOpen={isSnackbarOpen}
                     setIsSnackbarOpen={setIsSnackbarOpen}
                     snackbarMessage={snackbarMessage}

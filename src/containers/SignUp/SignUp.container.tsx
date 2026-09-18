@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { SignUpFormData } from 'components/SignUpForm/SignUpForm.types';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { Box } from '@mui/material';
@@ -33,7 +33,6 @@ export const SignUp = () => {
     const {
         control,
         handleSubmit,
-        watch,
         formState: { isSubmitting },
     } = useForm<SignUpFormData>({
         defaultValues: {
@@ -45,7 +44,7 @@ export const SignUp = () => {
         },
     });
 
-    const watchPassword = watch('password');
+    const watchPassword = useWatch({ control, name: 'password' });
 
     // Custom hook to handle the signup form submission.
     const { handleSignup } = useAuth();

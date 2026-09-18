@@ -108,17 +108,6 @@ export const RestaurantModal = ({
                 imageUrl: restaurantToEdit.imageUrl,
                 type: restaurantToEdit.type,
             });
-        } else {
-            // Clear fields back to default states
-            reset({
-                name: '',
-                description: '',
-                openingTime: '',
-                closingTime: '',
-                address: '',
-                imageUrl: '',
-                type: '',
-            });
         }
     }, [restaurantToEdit, reset, open]);
 
@@ -300,11 +289,11 @@ export const RestaurantModal = ({
                             variant="contained"
                             disabled={isSubmitting}
                         >
-                            {isSubmitting
-                                ? 'Submitting...'
-                                : isEditMode
-                                  ? 'Save'
-                                  : 'Submit'}
+                            {(() => {
+                                if (isSubmitting) return 'Submitting...';
+                                if (isEditMode) return 'Save';
+                                return 'Submit';
+                            })()}
                         </Button>
                     </Stack>
                 </Stack>

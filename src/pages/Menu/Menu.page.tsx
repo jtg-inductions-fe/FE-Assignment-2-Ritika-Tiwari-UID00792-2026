@@ -97,14 +97,13 @@ export const Menu = () => {
      * Handles the confirmation event from the confirmation dialog.
      * @param confirmation - A boolean value defining user confirmation from the dialog.
      */
-    const handleSubmit = (confirmation: boolean) => {
+    const handleSubmit = () => {
         setIsDialogOpen(false);
 
-        if (confirmation && itemSelectedForDeletion) {
+        if (itemSelectedForDeletion) {
             try {
                 // Execute the deletion only after confirmation
                 handleDeleteMenuItem(itemSelectedForDeletion);
-
                 setIsSnackbarOpen(true);
                 setSnackbarMessage('Item deleted successfully');
                 setSnackbarState('success');
@@ -285,7 +284,7 @@ export const Menu = () => {
                 open={isModalOpen}
                 onClose={handleCloseModal}
                 restaurantId={restaurantId}
-                MenuItemToEdit={editingMenuItem}
+                menuItemToEdit={editingMenuItem}
             />
             <ConfirmationDialog
                 open={isDialogOpen}

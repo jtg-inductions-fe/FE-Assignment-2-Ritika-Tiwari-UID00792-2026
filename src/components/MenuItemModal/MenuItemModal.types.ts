@@ -7,5 +7,5 @@ export interface MenuItemModalProps {
     open: boolean;
     onClose: () => void;
     restaurantId: string | undefined;
-    MenuItemToEdit?: Menu | null;
+    menuItemToEdit?: Menu | null;
 }

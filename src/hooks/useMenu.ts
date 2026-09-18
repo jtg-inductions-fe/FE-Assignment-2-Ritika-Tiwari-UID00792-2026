@@ -18,8 +18,8 @@ import { Menu } from '@types';
 
 /** Custom hook to manage and provide Menu data. */
 export const useMenu = (restaurantId: string | undefined) => {
-    const { fetchUser } = useAuth();
-    const registeredUser = fetchUser();
+    const { fetchCurrentUser } = useAuth();
+    const registeredUser = fetchCurrentUser();
     const dispatch = useAppDispatch();
 
     //  Extract values directly from Redux state
@@ -85,11 +85,7 @@ export const useMenu = (restaurantId: string | undefined) => {
      */
     const handleAddToCart = (id: string, quantity: number) => {
         const item = menuItems.find((i) => id === i.itemId);
-        if (item) {
-            if (item.stock <= 0) return;
-        } else {
-            return quantity;
-        }
+        return item?.stock ? quantity : undefined;
     };
 
     /** Function to handle restock a MenuItem in the redux store.

@@ -78,27 +78,24 @@ export const Restaurant = () => {
      * Handles the confirmation event from the confirmation dialog.
      * @param confirmation - A boolean value defining user confirmation from the dialog.
      */
-    const handleSubmit = useCallback(
-        (confirmation: boolean) => {
-            setIsDialogOpen(false);
-            if (confirmation && selectedRestaurantID) {
-                try {
-                    handleDeleteRestaurant(selectedRestaurantID);
-                    setIsSnackbarOpen(true);
-                    setSnackbarMessage('Restaurant deleted successfully');
-                    setSnackbarState('success');
-                } catch {
-                    setIsSnackbarOpen(true);
-                } finally {
-                    setSelectedRestaurantID('');
-                    setIsDialogOpen(false);
-                }
-            } else {
+    const handleSubmit = useCallback(() => {
+        setIsDialogOpen(false);
+        if (selectedRestaurantID) {
+            try {
+                handleDeleteRestaurant(selectedRestaurantID);
+                setIsSnackbarOpen(true);
+                setSnackbarMessage('Restaurant deleted successfully');
+                setSnackbarState('success');
+            } catch {
+                setIsSnackbarOpen(true);
+            } finally {
                 setSelectedRestaurantID('');
+                setIsDialogOpen(false);
             }
-        },
-        [handleDeleteRestaurant, selectedRestaurantID],
-    );
+        } else {
+            setSelectedRestaurantID('');
+        }
+    }, [handleDeleteRestaurant, selectedRestaurantID]);
 
     /**
      * Function to handle close event of confirmation dialog.
