@@ -13,13 +13,18 @@ import { theme } from '@theme';
 import {
     InteractiveControlsGroup,
     ItemDetailsGroup,
-    PriceDisplayWrapper,
+    PriceWrapper,
     StyledBox,
     StyledCard,
     StyledTitle,
 } from './CartCard.styles';
 import { CartItemProps } from './CartCard.types';
 
+/**
+ * A cart card that displays the details of cart.
+ * @param cartItemProps - the configuration property to render the card component for cart.
+ * @returns The structured and styled cart card.
+ */
 export function CartCard({
     cartItem,
     quantities,
@@ -31,9 +36,9 @@ export function CartCard({
 
     return (
         <StyledCard>
-            {/* Left Group: Indicator -> Name -> Stock (Always stays left, never shifts order) */}
+            {/* Shows the details of the items. */}
             <ItemDetailsGroup>
-                {/* Absolute Close Action Icon */}
+                {/* this icon button is used to remove the item. */}
                 <IconButton
                     size="small"
                     variant="error"
@@ -43,6 +48,8 @@ export function CartCard({
                 >
                     <CloseIcon fontSize="small" />
                 </IconButton>
+
+                {/* Image to indicate the type of the food item. */}
                 <img
                     src={
                         cartItem.type === 'veg' ? vegIndicator : nonVegIndicator
@@ -78,7 +85,7 @@ export function CartCard({
                 </StyledBox>
             </ItemDetailsGroup>
 
-            {/* Right Group: Quantity over Price (Mobile) / Quantity beside Price (Tablet/Desktop) */}
+            {/* Shows the cart item quantity selector and sub total of the item. */}
             <InteractiveControlsGroup>
                 {cartItem.stock > 0 && (
                     <ItemQuantitySelector
@@ -102,7 +109,7 @@ export function CartCard({
                     />
                 )}
 
-                <PriceDisplayWrapper>
+                <PriceWrapper>
                     <CurrencyRupee color="primary" fontSize="small" />
                     <Typography
                         variant="subtitle1"
@@ -111,7 +118,7 @@ export function CartCard({
                     >
                         {cartItem.itemSubtotal}
                     </Typography>
-                </PriceDisplayWrapper>
+                </PriceWrapper>
             </InteractiveControlsGroup>
         </StyledCard>
     );

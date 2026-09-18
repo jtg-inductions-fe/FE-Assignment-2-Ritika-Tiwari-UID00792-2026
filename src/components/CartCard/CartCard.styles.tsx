@@ -42,18 +42,17 @@ export const ItemDetailsGroup = styled(Box)(({ theme }) => ({
 
 export const InteractiveControlsGroup = styled(Box)(({ theme }) => ({
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'center',
-    gap: theme.spacing(1),
+    gap: theme.spacing(3),
 
-    [theme.breakpoints.down('md')]: {
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: theme.spacing(3),
+    [theme.breakpoints.up('md')]: {
+        flexDirection: 'row',
+        gap: theme.spacing(1),
     },
 }));
 
-export const PriceDisplayWrapper = styled(Box)({
+export const PriceWrapper = styled(Box)({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
