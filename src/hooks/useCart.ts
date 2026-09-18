@@ -1,28 +1,43 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 
 import { fetchCartData } from '@services';
-import { addItemToCart, useAppDispatch, useAppSelector } from '@store';
 import {
+    addItemToCart,
     clearCart,
     deleteCompletely,
     removeItemFromCart,
     setCart,
     setCartError,
     setCartLoading,
+    useAppDispatch,
+    useAppSelector,
 } from '@store';
 import { CartItem } from '@types';
 
+/**
+ * A custom React hook to manage all shopping cart operations and state.
+ * It automatically fetches initial cart data on mount and provides functions
+ * for adding, removing, and clearing items from the cart.
+ *
+ * @returns An object containing the cart state, loading/error states, and handler functions.
+ */
 export const useCart = () => {
     const dispatch = useAppDispatch();
 
+    // Extract cart state from the global Redux store
     const { items, billDetails, cartId, restaurant, cartLoading, cartError } =
         useAppSelector((state) => state.cart);
 
+    /**
+     * Automatically fetches the user's cart data from the server
+     * when the component using this hook mounts.
+     */
     useEffect(() => {
         const fetchData = async () => {
             try {
                 dispatch(setCartLoading(true));
                 dispatch(setCartError(null));
+
                 const cartData = await fetchCartData();
                 dispatch(setCart(cartData));
             } catch (err) {
@@ -37,17 +52,19 @@ export const useCart = () => {
                 dispatch(setCartLoading(false));
             }
         };
+
         void fetchData();
     }, [dispatch]);
 
-    /** Function to handle add to cart a menu item and decrement the stock quantity.
-     * @param id - id of the item
-     * @param quantity - selected quantity of the item.
-     * @returns void
+    /**
+     * Adds an item to the shopping cart if it is in stock.
+     * @param {CartItem} item -Item to be added to the cart.
      */
-    const handleAddToCart = (item: CartItem) => {
-        if (item) {
+    const handleAddToCart = useCallback(
+        (item: CartItem) => {
+            if (!item) return;
             if (item.stock <= 0) return;
+
             dispatch(
                 addItemToCart({
                     item: {
@@ -62,36 +79,68 @@ export const useCart = () => {
                     },
                 }),
             );
-        } else {
-            return null;
-        }
-    };
+        },
+        [dispatch],
+    );
 
-    const handleRemoveFromCart = (itemId: string) => {
-        dispatch(removeItemFromCart(itemId));
-    };
+    /**
+     * Decrements the quantity of a specific item in the cart by 1.
+     *
+     * @param  itemId - The unique id of the item to decrement.
+     */
+    const handleRemoveFromCart = useCallback(
+        (itemId: string) => {
+            dispatch(removeItemFromCart(itemId));
+        },
+        [dispatch],
+    );
 
-    const handleRemoveItemCompletely = (itemId: string) => {
-        dispatch(deleteCompletely(itemId));
-    };
+    /**
+     * Removes an item completely from the cart.
+     *
+     * @param itemId - The unique id of the item to delete.
+     */
+    const handleRemoveItemCompletely = useCallback(
+        (itemId: string) => {
+            dispatch(deleteCompletely(itemId));
+        },
+        [dispatch],
+    );
 
-    const handleClearCart = () => {
+    /**
+     * Removes all items from the shopping cart and resets cart state.
+     */
+    const handleClearCart = useCallback(() => {
         dispatch(clearCart());
-    };
-    const checkCurrentActiveRestaurant = (restaurantId: string | undefined) => {
-        if (
-            restaurant?.restaurantId === null ||
-            restaurant?.restaurantId === undefined
-        ) {
-            return true;
-        }
-        if (restaurant?.restaurantId === restaurantId) {
-            return true;
-        }
-        return false;
-    };
+    }, [dispatch]);
 
-    const cartCount = () => items.length;
+    /**
+     * Checks if the user is trying to order from the same restaurant or a new one.
+     * Useful for showing a conflict warning if they switch restaurants.
+     *
+     * @param  restaurantId - The Id of the restaurant to check against.
+     * @returns True if the cart is empty or belongs to the same restaurant; otherwise false.
+     */
+    const checkCurrentActiveRestaurant = useCallback(
+        (restaurantId: string | undefined) => {
+            if (
+                restaurant?.restaurantId === null ||
+                restaurant?.restaurantId === undefined
+            ) {
+                return true;
+            }
+            if (restaurant?.restaurantId === restaurantId) {
+                return true;
+            }
+            return false;
+        },
+        [restaurant?.restaurantId],
+    );
+
+    /**
+     * Total number of unique types of items currently in the cart.
+     */
+    const cartCount = useMemo(() => items.length, [items]);
 
     return {
         items,
@@ -100,11 +149,11 @@ export const useCart = () => {
         cartError,
         cartId,
         restaurant,
+        cartCount,
         handleAddToCart,
         handleClearCart,
         handleRemoveFromCart,
         handleRemoveItemCompletely,
         checkCurrentActiveRestaurant,
-        cartCount,
     };
 };

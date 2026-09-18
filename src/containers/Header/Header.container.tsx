@@ -14,12 +14,11 @@ export const Header = () => {
     const { fetchCurrentUser, isLoggedIn } = useAuth();
     const registeredUser = fetchCurrentUser() as User;
     const { cartCount } = useCart();
-    const cartItemsCount = cartCount();
 
     return (
         <HeaderComponent
             user={registeredUser}
-            cartCount={cartItemsCount}
+            cartCount={cartCount}
             isLoggedIn={isLoggedIn}
         />
     );

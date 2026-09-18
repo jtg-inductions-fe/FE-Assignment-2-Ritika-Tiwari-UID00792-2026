@@ -4,14 +4,7 @@ import { CartCard } from 'components/CartCard/CartCard.component';
 import { useNavigate } from 'react-router-dom';
 
 import { CurrencyRupee } from '@mui/icons-material';
-import {
-    Box,
-    Button,
-    CardMedia,
-    Divider,
-    Stack,
-    Typography,
-} from '@mui/material';
+import { Box, Button, Divider, Stack, Typography } from '@mui/material';
 
 import fallBackImage from '@assets/images/fallback-image.webp';
 import { LoadingCardSkeleton, NullStateCard, Snackbar } from '@components';
@@ -19,6 +12,12 @@ import { useCart } from '@hooks';
 import { theme } from '@theme';
 import { CartItem } from '@types';
 
+import { StyledCardMedia } from './Cart.styles';
+
+/**
+ * Renders the cart page.
+ * @returns JSX.Element - The rendered cart page.
+ */
 export const Cart = () => {
     const navigate = useNavigate();
     const [quantities, setQuantities] = useState<Record<string, number>>({});
@@ -34,6 +33,7 @@ export const Cart = () => {
         handleAddToCart,
     } = useCart();
 
+    //State of snackbar to show the conditional message and state of snackbar.
     const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
     const [snackbarMessage, setSnackbarMessage] = useState<string>(
         'Some Error Occurred, Try later.',
@@ -42,18 +42,26 @@ export const Cart = () => {
         'error' | 'success' | 'warning'
     >('error');
 
+    // Handling of image load error and show the fallback image.
     const [imgSrc, setImgSrc] = useState(fallBackImage);
 
+    // Setting the fallback image if the restaurant image has not found.
     useEffect(() => {
         if (restaurant?.imageUrl) {
             setImgSrc(restaurant.imageUrl);
         }
     }, [restaurant]);
 
-    function handleBackNavigation(): void {
+    /** Function to handle the back navigation from cart page to menu page.
+     */
+    const handleBackNavigation = () => {
         void navigate(-1);
-    }
+    };
 
+    /**
+     * Function to handle the remove items functionality from the cart
+     * @param id - takes the id of the cart item.
+     */
     const handleRemoveItem = (id: string) => {
         try {
             handleRemoveItemCompletely(id);
@@ -95,14 +103,6 @@ export const Cart = () => {
                 </Typography>
             </Button>
 
-            {cartLoading && (
-                <>
-                    <LoadingCardSkeleton />
-                    <LoadingCardSkeleton />
-                    <LoadingCardSkeleton />
-                </>
-            )}
-
             {!cartLoading && (cartError || items.length === 0) && (
                 <NullStateCard
                     title=""
@@ -119,6 +119,16 @@ export const Cart = () => {
                 gap={theme.spacing(4)}
                 width="100%"
             >
+                {/* Show the loading state of the cart page. */}
+                {cartLoading && (
+                    <>
+                        <LoadingCardSkeleton />
+                        <LoadingCardSkeleton />
+                        <LoadingCardSkeleton />
+                        <LoadingCardSkeleton />
+                        <LoadingCardSkeleton />
+                    </>
+                )}
                 {items.map((item) => (
                     <CartCard
                         key={item.itemId}
@@ -136,6 +146,7 @@ export const Cart = () => {
                 ))}
             </Box>
 
+            {/* Bill details of  order */}
             {items.length > 0 && (
                 <Box
                     display="flex"
@@ -150,7 +161,7 @@ export const Cart = () => {
                         spacing={theme.spacing(2)}
                         divider={<Divider orientation="vertical" flexItem />}
                     >
-                        <CardMedia
+                        <StyledCardMedia
                             component="img"
                             image={imgSrc}
                             alt={restaurant?.name}
@@ -158,13 +169,6 @@ export const Cart = () => {
                                 if (imgSrc !== fallBackImage) {
                                     setImgSrc(fallBackImage);
                                 }
-                            }}
-                            sx={{
-                                width: 100,
-                                height: 50,
-                                objectFit: 'cover',
-                                backgroundColor:
-                                    theme.palette.background.default,
                             }}
                         />
                         <Typography variant="subtitle2">
