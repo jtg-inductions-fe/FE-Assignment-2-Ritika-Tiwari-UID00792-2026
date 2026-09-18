@@ -12,7 +12,7 @@ import {
     useAppDispatch,
     useAppSelector,
 } from '@store';
-import { CartItem } from '@types';
+import { Cart, CartItem } from '@types';
 
 /**
  * A custom React hook to manage all shopping cart operations and state.
@@ -137,6 +137,22 @@ export const useCart = () => {
         [restaurant?.restaurantId],
     );
 
+    const handleNewCart = (newCartData: Cart) => {
+        try {
+            dispatch(setCartLoading(true));
+            dispatch(setCartError(null));
+            dispatch(setCart(newCartData));
+        } catch (err) {
+            dispatch(
+                setCartError(
+                    err instanceof Error ? err.message : 'An error occurred',
+                ),
+            );
+        } finally {
+            dispatch(setCartLoading(false));
+        }
+    };
+
     /**
      * Total number of unique types of items currently in the cart.
      */
@@ -154,6 +170,7 @@ export const useCart = () => {
         handleClearCart,
         handleRemoveFromCart,
         handleRemoveItemCompletely,
+        handleNewCart,
         checkCurrentActiveRestaurant,
     };
 };

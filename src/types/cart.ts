@@ -20,7 +20,7 @@ export interface BillDetails {
 
 export interface Cart {
     cartId: string;
-    restaurant: Restaurant;
+    restaurant: Restaurant | null;
     items: CartItem[];
     billDetails: BillDetails;
 }
