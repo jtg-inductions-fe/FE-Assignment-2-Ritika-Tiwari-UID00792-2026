@@ -36,9 +36,6 @@ export const RestaurantModal = ({
     onEdit,
     onAdd,
 }: RestaurantModalProps): JSX.Element => {
-    // Determine if the modal is in edit mode based restaurant data to be edited
-    const isEditMode = Boolean(restaurantToEdit);
-
     // Initialize form controls, error states, and validation tracking via react-hook-form
     const {
         control,
@@ -67,6 +64,9 @@ export const RestaurantModal = ({
             type: 'veg',
         },
     });
+
+    // Determine if the modal is in edit mode based restaurant data to be edited
+    const isEditMode = Boolean(restaurantToEdit);
 
     /**
      * Handle the form submission.

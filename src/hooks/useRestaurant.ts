@@ -38,15 +38,7 @@ export const useRestaurant = () => {
                 dispatch(setLoading(true));
                 dispatch(setError(null));
 
-                let restaurantData = await fetchRestaurantData();
-
-                // Filter based on user role
-                if (registeredUser?.role === 'owner') {
-                    restaurantData = restaurantData.filter(
-                        (restaurant: Restaurant) =>
-                            restaurant.ownerId === registeredUser.id,
-                    );
-                }
+                const restaurantData = await fetchRestaurantData();
 
                 if (isCurrent) {
                     dispatch(setRestaurants(restaurantData));
@@ -76,22 +68,30 @@ export const useRestaurant = () => {
         };
     }, [dispatch, registeredUser?.id, registeredUser?.role]);
 
-    // Compute the filtered list dynamically on the client side
-    const filteredRestaurants = useMemo(
-        () =>
-            restaurants.filter((restaurant) => {
-                const matchesSearch = restaurant.name
-                    .toLowerCase()
-                    .includes(debouncedSearchTerm.toLowerCase().trim());
+    // Compute the filtered list dynamically.
+    const filteredRestaurants = useMemo(() => {
+        let restaurantList = restaurants;
 
-                const matchesCategory = activeCategory
-                    ? restaurant.type === activeCategory
-                    : true;
+        // Filter based on user role if they are an owner
+        if (registeredUser?.role === 'owner') {
+            restaurantList = restaurantList.filter(
+                (restaurant: Restaurant) =>
+                    restaurant.ownerId === registeredUser.id,
+            );
+        }
+        // Apply search and category filters on the resulting list
+        return restaurantList.filter((restaurant) => {
+            const matchesSearch = restaurant.name
+                .toLowerCase()
+                .includes(debouncedSearchTerm.toLowerCase().trim());
 
-                return matchesSearch && matchesCategory;
-            }),
-        [restaurants, debouncedSearchTerm, activeCategory],
-    );
+            const matchesCategory = activeCategory
+                ? restaurant.type === activeCategory
+                : true;
+
+            return matchesSearch && matchesCategory;
+        });
+    }, [restaurants, registeredUser, debouncedSearchTerm, activeCategory]);
 
     /** Callback hook to handle filter toggle (veg/non-veg).
      * @param category- take the category type (veg/non-veg).

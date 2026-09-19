@@ -36,9 +36,6 @@ export const MenuItemModal = ({
     onEdit,
     onAdd,
 }: MenuItemModalProps): JSX.Element => {
-    // Determine if the modal is in edit mode based MenuItem data to be edited
-    const isEditMode = Boolean(itemToEdit);
-
     // Initialize form controls, error states, and validation tracking via react-hook-form
     const {
         control,
@@ -65,6 +62,9 @@ export const MenuItemModal = ({
             type: 'veg',
         },
     });
+
+    // Determine if the modal is in edit mode based MenuItem data to be edited
+    const isEditMode = Boolean(itemToEdit);
 
     /**
      * Handle the form submission.

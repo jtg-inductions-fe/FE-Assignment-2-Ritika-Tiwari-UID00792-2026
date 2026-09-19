@@ -179,7 +179,7 @@ export const SignUpForm = ({
         </Box>
         <Snackbar
             open={snackbarConfig.open}
-            autoHideDuration={2000}
+            autoHideDuration={1000}
             onClose={() =>
                 setSnackbarConfig({ ...snackbarConfig, open: false })
             }

@@ -17,7 +17,7 @@ import {
     useMediaQuery,
 } from '@mui/material';
 
-import fALLBACK_IMAGE from '@assets/images/fallback-image.webp';
+import FALLBACK_IMAGE from '@assets/images/fallback-image.webp';
 import nonVegIndicator from '@assets/images/non-veg-indicator.webp';
 import vegIndicator from '@assets/images/veg-indicator.webp';
 import { theme } from '@theme';
@@ -38,49 +38,50 @@ import { MenuCardProps } from './MenuCard.types';
  * @returns The structured and styled menu card.
  */
 export function MenuCard({
-    menuItem,
+    item,
     userRole,
     quantities,
     setQuantities,
     onEdit,
     onDelete,
-    onAddToCart,
+    onPrimaryAction,
     onIncrease,
     onDecrease,
 }: MenuCardProps) {
-    const [imgSrc, setImgSrc] = useState(menuItem.imageUrl || fALLBACK_IMAGE);
+    
     // Returns true if screen width is smaller than the 'md' breakpoint.
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+    const [imgSrc, setImgSrc] = useState(item.imageUrl || FALLBACK_IMAGE);
 
     return (
         <StyledCard>
             <StyledCardMedia
                 color={
-                    menuItem.stock === 0
+                    item.stock === 0
                         ? theme.palette.action.disabledBackground
                         : theme.palette.background.default
                 }
                 component="img"
                 height="140"
                 image={imgSrc}
-                alt={menuItem.name}
+                alt={item.name}
                 onError={() => {
-                    if (imgSrc !== fALLBACK_IMAGE) {
-                        setImgSrc(fALLBACK_IMAGE);
+                    if (imgSrc !== FALLBACK_IMAGE) {
+                        setImgSrc(FALLBACK_IMAGE);
                     }
                 }}
             />
             <StyledImageIndicator
                 component="img"
-                image={menuItem.type === 'veg' ? vegIndicator : nonVegIndicator}
-                alt={menuItem.type}
+                image={item.type === 'veg' ? vegIndicator : nonVegIndicator}
+                alt={item.type}
             />
             <StyledCardContent>
                 <StyledTitle gutterBottom variant="subtitle1">
-                    {menuItem.name}
+                    {item.name}
                 </StyledTitle>
                 <StyledDescription variant="body2" gutterBottom>
-                    {menuItem.description}
+                    {item.description}
                 </StyledDescription>
                 {/* owner controls on the stock quantity */}
                 {userRole === 'owner' ? (
@@ -101,7 +102,7 @@ export function MenuCard({
                         <IconButton
                             size="small"
                             color="warning"
-                            disabled={menuItem.stock <= 0}
+                            disabled={item.stock <= 0}
                             onClick={onDecrease}
                         >
                             <RemoveCircleOutlineIcon fontSize="small" />
@@ -109,7 +110,7 @@ export function MenuCard({
 
                         {/* Display current stock value */}
                         <Typography variant="body2" fontWeight="bold">
-                            {menuItem.stock}
+                            {item.stock}
                         </Typography>
 
                         {/* Increment stock quantity (+1) */}
@@ -131,30 +132,30 @@ export function MenuCard({
                     >
                         <Chip
                             icon={
-                                menuItem.stock ? (
+                                item.stock ? (
                                     <CheckCircleIcon />
                                 ) : (
                                     <BlockIcon />
                                 )
                             }
                             label={
-                                menuItem.stock
-                                    ? `${menuItem.stock} in Stock`
+                                item.stock
+                                    ? `${item.stock} in Stock`
                                     : `Out of Stock`
                             }
-                            color={menuItem.stock > 0 ? 'success' : 'error'}
+                            color={item.stock > 0 ? 'success' : 'error'}
                         />
-                        {menuItem.stock > 0 && (
+                        {item.stock > 0 && (
                             <ItemQuantitySelector
-                                key={menuItem.itemId}
-                                quantity={quantities[menuItem.itemId] ?? 1}
+                                key={item.itemId}
+                                quantity={quantities[item.itemId] ?? 1}
                                 setQuantity={(newQty: number) => {
                                     setQuantities((prev) => ({
                                         ...prev,
-                                        [menuItem.itemId]: newQty,
+                                        [item.itemId]: newQty,
                                     }));
                                 }}
-                                maxQuantity={menuItem.stock}
+                                maxQuantity={item.stock}
                             />
                         )}
                     </Stack>
@@ -165,7 +166,7 @@ export function MenuCard({
                     marginBlock={theme.spacing(4)}
                 >
                     <CurrencyRupee color="primary" />
-                    <Typography variant="h6">{menuItem.price}</Typography>
+                    <Typography variant="h6">{item.price}</Typography>
                 </Box>
 
                 {/* Show the edit and delete buttons only to the owners */}
@@ -190,8 +191,8 @@ export function MenuCard({
                 ) : (
                     <Button
                         variant="contained"
-                        onClick={onAddToCart}
-                        disabled={menuItem.stock === 0}
+                        onClick={onPrimaryAction}
+                        disabled={item.stock === 0}
                     >
                         <Typography variant="button">Add to cart</Typography>
                     </Button>

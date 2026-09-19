@@ -13,7 +13,7 @@ import {
     useMediaQuery,
 } from '@mui/material';
 
-import fALLBACK_IMAGE from '@assets/images/fallback-image.webp';
+import FALLBACK_IMAGE from '@assets/images/fallback-image.webp';
 import {
     ConfirmationDialog,
     LoadingCardSkeleton,
@@ -59,6 +59,7 @@ export const Menu = () => {
     const handleDeleteMenuItem = (itemId: string) => {
         if (itemId) dispatch(deleteMenuItems(itemId));
     };
+
     const { restaurantId } = useParams();
     const { filteredRestaurants } = useRestaurant();
 
@@ -72,21 +73,6 @@ export const Menu = () => {
         handleDecrease,
     } = useMenu(restaurantId);
 
-    /** State to control the Add and edit modals. */
-    const [isModalOpen, setIsModalOpen] = useState(false);
-
-    /** State to control the editing mode of the modal. */
-    const [editingMenuItem, setEditingMenuItem] = useState<MenuData | null>(
-        null,
-    );
-
-    // Track the item Id currently Selected for deletion.
-    const [itemSelectedForDeletion, setItemSelectedForDeletion] = useState<
-        string | null
-    >(null);
-
-    const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-
     // State to manage the configuration (visibility,message and state) of the snackbar.
     const [snackbarConfig, setSnackBarConfig] = useState<SnackbarConfig>({
         open: false,
@@ -94,12 +80,12 @@ export const Menu = () => {
         variant: 'success',
     });
 
-    /** State to control the quantity of a menu item. */
-    const [quantities, setQuantities] = useState<Record<string, number>>({});
+    /** State to control the Add and edit modals. */
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
-    // Find the restaurant data from the filtered restaurants.
-    const restaurantData = filteredRestaurants.find(
-        (restaurant) => restaurant.restaurantId === restaurantId,
+    /** State to control the editing mode of the modal. */
+    const [editingMenuItem, setEditingMenuItem] = useState<MenuData | null>(
+        null,
     );
 
     /** Handle Add restaurant modal open state. */
@@ -120,6 +106,12 @@ export const Menu = () => {
         setEditingMenuItem(null);
     };
 
+    // Track the item Id currently Selected for deletion.
+    const [itemSelectedForDeletion, setItemSelectedForDeletion] = useState<
+        string | null
+    >(null);
+
+    const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
     /**
      * Handles the confirmation event from the confirmation dialog.
      * @param confirmation - A boolean value defining user confirmation from the dialog.
@@ -158,15 +150,10 @@ export const Menu = () => {
         setItemSelectedForDeletion(null);
     };
 
-    /**
-     * Function to handle staging a menu item for deletion.
-     * @param itemId - menu item id used to stage the deletion.
-     * @returns void
-     */
-    const handleOnDelete = (itemId: string) => {
-        setItemSelectedForDeletion(itemId);
-        setIsDialogOpen(true);
-    };
+    // Find the restaurant data from the filtered restaurants.
+    const restaurantData = filteredRestaurants.find(
+        (restaurant) => restaurant.restaurantId === restaurantId,
+    );
 
     /** Handle on add to cart functionality.
      * @param itemId - menu item id used to add the item in the cart.
@@ -181,6 +168,19 @@ export const Menu = () => {
             variant: 'success',
         });
     };
+
+    /**
+     * Function to handle selecting a menu item for deletion.
+     * @param itemId - menu item id used to stage the deletion.
+     * @returns void
+     */
+    const handleOnDelete = (itemId: string) => {
+        setItemSelectedForDeletion(itemId);
+        setIsDialogOpen(true);
+    };
+
+    /** State to control the quantity of a menu item. */
+    const [quantities, setQuantities] = useState<Record<string, number>>({});
 
     /** Handle on increment the count of items in the stock.
      * @param itemId - id of the item whose stock quantity will be decreased.
@@ -202,7 +202,7 @@ export const Menu = () => {
 
     // handle the fallback state of the banner image.
     const [restImgSrc, setRestImgSrc] = useState(
-        restaurantData?.imageUrl || fALLBACK_IMAGE,
+        restaurantData?.imageUrl || FALLBACK_IMAGE,
     );
 
     return (
@@ -211,8 +211,8 @@ export const Menu = () => {
                 <StyledImage
                     src={restImgSrc}
                     onError={() => {
-                        if (restImgSrc !== fALLBACK_IMAGE) {
-                            setRestImgSrc(fALLBACK_IMAGE);
+                        if (restImgSrc !== FALLBACK_IMAGE) {
+                            setRestImgSrc(FALLBACK_IMAGE);
                         }
                     }}
                 />
@@ -295,7 +295,7 @@ export const Menu = () => {
                     filteredMenuItems.map((menuItem) => (
                         <MenuCard
                             key={menuItem.itemId}
-                            menuItem={menuItem}
+                            item={menuItem}
                             userRole={userRole}
                             quantities={quantities}
                             setQuantities={setQuantities}
@@ -305,7 +305,7 @@ export const Menu = () => {
                             onDelete={() => {
                                 handleOnDelete(menuItem.itemId);
                             }}
-                            onAddToCart={() => {
+                            onPrimaryAction={() => {
                                 handleOnAddToCart(
                                     menuItem.itemId,
                                     quantities[menuItem.itemId],
@@ -339,7 +339,7 @@ export const Menu = () => {
             />
             <Snackbar
                 open={snackbarConfig.open}
-                autoHideDuration={2000}
+                autoHideDuration={1000}
                 onClose={() =>
                     setSnackBarConfig({ ...snackbarConfig, open: false })
                 }

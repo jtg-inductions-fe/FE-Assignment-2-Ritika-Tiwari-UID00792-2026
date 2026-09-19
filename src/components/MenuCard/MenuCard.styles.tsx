@@ -21,7 +21,6 @@ export const StyledCard = styled(Card)(({ theme }) => ({
     borderRadius: theme.shape.borderRadius,
     [theme.breakpoints.up('md')]: {
         flexDirection: 'row',
-        width: '100%',
         minWidth: '100%',
     },
 }));

@@ -66,10 +66,6 @@ export const Restaurant = () => {
         [dispatch],
     );
 
-    // Returns true if screen width is smaller than the 'md' breakpoint.
-    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-    const navigate = useNavigate();
-
     const {
         filteredRestaurants,
         loading,
@@ -82,14 +78,6 @@ export const Restaurant = () => {
         isRestaurantClosed,
     } = useRestaurant();
 
-    /** State to control the Add and edit modals. */
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [editingRestaurant, setEditingRestaurant] =
-        useState<RestaurantData | null>(null);
-
-    /** States to control the visibility of confirmation dialog */
-    const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-
     // State to manage the configuration (visibility,message and state) of the snackbar.
     const [snackbarConfig, setSnackBarConfig] = useState<SnackbarConfig>({
         open: false,
@@ -97,9 +85,10 @@ export const Restaurant = () => {
         variant: 'success',
     });
 
-    /** State to store the user selected restaurant to delete */
-    const [selectedRestaurantID, setSelectedRestaurantID] =
-        useState<string>('');
+    /** State to control the Add and edit modals. */
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [editingRestaurant, setEditingRestaurant] =
+        useState<RestaurantData | null>(null);
 
     /** Handle Add restaurant modal open state. */
     const handleOpenAddModal = useCallback(() => {
@@ -118,6 +107,13 @@ export const Restaurant = () => {
         setIsModalOpen(false);
         setEditingRestaurant(null);
     }, []);
+
+    /** States to control the visibility of confirmation dialog */
+    const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+
+    /** State to store the user selected restaurant to delete */
+    const [selectedRestaurantID, setSelectedRestaurantID] =
+        useState<string>('');
 
     /**
      * Handles the confirmation event from the confirmation dialog.
@@ -161,6 +157,8 @@ export const Restaurant = () => {
         setSelectedRestaurantID(restaurantId);
     }, []);
 
+    const navigate = useNavigate();
+
     /**
      * Function to handle click event on the restaurant card.
      * @param restaurantId - restaurant id of clicked restaurant.
@@ -171,6 +169,10 @@ export const Restaurant = () => {
         },
         [navigate],
     );
+
+    // Returns true if screen width is smaller than the 'md' breakpoint.
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
     return (
         <Box width="100%">
             <OuterContainer>
@@ -272,7 +274,7 @@ export const Restaurant = () => {
                     filteredRestaurants.map((restaurant) => (
                         <RestaurantCard
                             key={restaurant.restaurantId}
-                            restaurant={restaurant}
+                            data={restaurant}
                             userRole={userRole}
                             onEdit={(event) => {
                                 event.stopPropagation();
@@ -285,7 +287,7 @@ export const Restaurant = () => {
                             onClick={() =>
                                 handleRestaurantClick(restaurant.restaurantId)
                             }
-                            isRestaurantClosed={isRestaurantClosed(
+                            isClosed={isRestaurantClosed(
                                 restaurant.openingTime,
                                 restaurant.closingTime,
                             )}
@@ -313,7 +315,7 @@ export const Restaurant = () => {
             />
             <Snackbar
                 open={snackbarConfig.open}
-                autoHideDuration={2000}
+                autoHideDuration={1000}
                 onClose={() =>
                     setSnackBarConfig({ ...snackbarConfig, open: false })
                 }

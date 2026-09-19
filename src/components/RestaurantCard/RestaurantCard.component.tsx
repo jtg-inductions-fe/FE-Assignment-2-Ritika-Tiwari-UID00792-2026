@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Box, Button, CardActionArea, Typography } from '@mui/material';
 
 import closedTag from '@assets/images/closed-restaurant.webp';
-import fALLBACK_IMAGE from '@assets/images/fallback-image.webp';
+import FALLBACK_IMAGE from '@assets/images/fallback-image.webp';
 import nonVegIndicator from '@assets/images/non-veg-indicator.webp';
 import vegIndicator from '@assets/images/veg-indicator.webp';
 import { theme } from '@theme';
@@ -25,38 +25,39 @@ import { RestaurantProps } from './RestaurantCard.types';
  * @returns The structured and styled restaurant card.
  */
 export const RestaurantCard = ({
-    restaurant,
+    data,
     userRole,
     onEdit,
     onDelete,
     onClick,
-    isRestaurantClosed,
+    isClosed,
 }: RestaurantProps) => {
+    
     // Handle the fallback case, if image is null or url is wrong.
-    const [imgSrc, setImgSrc] = useState(restaurant.imageUrl || fALLBACK_IMAGE);
+    const [imgSrc, setImgSrc] = useState(data.imageUrl || FALLBACK_IMAGE);
     return (
         <StyledCard onClick={onClick}>
             <CardActionArea>
                 <StyledCardMedia
                     component="img"
                     image={imgSrc}
-                    alt={restaurant.name || 'Restaurant'}
+                    alt={data.name || 'Restaurant'}
                     onError={() => {
-                        if (imgSrc !== fALLBACK_IMAGE) {
-                            setImgSrc(fALLBACK_IMAGE);
+                        if (imgSrc !== FALLBACK_IMAGE) {
+                            setImgSrc(FALLBACK_IMAGE);
                         }
                     }}
                 />
                 <StyledImageIndicator
                     component="img"
                     image={
-                        restaurant.type === 'veg'
+                        data.type === 'veg'
                             ? vegIndicator
                             : nonVegIndicator
                     }
-                    alt={restaurant.type}
+                    alt={data.type}
                 />
-                {isRestaurantClosed && (
+                {isClosed && (
                     <StyledClosedTag
                         component="img"
                         height="240"
@@ -67,10 +68,10 @@ export const RestaurantCard = ({
 
                 <StyledCardContent>
                     <StyledTitle gutterBottom variant="subtitle1">
-                        {restaurant.name}
+                        {data.name}
                     </StyledTitle>
                     <StyledDescription variant="body2">
-                        {restaurant.description}
+                        {data.description}
                     </StyledDescription>
                 </StyledCardContent>
             </CardActionArea>
