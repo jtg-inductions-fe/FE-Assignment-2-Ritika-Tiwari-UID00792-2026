@@ -18,6 +18,6 @@ export const ActionWrapper = styled(Box)(({ theme }) => ({
 export const EmptyCart = styled(Box)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
-    boxShadow: theme.shadows[4],
+    alignItems: 'center',
     padding: theme.spacing(8),
 }));

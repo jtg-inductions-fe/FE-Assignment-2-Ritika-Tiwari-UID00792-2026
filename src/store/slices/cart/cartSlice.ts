@@ -94,6 +94,7 @@ export const cartSlice = createSlice({
             if (existingItem) {
                 if (existingItem.quantity > 1) {
                     existingItem.quantity -= 1;
+                    console.log('decrease quantity', existingItem.quantity);
                 } else {
                     state.items = state.items.filter(
                         (item) => item.itemId !== action.payload,
@@ -131,4 +132,5 @@ export const {
     setCartError,
     clearCart,
 } = cartSlice.actions;
+
 export default cartSlice.reducer;

@@ -117,15 +117,16 @@ export const Menu = () => {
 
     const [currentItem, setCurrentItem] = useState<CartItem>();
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-      /** State for tracking the confirmation dialog , either it is for deleting the menu item or for switching the restaurant for placing the order in the cart. */
+    /** State for tracking the confirmation dialog , either it is for deleting the menu item or for switching the restaurant for placing the order in the cart. */
     const [dialogType, setIsDialogType] = useState<'delete' | 'change' | null>(
         null,
     );
+
     /**
      * Handles the confirmation event from the confirmation dialog.
      * @param confirmation - A boolean value defining user confirmation from the dialog.
      */
-      const handleSubmit = (confirmation: boolean) => {
+    const handleSubmit = (confirmation: boolean) => {
         setIsDialogOpen(false);
 
         if (
@@ -137,14 +138,14 @@ export const Menu = () => {
                 // Execute the deletion only after confirmation
                 handleDeleteMenuItem(itemSelectedForDeletion);
 
-                  setSnackBarConfig({
+                setSnackBarConfig({
                     open: true,
                     message: 'Item deleted successfully',
                     variant: 'success',
                 });
                 setItemSelectedForDeletion(null);
             } catch {
-setSnackBarConfig({
+                setSnackBarConfig({
                     open: true,
                     message: 'Some error occurred, Try again later.',
                     variant: 'error',
@@ -153,14 +154,16 @@ setSnackBarConfig({
         }
         if (confirmation && dialogType === 'change') {
             try {
-                handleChangeRestaurant();
+                handleClearCart();
+                CreateNewCart();
                 setSnackBarConfig({
                     open: true,
-                    message: 'Restaurant changed successfully, now you can add items to cart.',
+                    message:
+                        'Restaurant changed successfully, now you can add more items to cart.',
                     variant: 'success',
                 });
             } catch {
-               setSnackBarConfig({
+                setSnackBarConfig({
                     open: true,
                     message: 'Failed to change restaurant.',
                     variant: 'error',
@@ -184,41 +187,49 @@ setSnackBarConfig({
         (restaurant) => restaurant.restaurantId === restaurantId,
     );
 
-        
-const {
+    const {
         handleAddToCart,
         checkCurrentActiveRestaurant,
         handleClearCart,
         handleNewCart,
     } = useCart();
 
-   /** Handle on add to cart functionality.
+    /** Handle on add to cart functionality.
      * @param itemId - menu item id used to add the item in the cart.
      * @param quantity - quantity of the selected item added in the cart.
      * @returns void
      */
     const handleOnAddToCart = (item: CartItem) => {
         setCurrentItem(item);
-        if (!checkCurrentActiveRestaurant(restaurantId)) {
+        const restaurantStatus = checkCurrentActiveRestaurant(restaurantId);
+
+        if (restaurantStatus === 'CONFLICT') {
+            // Show the warning dialog if they are switching restaurants
+            console.log('in the check');
             setIsDialogOpen(true);
             setIsDialogType('change');
             return;
         }
-        handleAddToCart(item);
+
+        if (restaurantStatus === 'EMPTY') {
+            // Create the new cart when the cart is empty and add the current selected item to the cart.
+            CreateNewCart();
+        } else {
+            // Add the item the existing cart.
+            handleAddToCart(item);
+        }
+
         setSnackBarConfig({
-                    open: true,
-                    message: 'Item added to cart.',
-                    variant: 'success',
-                });
+            open: true,
+            message: 'Item added to cart.',
+            variant: 'success',
+        });
     };
 
-
     /**
-     * Function to switch from the previous restaurant to new restaurant while ordering.
+     * Function to create the new cart in case of user wants to switch the restaurant or the cart is empty.
      */
-    const handleChangeRestaurant = () => {
-        handleClearCart();
-
+    const CreateNewCart = () => {
         // Give the fallback values so undefined will not go to the cart.
         const menuItem: CartItem = {
             itemId: currentItem?.itemId ?? '',
@@ -243,10 +254,8 @@ const {
                 itemsCount: 1,
             },
         };
-
         handleNewCart(newCart);
     };
-
 
     /**
      * Function to handle selecting a menu item for deletion.
@@ -384,7 +393,7 @@ const {
                             onDelete={() => {
                                 handleOnDelete(menuItem.itemId);
                             }}
-                           onPrimaryAction={() => {
+                            onPrimaryAction={() => {
                                 handleOnAddToCart({
                                     ...menuItem,
                                     quantity: 0,
@@ -397,7 +406,7 @@ const {
                             onIncrease={() => {
                                 handleOnIncreaseStock(menuItem.itemId);
                             }}
-                     confirmationType={dialogType}
+                            confirmationType={dialogType}
                         />
                     ))}
             </Box>
@@ -411,7 +420,7 @@ const {
                 onAdd={handleAddMenuItem}
                 onEdit={handleEditMenuItem}
             />
-           <ConfirmationDialog
+            <ConfirmationDialog
                 open={isDialogOpen}
                 onClose={handleClose}
                 onSubmit={handleSubmit}

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import { fetchCartData } from '@services';
 import {
@@ -33,14 +33,19 @@ export const useCart = () => {
      * when the component using this hook mounts.
      */
     useEffect(() => {
+        const controller = new AbortController();
         const fetchData = async () => {
             try {
                 dispatch(setCartLoading(true));
                 dispatch(setCartError(null));
 
-                const cartData = await fetchCartData();
+                const cartData = await fetchCartData({
+                    signal: controller.signal,
+                });
                 dispatch(setCart(cartData));
             } catch (err) {
+                if (err instanceof Error && err.name === 'AbortError') return;
+
                 dispatch(
                     setCartError(
                         err instanceof Error
@@ -54,6 +59,10 @@ export const useCart = () => {
         };
 
         void fetchData();
+
+        return () => {
+            controller.abort();
+        };
     }, [dispatch]);
 
     /**
@@ -115,48 +124,66 @@ export const useCart = () => {
     }, [dispatch]);
 
     /**
-     * Checks if the user is trying to order from the same restaurant or a new one.
-     * Useful for showing a conflict warning if they switch restaurants.
      *
-     * @param  restaurantId - The Id of the restaurant to check against.
-     * @returns True if the cart is empty or belongs to the same restaurant; otherwise false.
+     * Checks the status of the current active restaurant against a new restaurant ID.
+     *
+     * @param  restaurantId - The ID of the restaurant to check against.
+     * @returns 'EMPTY' if no active restaurant exists,
+     *          'MATCH' if it's the same restaurant,
+     *          'CONFLICT' if it's a different restaurant.
      */
     const checkCurrentActiveRestaurant = useCallback(
         (restaurantId: string | undefined) => {
+            const currentRestaurantId = restaurant?.restaurantId;
+
+            // 1. Check if the cart/restaurant state is empty
             if (
-                restaurant?.restaurantId === null ||
-                restaurant?.restaurantId === undefined
+                currentRestaurantId === null ||
+                currentRestaurantId === undefined
             ) {
-                return true;
+                return 'EMPTY';
             }
-            if (restaurant?.restaurantId === restaurantId) {
-                return true;
+
+            // 2. Check if the restaurants match
+            if (currentRestaurantId === restaurantId) {
+                return 'MATCH';
             }
-            return false;
+
+            // 3. Otherwise, there is a conflict
+            return 'CONFLICT';
         },
         [restaurant?.restaurantId],
     );
 
-    const handleNewCart = (newCartData: Cart) => {
-        try {
-            dispatch(setCartLoading(true));
-            dispatch(setCartError(null));
-            dispatch(setCart(newCartData));
-        } catch (err) {
-            dispatch(
-                setCartError(
-                    err instanceof Error ? err.message : 'An error occurred',
-                ),
-            );
-        } finally {
-            dispatch(setCartLoading(false));
-        }
-    };
+    /**
+     * Handle the functionality to add new cart.
+     * @param newCartData - Take the new cart data.
+     */
+    const handleNewCart = useCallback(
+        (newCartData: Cart) => {
+            try {
+                dispatch(setCartLoading(true));
+                dispatch(setCartError(null));
+                dispatch(setCart(newCartData));
+            } catch (err) {
+                dispatch(
+                    setCartError(
+                        err instanceof Error
+                            ? err.message
+                            : 'An error occurred',
+                    ),
+                );
+            } finally {
+                dispatch(setCartLoading(false));
+            }
+        },
+        [dispatch],
+    );
 
     /**
      * Total number of unique types of items currently in the cart.
      */
-    const cartCount = useMemo(() => items.length, [items]);
+    const cartCount = billDetails.itemsCount;
 
     return {
         items,
