@@ -30,6 +30,7 @@ export const StyledCardMedia = styled(CardMedia)(({ theme }) => ({
     minHeight: 200,
     borderRadius: theme.shape.borderRadius,
     [theme.breakpoints.up('md')]: {
+        minHeight: 250,
         width: '50%',
     },
 })) as typeof CardMedia;

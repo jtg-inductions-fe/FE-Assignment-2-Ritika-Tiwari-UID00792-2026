@@ -13,7 +13,7 @@ import {
     useMediaQuery,
 } from '@mui/material';
 
-import fallBackImage from '@assets/images/fallback-image.webp';
+import fALLBACK_IMAGE from '@assets/images/fallback-image.webp';
 import {
     ConfirmationDialog,
     LoadingCardSkeleton,
@@ -35,10 +35,6 @@ export const Menu = () => {
     const { restaurantId } = useParams();
     const { filteredRestaurants } = useRestaurant();
 
-    // Find the restaurant data from the filtered restaurants.
-    const restaurantData = filteredRestaurants.find(
-        (restaurant) => restaurant.restaurantId === restaurantId,
-    );
     const {
         menuLoading,
         menuError,
@@ -74,6 +70,11 @@ export const Menu = () => {
 
     /** State to control the quantity of a menu item. */
     const [quantities, setQuantities] = useState<Record<string, number>>({});
+
+    // Find the restaurant data from the filtered restaurants.
+    const restaurantData = filteredRestaurants.find(
+        (restaurant) => restaurant.restaurantId === restaurantId,
+    );
 
     /** Handle Add restaurant modal open state. */
     const handleOpenAddModal = () => {
@@ -175,7 +176,7 @@ export const Menu = () => {
 
     // handle the fallback state of the banner image.
     const [restImgSrc, setRestImgSrc] = useState(
-        restaurantData?.imageUrl || fallBackImage,
+        restaurantData?.imageUrl || fALLBACK_IMAGE,
     );
     return (
         <Box width="100%">
@@ -183,8 +184,8 @@ export const Menu = () => {
                 <StyledImage
                     src={restImgSrc}
                     onError={() => {
-                        if (restImgSrc !== fallBackImage) {
-                            setRestImgSrc(fallBackImage);
+                        if (restImgSrc !== fALLBACK_IMAGE) {
+                            setRestImgSrc(fALLBACK_IMAGE);
                         }
                     }}
                 />
@@ -201,7 +202,7 @@ export const Menu = () => {
                             startIcon={<AddIcon />}
                             onClick={handleOpenAddModal}
                         >
-                            <Typography variant="button" textTransform="none">
+                            <Typography variant="button">
                                 Add menu item
                             </Typography>
                         </Button>
@@ -231,12 +232,24 @@ export const Menu = () => {
             >
                 {menuLoading && (
                     <>
-                        <LoadingCardSkeleton />
-                        <LoadingCardSkeleton />
-                        <LoadingCardSkeleton />
-                        <LoadingCardSkeleton />
-                        <LoadingCardSkeleton />
-                        <LoadingCardSkeleton />
+                        <LoadingCardSkeleton
+                            width={isMobile ? '40%' : '100%'}
+                        />
+                        <LoadingCardSkeleton
+                            width={isMobile ? '40%' : '100%'}
+                        />
+                        <LoadingCardSkeleton
+                            width={isMobile ? '40%' : '100%'}
+                        />
+                        <LoadingCardSkeleton
+                            width={isMobile ? '40%' : '100%'}
+                        />
+                        <LoadingCardSkeleton
+                            width={isMobile ? '40%' : '100%'}
+                        />
+                        <LoadingCardSkeleton
+                            width={isMobile ? '40%' : '100%'}
+                        />
                     </>
                 )}
 
@@ -259,7 +272,7 @@ export const Menu = () => {
                             userRole={userRole}
                             quantities={quantities}
                             setQuantities={setQuantities}
-                            onEditClick={() => {
+                            onEdit={() => {
                                 handleOpenEditModal(menuItem);
                             }}
                             onDelete={() => {
@@ -271,10 +284,10 @@ export const Menu = () => {
                                     quantities[menuItem.itemId],
                                 );
                             }}
-                            onDecreaseStock={() => {
+                            onDecrease={() => {
                                 handleOnDecreaseStock(menuItem.itemId);
                             }}
-                            onIncreaseStock={() => {
+                            onIncrease={() => {
                                 handleOnIncreaseStock(menuItem.itemId);
                             }}
                         />

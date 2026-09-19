@@ -8,6 +8,7 @@ import ChefImage from '@assets/images/undraw_chef.webp';
 import { LoginForm } from '@components';
 import { useAuth } from '@hooks';
 import { ROUTES } from '@routes';
+import { login, useAppDispatch } from '@store';
 import { SnackbarConfig } from '@types';
 
 import { StyledBoxOuter, StyledImage } from './Login.styles';
@@ -20,6 +21,10 @@ import { StyledBoxOuter, StyledImage } from './Login.styles';
  */
 export const Login = () => {
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+
+    // Custom hook to handle the login form submission.
+    const { registeredUsers, findUserByEmail } = useAuth();
 
     // State to manage the configuration (visibility,message and state) of the snackbar.
     const [snackbarConfig, setSnackBarConfig] = useState<SnackbarConfig>({
@@ -41,8 +46,39 @@ export const Login = () => {
         },
     });
 
-    // Custom hook to handle the login form submission.
-    const { handleLogin } = useAuth();
+    /**
+     * Function handles the authentication logic after the user submit the login credentials.
+     * @param data - login form data after user submit login form
+     * @param setError - this will be passed by the login form to update the error states of the login form fields.
+     * @returns registeredUser - return the current registered user.
+     */
+    const handleLogin = (data: LoginFormData) => {
+        // Find the registered user from the registered users (fetched from redux store) to check whether the user registered or not.
+        const registeredUser = findUserByEmail(
+            registeredUsers,
+            data.email.toLocaleLowerCase(),
+        );
+
+        if (registeredUser) {
+            // Check is the password is correct and matched the registered user's password otherwise set the error state for the password field.
+            if (registeredUser.password === data.password) {
+                dispatch(login(registeredUser));
+                return registeredUser;
+            } else {
+                setError('password', {
+                    type: 'manual',
+                    message: 'Password is incorrect.',
+                });
+                return null;
+            }
+        } else {
+            setError('email', {
+                type: 'manual',
+                message: 'This email is not registered.',
+            });
+            return null;
+        }
+    };
 
     /**
      * Function to handle form submission
@@ -50,7 +86,7 @@ export const Login = () => {
      * @param data - login form data after user submit login form
      */
     const onSubmit = (data: LoginFormData) => {
-        const user = handleLogin(data, setError);
+        const user = handleLogin(data);
         if (user) {
             try {
                 void navigate(ROUTES.ROOT);

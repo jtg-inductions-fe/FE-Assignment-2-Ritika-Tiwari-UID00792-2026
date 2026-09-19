@@ -26,6 +26,10 @@ import { FilterContainer, OuterContainer } from './Restaurant.styles';
  * @returns JSX.Element - The rendered Restaurant page.
  */
 export const Restaurant = () => {
+    // Returns true if screen width is smaller than the 'md' breakpoint.
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+    const navigate = useNavigate();
+
     const {
         filteredRestaurants,
         loading,
@@ -44,6 +48,20 @@ export const Restaurant = () => {
     const [editingRestaurant, setEditingRestaurant] =
         useState<RestaurantData | null>(null);
 
+    /** States to control the visibility of confirmation dialog */
+    const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+
+    // State to manage the configuration (visibility,message and state) of the snackbar.
+    const [snackbarConfig, setSnackBarConfig] = useState<SnackbarConfig>({
+        open: false,
+        message: '',
+        variant: 'success',
+    });
+
+    /** State to store the user selected restaurant to delete */
+    const [selectedRestaurantID, setSelectedRestaurantID] =
+        useState<string>('');
+
     /** Handle Add restaurant modal open state. */
     const handleOpenAddModal = useCallback(() => {
         setEditingRestaurant(null);
@@ -61,18 +79,6 @@ export const Restaurant = () => {
         setIsModalOpen(false);
         setEditingRestaurant(null);
     }, []);
-
-    const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-
-    // State to manage the configuration (visibility,message and state) of the snackbar.
-    const [snackbarConfig, setSnackBarConfig] = useState<SnackbarConfig>({
-        open: false,
-        message: '',
-        variant: 'success',
-    });
-
-    const [selectedRestaurantID, setSelectedRestaurantID] =
-        useState<string>('');
 
     /**
      * Handles the confirmation event from the confirmation dialog.
@@ -115,11 +121,6 @@ export const Restaurant = () => {
         setIsDialogOpen(true);
         setSelectedRestaurantID(restaurantId);
     }, []);
-
-    // Returns true if screen width is smaller than the 'md' breakpoint.
-    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-
-    const navigate = useNavigate();
 
     /**
      * Function to handle click event on the restaurant card.
@@ -208,12 +209,12 @@ export const Restaurant = () => {
             >
                 {loading && (
                     <>
-                        <LoadingCardSkeleton />
-                        <LoadingCardSkeleton />
-                        <LoadingCardSkeleton />
-                        <LoadingCardSkeleton />
-                        <LoadingCardSkeleton />
-                        <LoadingCardSkeleton />
+                        <LoadingCardSkeleton width={isMobile ? '40%' : '30%'} />
+                        <LoadingCardSkeleton width={isMobile ? '40%' : '30%'} />
+                        <LoadingCardSkeleton width={isMobile ? '40%' : '30%'} />
+                        <LoadingCardSkeleton width={isMobile ? '40%' : '30%'} />
+                        <LoadingCardSkeleton width={isMobile ? '40%' : '30%'} />
+                        <LoadingCardSkeleton width={isMobile ? '40%' : '30%'} />
                     </>
                 )}
 
@@ -235,7 +236,7 @@ export const Restaurant = () => {
                             key={restaurant.restaurantId}
                             restaurant={restaurant}
                             userRole={userRole}
-                            onEditClick={(event) => {
+                            onEdit={(event) => {
                                 event.stopPropagation();
                                 handleOpenEditModal(restaurant);
                             }}
@@ -243,7 +244,7 @@ export const Restaurant = () => {
                                 event.stopPropagation();
                                 handleOnDelete(restaurant.restaurantId);
                             }}
-                            onRestaurantClick={() =>
+                            onClick={() =>
                                 handleRestaurantClick(restaurant.restaurantId)
                             }
                             isRestaurantClosed={isRestaurantClosed(

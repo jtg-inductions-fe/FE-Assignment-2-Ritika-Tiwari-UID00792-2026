@@ -7,7 +7,7 @@ import {
 
 import { TextFieldProps } from '@mui/material';
 
-// Define a custom TypeScript type for a Form Text Field component.
+// Define a custom type for a Form Text Field component.
 export type FormTextFieldProps<
     // 'TFieldValues' represents the shape of your entire form data (example { username: "", email: "" })
     TFieldValues extends FieldValues,
@@ -17,7 +17,7 @@ export type FormTextFieldProps<
 > =
     // Take all standard properties needed for a form controller
     Omit<UseControllerProps<TFieldValues, TFieldName>, 'rules'> & {
-        // ...BUT make the validation 'rules' optional and tie them to this specific field type.
+        // but make the validation 'rules' optional and tie them to this specific field type.
         rules?: RegisterOptions<TFieldValues, TFieldName>;
 
         // Define a custom 'onChange' function.

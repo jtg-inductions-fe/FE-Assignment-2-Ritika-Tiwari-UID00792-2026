@@ -10,14 +10,10 @@ export const StyledCard = styled(Card)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
     gap: theme.spacing(8),
-    minWidth: 180,
-    maxWidth: 300,
-    flexGrow: 1,
-    width: '40%',
+    maxWidth: 200,
     borderRadius: theme.shape.borderRadius,
-    [theme.breakpoints.up('md')]: {
-        minWidth: 280,
-        width: '30%',
+    [theme.breakpoints.up('sm')]: {
+        maxWidth: 240,
     },
 }));
 export const StyledCardMedia = styled(CardMedia)(({ theme }) => ({

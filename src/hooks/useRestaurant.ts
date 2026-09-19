@@ -17,13 +17,13 @@ import { Restaurant } from '@types';
 /**Custom hook to manage and provide restaurant data. */
 export const useRestaurant = () => {
     const dispatch = useAppDispatch();
-    const { fetchCurrentUser } = useAuth();
-    const registeredUser = fetchCurrentUser();
 
     // Extract values from Redux state (removed filteredRestaurants)
     const { restaurants, loading, error } = useAppSelector(
         (state) => state.restaurant,
     );
+    const { fetchCurrentUser } = useAuth();
+    const registeredUser = fetchCurrentUser();
 
     // Local state for UI search terms and active filter categories.
     const [searchTerm, setSearchTerm] = useState('');

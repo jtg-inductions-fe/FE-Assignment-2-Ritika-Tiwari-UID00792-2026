@@ -6,11 +6,11 @@ export interface RestaurantProps {
     /** Stores the userRole to render the role based cards.  */
     userRole: string | undefined;
     /** Callback function to handle the edit modal. */
-    onEditClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    onEdit: (event: React.MouseEvent<HTMLButtonElement>) => void;
     /** Callback function to handle the delete functionality. */
     onDelete: (event: React.MouseEvent<HTMLButtonElement>) => void;
     /** Callback function to handle the click on the restaurant. */
-    onRestaurantClick: () => void;
+    onClick: () => void;
     /** variable states whether the restaurant open or not. */
     isRestaurantClosed: boolean;
 }

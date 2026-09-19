@@ -47,9 +47,16 @@ export const Header = ({
     cartCount,
     isLoggedIn,
 }: HeaderProps): React.ReactElement => {
+    // Returns true if screen width is smaller than the 'md' breakpoint.
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
     // State to track which HTML element anchors the user profile popover menu.
     const [anchorElUser, setAnchorElUser] =
         React.useState<HTMLButtonElement | null>(null);
+
+    // Helper variables for accessibility and popover visibility state.
+    const isPopoverOpen = Boolean(anchorElUser);
+    const popoverId = isPopoverOpen ? 'user-profile-popover' : undefined;
 
     /**
      * Opens the user profile popover menu by setting the anchor element.
@@ -97,13 +104,6 @@ export const Header = ({
         handleCloseProfilePopover();
         setIsDialogOpen(true);
     };
-
-    // Helper variables for accessibility and popover visibility state.
-    const isPopoverOpen = Boolean(anchorElUser);
-    const popoverId = isPopoverOpen ? 'user-profile-popover' : undefined;
-
-    // Returns true if screen width is smaller than the 'md' breakpoint.
-    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
     return (
         <StyledAppBar>
@@ -156,7 +156,7 @@ export const Header = ({
                             )}
 
                             {/* Shopping Cart Icon (Visible to customers only) */}
-                            {user?.role === 'customer' && (
+                            {user.role === 'customer' && (
                                 <Tooltip title="View Cart">
                                     <StyledIconButton
                                         LinkComponent={NavLink}
@@ -206,7 +206,7 @@ export const Header = ({
                         }}
                     >
                         <PopoverProfileBox>
-                            <UserAvatar alt={user?.name} />
+                            <UserAvatar alt={user.name} />
                             <Box>
                                 <Typography variant="h6" fontWeight="bold">
                                     {user?.name}
@@ -215,7 +215,7 @@ export const Header = ({
                                     variant="body2"
                                     color="text.secondary"
                                 >
-                                    {user?.email}
+                                    {user.email}
                                 </Typography>
                             </Box>
                             <Divider flexItem />

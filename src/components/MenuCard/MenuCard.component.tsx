@@ -17,7 +17,7 @@ import {
     useMediaQuery,
 } from '@mui/material';
 
-import fallBackImage from '@assets/images/fallback-image.webp';
+import fALLBACK_IMAGE from '@assets/images/fallback-image.webp';
 import nonVegIndicator from '@assets/images/non-veg-indicator.webp';
 import vegIndicator from '@assets/images/veg-indicator.webp';
 import { theme } from '@theme';
@@ -42,13 +42,13 @@ export function MenuCard({
     userRole,
     quantities,
     setQuantities,
-    onEditClick,
+    onEdit,
     onDelete,
     onAddToCart,
-    onIncreaseStock,
-    onDecreaseStock,
+    onIncrease,
+    onDecrease,
 }: MenuCardProps) {
-    const [imgSrc, setImgSrc] = useState(menuItem.imageUrl || fallBackImage);
+    const [imgSrc, setImgSrc] = useState(menuItem.imageUrl || fALLBACK_IMAGE);
     // Returns true if screen width is smaller than the 'md' breakpoint.
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -65,8 +65,8 @@ export function MenuCard({
                 image={imgSrc}
                 alt={menuItem.name}
                 onError={() => {
-                    if (imgSrc !== fallBackImage) {
-                        setImgSrc(fallBackImage);
+                    if (imgSrc !== fALLBACK_IMAGE) {
+                        setImgSrc(fALLBACK_IMAGE);
                     }
                 }}
             />
@@ -88,7 +88,7 @@ export function MenuCard({
                         direction="row"
                         alignItems="center"
                         spacing={theme.spacing(1)}
-                        border="1px dashed #ccc"
+                        border={`1px dashed ${theme.palette.divider}`}
                         borderRadius={theme.shape.borderRadius}
                         padding={theme.spacing(2)}
                         marginBlock={theme.spacing(4)}
@@ -102,7 +102,7 @@ export function MenuCard({
                             size="small"
                             color="warning"
                             disabled={menuItem.stock <= 0}
-                            onClick={onDecreaseStock}
+                            onClick={onDecrease}
                         >
                             <RemoveCircleOutlineIcon fontSize="small" />
                         </IconButton>
@@ -116,7 +116,7 @@ export function MenuCard({
                         <IconButton
                             size="small"
                             color="primary"
-                            onClick={onIncreaseStock}
+                            onClick={onIncrease}
                         >
                             <AddCircleOutlineIcon fontSize="small" />
                         </IconButton>
@@ -176,19 +176,15 @@ export function MenuCard({
                         alignSelf="end"
                         width="100%"
                     >
-                        <Button variant="outlined" onClick={onEditClick}>
-                            <Typography variant="button" textTransform="none">
-                                Edit
-                            </Typography>
+                        <Button variant="outlined" onClick={onEdit}>
+                            <Typography variant="button">Edit</Typography>
                         </Button>
                         <Button
                             variant="outlined"
                             color="error"
                             onClick={onDelete}
                         >
-                            <Typography variant="button" textTransform="none">
-                                Delete
-                            </Typography>
+                            <Typography variant="button">Delete</Typography>
                         </Button>
                     </Box>
                 ) : (
@@ -197,9 +193,7 @@ export function MenuCard({
                         onClick={onAddToCart}
                         disabled={menuItem.stock === 0}
                     >
-                        <Typography variant="button" textTransform="none">
-                            Add to cart
-                        </Typography>
+                        <Typography variant="button">Add to cart</Typography>
                     </Button>
                 )}
             </StyledCardContent>

@@ -8,6 +8,7 @@ import ChefImage from '@assets/images/undraw_chef.webp';
 import { SignUpForm } from '@components';
 import { useAuth } from '@hooks';
 import { ROUTES } from '@routes';
+import { signup, useAppDispatch } from '@store';
 import { SnackbarConfig } from '@types';
 
 import { StyledBoxOuter, StyledImage } from './SignUp.styles';
@@ -20,6 +21,10 @@ import { StyledBoxOuter, StyledImage } from './SignUp.styles';
  */
 export const SignUp = () => {
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+
+    // Custom hook to handle the signup form submission.
+    const { registeredUsers, findUserByEmail } = useAuth();
 
     // State to manage the configuration (visibility,message and state) of the snackbar.
     const [snackbarConfig, setSnackBarConfig] = useState<SnackbarConfig>({
@@ -27,6 +32,23 @@ export const SignUp = () => {
         message: '',
         variant: 'success',
     });
+
+    // State to manage password visibility state.
+    const [showPassword, setShowPassword] = useState(false);
+
+    // State to manage confirm password visibility state.
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+    /**
+     * Function to set the show password state to show password when user click the icon.
+     */
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+    /**
+     * Function to set the show confirm password state to show confirm password when user click the icon.
+     */
+    const handleClickShowConfirmPassword = () =>
+        setShowConfirmPassword((show) => !show);
 
     // Initializing react hook form  to manage form inputs, validation state and submission tracking
     const {
@@ -45,8 +67,30 @@ export const SignUp = () => {
 
     const watchPassword = useWatch({ control, name: 'password' });
 
-    // Custom hook to handle the signup form submission.
-    const { handleSignup } = useAuth();
+    /**
+     * Function handles the authentication logic after the user submit the SignUp credentials.
+     * @param data - SignUp form data after user submit SignUp form
+     * @returns newUser
+     */
+    const handleSignup = (data: SignUpFormData) => {
+        const newUser: SignUpFormData = {
+            id: crypto.randomUUID(),
+            name: data.name,
+            email: data.email.toLowerCase(),
+            password: data.password,
+            role: data.role,
+        };
+
+        // Check if the user is already registered for the email credential.
+        const registeredUser = findUserByEmail(registeredUsers, newUser.email);
+
+        if (registeredUser) {
+            return null;
+        } else {
+            dispatch(signup(newUser));
+            return newUser;
+        }
+    };
 
     /**
      * Handle form submit state
@@ -73,23 +117,6 @@ export const SignUp = () => {
             }
         }
     };
-
-    // State to manage password visibility state.
-    const [showPassword, setShowPassword] = useState(false);
-
-    /**
-     * Function to set the show password state to show password when user click the icon.
-     */
-    const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-    // State to manage confirm password visibility state.
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-    /**
-     * Function to set the show confirm password state to show confirm password when user click the icon.
-     */
-    const handleClickShowConfirmPassword = () =>
-        setShowConfirmPassword((show) => !show);
 
     return (
         <StyledBoxOuter>

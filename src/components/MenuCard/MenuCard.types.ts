@@ -14,13 +14,13 @@ export interface MenuCardProps {
             | ((prev: Record<string, number>) => Record<string, number>),
     ) => void;
     /** Callback function to handle the edit modal. */
-    onEditClick: () => void;
+    onEdit: () => void;
     /** Callback function to handle the delete functionality. */
     onDelete: () => void;
     /** Callback function to handle the add to cart functionality. */
     onAddToCart: () => void;
     /** Callback function to handle increase stock quantity functionality. */
-    onIncreaseStock: () => void;
+    onIncrease: () => void;
     /** Callback function to handle decrease stock functionality. */
-    onDecreaseStock: () => void;
+    onDecrease: () => void;
 }

@@ -5,9 +5,13 @@ import {
     CardBody,
     CardContainer,
 } from './LoadingCardSkeleton.styles';
+import { LoadingCardSkeletonProps } from './LoadingCardSkeleton.types';
 
-export const LoadingCardSkeleton = () => (
-    <CardContainer>
+export const LoadingCardSkeleton = ({
+    width = '100%',
+    height,
+}: LoadingCardSkeletonProps) => (
+    <CardContainer style={{ width, height }}>
         {/* Card skeleton showing the food items or restaurant cards */}
         <BaseSkeleton
             variant="rectangular"

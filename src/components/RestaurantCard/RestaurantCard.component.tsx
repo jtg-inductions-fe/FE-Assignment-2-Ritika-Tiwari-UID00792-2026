@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Box, Button, CardActionArea, Typography } from '@mui/material';
 
 import closedTag from '@assets/images/closed-restaurant.webp';
-import fallBackImage from '@assets/images/fallback-image.webp';
+import fALLBACK_IMAGE from '@assets/images/fallback-image.webp';
 import nonVegIndicator from '@assets/images/non-veg-indicator.webp';
 import vegIndicator from '@assets/images/veg-indicator.webp';
 import { theme } from '@theme';
@@ -27,23 +27,23 @@ import { RestaurantProps } from './RestaurantCard.types';
 export const RestaurantCard = ({
     restaurant,
     userRole,
-    onEditClick,
+    onEdit,
     onDelete,
-    onRestaurantClick,
+    onClick,
     isRestaurantClosed,
 }: RestaurantProps) => {
     // Handle the fallback case, if image is null or url is wrong.
-    const [imgSrc, setImgSrc] = useState(restaurant.imageUrl || fallBackImage);
+    const [imgSrc, setImgSrc] = useState(restaurant.imageUrl || fALLBACK_IMAGE);
     return (
-        <StyledCard onClick={onRestaurantClick}>
+        <StyledCard onClick={onClick}>
             <CardActionArea>
                 <StyledCardMedia
                     component="img"
                     image={imgSrc}
                     alt={restaurant.name || 'Restaurant'}
                     onError={() => {
-                        if (imgSrc !== fallBackImage) {
-                            setImgSrc(fallBackImage);
+                        if (imgSrc !== fALLBACK_IMAGE) {
+                            setImgSrc(fALLBACK_IMAGE);
                         }
                     }}
                 />
@@ -78,15 +78,11 @@ export const RestaurantCard = ({
             {/* Show the edit and delete buttons only to the owners */}
             {userRole === 'owner' && (
                 <Box display="flex" gap={theme.spacing(4)}>
-                    <Button variant="text" onClick={onEditClick} fullWidth>
-                        <Typography variant="button" textTransform="none">
-                            Edit
-                        </Typography>
+                    <Button variant="text" onClick={onEdit} fullWidth>
+                        <Typography variant="button">Edit</Typography>
                     </Button>
                     <Button variant="error" onClick={onDelete} fullWidth>
-                        <Typography variant="button" textTransform="none">
-                            Delete
-                        </Typography>
+                        <Typography variant="button">Delete</Typography>
                     </Button>
                 </Box>
             )}
