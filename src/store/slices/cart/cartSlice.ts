@@ -131,4 +131,5 @@ export const {
     setCartError,
     clearCart,
 } = cartSlice.actions;
+
 export default cartSlice.reducer;

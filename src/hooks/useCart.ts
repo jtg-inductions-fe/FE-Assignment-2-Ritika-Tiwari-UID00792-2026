@@ -33,14 +33,19 @@ export const useCart = () => {
      * when the component using this hook mounts.
      */
     useEffect(() => {
+        const controller = new AbortController();
         const fetchData = async () => {
             try {
                 dispatch(setCartLoading(true));
                 dispatch(setCartError(null));
 
-                const cartData = await fetchCartData();
+                const cartData = await fetchCartData({
+                    signal: controller.signal,
+                });
                 dispatch(setCart(cartData));
             } catch (err) {
+                if (err instanceof Error && err.name === 'AbortError') return;
+
                 dispatch(
                     setCartError(
                         err instanceof Error
@@ -54,6 +59,10 @@ export const useCart = () => {
         };
 
         void fetchData();
+
+        return () => {
+            controller.abort();
+        };
     }, [dispatch]);
 
     /**
@@ -136,22 +145,30 @@ export const useCart = () => {
         },
         [restaurant?.restaurantId],
     );
-
-    const handleNewCart = (newCartData: Cart) => {
-        try {
-            dispatch(setCartLoading(true));
-            dispatch(setCartError(null));
-            dispatch(setCart(newCartData));
-        } catch (err) {
-            dispatch(
-                setCartError(
-                    err instanceof Error ? err.message : 'An error occurred',
-                ),
-            );
-        } finally {
-            dispatch(setCartLoading(false));
-        }
-    };
+    /**
+     * Handle the functionality to add new cart.
+     * @param newCartData - Take the new cart data.
+     */
+    const handleNewCart = useCallback(
+        (newCartData: Cart) => {
+            try {
+                dispatch(setCartLoading(true));
+                dispatch(setCartError(null));
+                dispatch(setCart(newCartData));
+            } catch (err) {
+                dispatch(
+                    setCartError(
+                        err instanceof Error
+                            ? err.message
+                            : 'An error occurred',
+                    ),
+                );
+            } finally {
+                dispatch(setCartLoading(false));
+            }
+        },
+        [dispatch],
+    );
 
     /**
      * Total number of unique types of items currently in the cart.

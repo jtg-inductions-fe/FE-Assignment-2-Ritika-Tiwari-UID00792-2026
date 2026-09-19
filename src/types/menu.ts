@@ -1,7 +1,7 @@
 /** Interface defining the configuration properties for the menu item. */
 export interface Menu {
     /** Restaurant id associated to each menu item. */
-    restaurantId: string;
+    restaurantId: string | undefined;
     /** Menu id to uniquely identify the menu item. */
     itemId: string;
     /** Name of the menu item. */

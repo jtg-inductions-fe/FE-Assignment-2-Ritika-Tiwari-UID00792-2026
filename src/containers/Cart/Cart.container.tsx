@@ -7,28 +7,41 @@ import { CurrencyRupee } from '@mui/icons-material';
 import { Box, Button, Divider, Stack, Typography } from '@mui/material';
 
 import emptyCartImage from '@assets/images/empty-cart.webp';
-import fallBackImage from '@assets/images/fallback-image.webp';
+import FALLBACK_IMAGE from '@assets/images/fallback-image.webp';
 import {
     ConfirmationDialog,
     LoadingCardSkeleton,
     NullStateCard,
     Snackbar,
 } from '@components';
-import { HEADER_HEIGHT } from '@constant';
 import { useCart } from '@hooks';
 import { ROUTES } from '@routes';
 import { theme } from '@theme';
-import { CartItem } from '@types';
+import { SnackbarConfig } from '@types';
 
 import { ActionWrapper, EmptyCart, StyledCardMedia } from './Cart.styles';
 
 /**
- * Renders the cart page.
- * @returns JSX.Element - The rendered cart page.
+ * Renders Cart container.
+ * Provide the business logic for the cart page like add to cart, remove items from cart, clear cart and adjust quantity and place order.
+ * @returns JSX.Element - The rendered cart page components.
  */
 export const Cart = () => {
-    const navigate = useNavigate();
+    // State to manage the configuration (visibility, message and state) of the snackbar.
+    const [snackbarConfig, setSnackBarConfig] = useState<SnackbarConfig>({
+        open: false,
+        message: '',
+        variant: 'success',
+    });
+
     const [quantities, setQuantities] = useState<Record<string, number>>({});
+
+    const navigate = useNavigate();
+    /** Function to handle the back navigation from cart page to menu page.
+     */
+    const handleBackNavigation = () => {
+        void navigate(-1);
+    };
 
     const {
         items,
@@ -41,22 +54,12 @@ export const Cart = () => {
         handleAddToCart,
     } = useCart();
 
-    //State of snackbar to show the conditional message and state of snackbar.
-    const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
-    const [snackbarMessage, setSnackbarMessage] = useState<string>(
-        'Some Error Occurred, Try later.',
-    );
-    const [snackbarState, setSnackbarState] = useState<
-        'error' | 'success' | 'warning'
-    >('error');
-
-    // Handling of image load error and show the fallback image.
-    const [imgSrc, setImgSrc] = useState(restaurant?.imageUrl || fallBackImage);
-
-    /** Function to handle the back navigation from cart page to menu page.
+    /**
+     * Function to handle place order functionality from cart.
      */
-    const handleBackNavigation = () => {
-        void navigate(-1);
+    const handlePlaceOrder = () => {
+        handleClearCart();
+        void navigate(ROUTES.ORDER_PORTAl);
     };
 
     /**
@@ -66,23 +69,18 @@ export const Cart = () => {
     const handleRemoveItem = (id: string) => {
         try {
             handleRemoveItemCompletely(id);
-            setSnackbarMessage('Item is removed from the cart.');
-            setSnackbarState('success');
-            setIsSnackbarOpen(true);
+            setSnackBarConfig({
+                open: true,
+                message: 'Item is removed from cart.',
+                variant: 'success',
+            });
         } catch {
-            setSnackbarMessage('Failed to remove item.');
-            setSnackbarState('error');
-            setIsSnackbarOpen(true);
+            setSnackBarConfig({
+                open: true,
+                message: 'Failed to remove item.',
+                variant: 'error',
+            });
         }
-    };
-
-    /** Handle on add to cart functionality.
-     * @param itemId - menu item id used to add the item in the cart.
-     * @param quantity - quantity of the selected item added in the cart.
-     * @returns void
-     */
-    const handleOnAddToCart = (item: CartItem) => {
-        handleAddToCart(item);
     };
 
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
@@ -91,26 +89,24 @@ export const Cart = () => {
      * Handles the confirmation event from the confirmation dialog.
      * @param confirmation - A boolean value defining user confirmation from the dialog.
      */
-    const handleSubmit = useCallback(
-        (confirmation: boolean) => {
+    const handleSubmit = useCallback(() => {
+        try {
+            handleClearCart();
+            setSnackBarConfig({
+                open: true,
+                message: 'Cart cleared successfully.',
+                variant: 'success',
+            });
+        } catch {
+            setSnackBarConfig({
+                open: true,
+                message: 'Some error occurred, Try again later.',
+                variant: 'error',
+            });
+        } finally {
             setIsDialogOpen(false);
-            if (confirmation) {
-                try {
-                    handleClearCart();
-                    setIsSnackbarOpen(true);
-                    setSnackbarMessage('Cart Cleared successfully.');
-                    setSnackbarState('success');
-                } catch {
-                    setIsSnackbarOpen(true);
-                } finally {
-                    setIsDialogOpen(false);
-                }
-            } else {
-                setIsDialogOpen(false);
-            }
-        },
-        [handleClearCart],
-    );
+        }
+    }, [handleClearCart]);
 
     /**
      * Function to handle close event of confirmation dialog.
@@ -119,25 +115,35 @@ export const Cart = () => {
         setIsDialogOpen(false);
     }, []);
 
-    /**
-     * Function to handle place order functionality from cart.
-     */
-    const handlePlaceOrder = () => {
-        handleClearCart();
-        void navigate(ROUTES.ORDER_PORTAl);
-    };
-
+    // Handling of image load error and show the fallback image.
+    const [imgSrc, setImgSrc] = useState(restaurant?.imageUrl || FALLBACK_IMAGE);
     return (
         <Box
             display="flex"
             flexDirection="column"
-            minHeight={`calc(100vh - ${HEADER_HEIGHT}px)`}
             width="100%"
             alignItems="center"
             justifyContent="space-between"
         >
             {/* Top restaurant detail and go to menu action button wrapper */}
-            <Box display="flex" flexDirection="column" gap={theme.spacing(4)}>
+            <Box
+                width="100%"
+                display="flex"
+                flexDirection="column"
+                gap={theme.spacing(4)}
+            >
+                {/* Show the loading state of the cart page. */}
+                {cartLoading && (
+                    <>
+                        <LoadingCardSkeleton width="100%" />
+                        <LoadingCardSkeleton width="100%" />
+                        <LoadingCardSkeleton width="100%" />
+                        <LoadingCardSkeleton width="100%" />
+                        <LoadingCardSkeleton width="100%" />
+                        <LoadingCardSkeleton width="100%" />
+                    </>
+                )}
+
                 {!cartLoading && items.length > 0 && (
                     <Box
                         width="100%"
@@ -160,8 +166,8 @@ export const Cart = () => {
                                 image={imgSrc}
                                 alt={restaurant?.name}
                                 onError={() => {
-                                    if (imgSrc !== fallBackImage) {
-                                        setImgSrc(fallBackImage);
+                                    if (imgSrc !== FALLBACK_IMAGE) {
+                                        setImgSrc(FALLBACK_IMAGE);
                                     }
                                 }}
                             />
@@ -196,28 +202,16 @@ export const Cart = () => {
                     alignItems="center"
                     justifyContent="start"
                 >
-                    {/* Show the loading state of the cart page. */}
-                    {cartLoading && (
-                        <>
-                            <LoadingCardSkeleton />
-                            <LoadingCardSkeleton />
-                            <LoadingCardSkeleton />
-                            <LoadingCardSkeleton />
-                        </>
-                    )}
                     {items.map((item) => (
                         <CartCard
                             key={item.itemId}
-                            restaurantData={restaurant}
-                            cartItem={item}
-                            billDetails={billDetails}
+                            data={restaurant}
+                            item={item}
+                            details={billDetails}
                             quantities={quantities}
                             setQuantities={setQuantities}
-                            onAddToCart={(event) => {
-                                event.stopPropagation();
-                                handleOnAddToCart(item);
-                            }}
-                            onRemoveItem={() => handleRemoveItem(item.itemId)}
+                            onAdd={() => handleAddToCart(item)}
+                            onRemove={() => handleRemoveItem(item.itemId)}
                         />
                     ))}
                 </Box>
@@ -304,25 +298,22 @@ export const Cart = () => {
                         </Box>
                     </Box>
                 )}
-                {!cartLoading && items.length === 0 && (
-                    <EmptyCart marginTop={theme.spacing(16)}>
-                        <img
-                            src={emptyCartImage}
-                            alt="Cart is empty"
-                            width={300}
-                            height={300}
-                        />
-                        <Button
-                            variant="contained"
-                            onClick={handleBackNavigation}
-                        >
-                            <Typography variant="button" textTransform="none">
-                                Add Items
-                            </Typography>
-                        </Button>
-                    </EmptyCart>
-                )}
             </Box>
+            {items.length === 0 && (
+                <EmptyCart>
+                    <img
+                        src={emptyCartImage}
+                        alt="Cart is empty"
+                        width={500}
+                        height={500}
+                    />
+                    <Button variant="contained" onClick={handleBackNavigation}>
+                        <Typography variant="button" textTransform="none">
+                            Add Items
+                        </Typography>
+                    </Button>
+                </EmptyCart>
+            )}
             <ConfirmationDialog
                 open={isDialogOpen}
                 onClose={handleClose}
@@ -331,12 +322,15 @@ export const Cart = () => {
                 description="Are you sure you clear the cart?"
             />
             <Snackbar
-                open={isSnackbarOpen}
-                autoHideDuration={2000}
-                onClose={() => setIsSnackbarOpen(false)}
-                message={snackbarMessage}
-                state={snackbarState}
+                open={snackbarConfig.open}
+                autoHideDuration={1000}
+                onClose={() =>
+                    setSnackBarConfig({ ...snackbarConfig, open: true })
+                }
+                message={snackbarConfig.message}
+                state={snackbarConfig.variant}
             />
+
             {/* Clear cart and place order actions button wrapper */}
             {items.length > 0 && !cartLoading && (
                 <ActionWrapper

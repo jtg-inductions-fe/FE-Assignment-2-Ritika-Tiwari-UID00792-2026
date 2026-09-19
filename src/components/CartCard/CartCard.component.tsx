@@ -22,10 +22,10 @@ import { CartItemProps } from './CartCard.types';
  * @returns The structured and styled cart card.
  */
 export function CartCard({
-    cartItem,
+    item,
     quantities,
     setQuantities,
-    onAddToCart,
+    onAdd,
 }: CartItemProps) {
     const { handleRemoveFromCart } = useCart();
 
@@ -35,10 +35,8 @@ export function CartCard({
             <ItemDetailsGroup>
                 {/* Image to indicate the type of the food item. */}
                 <img
-                    src={
-                        cartItem.type === 'veg' ? vegIndicator : nonVegIndicator
-                    }
-                    alt={cartItem.type}
+                    src={item.type === 'veg' ? vegIndicator : nonVegIndicator}
+                    alt={item.type}
                     style={{
                         width: 20,
                         height: 20,
@@ -47,31 +45,25 @@ export function CartCard({
                     }}
                 />
                 <StyledTitle variant="body2" fontWeight={500}>
-                    {cartItem.name}
+                    {item.name}
                 </StyledTitle>
             </ItemDetailsGroup>
 
             {/* Shows the cart item quantity selector and sub total of the item. */}
             <InteractiveControlsGroup>
-                {cartItem.stock > 0 && (
+                {item.stock > 0 && (
                     <ItemQuantitySelector
-                        key={cartItem.itemId}
-                        quantity={
-                            quantities[cartItem.itemId] ?? cartItem.quantity
-                        }
+                        key={item.itemId}
+                        quantity={quantities[item.itemId] ?? item.quantity}
                         setQuantity={(newQty: number) => {
                             setQuantities((prev) => ({
                                 ...prev,
-                                [cartItem.itemId]: newQty,
+                                [item.itemId]: newQty,
                             }));
                         }}
-                        maxQuantity={cartItem.stock}
-                        onIncrease={() =>
-                            onAddToCart({
-                                stopPropagation: () => {},
-                            } as React.MouseEvent)
-                        }
-                        onDecrease={() => handleRemoveFromCart(cartItem.itemId)}
+                        maxQuantity={item.stock}
+                        onIncrease={onAdd}
+                        onDecrease={() => handleRemoveFromCart(item.itemId)}
                     />
                 )}
 
@@ -82,7 +74,7 @@ export function CartCard({
                         fontWeight={600}
                         color={theme.palette.text.secondary}
                     >
-                        {cartItem.itemSubtotal}
+                        {item.itemSubtotal}
                     </Typography>
                 </PriceWrapper>
             </InteractiveControlsGroup>

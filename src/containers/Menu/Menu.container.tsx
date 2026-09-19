@@ -33,7 +33,6 @@ import { CartItem, Menu as MenuData, SnackbarConfig } from '@types';
 
 import { StyledImage, StyledRestaurantBanner } from './Menu.styles';
 
-
 /**
  * Menu Container
  * provides the business logic for menu page and menu-item state management, including functionality to add, edit, and delete items.
@@ -118,7 +117,7 @@ export const Menu = () => {
 
     const [currentItem, setCurrentItem] = useState<CartItem>();
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-      /** State for tracking the confirmation dialog , either it is for deleting the menu item or for switching the restaurant for placing the order in the cart. */
+    /** State for tracking the confirmation dialog , either it is for deleting the menu item or for switching the restaurant for placing the order in the cart. */
     const [dialogType, setIsDialogType] = useState<'delete' | 'change' | null>(
         null,
     );
@@ -126,7 +125,7 @@ export const Menu = () => {
      * Handles the confirmation event from the confirmation dialog.
      * @param confirmation - A boolean value defining user confirmation from the dialog.
      */
-      const handleSubmit = (confirmation: boolean) => {
+    const handleSubmit = (confirmation: boolean) => {
         setIsDialogOpen(false);
 
         if (
@@ -138,18 +137,18 @@ export const Menu = () => {
                 // Execute the deletion only after confirmation
                 handleDeleteMenuItem(itemSelectedForDeletion);
 
-                  setSnackBarConfig({
+                setSnackBarConfig({
                     open: true,
                     message: 'Item deleted successfully',
                     variant: 'success',
                 });
             } catch {
-setSnackBarConfig({
+                setSnackBarConfig({
                     open: true,
                     message: 'Some error occurred, Try again later.',
                     variant: 'error',
-                });            }
-                  finally {
+                });
+            } finally {
                 setItemSelectedForDeletion(null);
             }
         } else {
@@ -160,11 +159,12 @@ setSnackBarConfig({
                 handleChangeRestaurant();
                 setSnackBarConfig({
                     open: true,
-                    message: 'Restaurant changed successfully, now you can add items to cart.',
+                    message:
+                        'Restaurant changed successfully, now you can add items to cart.',
                     variant: 'success',
                 });
             } catch {
-               setSnackBarConfig({
+                setSnackBarConfig({
                     open: true,
                     message: 'Failed to change restaurant.',
                     variant: 'error',
@@ -188,15 +188,14 @@ setSnackBarConfig({
         (restaurant) => restaurant.restaurantId === restaurantId,
     );
 
-        
-const {
+    const {
         handleAddToCart,
         checkCurrentActiveRestaurant,
         handleClearCart,
         handleNewCart,
     } = useCart();
 
-   /** Handle on add to cart functionality.
+    /** Handle on add to cart functionality.
      * @param itemId - menu item id used to add the item in the cart.
      * @param quantity - quantity of the selected item added in the cart.
      * @returns void
@@ -210,12 +209,11 @@ const {
         }
         handleAddToCart(item);
         setSnackBarConfig({
-                    open: true,
-                    message: 'Item added to cart.',
-                    variant: 'success',
-                });
+            open: true,
+            message: 'Item added to cart.',
+            variant: 'success',
+        });
     };
-
 
     /**
      * Function to switch from the previous restaurant to new restaurant while ordering.
@@ -250,7 +248,6 @@ const {
 
         handleNewCart(newCart);
     };
-
 
     /**
      * Function to handle selecting a menu item for deletion.
@@ -388,7 +385,7 @@ const {
                             onDelete={() => {
                                 handleOnDelete(menuItem.itemId);
                             }}
-                           onPrimaryAction={() => {
+                            onPrimaryAction={() => {
                                 handleOnAddToCart({
                                     ...menuItem,
                                     quantity: 0,
@@ -401,7 +398,7 @@ const {
                             onIncrease={() => {
                                 handleOnIncreaseStock(menuItem.itemId);
                             }}
-                     confirmationType={dialogType}
+                            confirmationType={dialogType}
                         />
                     ))}
             </Box>
@@ -415,7 +412,7 @@ const {
                 onAdd={handleAddMenuItem}
                 onEdit={handleEditMenuItem}
             />
-           <ConfirmationDialog
+            <ConfirmationDialog
                 open={isDialogOpen}
                 onClose={handleClose}
                 onSubmit={handleSubmit}

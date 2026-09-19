@@ -4,8 +4,8 @@ import { Box, styled } from '@mui/material';
  * Styled Paper container that serves as the main structural box for the error screen.
  */
 export const ErrorContainer = styled(Box)(({ theme }) => ({
-    maxHeight:150,
-    width:'100%',
+    maxHeight: 150,
+    width: '100%',
     padding: theme.spacing(4),
     display: 'flex',
     flexDirection: 'column',
