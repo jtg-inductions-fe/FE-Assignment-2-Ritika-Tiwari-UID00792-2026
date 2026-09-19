@@ -1,8 +1,6 @@
 import { useState } from 'react';
 
 import { ItemQuantitySelector } from 'components/ItemQuantitySelector/ItemQuantitySelector.component';
-
-import { CurrencyRupee } from '@mui/icons-material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import BlockIcon from '@mui/icons-material/Block';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -14,7 +12,6 @@ import {
     IconButton,
     Stack,
     Typography,
-    useMediaQuery,
 } from '@mui/material';
 
 import FALLBACK_IMAGE from '@assets/images/fallback-image.webp';
@@ -32,6 +29,7 @@ import {
     StyledTitle,
 } from './MenuCard.styles';
 import { MenuCardProps } from './MenuCard.types';
+import { CurrencyRupee } from '@mui/icons-material';
 
 /**
  * A menu card that displays the details of menu.
@@ -48,10 +46,11 @@ export function MenuCard({
     onPrimaryAction,
     onIncrease,
     onDecrease,
+    confirmationType,
 }: MenuCardProps) {
-    
+
     // Returns true if screen width is smaller than the 'md' breakpoint.
-    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
     const [imgSrc, setImgSrc] = useState(item.imageUrl || FALLBACK_IMAGE);
 
     const { handleRemoveFromCart } = useCart();
@@ -79,6 +78,7 @@ export function MenuCard({
                 alt={item.type}
             />
             <StyledCardContent>
+
                 <StyledTitle gutterBottom variant="subtitle1">
                     {item.name}
                 </StyledTitle>
@@ -116,6 +116,23 @@ export function MenuCard({
                         </Typography>
 
                         {/* Increment stock quantity (+1) */}
+
+                        {/* Decrement stock quantity (-1) */}
+                        <IconButton
+                            size="small"
+                            color="warning"
+                            disabled={item.stock <= 0}
+                            onClick={onDecrease}
+                        >
+                            <RemoveCircleOutlineIcon fontSize="small" />
+                        </IconButton>
+
+                        {/* Display current stock value */}
+                        <Typography variant="body2" fontWeight="bold">
+                            {item.stock}
+                        </Typography>
+
+                        {/* Increment stock quantity (+1) */}
                         <IconButton
                             size="small"
                             color="primary"
@@ -125,44 +142,21 @@ export function MenuCard({
                         </IconButton>
                     </Stack>
                 ) : (
-                    <Stack
-                        minHeight={isMobile ? 100 : 'initial'}
-                        direction={isMobile ? 'column' : 'row'}
-                        spacing={theme.spacing(4)}
-                        alignItems="start"
-                        marginTop={theme.spacing(4)}
-                    >
-                        <Chip
-                            icon={
-                                item.stock ? (
-                                    <CheckCircleIcon />
-                                ) : (
-                                    <BlockIcon />
-                                )
-                            }
-                            label={
-                                item.stock
-                                    ? `${item.stock} in Stock`
-                                    : `Out of Stock`
-                            }
-                            color={item.stock > 0 ? 'success' : 'error'}
-                        />
-                        {item.stock > 0 && (
-                            <ItemQuantitySelector
-                                key={item.itemId}
-                                quantity={quantities[item.itemId] ?? 1}
-                                setQuantity={(newQty: number) => {
-                                    setQuantities((prev) => ({
-                                        ...prev,
-                                        [item.itemId]: newQty,
-                                    }));
-                                }}
-                                maxQuantity={item.stock}
-                                onIncrease={onIncrease}
-                                onDecrease={onDecrease}
-                            />
-                        )}
-                    </Stack>
+                    <Chip
+                        icon={
+                            item.stock > 0 ? (
+                                <CheckCircleIcon />
+                            ) : (
+                                <BlockIcon />
+                            )
+                        }
+                        label={
+                            item.stock > 0
+                                ? `${item.stock} in Stock`
+                                : `Out of Stock`
+                        }
+                        color={item.stock > 0 ? 'success' : 'error'}
+                    />
                 )}
                 <Box
                     display="flex"
@@ -181,41 +175,58 @@ export function MenuCard({
                         alignSelf="end"
                         width="100%"
                     >
-                        <Button variant="outlined" onClick={onEdit}>
-                            <Typography variant="button">Edit</Typography>
+                        <Button variant="text" onClick={onEdit}>
+                            <Typography variant="button" textTransform="none">
+                                Edit
+                            </Typography>
                         </Button>
                         <Button
                             variant="outlined"
                             color="error"
                             onClick={onDelete}
                         >
-                            <Typography variant="button">Delete</Typography>
+                            <Typography variant="button" textTransform="none">
+                                Delete
+                            </Typography>
                         </Button>
                     </Box>
-                ) : /* For customers: swap between ItemQuantitySelector and Add to Cart button */
-                quantities[item.itemId] > 0 ? (
-                    <ItemQuantitySelector
-                        key={item.itemId}
-                        quantity={quantities[item.itemId]}
-                        setQuantity={(newQty: number) => {
-                            setQuantities((prev) => ({
-                                ...prev,
-                                [item.itemId]: newQty,
-                            }));
-                        }}
-                        maxQuantity={item.stock}
-                        onIncrease={onPrimaryAction}
-                        onDecrease={() => handleRemoveFromCart(item.itemId)}
-                    />
-                ) : (
-                    <Button
-                        variant="contained"
-                        onClick={onPrimaryAction}
-                        disabled={item.stock === 0}
-                    >
-                        <Typography variant="button">Add to cart</Typography>
-                    </Button>
-                )}
+                ) :
+
+                    /* For customers: swap between ItemQuantitySelector and Add to Cart button */
+                    quantities[item.itemId] > 0 &&
+                        confirmationType !== 'change' ? (
+                        <ItemQuantitySelector
+                            key={item.itemId}
+                            quantity={quantities[item.itemId]}
+                            setQuantity={(newQty: number) => {
+                                setQuantities((prev) => ({
+                                    ...prev,
+                                    [item.itemId]: newQty,
+                                }));
+                            }}
+                            maxQuantity={item.stock}
+                            onIncrease={() =>
+                                onPrimaryAction
+                            }
+                            onDecrease={() => handleRemoveFromCart(item.itemId)}
+                        />
+                    ) : (
+                        <Button
+                            variant="contained"
+                            onClick={() => {
+                                setQuantities((prev) => ({
+                                    ...prev,
+                                    [item.itemId]: 1,
+                                }));
+                                onPrimaryAction();
+                            }}
+                            disabled={item.stock === 0}
+                        >
+                            <Typography variant="button" textTransform="none">
+                                Add to cart
+                            </Typography>
+                        </Button>
+                    )}
             </StyledCardContent>
         </StyledCard>
     );
