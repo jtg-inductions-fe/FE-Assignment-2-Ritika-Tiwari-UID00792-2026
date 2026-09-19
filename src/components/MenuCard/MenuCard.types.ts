@@ -14,13 +14,13 @@ export interface MenuCardProps {
             | ((prev: Record<string, number>) => Record<string, number>),
     ) => void;
     /** Callback function to handle the edit modal. */
-    onEditClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    onEditClick: () => void;
     /** Callback function to handle the delete functionality. */
-    onDelete: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    onDelete: () => void;
     /** Callback function to handle the add to cart functionality. */
-    onAddToCart: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    onAddToCart: () => void;
     /** Callback function to handle increase stock quantity functionality. */
-    onIncreaseStock: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    onIncreaseStock: () => void;
     /** Callback function to handle decrease stock functionality. */
-    onDecreaseStock: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    onDecreaseStock: () => void;
 }

@@ -14,7 +14,7 @@ export const StyledCard = styled(Card)(({ theme }) => ({
     maxWidth: 300,
     flexGrow: 1,
     width: '40%',
-    borderRadius: theme.spacing(4),
+    borderRadius: theme.shape.borderRadius,
     [theme.breakpoints.up('md')]: {
         minWidth: 280,
         width: '30%',
@@ -24,7 +24,7 @@ export const StyledCardMedia = styled(CardMedia)(({ theme }) => ({
     position: 'relative',
     height: 200,
     minHeight: 200,
-    borderRadius: theme.spacing(4),
+    borderRadius: theme.shape.borderRadius,
 })) as typeof CardMedia;
 
 export const StyledImageIndicator = styled(CardMedia)({

@@ -3,8 +3,6 @@ import { Restaurant } from '@types';
 export interface RestaurantState {
     /** Stores restaurants list */
     restaurants: Restaurant[];
-    /** Stores filtered restaurants list */
-    filteredRestaurants: Restaurant[];
     /** Stores loading state for restaurants list */
     loading: boolean;
     /** Stores error state for restaurants list */

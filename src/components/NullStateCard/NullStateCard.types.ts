@@ -3,7 +3,7 @@
  */
 export interface NullStateCardProps {
     // Title displayed on the null state card.
-    title: string;
+    title?: string;
     // Description of the null state card.
     description: string;
 }

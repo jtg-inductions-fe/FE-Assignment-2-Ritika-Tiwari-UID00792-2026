@@ -4,13 +4,11 @@ import { LoginFormData } from 'components/LoginForm/LoginForm.types';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
-import { Box } from '@mui/material';
-
 import ChefImage from '@assets/images/undraw_chef.webp';
 import { LoginForm } from '@components';
-import { HEADER_HEIGHT } from '@constant';
 import { useAuth } from '@hooks';
 import { ROUTES } from '@routes';
+import { SnackbarConfig } from '@types';
 
 import { StyledBoxOuter, StyledImage } from './Login.styles';
 
@@ -23,10 +21,12 @@ import { StyledBoxOuter, StyledImage } from './Login.styles';
 export const Login = () => {
     const navigate = useNavigate();
 
-    // State to manage the Visibility of the snackbar.
-    const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
-    // State to manage the message shown on the snackbar.
-    const [snackbarMessage, setSnackbarMessage] = useState<string>('');
+    // State to manage the configuration (visibility,message and state) of the snackbar.
+    const [snackbarConfig, setSnackBarConfig] = useState<SnackbarConfig>({
+        open: false,
+        message: '',
+        variant: 'success',
+    });
 
     // Initializing react hook form  to manage form inputs, validation state and submission tracking
     const {
@@ -56,32 +56,27 @@ export const Login = () => {
                 void navigate(ROUTES.ROOT);
             } catch (error) {
                 if (error) {
-                    setSnackbarMessage('Some error occurred, try again late.');
-                    setIsSnackbarOpen(true);
+                    setSnackBarConfig({
+                        open: true,
+                        message: 'Some error occurred, try again later.',
+                        variant: 'error',
+                    });
                 }
             }
         }
     };
 
     return (
-        <Box
-            display="flex"
-            minHeight={`calc(100vh - ${HEADER_HEIGHT}px)`}
-            alignItems="center"
-            justifyContent="center"
-        >
-            <StyledBoxOuter>
-                <LoginForm
-                    control={control}
-                    handleSubmit={handleSubmit}
-                    isSubmitting={isSubmitting}
-                    onSubmit={onSubmit}
-                    isSnackbarOpen={isSnackbarOpen}
-                    setIsSnackbarOpen={setIsSnackbarOpen}
-                    snackbarMessage={snackbarMessage}
-                />
-                <StyledImage src={ChefImage} alt="Chef Image" />
-            </StyledBoxOuter>
-        </Box>
+        <StyledBoxOuter>
+            <LoginForm
+                control={control}
+                handleSubmit={handleSubmit}
+                isSubmitting={isSubmitting}
+                onSubmit={onSubmit}
+                snackbarConfig={snackbarConfig}
+                setSnackbarConfig={setSnackBarConfig}
+            />
+            <StyledImage src={ChefImage} alt="Chef Image" />
+        </StyledBoxOuter>
     );
 };

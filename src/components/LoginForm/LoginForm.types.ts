@@ -1,4 +1,8 @@
+import { SetStateAction } from 'react';
+
 import { Control, UseFormHandleSubmit } from 'react-hook-form';
+
+import { SnackbarConfig } from '@types';
 
 /**
  * Interface defining the configuration properties of the login form.
@@ -20,10 +24,8 @@ export interface LoginFormProps {
     isSubmitting: boolean;
     /** Callback function to handle the submission login after the form validation. */
     onSubmit: (data: LoginFormData) => void;
-    /** State to handle the snackbar open state. */
-    isSnackbarOpen: boolean;
-    /** React state dispatcher to update the visibility status of the snackbar. */
-    setIsSnackbarOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    /** Store the message will be shown on the snackbar. */
-    snackbarMessage: string;
+    /**State to manage the configuration (visibility,message and state) of the snackbar. */
+    snackbarConfig: SnackbarConfig;
+    /** Callback function to set the state of the snackbar. */
+    setSnackbarConfig: React.Dispatch<SetStateAction<SnackbarConfig>>;
 }

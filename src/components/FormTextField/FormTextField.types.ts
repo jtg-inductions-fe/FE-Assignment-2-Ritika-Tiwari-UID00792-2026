@@ -25,7 +25,4 @@ export type FormTextFieldProps<
         onChange?: (
             event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
         ) => TFieldValues[TFieldName] | void;
-    } & // Finally, bring in all standard Text Field UI styling properties (like 'label', 'variant', 'placeholder').
-        // We explicitly remove ('Omit') 'name', 'value', 'onChange', 'onBlur', and 'ref' because
-        // react-hook-form will handle those behind the scenes.
-        Omit<TextFieldProps, 'name' | 'value' | 'onChange' | 'onBlur' | 'ref'>;
+    } & Omit<TextFieldProps, 'name' | 'value' | 'onChange' | 'onBlur' | 'ref'>; // react-hook-form will handle those behind the scenes. // We explicitly remove ('Omit') 'name', 'value', 'onChange', 'onBlur', and 'ref' because // Finally, bring in all standard Text Field UI styling properties (like 'label', 'variant', 'placeholder').

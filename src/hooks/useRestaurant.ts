@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useAuth, useDebounce } from '@hooks';
 import { fetchRestaurantData } from '@services';
@@ -7,7 +7,6 @@ import {
     deleteRestaurant,
     editRestaurant,
     setError,
-    setFilteredRestaurantsView,
     setLoading,
     setRestaurants,
     useAppDispatch,
@@ -21,8 +20,8 @@ export const useRestaurant = () => {
     const { fetchCurrentUser } = useAuth();
     const registeredUser = fetchCurrentUser();
 
-    // Extract values from Redux state
-    const { restaurants, filteredRestaurants, loading, error } = useAppSelector(
+    // Extract values from Redux state (removed filteredRestaurants)
+    const { restaurants, loading, error } = useAppSelector(
         (state) => state.restaurant,
     );
 
@@ -35,7 +34,7 @@ export const useRestaurant = () => {
 
     // Fetch data from mock json on mount and convert the variables to camel case.
     useEffect(() => {
-        // Flag to track is the component is still mounted/valid.
+        // Flag to track if the component is still mounted/valid.
         let isCurrent = true;
         const fetchData = async () => {
             try {
@@ -69,31 +68,32 @@ export const useRestaurant = () => {
                     dispatch(setLoading(false));
                 }
             }
-            // Return the cleanup function to invalidate the request if dependency changes.
-            return () => {
-                isCurrent = false;
-            };
         };
 
         void fetchData();
+
+        // Return the cleanup function to invalidate the request if dependency changes.
+        return () => {
+            isCurrent = false;
+        };
     }, [dispatch, registeredUser?.id, registeredUser?.role]);
 
-    // Synchronize filters when search terms, categories or  data changes.
-    useEffect(() => {
-        const filtered = restaurants.filter((restaurant) => {
-            const matchesSearch = restaurant.name
-                .toLowerCase()
-                .includes(debouncedSearchTerm.toLowerCase().trim());
+    // Compute the filtered list dynamically on the client side
+    const filteredRestaurants = useMemo(
+        () =>
+            restaurants.filter((restaurant) => {
+                const matchesSearch = restaurant.name
+                    .toLowerCase()
+                    .includes(debouncedSearchTerm.toLowerCase().trim());
 
-            const matchesCategory = activeCategory
-                ? restaurant.type === activeCategory
-                : true;
+                const matchesCategory = activeCategory
+                    ? restaurant.type === activeCategory
+                    : true;
 
-            return matchesSearch && matchesCategory;
-        });
-
-        dispatch(setFilteredRestaurantsView(filtered));
-    }, [restaurants, debouncedSearchTerm, activeCategory, dispatch]);
+                return matchesSearch && matchesCategory;
+            }),
+        [restaurants, debouncedSearchTerm, activeCategory],
+    );
 
     /** Callback hook to handle filter toggle (veg/non-veg).
      * @param category- take the category type (veg/non-veg).
@@ -139,60 +139,47 @@ export const useRestaurant = () => {
     );
 
     /** Function to check whether restaurant is closed or not based on the closing time.
-     * @param openingTime - takes the opening time of restaurant.
-     * @param closingTime - takes the closing time of restaurant.
-     * @returns true/false
+     * @param openingTime - opening time of restaurant in 24h format (e.g., '09:00', '17:00')
+     * @param closingTime - closing time of restaurant in 24h format (e.g., '22:00', '02:00')
+     * @returns true if closed, false if open
      */
     const isRestaurantClosed = useCallback(
         (openingTime: string, closingTime: string): boolean => {
-            // Get current time in the target timezone (Asia/Kolkata)
+            //  Get current time in Asia/Kolkata forcing 24-hour parsing
             const formatter = new Intl.DateTimeFormat('en-US', {
                 timeZone: 'Asia/Kolkata',
-                hour: 'numeric',
+                hour: '2-digit',
                 minute: '2-digit',
-                hour12: false,
+                hourCycle: 'h23',
             });
 
-            const parts = formatter.formatToParts(new Date());
-            const currentHour = parseInt(
-                parts.find((p) => p.type === 'hour')!.value,
-                10,
-            );
-            const currentMinute = parseInt(
-                parts.find((p) => p.type === 'minute')!.value,
-                10,
-            );
-            const currentMinutes = currentHour * 60 + currentMinute;
+            const [currHourStr, currMinStr] = formatter
+                .format(new Date())
+                .split(':');
+            const currentMinutes =
+                parseInt(currHourStr, 10) * 60 + parseInt(currMinStr, 10);
 
-            // Helper function to convert "HH:MM AM/PM" or "HH:MM" to total minutes from midnight
+            //   helper function for 24-hour "HH:MM" strings
             const parseTimeToMinutes = (timeStr: string): number => {
-                const [time, modifier] = timeStr.trim().split(' ');
-                const [hourStr, minuteStr] = time.split(':');
-                let hour = parseInt(hourStr, 10);
-                const minute = parseInt(minuteStr, 10);
-
-                if (modifier) {
-                    const upperModifier = modifier.toUpperCase();
-                    if (upperModifier === 'PM' && hour < 12) hour += 12;
-                    if (upperModifier === 'AM' && hour === 12) hour = 0;
-                }
-
-                return hour * 60 + minute;
+                const [hourStr, minuteStr] = timeStr.trim().split(':');
+                return parseInt(hourStr, 10) * 60 + parseInt(minuteStr, 10);
             };
 
             const openMinutes = parseTimeToMinutes(openingTime);
             const closeMinutes = parseTimeToMinutes(closingTime);
 
-            // Determine if the current time falls within operating hours
-            let isOpen = false;
+            //  Handle 24-hour service edge case (e.g., '00:00' to '00:00' or '17:00' to '17:00')
+            if (openMinutes === closeMinutes) {
+                return false;
+            }
 
+            //  Determine if the restaurant is open
+            let isOpen = false;
             if (closeMinutes > openMinutes) {
-                // Standard daytime shift (e.g., 10:00 AM to 11:00 PM)
                 isOpen =
                     currentMinutes >= openMinutes &&
                     currentMinutes < closeMinutes;
             } else {
-                // Overnight shift crossing midnight (e.g., 6:00 PM to 3:00 AM)
                 isOpen =
                     currentMinutes >= openMinutes ||
                     currentMinutes < closeMinutes;

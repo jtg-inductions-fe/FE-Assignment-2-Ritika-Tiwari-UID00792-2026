@@ -32,9 +32,8 @@ export const LoginForm = ({
     handleSubmit,
     isSubmitting,
     onSubmit,
-    isSnackbarOpen,
-    setIsSnackbarOpen,
-    snackbarMessage,
+    snackbarConfig,
+    setSnackbarConfig,
 }: LoginFormProps) => {
     // State to manage password visibility state.
     const [showPassword, setShowPassword] = useState(false);
@@ -116,10 +115,12 @@ export const LoginForm = ({
                 </Link>
             </Box>
             <Snackbar
-                open={isSnackbarOpen}
+                open={snackbarConfig.open}
                 autoHideDuration={2000}
-                onClose={() => setIsSnackbarOpen(false)}
-                message={snackbarMessage}
+                onClose={() =>
+                    setSnackbarConfig({ ...snackbarConfig, open: false })
+                }
+                message={snackbarConfig.message}
                 state="error"
             />
         </StyledBoxInner>

@@ -1,6 +1,8 @@
+import { SetStateAction } from 'react';
+
 import { Control, UseFormHandleSubmit } from 'react-hook-form';
 
-import { UserRole } from '@types';
+import { SnackbarConfig, UserRole } from '@types';
 
 /**
  * Interface defining the configuration properties of the SignUp form.
@@ -40,10 +42,8 @@ export interface SignUpFormProps {
     showConfirmPassword: boolean;
     /** Callback function to set the visibility state of the show confirm password. */
     handleClickShowConfirmPassword: () => void;
-    /** State to handle the snackbar open state. */
-    isSnackbarOpen: boolean;
-    /** React state dispatcher to update the visibility status of the snackbar. */
-    setIsSnackbarOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    /** Store the message will be shown on the snackbar. */
-    snackbarMessage: string;
+    /**State to manage the configuration (visibility,message and state) of the snackbar. */
+    snackbarConfig: SnackbarConfig;
+    /** Callback function to set the state of the snackbar. */
+    setSnackbarConfig: React.Dispatch<SetStateAction<SnackbarConfig>>;
 }

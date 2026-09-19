@@ -15,6 +15,7 @@ export const StyledAppBar = styled('header')(({ theme }) => ({
 }));
 
 export const StyledToolbar = styled(Toolbar)({
+    width: '100%',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',

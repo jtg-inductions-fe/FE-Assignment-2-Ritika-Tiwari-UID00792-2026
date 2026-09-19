@@ -40,9 +40,8 @@ export const SignUpForm = ({
     handleClickShowPassword,
     showConfirmPassword,
     handleClickShowConfirmPassword,
-    isSnackbarOpen,
-    setIsSnackbarOpen,
-    snackbarMessage,
+    snackbarConfig,
+    setSnackbarConfig,
 }: SignUpFormProps) => (
     <StyledBoxInner
         as="form"
@@ -179,10 +178,12 @@ export const SignUpForm = ({
             </Link>
         </Box>
         <Snackbar
-            open={isSnackbarOpen}
+            open={snackbarConfig.open}
             autoHideDuration={2000}
-            onClose={() => setIsSnackbarOpen(false)}
-            message={snackbarMessage}
+            onClose={() =>
+                setSnackbarConfig({ ...snackbarConfig, open: false })
+            }
+            message={snackbarConfig.message}
             state="error"
         />
     </StyledBoxInner>

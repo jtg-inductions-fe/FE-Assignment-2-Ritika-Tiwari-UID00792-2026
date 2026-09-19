@@ -8,7 +8,7 @@ export const StyledBoxOuter = styled(Box)(({ theme }) => ({
     margin: 'auto',
     gap: theme.spacing(4),
     backgroundColor: theme.palette.background.paper,
-    borderRadius: theme.shape.borderRadius * 2,
+    borderRadius: theme.shape.borderRadius,
     boxShadow: theme.shadows[4],
     [theme.breakpoints.up('md')]: {
         padding: theme.spacing(3),

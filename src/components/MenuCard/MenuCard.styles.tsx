@@ -18,7 +18,7 @@ export const StyledCard = styled(Card)(({ theme }) => ({
     flexGrow: 1,
     padding: theme.spacing(4),
     boxShadow: theme.shadows[10],
-    borderRadius: theme.spacing(4),
+    borderRadius: theme.shape.borderRadius,
     [theme.breakpoints.up('md')]: {
         flexDirection: 'row',
         width: '100%',
@@ -28,7 +28,7 @@ export const StyledCard = styled(Card)(({ theme }) => ({
 
 export const StyledCardMedia = styled(CardMedia)(({ theme }) => ({
     minHeight: 200,
-    borderRadius: theme.spacing(4),
+    borderRadius: theme.shape.borderRadius,
     [theme.breakpoints.up('md')]: {
         width: '50%',
     },

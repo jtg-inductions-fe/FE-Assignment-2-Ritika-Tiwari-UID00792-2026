@@ -17,7 +17,7 @@ import {
 import { useRestaurant } from '@hooks';
 import { ROUTES } from '@routes';
 import { theme } from '@theme';
-import { Restaurant as RestaurantData } from '@types';
+import { Restaurant as RestaurantData, SnackbarConfig } from '@types';
 
 import { FilterContainer, OuterContainer } from './Restaurant.styles';
 
@@ -64,13 +64,13 @@ export const Restaurant = () => {
 
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
-    const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
-    const [snackbarMessage, setSnackbarMessage] = useState<string>(
-        'Some Error Occurred, Try later.',
-    );
-    const [snackbarState, setSnackbarState] = useState<
-        'error' | 'success' | 'warning'
-    >('error');
+    // State to manage the configuration (visibility,message and state) of the snackbar.
+    const [snackbarConfig, setSnackBarConfig] = useState<SnackbarConfig>({
+        open: false,
+        message: '',
+        variant: 'success',
+    });
+
     const [selectedRestaurantID, setSelectedRestaurantID] =
         useState<string>('');
 
@@ -79,18 +79,21 @@ export const Restaurant = () => {
      * @param confirmation - A boolean value defining user confirmation from the dialog.
      */
     const handleSubmit = useCallback(() => {
-        setIsDialogOpen(false);
         if (selectedRestaurantID) {
             try {
                 handleDeleteRestaurant(selectedRestaurantID);
-                setIsSnackbarOpen(true);
-                setSnackbarMessage('Restaurant deleted successfully');
-                setSnackbarState('success');
-            } catch {
-                setIsSnackbarOpen(true);
-            } finally {
-                setSelectedRestaurantID('');
                 setIsDialogOpen(false);
+                setSnackBarConfig({
+                    open: true,
+                    message: 'Restaurant deleted successfully',
+                    variant: 'success',
+                });
+            } catch {
+                setSnackBarConfig({
+                    open: true,
+                    message: 'Some error occurred, Try again later.',
+                    variant: 'error',
+                });
             }
         } else {
             setSelectedRestaurantID('');
@@ -130,7 +133,7 @@ export const Restaurant = () => {
     );
 
     return (
-        <>
+        <Box width="100%">
             <OuterContainer>
                 <SearchBar onSearch={setSearchTerm} />
                 <FilterContainer
@@ -268,12 +271,14 @@ export const Restaurant = () => {
                 description="Are you sure you want to Delete?"
             />
             <Snackbar
-                open={isSnackbarOpen}
+                open={snackbarConfig.open}
                 autoHideDuration={2000}
-                onClose={() => setIsSnackbarOpen(false)}
-                message={snackbarMessage}
-                state={snackbarState}
+                onClose={() =>
+                    setSnackBarConfig({ ...snackbarConfig, open: false })
+                }
+                message={snackbarConfig.message}
+                state={snackbarConfig.variant}
             />
-        </>
+        </Box>
     );
 };

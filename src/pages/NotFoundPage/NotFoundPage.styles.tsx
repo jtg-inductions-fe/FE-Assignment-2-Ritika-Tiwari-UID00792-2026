@@ -1,14 +1,12 @@
 import { Box, styled } from '@mui/material';
 
-import { HEADER_HEIGHT } from '@constant';
-
 /** Styling of the Box containing the fallback UI elements. */
 export const StyledBox = styled(Box)(({ theme }) => ({
+    width: '100%',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    minHeight: `calc(100vh - ${HEADER_HEIGHT}px)`,
     gap: theme.spacing(8),
     backgroundColor: theme.palette.background.default,
 }));

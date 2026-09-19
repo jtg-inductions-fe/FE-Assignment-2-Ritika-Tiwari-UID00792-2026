@@ -23,7 +23,7 @@ import {
 } from '@components';
 import { useMenu, useRestaurant } from '@hooks';
 import { theme } from '@theme';
-import { Menu as MenuData } from '@types';
+import { Menu as MenuData, SnackbarConfig } from '@types';
 
 import { StyledImage, StyledRestaurantBanner } from './Menu.styles';
 
@@ -64,13 +64,13 @@ export const Menu = () => {
     >(null);
 
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-    const [isSnackbarOpen, setIsSnackbarOpen] = useState<boolean>(false);
-    const [snackbarMessage, setSnackbarMessage] = useState<string>(
-        'Some Error Occurred, Try later.',
-    );
-    const [snackbarState, setSnackbarState] = useState<
-        'error' | 'success' | 'warning'
-    >('error');
+
+    // State to manage the configuration (visibility,message and state) of the snackbar.
+    const [snackbarConfig, setSnackBarConfig] = useState<SnackbarConfig>({
+        open: false,
+        message: '',
+        variant: 'success',
+    });
 
     /** State to control the quantity of a menu item. */
     const [quantities, setQuantities] = useState<Record<string, number>>({});
@@ -104,11 +104,17 @@ export const Menu = () => {
             try {
                 // Execute the deletion only after confirmation
                 handleDeleteMenuItem(itemSelectedForDeletion);
-                setIsSnackbarOpen(true);
-                setSnackbarMessage('Item deleted successfully');
-                setSnackbarState('success');
+                setSnackBarConfig({
+                    open: true,
+                    message: 'Item deleted successfully',
+                    variant: 'success',
+                });
             } catch {
-                setIsSnackbarOpen(true);
+                setSnackBarConfig({
+                    open: true,
+                    message: 'Some error occurred, Try again later.',
+                    variant: 'error',
+                });
             } finally {
                 setItemSelectedForDeletion(null);
             }
@@ -142,9 +148,11 @@ export const Menu = () => {
      */
     const handleOnAddToCart = (itemId: string, quantity: number) => {
         handleAddToCart(itemId, quantity);
-        setIsSnackbarOpen(true);
-        setSnackbarMessage('Item added to cart successfully');
-        setSnackbarState('success');
+        setSnackBarConfig({
+            open: true,
+            message: 'Item added to cart successfully',
+            variant: 'success',
+        });
     };
 
     /** Handle on increment the count of items in the stock.
@@ -170,7 +178,7 @@ export const Menu = () => {
         restaurantData?.imageUrl || fallBackImage,
     );
     return (
-        <>
+        <Box width="100%">
             <StyledRestaurantBanner>
                 <StyledImage
                     src={restImgSrc}
@@ -235,7 +243,6 @@ export const Menu = () => {
                 {!menuLoading &&
                     (menuError || filteredMenuItems.length === 0) && (
                         <NullStateCard
-                            title=""
                             description={
                                 menuError
                                     ? 'Failed to load data.'
@@ -252,27 +259,22 @@ export const Menu = () => {
                             userRole={userRole}
                             quantities={quantities}
                             setQuantities={setQuantities}
-                            onEditClick={(event) => {
-                                event.stopPropagation();
+                            onEditClick={() => {
                                 handleOpenEditModal(menuItem);
                             }}
-                            onDelete={(event) => {
-                                event.stopPropagation();
+                            onDelete={() => {
                                 handleOnDelete(menuItem.itemId);
                             }}
-                            onAddToCart={(event) => {
-                                event.stopPropagation();
+                            onAddToCart={() => {
                                 handleOnAddToCart(
                                     menuItem.itemId,
                                     quantities[menuItem.itemId],
                                 );
                             }}
-                            onDecreaseStock={(event) => {
-                                event.stopPropagation();
+                            onDecreaseStock={() => {
                                 handleOnDecreaseStock(menuItem.itemId);
                             }}
-                            onIncreaseStock={(event) => {
-                                event.stopPropagation();
+                            onIncreaseStock={() => {
                                 handleOnIncreaseStock(menuItem.itemId);
                             }}
                         />
@@ -294,12 +296,14 @@ export const Menu = () => {
                 description="Are you sure you want to Delete?"
             />
             <Snackbar
-                open={isSnackbarOpen}
+                open={snackbarConfig.open}
                 autoHideDuration={2000}
-                onClose={() => setIsSnackbarOpen(false)}
-                message={snackbarMessage}
-                state={snackbarState}
+                onClose={() =>
+                    setSnackBarConfig({ ...snackbarConfig, open: false })
+                }
+                message={snackbarConfig.message}
+                state={snackbarConfig.variant}
             />
-        </>
+        </Box>
     );
 };

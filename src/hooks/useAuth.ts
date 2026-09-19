@@ -26,8 +26,8 @@ export const useAuth = () => {
                 const users: User[] = (await fetchRegisteredUsers()) ?? [];
                 dispatch(setRegisteredUsers(users));
             } catch (err) {
-                if(err){
-                return [];
+                if (err) {
+                    return [];
                 }
             } finally {
                 return [];
@@ -35,7 +35,7 @@ export const useAuth = () => {
         };
 
         void fetchUsers();
-    }, []);
+    }, [dispatch]);
 
     /**
      * Helper function to locate a user by their email address.

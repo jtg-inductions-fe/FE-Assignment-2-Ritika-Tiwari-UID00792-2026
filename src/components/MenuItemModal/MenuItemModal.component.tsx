@@ -1,4 +1,4 @@
-import { JSX, useEffect } from 'react';
+import { JSX } from 'react';
 
 import { FormTextField } from 'components/FormTextField/FormTextField.component';
 import { useForm } from 'react-hook-form';
@@ -56,25 +56,17 @@ export const MenuItemModal = ({
             imageUrl: '',
             type: 'veg',
         },
+        values: menuItemToEdit || {
+            restaurantId: restaurantId,
+            itemId: '',
+            name: '',
+            description: '',
+            price: 0,
+            stock: 0,
+            imageUrl: '',
+            type: 'veg',
+        },
     });
-
-    /**
-     * Syncs form fields whenever the modal visibility changes or a different
-     * menu item is selected for editing.
-     */
-    useEffect(() => {
-        if (menuItemToEdit) {
-            // Populate fields with existing data for editing
-            reset({
-                name: menuItemToEdit.name,
-                description: menuItemToEdit.description,
-                price: Number(menuItemToEdit.price),
-                stock: Number(menuItemToEdit.stock),
-                imageUrl: menuItemToEdit.imageUrl,
-                type: menuItemToEdit.type,
-            });
-        }
-    }, [menuItemToEdit, reset, open]);
 
     /**
      * Handle the form submission.

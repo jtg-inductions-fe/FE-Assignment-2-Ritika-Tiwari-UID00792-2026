@@ -52,7 +52,7 @@ export const components: Components<Theme> = {
                 props: { variant: 'contained' },
                 style: ({ theme }) => ({
                     boxShadow: theme.shadows[2],
-                    paddingInline: theme.spacing(1.6),
+                    paddingInline: theme.spacing(4),
                     backgroundColor: theme.palette.primary.main,
                     color: theme.palette.primary.contrastText,
                     textTransform: 'none',
@@ -173,7 +173,7 @@ export const components: Components<Theme> = {
     MuiOutlinedInput: {
         styleOverrides: {
             root: ({ theme }) => ({
-                borderRadius: '10px',
+                borderRadius: theme.shape.borderRadius,
                 backgroundColor: theme.palette.background.paper,
                 // Hover state - only when NOT in error
                 '&:not(.Mui-error):hover .MuiOutlinedInput-notchedOutline': {

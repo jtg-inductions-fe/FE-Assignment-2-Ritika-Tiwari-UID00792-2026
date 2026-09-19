@@ -27,6 +27,9 @@ theme = createTheme(theme, {
     typography: {
         ...typography.typographyStyle(theme),
     },
+    shape: {
+        borderRadius: 10,
+    },
 });
 
 export { theme };

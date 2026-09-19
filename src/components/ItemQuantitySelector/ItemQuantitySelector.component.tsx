@@ -35,7 +35,7 @@ export const ItemQuantitySelector = ({
             display="inline-flex"
             alignItems="center"
             border={`1px solid ${theme.palette.primary.light}`}
-            borderRadius={theme.spacing(2)}
+            borderRadius={theme.shape.borderRadius}
         >
             <IconButton
                 size="small"
