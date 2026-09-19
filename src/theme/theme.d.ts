@@ -10,6 +10,6 @@ declare module '@mui/material/Button' {
 }
 declare module '@mui/material/IconButton' {
     interface IconButtonOwnProps {
-        variant?: 'outlined';
+        variant?: 'outlined' | 'error';
     }
 }

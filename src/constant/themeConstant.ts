@@ -51,6 +51,9 @@ export const COLORS = {
         INFO: '#3B82F6',
         INFO_BG: '#EFF6FF',
     },
+    DIVIDER: {
+        LIGHT: '#CBD5E1',
+    },
 };
 
 /**

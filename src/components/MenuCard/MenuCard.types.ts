@@ -23,4 +23,6 @@ export interface MenuCardProps {
     onIncrease: () => void;
     /** Callback function to handle decrease stock quantity functionality. */
     onDecrease: () => void;
+    /** Store the status of the action when customer changing the restaurant to order. */
+    confirmationType: string | null;
 }

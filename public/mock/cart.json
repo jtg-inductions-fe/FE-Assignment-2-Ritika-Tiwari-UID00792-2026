@@ -1,0 +1,56 @@
+{
+    "cart_id": "81377b12-748a-4422-9f60-072710b6346e",
+    "restaurant": {
+        "restaurant_id": "8f3b2c1a-4d6e-4a7b-8c9d-0e1f2a3b4c5d",
+        "name": "The Green Garden",
+        "image_url": "/res-image/res-image1.webp"
+    },
+    "items": [
+        {
+            "item_id": "81277b12-768a-4422-9f60-072710b6346e",
+            "name": "Burger",
+            "image_url": "/food-image/food-item1.webp",
+            "price": 100.0,
+            "stock": 10,
+            "type": "non-veg",
+            "quantity": 2,
+            "item_subtotal": 200.0
+        },
+        {
+            "item_id": "963114f1-8d6c-4719-91f8-864e2257d747",
+            "name": "Bacon Burger",
+            "image_url": "/food-image/food-item3.webp",
+            "price": 140.0,
+            "stock": 20,
+            "type": "veg",
+            "quantity": 1,
+            "item_subtotal": 140.0
+        },
+        {
+            "item_id": "e4da081a-a040-40f2-a008-45faaa14b8cd",
+            "name": "French Fries",
+            "image_url": "/food-image/food-item5.webp",
+            "price": 50.0,
+            "stock": 30,
+            "type": "non-veg",
+            "quantity": 2,
+            "item_subtotal": 100.0
+        },
+        {
+            "item_id": "75f02865-b3b9-429a-adf7-9d0e18b7f845",
+            "name": "Chocolate Milkshake",
+            "image_url": "/food-image/food-item8.webp",
+            "price": 70.0,
+            "stock": 5,
+            "type": "veg",
+            "quantity": 1,
+            "item_subtotal": 70.0
+        }
+    ],
+    "bill_details": {
+        "items_subtotal": 510.0,
+        "delivery_fee": 40.0,
+        "grand_total": 575.5,
+        "item_count": 6
+    }
+}

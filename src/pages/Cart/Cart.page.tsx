@@ -1,1 +1,6 @@
-export const Cart = () => <h1>Cart</h1>;
+import { Cart as CartContainer } from '@containers';
+/**
+ * Renders the cart page.
+ * @returns JSX.Element - The rendered cart page.
+ */
+export const Cart = () => <CartContainer />;

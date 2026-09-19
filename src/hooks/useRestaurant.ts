@@ -33,6 +33,7 @@ export const useRestaurant = () => {
     useEffect(() => {
         // Flag to track if the component is still mounted/valid.
         let isCurrent = true;
+
         const fetchData = async () => {
             try {
                 dispatch(setLoading(true));
