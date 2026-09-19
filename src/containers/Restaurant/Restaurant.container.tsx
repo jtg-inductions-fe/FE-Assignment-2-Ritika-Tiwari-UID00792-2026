@@ -27,6 +27,12 @@ import { Restaurant as RestaurantData, SnackbarConfig } from '@types';
 
 import { FilterContainer, OuterContainer } from './Restaurant.styles';
 
+
+/**
+ * Restaurant Container
+ * provides the business logic for restaurant page and restaurants state management, including functionality to add, edit, and delete restaurants.
+ * @returns The rendered restaurant page components.
+ */
 export const Restaurant = () => {
     const dispatch = useAppDispatch();
 

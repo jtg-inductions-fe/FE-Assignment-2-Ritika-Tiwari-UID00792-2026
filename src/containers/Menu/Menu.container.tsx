@@ -33,6 +33,12 @@ import { Menu as MenuData, SnackbarConfig } from '@types';
 
 import { StyledImage, StyledRestaurantBanner } from './Menu.styles';
 
+
+/**
+ * Menu Container
+ * provides the business logic for menu page and menu-item state management, including functionality to add, edit, and delete items.
+ * @returns The rendered Menu page components.
+ */
 export const Menu = () => {
     const dispatch = useAppDispatch();
 
