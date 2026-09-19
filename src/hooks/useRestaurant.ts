@@ -3,9 +3,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useAuth, useDebounce } from '@hooks';
 import { fetchRestaurantData } from '@services';
 import {
-    addRestaurant,
-    deleteRestaurant,
-    editRestaurant,
     setError,
     setLoading,
     setRestaurants,
@@ -50,6 +47,7 @@ export const useRestaurant = () => {
                             restaurant.ownerId === registeredUser.id,
                     );
                 }
+
                 if (isCurrent) {
                     dispatch(setRestaurants(restaurantData));
                 }
@@ -101,42 +99,6 @@ export const useRestaurant = () => {
     const handleFilterToggle = useCallback((category: string) => {
         setActiveCategory((prev) => (prev === category ? '' : category));
     }, []);
-
-    /** Function to handle add new restaurant in the redux store.
-     * @param data- takes the restaurant data.
-     */
-    const handleAddRestaurant = useCallback(
-        (data: Restaurant) => {
-            if (data) {
-                dispatch(addRestaurant(data));
-            }
-        },
-        [dispatch],
-    );
-
-    /** Function to handle edit existing restaurant in the redux store.
-     * @param data- takes the restaurant data.
-     */
-    const handleEditRestaurant = useCallback(
-        (data: Restaurant) => {
-            if (data) {
-                dispatch(editRestaurant(data));
-            }
-        },
-        [dispatch],
-    );
-
-    /** Function to handle delete restaurant in the redux store.
-     * @param restaurantId- takes the restaurant id to delete the restaurant.
-     */
-    const handleDeleteRestaurant = useCallback(
-        (restaurantId: string) => {
-            if (restaurantId) {
-                dispatch(deleteRestaurant(restaurantId));
-            }
-        },
-        [dispatch],
-    );
 
     /** Function to check whether restaurant is closed or not based on the closing time.
      * @param openingTime - opening time of restaurant in 24h format (e.g., '09:00', '17:00')
@@ -200,9 +162,6 @@ export const useRestaurant = () => {
         handleFilterToggle,
         userRole: registeredUser?.role,
         ownerId: registeredUser?.id,
-        handleAddRestaurant,
-        handleEditRestaurant,
-        handleDeleteRestaurant,
         isRestaurantClosed,
     };
 };

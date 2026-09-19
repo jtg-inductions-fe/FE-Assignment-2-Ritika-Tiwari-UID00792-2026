@@ -13,7 +13,6 @@ import {
     Typography,
 } from '@mui/material';
 
-import { useRestaurant } from '@hooks';
 import { theme } from '@theme';
 import { Restaurant, Restaurant as RestaurantData } from '@types';
 
@@ -34,12 +33,11 @@ export const RestaurantModal = ({
     onClose,
     ownerId,
     restaurantToEdit,
+    onEdit,
+    onAdd,
 }: RestaurantModalProps): JSX.Element => {
     // Determine if the modal is in edit mode based restaurant data to be edited
     const isEditMode = Boolean(restaurantToEdit);
-
-    // fetching functions to handle add restaurant and edit restaurant functionality
-    const { handleAddRestaurant, handleEditRestaurant } = useRestaurant();
 
     // Initialize form controls, error states, and validation tracking via react-hook-form
     const {
@@ -80,7 +78,7 @@ export const RestaurantModal = ({
                 ...restaurantToEdit,
                 ...data,
             };
-            handleEditRestaurant(updatedRestaurant);
+            onEdit(updatedRestaurant);
         } else {
             // Generate unique IDs and associate the owner for a brand new restaurant
             const newRestaurant: RestaurantData = {
@@ -88,7 +86,7 @@ export const RestaurantModal = ({
                 restaurantId: crypto.randomUUID(),
                 ownerId,
             };
-            handleAddRestaurant(newRestaurant);
+            onAdd(newRestaurant);
         }
         // Clean up and close the modal after a successful edit or add restaurant.
         handleCancel();

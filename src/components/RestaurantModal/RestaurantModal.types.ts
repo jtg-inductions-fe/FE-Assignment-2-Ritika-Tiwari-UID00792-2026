@@ -12,4 +12,8 @@ export interface RestaurantModalProps {
     ownerId: string;
     /** Stores the current restaurant data for the modal. */
     restaurantToEdit?: Restaurant | null;
+    /** Callback function to handle add functionality like add restaurant and menu items. */
+    onAdd: (data: Restaurant) => void;
+    /** Callback function to handle edit functionality like edit restaurant and menu items. */
+    onEdit: (data: Restaurant) => void;
 }

@@ -13,7 +13,6 @@ import {
     Typography,
 } from '@mui/material';
 
-import { useMenu } from '@hooks';
 import { theme } from '@theme';
 import { Menu } from '@types';
 
@@ -32,14 +31,13 @@ import { menuItemValidation } from './MenuItemModal.validations';
 export const MenuItemModal = ({
     open,
     onClose,
-    restaurantId,
-    menuItemToEdit,
+    id,
+    itemToEdit,
+    onEdit,
+    onAdd,
 }: MenuItemModalProps): JSX.Element => {
     // Determine if the modal is in edit mode based MenuItem data to be edited
-    const isEditMode = Boolean(menuItemToEdit);
-
-    // fetching functions to handle add menu item and edit menu item functionality
-    const { handleAddMenuItem, handleEditMenuItem } = useMenu(restaurantId);
+    const isEditMode = Boolean(itemToEdit);
 
     // Initialize form controls, error states, and validation tracking via react-hook-form
     const {
@@ -56,8 +54,8 @@ export const MenuItemModal = ({
             imageUrl: '',
             type: 'veg',
         },
-        values: menuItemToEdit || {
-            restaurantId: restaurantId,
+        values: itemToEdit || {
+            restaurantId: id,
             itemId: '',
             name: '',
             description: '',
@@ -72,21 +70,21 @@ export const MenuItemModal = ({
      * Handle the form submission.
      */
     const onSubmit = (data: Menu) => {
-        if (isEditMode && menuItemToEdit) {
+        if (isEditMode && itemToEdit) {
             // Merge new modifications into the existing menu item object
             const updatedMenuItem: Menu = {
-                ...menuItemToEdit,
+                ...itemToEdit,
                 ...data,
             };
-            handleEditMenuItem(updatedMenuItem);
+            onEdit(updatedMenuItem);
         } else {
             // Generate unique IDs and associate the owner for a brand new menu item
             const newMenuItem: Menu = {
                 ...data,
                 itemId: crypto.randomUUID(),
-                restaurantId,
+                restaurantId: id,
             };
-            handleAddMenuItem(newMenuItem);
+            onAdd(newMenuItem);
         }
 
         // Clean up and close the modal after a successful edit or add MenuItem.
