@@ -4,7 +4,9 @@ import { Box, styled } from '@mui/material';
  * Styled Paper container that serves as the main structural box for the error screen.
  */
 export const ErrorContainer = styled(Box)(({ theme }) => ({
-    padding: theme.spacing(1),
+    maxHeight:150,
+    width:'100%',
+    padding: theme.spacing(4),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -18,7 +20,7 @@ export const ErrorContainer = styled(Box)(({ theme }) => ({
  * Container box used to wrap and align structural action items like buttons.
  */
 export const ActionWrapper = styled(Box)(({ theme }) => ({
-    marginBottom: theme.spacing(1),
+    marginBottom: theme.spacing(4),
     display: 'flex',
-    gap: theme.spacing(1),
+    gap: theme.spacing(4),
 }));

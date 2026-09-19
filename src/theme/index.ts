@@ -19,14 +19,16 @@ let theme = createTheme({
         fontFamily: 'Inter',
         ...typography.typographyUtil,
     },
-    spacing: (factor: number) =>
-        theme.typography.pxToRem(factor * SCALING_FACTOR),
+    spacing: (factor: number) => factor * SCALING_FACTOR,
 });
 
 /* Extend the base theme with additional configurations */
 theme = createTheme(theme, {
     typography: {
         ...typography.typographyStyle(theme),
+    },
+    shape: {
+        borderRadius: 10,
     },
 });
 

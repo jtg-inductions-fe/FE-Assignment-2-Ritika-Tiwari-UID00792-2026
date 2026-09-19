@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Typography } from '@mui/material';
 
 import PageNotFound from '@assets/images/page-not-found.webp';
-import { ResponsiveContainer } from '@components';
 import { ROUTES } from '@routes';
 
 import { StyledBox, StyledImage } from './NotFoundPage.styles';
@@ -25,22 +24,20 @@ export const NotFoundPage = (): JSX.Element => {
         void navigate(ROUTES.ROOT);
     };
     return (
-        <ResponsiveContainer>
-            <StyledBox>
-                <StyledImage src={PageNotFound} alt="Page not found" />
-                <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    textAlign="center"
-                >
-                    You took a wrong turn down an empty aisle. Let&apos;s get
-                    you back to the main course.
-                </Typography>
+        <StyledBox>
+            <StyledImage src={PageNotFound} alt="Page not found" />
+            <Typography
+                variant="body2"
+                color="text.secondary"
+                textAlign="center"
+            >
+                You took a wrong turn down an empty aisle. Let&apos;s get you
+                back to the main course.
+            </Typography>
 
-                <Button variant="contained" onClick={handleClick}>
-                    <Typography variant="button">Back to home</Typography>
-                </Button>
-            </StyledBox>
-        </ResponsiveContainer>
+            <Button variant="contained" onClick={handleClick}>
+                <Typography variant="button">Back to home</Typography>
+            </Button>
+        </StyledBox>
     );
 };
