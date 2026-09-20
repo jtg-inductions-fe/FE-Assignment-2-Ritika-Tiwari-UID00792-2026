@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { Box, Button,Step, StepLabel, Stepper } from '@mui/material';
+import { Box, Button, Step, StepLabel, Stepper } from '@mui/material';
 
 // 1. Define your order statuses in order
 const ORDER_STATUSES = [

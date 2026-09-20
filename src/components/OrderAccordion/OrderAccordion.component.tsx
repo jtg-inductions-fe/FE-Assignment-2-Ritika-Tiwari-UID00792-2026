@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import { CartCard } from 'components/CartCard/CartCard.component';
 import OrderStatusTracker from 'components/OrderStatusTracker/OrderStatusTracker';
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -11,9 +12,10 @@ import Typography from '@mui/material/Typography';
 
 import { theme } from '@theme';
 
-export default function OrderAccordion() {
-    const id = React.useId();
+import { OrderAccordionProps } from './OrderAccordion.types';
 
+export const OrderAccordion = ({ data }: OrderAccordionProps) => {
+    const id = React.useId();
 
     return (
         <Accordion>
@@ -35,10 +37,10 @@ export default function OrderAccordion() {
                         justifyContent="space-between"
                     >
                         <Typography variant="h6" color="text.primary">
-                            Restaurant Name
+                            {data.restaurantDetails.name}
                         </Typography>
                         <Typography variant="caption" color="text.secondary">
-                            Pending
+                            {data.orderStatus}
                         </Typography>
                     </Box>
                     <Box
@@ -46,9 +48,11 @@ export default function OrderAccordion() {
                         flexDirection="row"
                         justifyContent="space-between"
                     >
-                        <Typography variant="body2">Created At : </Typography>
                         <Typography variant="body2">
-                            Total amount: 89849328
+                            Created At: {data.createdAt}{' '}
+                        </Typography>
+                        <Typography variant="body2">
+                            Total amount: {data.billDetails.grandTotal}
                         </Typography>
                     </Box>
                 </Box>
@@ -57,13 +61,21 @@ export default function OrderAccordion() {
                 <Box
                     width="100%"
                     display="flex"
-                    flexDirection="row"
-                    alignItems="center"
+                    flexDirection="column"
+                    alignItems="start"
                     justifyContent="space-between"
-                    marginTop={theme.spacing(8)}
-                ></Box>
+                    gap={theme.spacing(4)}
+                >
+                    {data.items.map((item) => (
+                        <CartCard
+                            key={item.itemId}
+                            data={data.restaurantDetails}
+                            item={item}
+                        />
+                    ))}
+                </Box>
                 <OrderStatusTracker />
             </AccordionDetails>
         </Accordion>
     );
-}
+};

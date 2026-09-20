@@ -4,3 +4,4 @@ export * from './SignUp/SignUp.container';
 export * from './Restaurant/Restaurant.container';
 export * from './Menu/Menu.container';
 export * from './Cart/Cart.container';
+export * from './OrderPortal/orderPortal.container';

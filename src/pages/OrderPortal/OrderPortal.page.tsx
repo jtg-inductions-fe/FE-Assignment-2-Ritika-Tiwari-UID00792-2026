@@ -1,11 +1,3 @@
-import OrderAccordion from 'components/OrderAccordion/OrderAccordion.component';
+import { OrderPortal as OrderPortalContainer } from '@containers';
 
-import { Box } from '@mui/material';
-
-import { theme } from '@theme';
-
-export const OrderPortal = () => (
-        <Box flexGrow={1} marginTop={theme.spacing(8)}>
-            <OrderAccordion></OrderAccordion>
-        </Box>
-    );
+export const OrderPortal = () => <OrderPortalContainer />;
