@@ -7,7 +7,6 @@ export const StyledCard = styled(Card)(({ theme }) => ({
     boxSizing: 'border-box',
     flexDirection: 'row',
     alignItems: 'start',
-    flexGrow: 1,
     gap: theme.spacing(4),
     padding: theme.spacing(2),
     justifyContent: 'space-between',

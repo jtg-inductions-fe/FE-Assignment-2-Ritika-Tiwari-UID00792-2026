@@ -126,14 +126,10 @@ export const Menu = () => {
      * Handles the confirmation event from the confirmation dialog.
      * @param confirmation - A boolean value defining user confirmation from the dialog.
      */
-    const handleSubmit = (confirmation: boolean) => {
+    const handleSubmit = () => {
         setIsDialogOpen(false);
 
-        if (
-            confirmation &&
-            dialogType === 'delete' &&
-            itemSelectedForDeletion
-        ) {
+        if (dialogType === 'delete' && itemSelectedForDeletion) {
             try {
                 // Execute the deletion only after confirmation
                 handleDeleteMenuItem(itemSelectedForDeletion);
@@ -152,7 +148,7 @@ export const Menu = () => {
                 });
             }
         }
-        if (confirmation && dialogType === 'change') {
+        if (dialogType === 'change') {
             try {
                 handleClearCart();
                 CreateNewCart();
@@ -205,7 +201,6 @@ export const Menu = () => {
 
         if (restaurantStatus === 'CONFLICT') {
             // Show the warning dialog if they are switching restaurants
-            console.log('in the check');
             setIsDialogOpen(true);
             setIsDialogType('change');
             return;
@@ -264,6 +259,7 @@ export const Menu = () => {
      */
     const handleOnDelete = (itemId: string) => {
         setItemSelectedForDeletion(itemId);
+        setIsDialogType('delete');
         setIsDialogOpen(true);
     };
 
