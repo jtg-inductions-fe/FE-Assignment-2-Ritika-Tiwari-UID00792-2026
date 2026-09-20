@@ -27,34 +27,37 @@ export const useRestaurant = () => {
     const [activeCategory, setActiveCategory] = useState('');
 
     // Use the debouncing on the searchTerm to prevent multiple search request.
-    const debouncedSearchTerm = useDebounce(searchTerm, 1000);
+    const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
     // Fetch data from mock json on mount and convert the variables to camel case.
     useEffect(() => {
-        // Flag to track if the component is still mounted/valid.
-        let isCurrent = true;
+        const controller = new AbortController();
+        const { signal } = controller;
+
         const fetchData = async () => {
             try {
                 dispatch(setLoading(true));
                 dispatch(setError(null));
 
-                const restaurantData = await fetchRestaurantData();
+                // Pass the cancellation signal to fetch function
+                const restaurantData = await fetchRestaurantData({ signal });
 
-                if (isCurrent) {
-                    dispatch(setRestaurants(restaurantData));
-                }
+                dispatch(setRestaurants(restaurantData));
             } catch (err) {
-                if (isCurrent) {
-                    dispatch(
-                        setError(
-                            err instanceof Error
-                                ? err.message
-                                : 'An error occurred',
-                        ),
-                    );
+                if (err instanceof Error && err.name === 'AbortError') {
+                    return;
                 }
+
+                dispatch(
+                    setError(
+                        err instanceof Error
+                            ? err.message
+                            : 'An error occurred',
+                    ),
+                );
             } finally {
-                if (isCurrent) {
+                // Only reset loading if the request wasn't cancelled mid-flight
+                if (!signal.aborted) {
                     dispatch(setLoading(false));
                 }
             }
@@ -62,9 +65,9 @@ export const useRestaurant = () => {
 
         void fetchData();
 
-        // Return the cleanup function to invalidate the request if dependency changes.
+        // Return the cleanup function to abort the request if dependencies change or component unmounts.
         return () => {
-            isCurrent = false;
+            controller.abort();
         };
     }, [dispatch, registeredUser?.id, registeredUser?.role]);
 
@@ -86,7 +89,7 @@ export const useRestaurant = () => {
                 .includes(debouncedSearchTerm.toLowerCase().trim());
 
             const matchesCategory = activeCategory
-                ? restaurant.type === activeCategory
+                ? restaurant.dietaryCategory === activeCategory
                 : true;
 
             return matchesSearch && matchesCategory;
@@ -107,41 +110,35 @@ export const useRestaurant = () => {
      */
     const isRestaurantClosed = useCallback(
         (openingTime: string, closingTime: string): boolean => {
-            //  Get current time in Asia/Kolkata forcing 24-hour parsing
-            const formatter = new Intl.DateTimeFormat('en-US', {
-                timeZone: 'Asia/Kolkata',
-                hour: '2-digit',
-                minute: '2-digit',
-                hourCycle: 'h23',
-            });
+            // Get current time components directly in UTC
+            const now = new Date();
+            const currentMinutes = now.getUTCHours() * 60 + now.getUTCMinutes();
 
-            const [currHourStr, currMinStr] = formatter
-                .format(new Date())
-                .split(':');
-            const currentMinutes =
-                parseInt(currHourStr, 10) * 60 + parseInt(currMinStr, 10);
-
-            //   helper function for 24-hour "HH:MM" strings
+            // Helper function to handle full UTC strings (e.g., "16:00:00Z" or "16:00")
             const parseTimeToMinutes = (timeStr: string): number => {
-                const [hourStr, minuteStr] = timeStr.trim().split(':');
+                // Remove 'Z' if present, then split by ':'
+                const cleanStr = timeStr.replace('Z', '').trim();
+                const [hourStr, minuteStr] = cleanStr.split(':');
+
                 return parseInt(hourStr, 10) * 60 + parseInt(minuteStr, 10);
             };
 
             const openMinutes = parseTimeToMinutes(openingTime);
             const closeMinutes = parseTimeToMinutes(closingTime);
 
-            //  Handle 24-hour service edge case (e.g., '00:00' to '00:00' or '17:00' to '17:00')
+            // Handle 24-hour service edge case
             if (openMinutes === closeMinutes) {
                 return false;
             }
 
-            //  Determine if the restaurant is open
+            // Determine if the restaurant is open using standard overnight rolling logic
             let isOpen = false;
             if (closeMinutes > openMinutes) {
                 isOpen =
                     currentMinutes >= openMinutes &&
                     currentMinutes < closeMinutes;
             } else {
+                // Handles overnight operations (e.g., Open 16:00Z, Close 02:00Z)
                 isOpen =
                     currentMinutes >= openMinutes ||
                     currentMinutes < closeMinutes;

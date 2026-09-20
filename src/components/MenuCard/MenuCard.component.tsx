@@ -48,7 +48,6 @@ export function MenuCard({
     onIncrease,
     onDecrease,
 }: MenuCardProps) {
-    
     // Returns true if screen width is smaller than the 'md' breakpoint.
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
     const [imgSrc, setImgSrc] = useState(item.imageUrl || FALLBACK_IMAGE);
@@ -62,9 +61,7 @@ export function MenuCard({
                         : theme.palette.background.default
                 }
                 component="img"
-                height="140"
                 image={imgSrc}
-                alt={item.name}
                 onError={() => {
                     if (imgSrc !== FALLBACK_IMAGE) {
                         setImgSrc(FALLBACK_IMAGE);
@@ -73,8 +70,11 @@ export function MenuCard({
             />
             <StyledImageIndicator
                 component="img"
-                image={item.type === 'veg' ? vegIndicator : nonVegIndicator}
-                alt={item.type}
+                image={
+                    item.dietaryCategory === 'veg'
+                        ? vegIndicator
+                        : nonVegIndicator
+                }
             />
             <StyledCardContent>
                 <StyledTitle gutterBottom variant="subtitle1">
@@ -132,11 +132,7 @@ export function MenuCard({
                     >
                         <Chip
                             icon={
-                                item.stock ? (
-                                    <CheckCircleIcon />
-                                ) : (
-                                    <BlockIcon />
-                                )
+                                item.stock ? <CheckCircleIcon /> : <BlockIcon />
                             }
                             label={
                                 item.stock

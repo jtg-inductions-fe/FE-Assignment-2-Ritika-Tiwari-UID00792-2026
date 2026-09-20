@@ -1,7 +1,7 @@
-// 1. Define the allowed variants
+// Define the allowed variants
 export type SnackbarVariant = 'success' | 'error' | 'warning' | 'info';
 
-// 2. Define the interface for the snackbar state
+// Define the interface for the snackbar state
 export interface SnackbarConfig {
     open: boolean;
     message: string;

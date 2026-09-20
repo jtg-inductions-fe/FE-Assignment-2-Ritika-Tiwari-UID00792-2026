@@ -13,6 +13,7 @@ import {
     Typography,
 } from '@mui/material';
 
+import { MENU_FORM_DEFAULT_VALUES } from '@constant';
 import { theme } from '@theme';
 import { Menu } from '@types';
 
@@ -43,24 +44,14 @@ export const MenuItemModal = ({
         reset,
         formState: { isSubmitting, errors },
     } = useForm<Menu>({
-        defaultValues: {
-            name: '',
-            description: '',
-            price: 0,
-            stock: 0,
-            imageUrl: '',
-            type: 'veg',
-        },
-        values: itemToEdit || {
-            restaurantId: id,
-            itemId: '',
-            name: '',
-            description: '',
-            price: 0,
-            stock: 0,
-            imageUrl: '',
-            type: 'veg',
-        },
+        defaultValues: MENU_FORM_DEFAULT_VALUES as Menu,
+        values:
+            itemToEdit ||
+            ({
+                restaurantId: id,
+                itemId: '',
+                ...MENU_FORM_DEFAULT_VALUES,
+            } as Menu),
     });
 
     // Determine if the modal is in edit mode based MenuItem data to be edited
@@ -97,6 +88,15 @@ export const MenuItemModal = ({
     const handleCancel = () => {
         reset();
         onClose();
+    };
+
+    /**
+     * To set the submit button text inside based on submitting status of form.
+     */
+    const getButtonText = () => {
+        if (isSubmitting) return 'Submitting...';
+        if (isEditMode) return 'Save';
+        return 'Submit';
     };
 
     return (
@@ -146,13 +146,13 @@ export const MenuItemModal = ({
                     />
 
                     <FormTextField
-                        name="type"
+                        name="dietaryCategory"
                         control={control}
                         rules={menuItemValidation.type}
                         select
                         label="Cuisine Type"
-                        error={!!errors.type}
-                        helperText={errors.type?.message}
+                        error={!!errors.dietaryCategory}
+                        helperText={errors.dietaryCategory?.message}
                         fullWidth
                     >
                         <MenuItem value="veg">Veg</MenuItem>
@@ -235,11 +235,7 @@ export const MenuItemModal = ({
                             variant="contained"
                             disabled={isSubmitting}
                         >
-                            {(() => {
-                                if (isSubmitting) return 'Submitting...';
-                                if (isEditMode) return 'Save';
-                                return 'Submit';
-                            })()}
+                            {getButtonText()}
                         </Button>
                     </Stack>
                 </Stack>

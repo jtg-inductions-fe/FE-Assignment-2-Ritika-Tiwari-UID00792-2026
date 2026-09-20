@@ -1,7 +1,7 @@
 /** Interface defining the configuration properties for the menu item. */
 export interface Menu {
     /** Restaurant id associated to each menu item. */
-    restaurantId: string | undefined;
+    restaurantId: string;
     /** Menu id to uniquely identify the menu item. */
     itemId: string;
     /** Name of the menu item. */
@@ -10,11 +10,11 @@ export interface Menu {
     description: string;
     /** Image Url of the image of the item */
     imageUrl: string;
-    /** Define the type of item (veg/non-veg). */
-    type: Type;
+    /** Define the dietary_category of item (veg/non-veg). */
+    dietaryCategory: DietaryCategory;
     /** Price of the menu Item. */
     price: number;
     /** Stock quantity for the menu item. */
     stock: number;
 }
-export type Type = 'veg' | 'non-veg';
+export type DietaryCategory = 'veg' | 'non-veg';

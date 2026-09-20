@@ -13,8 +13,10 @@ import {
     Typography,
 } from '@mui/material';
 
+import { RESTAURANT_FORM_DEFAULT_VALUES } from '@constant';
 import { theme } from '@theme';
 import { Restaurant, Restaurant as RestaurantData } from '@types';
+import { formatLocalToUTCSubmit, formatUTCToLocalInput } from '@utils';
 
 import { StyledModal } from './RestaurantModal.styles';
 import { RestaurantModalProps } from './RestaurantModal.types';
@@ -36,6 +38,19 @@ export const RestaurantModal = ({
     onEdit,
     onAdd,
 }: RestaurantModalProps): JSX.Element => {
+    // Prepare the incoming values for the form by cleaning up UTC string dependencies
+    const formValues = restaurantToEdit
+        ? {
+              ...restaurantToEdit,
+              openingTime: formatUTCToLocalInput(restaurantToEdit.openingTime),
+              closingTime: formatUTCToLocalInput(restaurantToEdit.closingTime),
+          }
+        : {
+              restaurantId: '',
+              ownerId: ownerId,
+              ...RESTAURANT_FORM_DEFAULT_VALUES,
+          };
+
     // Initialize form controls, error states, and validation tracking via react-hook-form
     const {
         control,
@@ -43,26 +58,8 @@ export const RestaurantModal = ({
         reset,
         formState: { isSubmitting, errors },
     } = useForm<Restaurant>({
-        defaultValues: {
-            name: '',
-            description: '',
-            openingTime: '',
-            closingTime: '',
-            address: '',
-            imageUrl: '',
-            type: '',
-        },
-        values: restaurantToEdit || {
-            restaurantId: '',
-            ownerId: ownerId,
-            name: '',
-            description: '',
-            openingTime: '',
-            closingTime: '',
-            address: '',
-            imageUrl: '',
-            type: 'veg',
-        },
+        defaultValues: RESTAURANT_FORM_DEFAULT_VALUES,
+        values: formValues as Restaurant,
     });
 
     // Determine if the modal is in edit mode based restaurant data to be edited
@@ -71,24 +68,33 @@ export const RestaurantModal = ({
     /**
      * Handle the form submission.
      */
+    /**
+     * Handle the form submission.
+     * Automatically maps local browser time strings ("HH:MM") to precise UTC instances ("HH:MM:00Z")
+     */
     const onSubmit = (data: Restaurant) => {
+        // Perform conversions on time metrics
+        const formattedData = {
+            ...data,
+            openingTime: formatLocalToUTCSubmit(data.openingTime),
+            closingTime: formatLocalToUTCSubmit(data.closingTime),
+        };
+
         if (isEditMode && restaurantToEdit) {
-            // Merge new modifications into the existing restaurant object
             const updatedRestaurant: RestaurantData = {
                 ...restaurantToEdit,
-                ...data,
+                ...formattedData,
             };
             onEdit(updatedRestaurant);
         } else {
-            // Generate unique IDs and associate the owner for a brand new restaurant
             const newRestaurant: RestaurantData = {
-                ...data,
+                ...formattedData,
                 restaurantId: crypto.randomUUID(),
                 ownerId,
             };
             onAdd(newRestaurant);
         }
-        // Clean up and close the modal after a successful edit or add restaurant.
+
         handleCancel();
     };
 
@@ -98,6 +104,15 @@ export const RestaurantModal = ({
     const handleCancel = () => {
         reset();
         onClose();
+    };
+
+    /**
+     * To set the submit button text inside based on submitting status of form.
+     */
+    const getButtonText = () => {
+        if (isSubmitting) return 'Submitting...';
+        if (isEditMode) return 'Save';
+        return 'Submit';
     };
 
     return (
@@ -151,13 +166,13 @@ export const RestaurantModal = ({
                     />
 
                     <FormTextField
-                        name="type"
+                        name="dietaryCategory"
                         control={control}
                         rules={restaurantValidation.type}
                         select
                         label="Cuisine Type"
-                        error={!!errors.type}
-                        helperText={errors.type?.message}
+                        error={!!errors.dietaryCategory}
+                        helperText={errors.dietaryCategory?.message}
                         autoComplete="type"
                         fullWidth
                     >
@@ -231,26 +246,22 @@ export const RestaurantModal = ({
                     <Stack
                         direction="row"
                         justifyContent="flex-end"
-                        gap={theme.spacing(4)}
-                        mt={theme.spacing(4)}
+                        gap={theme.spacing(2)}
+                        mt={2}
                     >
                         <Button
+                            variant="outlined"
                             onClick={handleCancel}
-                            color="inherit"
                             disabled={isSubmitting}
                         >
                             Cancel
                         </Button>
                         <Button
-                            type="submit"
                             variant="contained"
+                            type="submit"
                             disabled={isSubmitting}
                         >
-                            {(() => {
-                                if (isSubmitting) return 'Submitting...';
-                                if (isEditMode) return 'Save';
-                                return 'Submit';
-                            })()}
+                            {getButtonText()}
                         </Button>
                     </Stack>
                 </Stack>

@@ -2,6 +2,7 @@ import {
     Card,
     CardContent,
     CardMedia,
+    CardMediaProps,
     styled,
     Typography,
 } from '@mui/material';
@@ -16,27 +17,27 @@ export const StyledCard = styled(Card)(({ theme }) => ({
         maxWidth: 240,
     },
 }));
-export const StyledCardMedia = styled(CardMedia)(({ theme }) => ({
+export const StyledCardMedia = styled(CardMedia)<CardMediaProps>(({ theme }) => ({
     position: 'relative',
     height: 200,
     minHeight: 200,
     borderRadius: theme.shape.borderRadius,
-})) as typeof CardMedia;
+}));
 
-export const StyledImageIndicator = styled(CardMedia)({
+export const StyledImageIndicator = styled(CardMedia)<CardMediaProps>({
     width: 20,
     height: 20,
     right: 20,
     top: 20,
     position: 'absolute',
-}) as typeof CardMedia;
-export const StyledClosedTag = styled(CardMedia)({
+});
+export const StyledClosedTag = styled(CardMedia)<CardMediaProps>({
     width: 100,
     height: 100,
     right: 0,
     top: 0,
     position: 'absolute',
-}) as typeof CardMedia;
+});
 
 export const StyledCardContent = styled(CardContent)(({ theme }) => ({
     width: '100%',

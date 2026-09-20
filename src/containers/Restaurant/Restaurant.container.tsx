@@ -27,7 +27,6 @@ import { Restaurant as RestaurantData, SnackbarConfig } from '@types';
 
 import { FilterContainer, OuterContainer } from './Restaurant.styles';
 
-
 /**
  * Restaurant Container
  * provides the business logic for restaurant page and restaurants state management, including functionality to add, edit, and delete restaurants.
@@ -97,10 +96,10 @@ export const Restaurant = () => {
         useState<RestaurantData | null>(null);
 
     /** Handle Add restaurant modal open state. */
-    const handleOpenAddModal = useCallback(() => {
+    const handleOpenAddModal = () => {
         setEditingRestaurant(null);
         setIsModalOpen(true);
-    }, []);
+    };
 
     /** Handle Edit restaurant modal open state. */
     const handleOpenEditModal = (restaurant: RestaurantData) => {
@@ -109,10 +108,10 @@ export const Restaurant = () => {
     };
 
     /** Handle edit and add restaurant modal closing state */
-    const handleCloseModal = useCallback(() => {
+    const handleCloseModal = () => {
         setIsModalOpen(false);
         setEditingRestaurant(null);
-    }, []);
+    };
 
     /** States to control the visibility of confirmation dialog */
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
@@ -125,7 +124,7 @@ export const Restaurant = () => {
      * Handles the confirmation event from the confirmation dialog.
      * @param confirmation - A boolean value defining user confirmation from the dialog.
      */
-    const handleSubmit = useCallback(() => {
+    const handleSubmit = () => {
         if (selectedRestaurantID) {
             try {
                 handleDeleteRestaurant(selectedRestaurantID);
@@ -145,14 +144,14 @@ export const Restaurant = () => {
         } else {
             setSelectedRestaurantID('');
         }
-    }, [handleDeleteRestaurant, selectedRestaurantID]);
+    };
 
     /**
      * Function to handle close event of confirmation dialog.
      */
-    const handleClose = useCallback(() => {
+    const handleClose = () => {
         setIsDialogOpen(false);
-    }, []);
+    };
 
     /**
      * Function to handle delete restaurant event.

@@ -1,3 +1,5 @@
+import { DietaryCategory } from './menu';
+
 /**
  * Interface defining the restaurant data types.
  */
@@ -27,5 +29,5 @@ export interface Restaurant {
     imageUrl: string;
 
     /** The category or cuisine type of the restaurant. veg/non-veg */
-    type: string;
+    dietaryCategory: DietaryCategory;
 }

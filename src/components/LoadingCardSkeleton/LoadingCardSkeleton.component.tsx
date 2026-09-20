@@ -11,7 +11,7 @@ export const LoadingCardSkeleton = ({
     width = '100%',
     height,
 }: LoadingCardSkeletonProps) => (
-    <CardContainer style={{ width, height }}>
+    <CardContainer width={width} height={height}>
         {/* Card skeleton showing the food items or restaurant cards */}
         <BaseSkeleton
             variant="rectangular"

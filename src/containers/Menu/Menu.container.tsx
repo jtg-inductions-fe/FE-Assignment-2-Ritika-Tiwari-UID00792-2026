@@ -33,7 +33,6 @@ import { Menu as MenuData, SnackbarConfig } from '@types';
 
 import { StyledImage, StyledRestaurantBanner } from './Menu.styles';
 
-
 /**
  * Menu Container
  * provides the business logic for menu page and menu-item state management, including functionality to add, edit, and delete items.
@@ -134,17 +133,14 @@ export const Menu = () => {
                     message: 'Item deleted successfully',
                     variant: 'success',
                 });
+                setItemSelectedForDeletion(null);
             } catch {
                 setSnackBarConfig({
                     open: true,
                     message: 'Some error occurred, Try again later.',
                     variant: 'error',
                 });
-            } finally {
-                setItemSelectedForDeletion(null);
             }
-        } else {
-            setItemSelectedForDeletion(null);
         }
     };
 

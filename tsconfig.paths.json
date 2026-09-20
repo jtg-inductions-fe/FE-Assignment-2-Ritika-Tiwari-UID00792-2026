@@ -13,7 +13,8 @@
             "@containers": ["containers/index"],
             "@hooks": ["hooks/index"],
             "@store": ["store/index"],
-            "@services": ["services/index"]
+            "@services": ["services/index"],
+            "@utils": ["utils/index"]
         }
     }
 }

@@ -32,7 +32,6 @@ export const RestaurantCard = ({
     onClick,
     isClosed,
 }: RestaurantProps) => {
-    
     // Handle the fallback case, if image is null or url is wrong.
     const [imgSrc, setImgSrc] = useState(data.imageUrl || FALLBACK_IMAGE);
     return (
@@ -41,7 +40,6 @@ export const RestaurantCard = ({
                 <StyledCardMedia
                     component="img"
                     image={imgSrc}
-                    alt={data.name || 'Restaurant'}
                     onError={() => {
                         if (imgSrc !== FALLBACK_IMAGE) {
                             setImgSrc(FALLBACK_IMAGE);
@@ -51,19 +49,15 @@ export const RestaurantCard = ({
                 <StyledImageIndicator
                     component="img"
                     image={
-                        data.type === 'veg'
+                        data.dietaryCategory === 'veg'
                             ? vegIndicator
                             : nonVegIndicator
                     }
-                    alt={data.type}
                 />
                 {isClosed && (
                     <StyledClosedTag
                         component="img"
-                        height="240"
-                        image={closedTag}
-                        alt="Restaurant is closed"
-                    />
+                        image={closedTag}                    />
                 )}
 
                 <StyledCardContent>

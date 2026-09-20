@@ -5,7 +5,7 @@
         "name": "Burger",
         "description": "Delicious flame-grilled beef burger with fresh lettuce and tomato.",
         "image_url": "/food-image/food-item1.webp",
-        "type": "non-veg",
+        "dietary_category": "non-veg",
         "price": 100,
         "stock": 50
     },
@@ -15,7 +15,7 @@
         "name": "Cheeseburger",
         "description": "Classic burger topped with melted cheddar cheese, pickles, and mustard.",
         "image_url": "/food-image/food-item2.webp",
-        "type": "veg",
+        "dietary_category": "veg",
         "price": 120,
         "stock": 0
     },
@@ -25,7 +25,7 @@
         "name": "Bacon Burger",
         "description": "Savory burger loaded with crispy bacon stripes and smoky BBQ sauce.",
         "image_url": "/food-image/food-item3.webp",
-        "type": "non-veg",
+        "dietary_category": "non-veg",
         "price": 140,
         "stock": 30
     },
@@ -35,7 +35,7 @@
         "name": "Veggie Burger",
         "description": "Plant-based patty served with ffoodh avocado, sprouts, and vegan mayo.",
         "image_url": "/food-image/food-item4.webp",
-        "type": "veg",
+        "dietary_category": "veg",
         "price": 110,
         "stock": 0
     },
@@ -45,7 +45,7 @@
         "name": "French Fries",
         "description": "Golden, crispy potato fries lightly seasoned with sea salt.",
         "image_url": "/food-image/food-item5.webp",
-        "type": "non-veg",
+        "dietary_category": "non-veg",
         "price": 50,
         "stock": 100
     },
@@ -55,7 +55,7 @@
         "name": "Onion Rings",
         "description": "Crispy batter-fried onion rings served with a tangy dipping sauce.",
         "image_url": "/food-image/food-item6.webp",
-        "type": "non-veg",
+        "dietary_category": "non-veg",
         "price": 60,
         "stock": 60
     },
@@ -65,7 +65,7 @@
         "name": "Chicken Nuggets",
         "description": "Tender white-meat chicken nuggets with a crispy golden coating.",
         "image_url": "/food-image/food-item7.webp",
-        "type": "veg",
+        "dietary_category": "veg",
         "price": 80,
         "stock": 75
     },
@@ -75,7 +75,7 @@
         "name": "Chocolate Milkshake",
         "description": "Rich and creamy chocolate milkshake topped with whipped cream.",
         "image_url": "/food-image/food-item8.webp",
-        "type": "veg",
+        "dietary_category": "veg",
         "price": 70,
         "stock": 35
     },
@@ -85,7 +85,7 @@
         "name": "Vanilla Milkshake",
         "description": "Classic smooth vanilla bean milkshake made with real ice cream.",
         "image_url": "/food-image/food-item9.webp",
-        "type": "non-veg",
+        "dietary_category": "non-veg",
         "price": 70,
         "stock": 30
     },
@@ -95,7 +95,7 @@
         "name": "Soft Drink",
         "description": "Reffoodhing ice-cold carbonated beverage of your choice.",
         "image_url": "/food-image/food-item10.webp",
-        "type": "non-veg",
+        "dietary_category": "non-veg",
         "price": 40,
         "stock": 200
     }
