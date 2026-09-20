@@ -47,8 +47,8 @@ export const CartCard = React.memo(function CartCard({
                     {item.name}
                 </StyledTitle>
             </ItemDetailsGroup>
-
             {/* Shows the cart item quantity selector and sub total of the item. */}
+            {}{' '}
             <InteractiveControlsGroup>
                 {item.stock && (
                     <ItemQuantitySelector

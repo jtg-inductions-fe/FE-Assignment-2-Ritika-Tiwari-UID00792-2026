@@ -1,0 +1,140 @@
+{
+    "orders": [
+        {
+            "order_id": "betwer884793285g435jkbfg98reu65ih34",
+            "order_status": "delivered",
+            "created_at": "2026-09-20T10:15:30Z",
+            "restaurant_details": {
+                "name": "The Burger Shack",
+                "restaurant_id": "rest_987654321"
+            },
+            "customer_details": {
+                "user_id": "usr_11223344",
+                "user_email": "alex.smith@example.com",
+                "address": "123 Maple Street, New York, NY 10001"
+            },
+            "items": [
+                {
+                    "item_id": "81277b12-768a-4422-9f60-072710b6346e",
+                    "name": "Burger",
+                    "image_url": "/food-image/food-item1.webp",
+                    "price": 100.0,
+                    "stock": 10,
+                    "type": "non-veg",
+                    "quantity": 2,
+                    "item_subtotal": 200.0
+                },
+                {
+                    "item_id": "963114f1-8d6c-4719-91f8-864e2257d747",
+                    "name": "Bacon Burger",
+                    "image_url": "/food-image/food-item3.webp",
+                    "price": 140.0,
+                    "stock": 20,
+                    "type": "non-veg",
+                    "quantity": 1,
+                    "item_subtotal": 140.0
+                },
+                {
+                    "item_id": "e4da081a-a040-40f2-a008-45faaa14b8cd",
+                    "name": "French Fries",
+                    "image_url": "/food-image/food-item5.webp",
+                    "price": 50.0,
+                    "stock": 30,
+                    "type": "veg",
+                    "quantity": 2,
+                    "item_subtotal": 100.0
+                }
+            ],
+            "bill_details": {
+                "items_subtotal": 440.0,
+                "delivery_fee": 40.0,
+                "grand_total": 480.0,
+                "items_count": 5
+            }
+        },
+        {
+            "order_id": "cfae9918425g435jkbfg98reu65ih77",
+            "order_status": "preparing",
+            "created_at": "2026-09-20T15:20:00Z",
+            "restaurant_details": {
+                "name": "Pizzeria Napoli",
+                "restaurant_id": "rest_88371920"
+            },
+            "customer_details": {
+                "user_id": "usr_55667788",
+                "user_email": "sarah.j@example.com",
+                "address": "742 Evergreen Terrace, Springfield, IL 62704"
+            },
+            "items": [
+                {
+                    "item_id": "d3b07384-d113-4c4e-9c8e-2895698b6c03",
+                    "name": "Margherita Pizza",
+                    "image_url": "/food-image/pizza-margherita.webp",
+                    "price": 250.0,
+                    "stock": 15,
+                    "type": "veg",
+                    "quantity": 1,
+                    "item_subtotal": 250.0
+                },
+                {
+                    "item_id": "a49bb392-f029-411a-8bde-394c8e192c77",
+                    "name": "Garlic Bread",
+                    "image_url": "/food-image/garlic-bread.webp",
+                    "price": 80.0,
+                    "stock": 40,
+                    "type": "veg",
+                    "quantity": 2,
+                    "item_subtotal": 160.0
+                }
+            ],
+            "bill_details": {
+                "items_subtotal": 410.0,
+                "delivery_fee": 30.0,
+                "grand_total": 440.0,
+                "items_count": 3
+            }
+        },
+        {
+            "order_id": "tqyzi112093285g435jkbfg98reu65ih12",
+            "order_status": "out_for_delivery",
+            "created_at": "2026-09-20T14:45:15Z",
+            "restaurant_details": {
+                "name": "Wok & Roll",
+                "restaurant_id": "rest_44920193"
+            },
+            "customer_details": {
+                "user_id": "usr_99001122",
+                "user_email": "david.k@example.com",
+                "address": "456 Oak Avenue, Los Angeles, CA 90028"
+            },
+            "items": [
+                {
+                    "item_id": "c108bb32-9a3b-4822-ba11-739c941a33df",
+                    "name": "Chicken Hakka Noodles",
+                    "image_url": "/food-image/noodles-chicken.webp",
+                    "price": 180.0,
+                    "stock": 25,
+                    "type": "non-veg",
+                    "quantity": 1,
+                    "item_subtotal": 180.0
+                },
+                {
+                    "item_id": "f882201b-103f-4e92-bc10-293881ca29bb",
+                    "name": "Spring Rolls",
+                    "image_url": "/food-image/spring-rolls.webp",
+                    "price": 60.0,
+                    "stock": 50,
+                    "type": "veg",
+                    "quantity": 3,
+                    "item_subtotal": 180.0
+                }
+            ],
+            "bill_details": {
+                "items_subtotal": 360.0,
+                "delivery_fee": 50.0,
+                "grand_total": 410.0,
+                "items_count": 4
+            }
+        }
+    ]
+}
