@@ -1,3 +1,4 @@
+import { DEFAULT_BILL_DETAILS, DELIVERY_FEE, PERCENT_OF_COST } from '@constant';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Cart, CartItem } from '@types';
 
@@ -7,12 +8,7 @@ const initialState: CartState = {
     cartId: null,
     restaurant: null,
     items: [],
-    billDetails: {
-        itemsSubtotal: 0,
-        deliveryFee: 20,
-        grandTotal: 0,
-        itemsCount: 0,
-    },
+    billDetails: DEFAULT_BILL_DETAILS,
     cartLoading: false,
     cartError: null,
 };
@@ -28,8 +24,8 @@ const recalculateTotals = (state: CartState) => {
     });
 
     if (subTotal > 0) {
-        const onePercentOfCost = subTotal * 0.01;
-        let deliveryFee = Math.max(20, onePercentOfCost);
+        const onePercentOfCost = subTotal * PERCENT_OF_COST;
+        let deliveryFee = Math.max(DELIVERY_FEE, onePercentOfCost);
         deliveryFee = Math.round(deliveryFee * 100) / 100;
 
         state.billDetails.itemsSubtotal = subTotal;

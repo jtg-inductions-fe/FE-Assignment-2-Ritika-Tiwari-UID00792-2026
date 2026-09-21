@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from 'react';
+
 import { BillDetails, CartItem, Restaurant } from '@types';
 /** Interface defining the types of properties that can be passed to cart item card */
 export interface CartItemProps {
@@ -10,11 +12,7 @@ export interface CartItemProps {
     /** Stores the set quantity of items mapped by Card ID. */
     quantities: Record<string, number>;
     /** Callback function to handle the set quantity of items. */
-    setQuantities: (
-        quantities:
-            | Record<string, number>
-            | ((prev: Record<string, number>) => Record<string, number>),
-    ) => void;
+    setQuantities: Dispatch<SetStateAction<Record<string, number>>>;
     /** Callback function to handle the add to cart functionality. */
     onAdd: () => void;
     /** Callback function to handle the delete functionality. */

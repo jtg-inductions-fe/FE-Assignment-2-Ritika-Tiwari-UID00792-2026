@@ -126,11 +126,9 @@ export function MenuCard({
                     </Stack>
                 ) : (
                     <Chip
-                        icon={
-                            item.stock > 0 ? <CheckCircleIcon /> : <BlockIcon />
-                        }
+                        icon={item.stock ? <CheckCircleIcon /> : <BlockIcon />}
                         label={
-                            item.stock > 0
+                            item.stock
                                 ? `${item.stock} in Stock`
                                 : `Out of Stock`
                         }
@@ -155,31 +153,23 @@ export function MenuCard({
                         width="100%"
                     >
                         <Button variant="text" onClick={onEdit}>
-                            <Typography variant="button" textTransform="none">
-                                Edit
-                            </Typography>
+                            <Typography variant="button">Edit</Typography>
                         </Button>
                         <Button
                             variant="outlined"
                             color="error"
                             onClick={onDelete}
                         >
-                            <Typography variant="button" textTransform="none">
-                                Delete
-                            </Typography>
+                            <Typography variant="button">Delete</Typography>
                         </Button>
                     </Box>
                 ) : /* For customers: swap between ItemQuantitySelector and Add to Cart button */
-                quantities[item.itemId] > 0 && confirmationType !== 'change' ? (
+                quantities[item.itemId] && confirmationType !== 'change' ? (
                     <ItemQuantitySelector
                         key={item.itemId}
+                        itemId={item.itemId}
                         quantity={quantities[item.itemId]}
-                        setQuantity={(newQty: number) => {
-                            setQuantities((prev) => ({
-                                ...prev,
-                                [item.itemId]: newQty,
-                            }));
-                        }}
+                        setQuantities={setQuantities}
                         maxQuantity={item.stock}
                         onIncrease={onPrimaryAction}
                         onDecrease={() => handleRemoveFromCart(item.itemId)}
@@ -196,9 +186,7 @@ export function MenuCard({
                         }}
                         disabled={item.stock === 0}
                     >
-                        <Typography variant="button" textTransform="none">
-                            Add to cart
-                        </Typography>
+                        <Typography variant="button">Add to cart</Typography>
                     </Button>
                 )}
             </StyledCardContent>

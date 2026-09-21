@@ -58,6 +58,7 @@ export const Cart = () => {
      * Function to handle place order functionality from cart.
      */
     const handlePlaceOrder = () => {
+        //TODO - This will be handled properly in the order portal.
         handleClearCart();
         void navigate(ROUTES.ORDER_PORTAl);
     };
@@ -172,7 +173,6 @@ export const Cart = () => {
                             <StyledCardMedia
                                 component="img"
                                 image={imgSrc}
-                                alt={restaurant?.name}
                                 onError={() => {
                                     if (imgSrc !== FALLBACK_IMAGE) {
                                         setImgSrc(FALLBACK_IMAGE);
@@ -187,7 +187,7 @@ export const Cart = () => {
                             variant="contained"
                             onClick={handleBackNavigation}
                         >
-                            <Typography variant="button" textTransform="none">
+                            <Typography variant="button">
                                 Add More Items
                             </Typography>
                         </Button>
@@ -316,9 +316,7 @@ export const Cart = () => {
                         height={500}
                     />
                     <Button variant="contained" onClick={handleBackNavigation}>
-                        <Typography variant="button" textTransform="none">
-                            Add Items
-                        </Typography>
+                        <Typography variant="button">Add Items</Typography>
                     </Button>
                 </EmptyCart>
             )}
@@ -356,14 +354,10 @@ export const Cart = () => {
                             setIsDialogOpen(true);
                         }}
                     >
-                        <Typography variant="button" textTransform="none">
-                            Clear cart
-                        </Typography>
+                        <Typography variant="button">Clear cart</Typography>
                     </Button>
                     <Button variant="contained" onClick={handlePlaceOrder}>
-                        <Typography variant="button" textTransform="none">
-                            Proceed to pay
-                        </Typography>
+                        <Typography variant="button">Proceed to pay</Typography>
                     </Button>
                 </ActionWrapper>
             )}

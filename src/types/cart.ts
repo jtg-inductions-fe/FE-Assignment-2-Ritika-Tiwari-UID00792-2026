@@ -1,10 +1,11 @@
+import { DietaryCategory } from './menu';
 import { Restaurant } from './restaurant';
 
 export interface CartItem {
     itemId: string;
     name: string;
     imageUrl: string;
-    type: string;
+    dietaryCategory: DietaryCategory;
     price: number;
     stock: number;
     quantity: number;

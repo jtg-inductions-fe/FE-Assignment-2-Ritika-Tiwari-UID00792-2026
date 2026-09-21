@@ -63,14 +63,9 @@ export const useMenu = (restaurantId: string | undefined) => {
             dispatch(
                 addItemToCart({
                     item: {
-                        itemId: item.itemId,
-                        name: item.name,
-                        imageUrl: item.imageUrl,
-                        price: item.price,
-                        stock: item.stock,
-                        type: item.type,
-                        quantity: 0,
-                        itemSubtotal: 0,
+                        ...item,
+                        quantity: 1,
+                        itemSubtotal: item.price,
                     },
                 }),
             );

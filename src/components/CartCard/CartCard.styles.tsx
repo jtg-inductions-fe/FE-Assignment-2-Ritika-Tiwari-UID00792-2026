@@ -15,6 +15,13 @@ export const StyledCard = styled(Card)(({ theme }) => ({
     },
 }));
 
+export const StyledImage = styled('img')(({ theme }) => ({
+    width: 20,
+    height: 20,
+    objectFit: 'cover',
+    backgroundColor: theme.palette.background.default,
+}));
+
 export const ItemDetailsGroup = styled(Box)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'row',

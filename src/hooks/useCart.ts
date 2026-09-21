@@ -12,7 +12,7 @@ import {
     useAppDispatch,
     useAppSelector,
 } from '@store';
-import { Cart, CartItem } from '@types';
+import { Cart, CartItem, RestaurantStatus } from '@types';
 
 /**
  * A custom React hook to manage all shopping cart operations and state.
@@ -67,12 +67,11 @@ export const useCart = () => {
 
     /**
      * Adds an item to the shopping cart if it is in stock.
-     * @param {CartItem} item -Item to be added to the cart.
+     * @param CartItem item -Item to be added to the cart.
      */
     const handleAddToCart = useCallback(
         (item: CartItem) => {
-            if (!item) return;
-            if (item.stock <= 0) return;
+            if (!item || item.stock) return;
 
             dispatch(
                 addItemToCart({
@@ -82,7 +81,7 @@ export const useCart = () => {
                         imageUrl: item.imageUrl,
                         price: item.price,
                         stock: item.stock,
-                        type: item.type,
+                        dietaryCategory: item.dietaryCategory,
                         quantity: 0,
                         itemSubtotal: 0,
                     },
@@ -133,23 +132,20 @@ export const useCart = () => {
      *          'CONFLICT' if it's a different restaurant.
      */
     const checkCurrentActiveRestaurant = useCallback(
-        (restaurantId: string | undefined) => {
+        (restaurantId: string | undefined): RestaurantStatus => {
             const currentRestaurantId = restaurant?.restaurantId;
 
-            // 1. Check if the cart/restaurant state is empty
-            if (
-                currentRestaurantId === null ||
-                currentRestaurantId === undefined
-            ) {
+            // Check if the cart/restaurant state is empty
+            if (!currentRestaurantId) {
                 return 'EMPTY';
             }
 
-            // 2. Check if the restaurants match
+            // Check if the restaurants match
             if (currentRestaurantId === restaurantId) {
                 return 'MATCH';
             }
 
-            // 3. Otherwise, there is a conflict
+            // Otherwise, there is a conflict
             return 'CONFLICT';
         },
         [restaurant?.restaurantId],

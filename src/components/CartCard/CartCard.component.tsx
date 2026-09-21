@@ -4,7 +4,6 @@ import { Typography } from '@mui/material';
 import nonVegIndicator from '@assets/images/non-veg-indicator.webp';
 import vegIndicator from '@assets/images/veg-indicator.webp';
 import { ItemQuantitySelector } from '@components';
-import { useCart } from '@hooks';
 import { theme } from '@theme';
 
 import {
@@ -12,6 +11,7 @@ import {
     ItemDetailsGroup,
     PriceWrapper,
     StyledCard,
+    StyledImage,
     StyledTitle,
 } from './CartCard.styles';
 import { CartItemProps } from './CartCard.types';
@@ -26,23 +26,20 @@ export function CartCard({
     quantities,
     setQuantities,
     onAdd,
+    onRemove,
 }: CartItemProps) {
-    const { handleRemoveFromCart } = useCart();
-
     return (
         <StyledCard>
             {/* Shows the details of the items. */}
             <ItemDetailsGroup>
                 {/* Image to indicate the type of the food item. */}
-                <img
-                    src={item.type === 'veg' ? vegIndicator : nonVegIndicator}
-                    alt={item.type}
-                    style={{
-                        width: 20,
-                        height: 20,
-                        objectFit: 'cover',
-                        backgroundColor: theme.palette.background.default,
-                    }}
+                <StyledImage
+                    src={
+                        item.dietaryCategory === 'veg'
+                            ? vegIndicator
+                            : nonVegIndicator
+                    }
+                    alt={item.dietaryCategory}
                 />
                 <StyledTitle variant="body2" fontWeight={500}>
                     {item.name}
@@ -51,19 +48,15 @@ export function CartCard({
 
             {/* Shows the cart item quantity selector and sub total of the item. */}
             <InteractiveControlsGroup>
-                {item.stock > 0 && (
+                {item.stock && (
                     <ItemQuantitySelector
                         key={item.itemId}
+                        itemId={item.itemId}
                         quantity={quantities[item.itemId] ?? item.quantity}
-                        setQuantity={(newQty: number) => {
-                            setQuantities((prev) => ({
-                                ...prev,
-                                [item.itemId]: newQty,
-                            }));
-                        }}
+                        setQuantities={setQuantities}
                         maxQuantity={item.stock}
                         onIncrease={onAdd}
-                        onDecrease={() => handleRemoveFromCart(item.itemId)}
+                        onDecrease={onRemove}
                     />
                 )}
 

@@ -14,22 +14,29 @@ import { ItemQuantitySelectorProps } from './ItemQuantitySelector.types';
  * @return - a rendered quantity controller with plus and minus buttons.
  */
 export const ItemQuantitySelector = ({
+    itemId,
     quantity,
-    setQuantity,
+    setQuantities,
     maxQuantity = 10,
     onIncrease,
     onDecrease,
 }: ItemQuantitySelectorProps) => {
     const handleIncrement = () => {
         if (quantity < maxQuantity) {
-            setQuantity(quantity + 1);
+            setQuantities((prev) => ({
+                ...prev,
+                [itemId]: quantity + 1,
+            }));
         }
         onIncrease();
     };
 
     const handleDecrement = () => {
         if (quantity > 0) {
-            setQuantity(quantity - 1);
+            setQuantities((prev) => ({
+                ...prev,
+                [itemId]: quantity - 1,
+            }));
         }
         onDecrease();
     };

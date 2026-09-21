@@ -31,3 +31,5 @@ export interface Restaurant {
     /** The category or cuisine type of the restaurant. veg/non-veg */
     dietaryCategory: DietaryCategory;
 }
+
+export type RestaurantStatus = 'EMPTY' | 'MATCH' | 'CONFLICT';

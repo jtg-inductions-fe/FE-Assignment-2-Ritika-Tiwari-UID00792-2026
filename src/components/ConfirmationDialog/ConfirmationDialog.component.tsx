@@ -88,7 +88,6 @@ export const ConfirmationDialog = ({
                         variant="button"
                         component="span"
                         color="color.primary.contrastText"
-                        textTransform="none"
                     >
                         Cancel
                     </Typography>
@@ -98,7 +97,6 @@ export const ConfirmationDialog = ({
                         variant="button"
                         component="span"
                         color="color.primary.contrastText"
-                        textTransform="none"
                     >
                         Yes
                     </Typography>
