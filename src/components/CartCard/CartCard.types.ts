@@ -8,7 +8,7 @@ export interface CartItemProps {
     /** Stores the set quantity of items mapped by Card ID. */
     quantities?: Record<string, number>;
     /** Callback function to handle the set quantity of items. */
-    setQuantities: Dispatch<SetStateAction<Record<string, number>>>;
+    setQuantities?: Dispatch<SetStateAction<Record<string, number>>>;
     /** Callback function to handle the add to cart functionality. */
     onAdd?: () => void;
     /** Callback function to handle the delete functionality. */

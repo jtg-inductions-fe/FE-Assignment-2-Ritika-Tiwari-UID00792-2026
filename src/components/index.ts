@@ -15,4 +15,4 @@ export * from './MenuCard/MenuCard.component';
 export * from './ItemQuantitySelector/ItemQuantitySelector.component';
 export * from './CartCard/CartCard.component';
 export * from './OrderAccordion/OrderAccordion.component';
-export * from './OrderStatusTracker/OrderStatusTracker';
+export * from './OrderStatusTracker/OrderStatusTracker.component';

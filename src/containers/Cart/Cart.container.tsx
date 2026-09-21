@@ -17,7 +17,7 @@ import {
 import { useCart } from '@hooks';
 import { ROUTES } from '@routes';
 import { theme } from '@theme';
-import { SnackbarConfig } from '@types';
+import { CartItem, SnackbarConfig } from '@types';
 
 import { ActionWrapper, EmptyCart, StyledCardMedia } from './Cart.styles';
 
@@ -204,7 +204,7 @@ export const Cart = () => {
                     alignItems="center"
                     justifyContent="start"
                 >
-                    {items.map((item) => (
+                    {items.map((item: CartItem) => (
                         <CartCard
                             key={item.itemId}
                             item={item}

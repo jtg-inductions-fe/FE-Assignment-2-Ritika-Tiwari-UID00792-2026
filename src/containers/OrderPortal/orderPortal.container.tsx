@@ -5,8 +5,9 @@ import { fetchOrderData } from 'services/order.services';
 import { Box } from '@mui/material';
 
 import { OrderAccordion, Snackbar } from '@components';
+import { useAuth } from '@hooks';
 import { theme } from '@theme';
-import { Order, SnackbarConfig } from '@types';
+import { Order, SnackbarConfig, User } from '@types';
 
 /**
  * Renders order container.
@@ -22,10 +23,6 @@ export const OrderPortal = () => {
 
     const [orderData, setOrderData] = useState<Order[]>([]);
 
-    /**
-     * Automatically fetches the user's cart data from the server
-     * when the component using this hook mounts.
-     */
     useEffect(() => {
         const controller = new AbortController();
 
@@ -37,7 +34,6 @@ export const OrderPortal = () => {
                 setOrderData(data);
             } catch (err) {
                 if (err instanceof Error && err.name === 'AbortError') return;
-                // Optionally update snackbarConfig here to display fetch errors to the user
             }
         };
 
@@ -48,6 +44,17 @@ export const OrderPortal = () => {
         };
     }, []);
 
+    const { fetchCurrentUser } = useAuth();
+    const user = fetchCurrentUser() as User;
+
+    /**
+     *Function to handle the status change event by owner.
+     *@param newStatus - take the new status od order.
+     */
+    // const handleStatusChange=useCallback((newStatus:string)=>{
+
+    // },[])
+
     return (
         <Box flexGrow={1} marginBlock={theme.spacing(8)}>
             <Box
@@ -57,9 +64,13 @@ export const OrderPortal = () => {
                 flexGrow={1}
                 gap={theme.spacing(4)}
             >
-                {/* Map through all orders and supply a unique key (assuming order has an id property) */}
                 {orderData.map((order) => (
-                    <OrderAccordion key={order.orderId} data={order} />
+                    <OrderAccordion
+                        key={order.orderId}
+                        data={order}
+                        userRole={user?.role}
+                        onStatusChange={() => {}}
+                    />
                 ))}
             </Box>
             <Snackbar

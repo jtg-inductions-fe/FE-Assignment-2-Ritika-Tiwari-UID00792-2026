@@ -1,8 +1,7 @@
-import * as React from 'react';
-
 import { CartCard } from 'components/CartCard/CartCard.component';
-import OrderStatusTracker from 'components/OrderStatusTracker/OrderStatusTracker';
+import OrderStatusTracker from 'components/OrderStatusTracker/OrderStatusTracker.component';
 
+import { CurrencyRupee } from '@mui/icons-material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Box } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
@@ -14,15 +13,17 @@ import { theme } from '@theme';
 
 import { OrderAccordionProps } from './OrderAccordion.types';
 
-export const OrderAccordion = ({ data }: OrderAccordionProps) => {
-    const id = React.useId();
-
+export const OrderAccordion = ({
+    data,
+    userRole,
+    onStatusChange,
+}: OrderAccordionProps) => {
     return (
         <Accordion>
             <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
-                aria-controls={`${id}-panel1-content`}
-                id={`${id}-panel1-header`}
+                aria-controls={`${data.orderId}-panel1-content`}
+                id={`${data.orderId}-panel1-header`}
             >
                 <Box
                     width="100%"
@@ -73,8 +74,91 @@ export const OrderAccordion = ({ data }: OrderAccordionProps) => {
                             item={item}
                         />
                     ))}
+                    <Box
+                        display="flex"
+                        flexDirection="column"
+                        gap={theme.spacing(4)}
+                        width="100%"
+                        marginTop={theme.spacing(8)}
+                    >
+                        <Typography variant="h6">Bill Details</Typography>
+
+                        <Box
+                            display="flex"
+                            flexDirection="row"
+                            justifyContent="space-between"
+                            width="100%"
+                        >
+                            <Typography
+                                variant="subtitle2"
+                                color={theme.palette.text.secondary}
+                            >
+                                Total Items
+                            </Typography>
+                            <Typography
+                                variant="subtitle2"
+                                color={theme.palette.text.secondary}
+                            >
+                                {data.billDetails.itemsCount}
+                            </Typography>
+                        </Box>
+                        <Box
+                            display="flex"
+                            flexDirection="row"
+                            justifyContent="space-between"
+                            width="100%"
+                        >
+                            <Typography
+                                variant="subtitle2"
+                                color={theme.palette.text.secondary}
+                            >
+                                Delivery Charges
+                            </Typography>
+                            <Box display="flex" alignItems="center">
+                                <CurrencyRupee
+                                    color="primary"
+                                    fontSize="small"
+                                />
+                                <Typography
+                                    variant="subtitle2"
+                                    color={theme.palette.text.secondary}
+                                >
+                                    {data.billDetails.deliveryFee}
+                                </Typography>
+                            </Box>
+                        </Box>
+                        <Box
+                            display="flex"
+                            flexDirection="row"
+                            justifyContent="space-between"
+                            width="100%"
+                        >
+                            <Typography
+                                variant="subtitle2"
+                                color={theme.palette.text.secondary}
+                            >
+                                Grand Total
+                            </Typography>
+                            <Box display="flex" alignItems="center">
+                                <CurrencyRupee
+                                    color="primary"
+                                    fontSize="small"
+                                />
+                                <Typography
+                                    variant="subtitle2"
+                                    color={theme.palette.text.secondary}
+                                >
+                                    {data.billDetails.grandTotal}
+                                </Typography>
+                            </Box>
+                        </Box>
+                    </Box>
                 </Box>
-                <OrderStatusTracker />
+                <OrderStatusTracker
+                    userRole={userRole}
+                    status={data.orderStatus}
+                    onStatusChange={onStatusChange}
+                />
             </AccordionDetails>
         </Accordion>
     );

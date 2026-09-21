@@ -12,3 +12,11 @@ export interface Order {
     items: CartItem[];
     billDetails: BillDetails;
 }
+
+export type OrderStatus = [
+    'Pending',
+    'Accepted',
+    'Preparing',
+    'Out for Delivery',
+    'Delivered',
+];
