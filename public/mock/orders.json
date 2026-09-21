@@ -1,7 +1,7 @@
 [
     {
         "order_id": "betwer884793285g435jkbfg98reu65ih34",
-        "order_status": "delivered",
+        "order_status": "Pending",
         "created_at": "2026-09-20T10:15:30Z",
         "restaurant_details": {
             "name": "The Burger Shack",
@@ -47,7 +47,7 @@
     },
     {
         "order_id": "cfae9918425g435jkbfg98reu65ih77",
-        "order_status": "preparing",
+        "order_status": "Preparing",
         "created_at": "2026-09-20T15:20:00Z",
         "restaurant_details": {
             "name": "Pizzeria Napoli",
@@ -85,7 +85,7 @@
     },
     {
         "order_id": "tqyzi112093285g435jkbfg98reu65ih12",
-        "order_status": "out_for_delivery",
+        "order_status": "Out for delivery",
         "created_at": "2026-09-20T14:45:15Z",
         "restaurant_details": {
             "name": "Wok & Roll",

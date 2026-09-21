@@ -5,18 +5,22 @@ import { Restaurant } from './restaurant';
 
 export interface Order {
     orderId: string;
-    orderStatus: string;
+    orderStatus: OrderStatus;
     createdAt: string;
     customerDetails: User;
     restaurantDetails: Restaurant;
     items: CartItem[];
     billDetails: BillDetails;
 }
-
-export type OrderStatus = [
+// Define the array as a read-only tuple using 'as const'
+export const ORDER_STATUS = [
     'Pending',
     'Accepted',
     'Preparing',
-    'Out for Delivery',
+    'Out for delivery',
     'Delivered',
-];
+    'Rejected',
+] as const;
+
+// This creates the type: 'Pending' | 'Accepted' | 'Preparing' | 'Out for delivery' | 'Delivered' | 'Rejected'
+export type OrderStatus = (typeof ORDER_STATUS)[number];

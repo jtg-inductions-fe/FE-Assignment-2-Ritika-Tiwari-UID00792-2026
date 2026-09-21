@@ -1,13 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { fetchOrderData } from 'services/order.services';
+import {
+    setOrderError,
+    setOrderLoading,
+    setOrders,
+    updateOrderStatus,
+} from 'store/slices/Order/orderSlice';
 
 import { Box } from '@mui/material';
 
 import { OrderAccordion, Snackbar } from '@components';
 import { useAuth } from '@hooks';
+import { useAppDispatch, useAppSelector } from '@store';
 import { theme } from '@theme';
-import { Order, SnackbarConfig, User } from '@types';
+import { OrderStatus, SnackbarConfig, User } from '@types';
 
 /**
  * Renders order container.
@@ -20,20 +27,36 @@ export const OrderPortal = () => {
         message: '',
         variant: 'success',
     });
+    const dispatch = useAppDispatch();
+    const { orders } = useAppSelector((state) => state.order);
 
-    const [orderData, setOrderData] = useState<Order[]>([]);
-
+    /**
+     * Automatically fetches the user's cart data from the server
+     * when the component using this hook mounts.
+     */
     useEffect(() => {
         const controller = new AbortController();
-
         const fetchData = async () => {
             try {
-                const data = (await fetchOrderData({
+                dispatch(setOrderLoading(true));
+                dispatch(setOrderError(null));
+
+                const orderData = await fetchOrderData({
                     signal: controller.signal,
-                })) as Order[];
-                setOrderData(data);
+                });
+                dispatch(setOrders(orderData));
             } catch (err) {
                 if (err instanceof Error && err.name === 'AbortError') return;
+
+                dispatch(
+                    setOrderError(
+                        err instanceof Error
+                            ? err.message
+                            : 'An error occurred',
+                    ),
+                );
+            } finally {
+                dispatch(setOrderLoading(false));
             }
         };
 
@@ -42,18 +65,31 @@ export const OrderPortal = () => {
         return () => {
             controller.abort();
         };
-    }, []);
+    }, [dispatch]);
 
     const { fetchCurrentUser } = useAuth();
     const user = fetchCurrentUser() as User;
 
     /**
-     *Function to handle the status change event by owner.
-     *@param newStatus - take the new status od order.
+     * Function to handle the status change event by owner.
+     * @param newStatus - take the new status of order.
      */
-    // const handleStatusChange=useCallback((newStatus:string)=>{
+    const handleStatusChange = useCallback(
+        (orderId: string, newStatus: OrderStatus) => {
+            dispatch(
+                updateOrderStatus({ orderId: orderId, status: newStatus }),
+            );
+        },
+        [dispatch],
+    );
 
-    // },[])
+    const [expandedPanel, setExpandedPanel] = useState<string | false>(false);
+
+    const handleAccordionChange =
+        (panelId: string) =>
+        (_event: React.SyntheticEvent, isExpanded: boolean) => {
+            setExpandedPanel(isExpanded ? panelId : false);
+        };
 
     return (
         <Box flexGrow={1} marginBlock={theme.spacing(8)}>
@@ -64,12 +100,14 @@ export const OrderPortal = () => {
                 flexGrow={1}
                 gap={theme.spacing(4)}
             >
-                {orderData.map((order) => (
+                {orders.map((order) => (
                     <OrderAccordion
                         key={order.orderId}
                         data={order}
                         userRole={user?.role}
-                        onStatusChange={() => {}}
+                        onStatusChange={handleStatusChange}
+                        isExpanded={expandedPanel === order.orderId}
+                        onToggle={handleAccordionChange(order.orderId)}
                     />
                 ))}
             </Box>

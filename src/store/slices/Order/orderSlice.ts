@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { OrderStatus } from '@types';
 
 import { Order, OrderState } from './order.types';
 
@@ -41,7 +42,7 @@ export const orderSlice = createSlice({
             state,
             action: PayloadAction<{
                 orderId: string;
-                status: Order['orderStatus'];
+                status: OrderStatus;
             }>,
         ) => {
             const { orderId, status } = action.payload;

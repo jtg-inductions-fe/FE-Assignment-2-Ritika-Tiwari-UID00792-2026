@@ -1,8 +1,8 @@
-import { BillDetails, CartItem, Restaurant, User } from '@types';
+import { BillDetails, CartItem, OrderStatus, Restaurant, User } from '@types';
 
 export interface Order {
     orderId: string;
-    orderStatus: 'preparing' | 'out_for_delivery' | 'delivered' | 'cancelled';
+    orderStatus: OrderStatus;
     createdAt: string;
     restaurantDetails: Restaurant;
     customerDetails: User;

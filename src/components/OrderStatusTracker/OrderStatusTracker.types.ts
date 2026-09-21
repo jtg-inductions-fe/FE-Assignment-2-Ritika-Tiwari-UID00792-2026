@@ -1,7 +1,8 @@
-import { UserRole } from '@types';
+import { OrderStatus, UserRole } from '@types';
 
 export interface OrderStatusTrackerProps {
+    orderId: string;
     userRole: UserRole;
-    status: string;
-    onStatusChange?: (newStatus: string) => void;
+    orderStatus: OrderStatus;
+    onStatusChange?: (orderId: string, newStatus: OrderStatus) => void;
 }

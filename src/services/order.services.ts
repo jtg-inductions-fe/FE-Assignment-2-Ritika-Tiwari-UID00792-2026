@@ -16,7 +16,7 @@ export const fetchOrderData = async (options?: RequestInit) => {
     const data = (await response.json()) as Order[];
     const camelCaseData = camelcaseKeys(data, {
         deep: true,
-    });
+    }) as Order[];
 
     return camelCaseData;
 };
