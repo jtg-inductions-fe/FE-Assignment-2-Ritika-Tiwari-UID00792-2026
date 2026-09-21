@@ -1,4 +1,11 @@
-import { Box, Button, Step, StepLabel, Stepper } from '@mui/material';
+import {
+    Box,
+    Button,
+    Step,
+    StepLabel,
+    Stepper,
+    useMediaQuery,
+} from '@mui/material';
 
 import { theme } from '@theme';
 import { ORDER_STATUS } from '@types';
@@ -17,6 +24,8 @@ export const OrderStatusTracker = ({
     orderStatus,
     onStatusChange,
 }: OrderStatusTrackerProps) => {
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
     // Derive the active index from the incoming status prop
     let activeStep = ORDER_STATUS.indexOf(orderStatus);
 
@@ -53,7 +62,11 @@ export const OrderStatusTracker = ({
         <Box width="100%" marginTop={theme.spacing(4)}>
             {/* MUI Stepper Component */}
             {orderStatus !== 'Rejected' && (
-                <Stepper activeStep={currentStep} alternativeLabel>
+                <Stepper
+                    activeStep={currentStep}
+                    orientation={isMobile ? 'vertical' : 'horizontal'}
+                    alternativeLabel={!isMobile}
+                >
                     {ORDER_STATUS.filter(
                         (label) => label.toLowerCase() !== 'rejected',
                     ).map((label) => (
@@ -70,7 +83,7 @@ export const OrderStatusTracker = ({
                     display="flex"
                     justifyContent="center"
                     gap={theme.spacing(4)}
-                    marginTop={theme.spacing(4)}
+                    marginBlock={theme.spacing(4)}
                 >
                     {orderStatus !== 'Rejected' &&
                         orderStatus !== 'Delivered' && (

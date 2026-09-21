@@ -36,36 +36,45 @@ export const OrderAccordion = ({
             <Box
                 width="100%"
                 display="flex"
-                flexDirection="column"
-                justifyItems="space-between"
+                flexDirection="row"
+                justifyContent="space-between"
+                alignItems="start"
                 padding={theme.spacing(4)}
+                gap={theme.spacing(4)}
             >
                 <Box
                     display="flex"
-                    flexDirection="row"
+                    flexDirection="column"
                     justifyContent="space-between"
                 >
                     <Typography variant="h6" color="text.primary">
                         {data.restaurantDetails.name}
                     </Typography>
+                    <Typography variant="body2">
+                        Created At: {new Date(data.createdAt).toLocaleString()}
+                    </Typography>
+                </Box>
+                <Box
+                    display="flex"
+                    flexDirection="column"
+                    alignItems="end"
+                    justifyContent="flex-end"
+                >
                     <Typography
                         variant="caption"
+                        textAlign="end"
                         color={
                             STATUS_COLORS[data.orderStatus] || 'text.secondary'
                         }
                     >
                         {data.orderStatus}
                     </Typography>
-                </Box>
-                <Box
-                    display="flex"
-                    flexDirection="row"
-                    justifyContent="space-between"
-                >
-                    <Typography variant="body2">
-                        Created At: {new Date(data.createdAt).toLocaleString()}
-                    </Typography>
-                    <Box display="flex" alignItems="center">
+
+                    <Box
+                        display="flex"
+                        alignItems="end"
+                        justifyContent="flex-end"
+                    >
                         <CurrencyRupee color="primary" fontSize="small" />
                         <Typography
                             variant="subtitle2"
@@ -99,7 +108,7 @@ export const OrderAccordion = ({
                     flexDirection="column"
                     gap={theme.spacing(4)}
                     width="100%"
-                    marginTop={theme.spacing(8)}
+                    marginTop={theme.spacing(4)}
                 >
                     <Typography variant="h6">Bill Details</Typography>
 

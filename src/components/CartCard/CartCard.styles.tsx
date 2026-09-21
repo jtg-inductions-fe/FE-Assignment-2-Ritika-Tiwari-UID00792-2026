@@ -34,10 +34,12 @@ export const InteractiveControlsGroup = styled(Box)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'end',
-    gap: theme.spacing(3),
+    justifyContent: 'center',
+    maxWidth: 100,
+    gap: theme.spacing(4),
     flexWrap: 'wrap',
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('sm')]: {
+        minWidth: 150,
         flexDirection: 'row',
         gap: theme.spacing(1),
     },
@@ -49,7 +51,7 @@ export const PriceWrapper = styled(Box)({
     alignItems: 'center',
 });
 export const StyledTitle = styled(Typography)({
-    maxWidth: 150,
+    maxWidth: 120,
     wordBreak: 'break-word',
     whiteSpace: 'normal',
     overflowWrap: 'anywhere',
