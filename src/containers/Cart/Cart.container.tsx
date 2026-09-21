@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
+import { addNewOrder } from 'store/slices/Order/orderSlice';
 
 import { CurrencyRupee } from '@mui/icons-material';
 import { Box, Button, Divider, Stack, Typography } from '@mui/material';
@@ -14,10 +15,11 @@ import {
     NullStateCard,
     Snackbar,
 } from '@components';
-import { useCart } from '@hooks';
+import { useAuth, useCart } from '@hooks';
 import { ROUTES } from '@routes';
+import { useAppDispatch } from '@store';
 import { theme } from '@theme';
-import { CartItem, SnackbarConfig } from '@types';
+import { CartItem, ORDER_STATUS, SnackbarConfig } from '@types';
 
 import { ActionWrapper, EmptyCart, StyledCardMedia } from './Cart.styles';
 
@@ -39,6 +41,8 @@ export const Cart = () => {
         handleAddToCart,
     } = useCart();
 
+    const {fetchCurrentUser}= useAuth();
+
     // State to manage the configuration (visibility, message and state) of the snackbar.
     const [snackbarConfig, setSnackBarConfig] = useState<SnackbarConfig>({
         open: false,
@@ -56,15 +60,6 @@ export const Cart = () => {
      */
     const handleBackNavigation = () => {
         void navigate(-1);
-    };
-
-    /**
-     * Function to handle place order functionality from cart.
-     */
-    const handlePlaceOrder = () => {
-        //TODO - This will be handled properly in the order portal.
-        handleClearCart();
-        void navigate(ROUTES.ORDER_PORTAl);
     };
 
     /**
@@ -114,6 +109,49 @@ export const Cart = () => {
     const handleClose = useCallback(() => {
         setIsDialogOpen(false);
     }, []);
+
+    const dispatch = useAppDispatch();
+    const currentUser = fetchCurrentUser();
+
+    /**
+     * Function to handle place order functionality from cart.
+     * @param items- takes the cart items and create the new order, for cart items.
+     */
+    const handlePlaceOrder = (orderItems: CartItem[]) => {
+        //Create the new order only if customer data and restaurant data is accurate.
+        if (restaurant && currentUser) {
+            const newOrder = {
+                orderId: crypto.randomUUID(),
+                orderStatus: ORDER_STATUS[0],
+                createdAt: new Date().toISOString(),
+                customerDetails: {
+                    ...currentUser,
+                    address: '123 Maple Street, New York, NY 10001',
+                },
+                restaurantDetails: restaurant,
+                items: orderItems,
+                billDetails: billDetails,
+            };
+
+            setSnackBarConfig({
+                open: true,
+                message: 'Order placed successfully.',
+                variant: 'success',
+            });
+            try {
+                dispatch(addNewOrder(newOrder));
+                handleClearCart();
+                void navigate(ROUTES.ORDER_PORTAl);
+            } catch {
+                setSnackBarConfig({
+                    open: true,
+                    message: 'Order is not placed, try again later.',
+                    variant: 'error',
+                });
+            }
+        }
+    };
+
 
     //  Loads the current active restaurant's image when the restaurant change
     useEffect(() => {
@@ -348,7 +386,10 @@ export const Cart = () => {
                     >
                         <Typography variant="button">Clear cart</Typography>
                     </Button>
-                    <Button variant="contained" onClick={handlePlaceOrder}>
+                    <Button
+                        variant="contained"
+                        onClick={() => handlePlaceOrder(items)}
+                    >
                         <Typography variant="button">Proceed to pay</Typography>
                     </Button>
                 </ActionWrapper>

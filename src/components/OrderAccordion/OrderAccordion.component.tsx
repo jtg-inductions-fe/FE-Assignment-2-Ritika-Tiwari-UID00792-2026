@@ -1,5 +1,6 @@
 import { CartCard } from 'components/CartCard/CartCard.component';
-import OrderStatusTracker from 'components/OrderStatusTracker/OrderStatusTracker.component';
+import { OrderStatusTracker } from 'components/OrderStatusTracker/OrderStatusTracker.component';
+import { STATUS_COLORS } from 'constant/orderConstants';
 
 import { CurrencyRupee } from '@mui/icons-material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -10,24 +11,15 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 
 import { theme } from '@theme';
-import { OrderStatus } from '@types';
 
-// Update your OrderAccordionProps interface to include these two props:
-// isExpanded: boolean;
-// onToggle: (event: React.SyntheticEvent, isExpanded: boolean) => void;
 import { OrderAccordionProps } from './OrderAccordion.types';
 
-const STATUS_COLORS: Record<OrderStatus, string> = {
-    Pending: 'warning.main',
-    'Out for delivery': 'info.main', // Make sure casing matches your type exactly
-    Rejected: 'error.main',
-
-    // Add fallback colors for the other statuses so TypeScript is satisfied
-    Accepted: 'success.main',
-    Preparing: 'info.main',
-    Delivered: 'success.dark',
-};
-
+/**
+ * OrderAccordion component to show orders as accordions.
+ *
+ * @param OrderAccordionProps -  The configuration properties for the rendering of order accordion component.
+ * @returns returns the JSX.Element
+ */
 export const OrderAccordion = ({
     data,
     userRole,
@@ -71,11 +63,17 @@ export const OrderAccordion = ({
                     justifyContent="space-between"
                 >
                     <Typography variant="body2">
-                        Created At: {data.createdAt}{' '}
+                        Created At: {new Date(data.createdAt).toLocaleString()}
                     </Typography>
-                    <Typography variant="body2">
-                        Total amount: {data.billDetails.grandTotal}
-                    </Typography>
+                    <Box display="flex" alignItems="center">
+                        <CurrencyRupee color="primary" fontSize="small" />
+                        <Typography
+                            variant="subtitle2"
+                            color={theme.palette.text.secondary}
+                        >
+                            {data.billDetails.grandTotal}
+                        </Typography>
+                    </Box>
                 </Box>
             </Box>
         </AccordionSummary>
@@ -87,6 +85,7 @@ export const OrderAccordion = ({
                 alignItems="start"
                 justifyContent="space-between"
                 gap={theme.spacing(4)}
+                padding={theme.spacing(4)}
             >
                 {data.items.map((item) => (
                     <CartCard

@@ -1,11 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { OrderStatus } from '@types';
+import { Order, OrderStatus } from '@types';
 
-import { Order, OrderState } from './order.types';
+import { OrderState } from './order.types';
 
 const initialState: OrderState = {
     orders: [],
-    selectedOrder: null,
     orderLoading: false,
     orderError: null,
 };
@@ -22,19 +21,6 @@ export const orderSlice = createSlice({
         // Add a single new order to the top of the history list
         addNewOrder: (state, action: PayloadAction<Order>) => {
             state.orders.unshift(action.payload);
-        },
-
-        // Select an active order to view its specific tracking details
-        setSelectedOrder: (state, action: PayloadAction<string>) => {
-            state.selectedOrder =
-                state.orders.find(
-                    (order) => order.orderId === action.payload,
-                ) || null;
-        },
-
-        // Clear tracking details when navigating away from the order tracker
-        clearSelectedOrder: (state) => {
-            state.selectedOrder = null;
         },
 
         // Update status of an individual order.
@@ -54,14 +40,6 @@ export const orderSlice = createSlice({
             if (existingOrder) {
                 existingOrder.orderStatus = status;
             }
-
-            // Synchronize active state if it's the order currently being viewed
-            if (
-                state.selectedOrder &&
-                state.selectedOrder.orderId === orderId
-            ) {
-                state.selectedOrder.orderStatus = status;
-            }
         },
 
         setOrderLoading: (state, action: PayloadAction<boolean>) => {
@@ -80,8 +58,6 @@ export const orderSlice = createSlice({
 export const {
     setOrders,
     addNewOrder,
-    setSelectedOrder,
-    clearSelectedOrder,
     updateOrderStatus,
     setOrderLoading,
     setOrderError,

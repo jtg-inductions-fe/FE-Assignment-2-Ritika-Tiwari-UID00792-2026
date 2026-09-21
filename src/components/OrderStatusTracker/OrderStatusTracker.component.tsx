@@ -5,12 +5,18 @@ import { ORDER_STATUS } from '@types';
 
 import { OrderStatusTrackerProps } from './OrderStatusTracker.types';
 
-export default function OrderStatusTracker({
+/**
+ * OrderStatusTracker component to show orders status as stepper.
+ *
+ * @param OrderStatusTracker -  The configuration properties for the rendering of OrderStatusTracker.
+ * @returns returns the JSX.Element
+ */
+export const OrderStatusTracker = ({
     orderId,
     userRole,
     orderStatus,
     onStatusChange,
-}: OrderStatusTrackerProps) {
+}: OrderStatusTrackerProps) => {
     // Derive the active index from the incoming status prop
     let activeStep = ORDER_STATUS.indexOf(orderStatus);
 
@@ -19,6 +25,8 @@ export default function OrderStatusTracker({
 
     // Determine if the current user has permission to change states
     const isOwner = userRole === 'owner';
+
+    /** Function to handle the update of order status to next stage. */
     const handleNext = () => {
         activeStep = activeStep + 1;
         if (onStatusChange && currentStep < ORDER_STATUS.length - 2) {
@@ -26,12 +34,15 @@ export default function OrderStatusTracker({
         }
     };
 
+    /** Function to handle the update of order status to previous stage. */
     const handleBack = () => {
         activeStep = activeStep - 1;
         if (onStatusChange && currentStep > 0) {
             onStatusChange(orderId, ORDER_STATUS[activeStep]);
         }
     };
+
+    /** Function to handle the update of order status to rejected stage. */
     const handleReject = () => {
         if (onStatusChange) {
             onStatusChange(orderId, 'Rejected');
@@ -53,7 +64,7 @@ export default function OrderStatusTracker({
                 </Stepper>
             )}
 
-            {/* Only render the demo controls if the user is the owner */}
+            {/* Only render the button controls if the user is the owner */}
             {isOwner && (
                 <Box
                     display="flex"
@@ -64,13 +75,15 @@ export default function OrderStatusTracker({
                     {orderStatus !== 'Rejected' &&
                         orderStatus !== 'Delivered' && (
                             <>
-                                <Button
-                                    disabled={currentStep === 0}
-                                    onClick={handleBack}
-                                    variant="outlined"
-                                >
-                                    Back
-                                </Button>
+                                {orderStatus !== 'Accepted' && (
+                                    <Button
+                                        disabled={currentStep === 0}
+                                        onClick={handleBack}
+                                        variant="outlined"
+                                    >
+                                        Back
+                                    </Button>
+                                )}
                                 <Button
                                     onClick={handleNext}
                                     variant="contained"
@@ -80,6 +93,7 @@ export default function OrderStatusTracker({
                                 </Button>
                             </>
                         )}
+                    {/* Owner can only reject the order if it is not accepted.*/}
                     {orderStatus === 'Pending' && (
                         <Button
                             onClick={handleReject}
@@ -93,4 +107,4 @@ export default function OrderStatusTracker({
             )}
         </Box>
     );
-}
+};

@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import {
+    Box,
     Button,
     Dialog,
     DialogActions,
@@ -11,6 +12,8 @@ import {
     Typography,
 } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
+
+import { theme } from '@theme';
 
 import { ConfirmationDialogProps } from './ConfirmationDialog.types';
 
@@ -83,24 +86,30 @@ export const ConfirmationDialog = React.memo(function ConfirmationDialog({
             </DialogContent>
 
             <DialogActions>
-                <Button variant="text" onClick={handleCancel}>
-                    <Typography
-                        variant="button"
-                        component="span"
-                        color="color.primary.contrastText"
-                    >
-                        Cancel
-                    </Typography>
-                </Button>
-                <Button variant="contained" onClick={handleConfirmation}>
-                    <Typography
-                        variant="button"
-                        component="span"
-                        color="color.primary.contrastText"
-                    >
-                        Yes
-                    </Typography>
-                </Button>
+                <Box
+                    padding={theme.spacing(4)}
+                    display="flex"
+                    gap={theme.spacing(4)}
+                >
+                    <Button variant="text" onClick={handleCancel}>
+                        <Typography
+                            variant="button"
+                            component="span"
+                            color="color.primary.contrastText"
+                        >
+                            Cancel
+                        </Typography>
+                    </Button>
+                    <Button variant="contained" onClick={handleConfirmation}>
+                        <Typography
+                            variant="button"
+                            component="span"
+                            color="color.primary.contrastText"
+                        >
+                            Yes
+                        </Typography>
+                    </Button>
+                </Box>
             </DialogActions>
         </Dialog>
     );

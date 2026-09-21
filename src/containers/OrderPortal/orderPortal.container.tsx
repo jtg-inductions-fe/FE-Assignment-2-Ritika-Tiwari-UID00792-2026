@@ -10,7 +10,13 @@ import {
 
 import { Box } from '@mui/material';
 
-import { OrderAccordion, Snackbar } from '@components';
+import {
+    ConfirmationDialog,
+    LoadingCardSkeleton,
+    NullStateCard,
+    OrderAccordion,
+    Snackbar,
+} from '@components';
 import { useAuth } from '@hooks';
 import { useAppDispatch, useAppSelector } from '@store';
 import { theme } from '@theme';
@@ -27,8 +33,11 @@ export const OrderPortal = () => {
         message: '',
         variant: 'success',
     });
+
     const dispatch = useAppDispatch();
-    const { orders } = useAppSelector((state) => state.order);
+    const { orders, orderLoading, orderError } = useAppSelector(
+        (state) => state.order,
+    );
 
     /**
      * Automatically fetches the user's cart data from the server
@@ -67,6 +76,50 @@ export const OrderPortal = () => {
         };
     }, [dispatch]);
 
+    const [pendingUpdate, setPendingUpdate] = useState<{
+        id: string;
+        status: OrderStatus;
+    } | null>(null);
+    const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+
+    /**
+     * Handles the confirmation event from the confirmation dialog.
+     * @param confirmation - A boolean value defining user confirmation from the dialog.
+     */
+    const handleSubmit = useCallback(() => {
+        if (!pendingUpdate) return;
+        try {
+            dispatch(
+                updateOrderStatus({
+                    orderId: pendingUpdate.id,
+                    status: pendingUpdate.status,
+                }),
+            );
+            setSnackBarConfig({
+                open: true,
+                message: 'Order rejected successfully.',
+                variant: 'success',
+            });
+        } catch {
+            setSnackBarConfig({
+                open: true,
+                message: 'Some error occurred, Try again later.',
+                variant: 'error',
+            });
+        } finally {
+            setIsDialogOpen(false);
+        }
+    }, [dispatch, pendingUpdate]);
+
+    /**
+     * Function to handle close event of confirmation dialog.
+     */
+    const handleClose = useCallback(() => {
+        setIsDialogOpen(false);
+        setPendingUpdate(null);
+    }, []);
+
+    // Fetching the current registered user data from the auth hook.
     const { fetchCurrentUser } = useAuth();
     const user = fetchCurrentUser() as User;
 
@@ -76,15 +129,20 @@ export const OrderPortal = () => {
      */
     const handleStatusChange = useCallback(
         (orderId: string, newStatus: OrderStatus) => {
-            dispatch(
-                updateOrderStatus({ orderId: orderId, status: newStatus }),
-            );
+            if (newStatus === 'Rejected') {
+                setPendingUpdate({ id: orderId, status: newStatus });
+                setIsDialogOpen(true);
+            } else {
+                dispatch(updateOrderStatus({ orderId, status: newStatus }));
+            }
         },
         [dispatch],
     );
 
+    // expandablePanel state for the accordion panels.
     const [expandedPanel, setExpandedPanel] = useState<string | false>(false);
 
+    // Handle the accordions change, e.g. opened accordion should be closed when other will open.
     const handleAccordionChange =
         (panelId: string) =>
         (_event: React.SyntheticEvent, isExpanded: boolean) => {
@@ -100,16 +158,37 @@ export const OrderPortal = () => {
                 flexGrow={1}
                 gap={theme.spacing(4)}
             >
-                {orders.map((order) => (
-                    <OrderAccordion
-                        key={order.orderId}
-                        data={order}
-                        userRole={user?.role}
-                        onStatusChange={handleStatusChange}
-                        isExpanded={expandedPanel === order.orderId}
-                        onToggle={handleAccordionChange(order.orderId)}
+                {orderLoading && (
+                    <>
+                        <LoadingCardSkeleton width="100%" />
+                        <LoadingCardSkeleton width="100%" />
+                        <LoadingCardSkeleton width="100%" />
+                        <LoadingCardSkeleton width="100%" />
+                    </>
+                )}
+                {!orderLoading && (orderError || orders.length === 0) && (
+                    <NullStateCard
+                        title=""
+                        description={
+                            orderError
+                                ? 'Failed to load data of orders.'
+                                : 'No orders are available.'
+                        }
                     />
-                ))}
+                )}
+
+                {!orderLoading &&
+                    !orderError &&
+                    orders.map((order) => (
+                        <OrderAccordion
+                            key={order.orderId}
+                            data={order}
+                            userRole={user?.role}
+                            onStatusChange={handleStatusChange}
+                            isExpanded={expandedPanel === order.orderId}
+                            onToggle={handleAccordionChange(order.orderId)}
+                        />
+                    ))}
             </Box>
             <Snackbar
                 open={snackbarConfig.open}
@@ -119,6 +198,13 @@ export const OrderPortal = () => {
                 }
                 message={snackbarConfig.message}
                 state={snackbarConfig.variant}
+            />
+            <ConfirmationDialog
+                open={isDialogOpen}
+                onClose={handleClose}
+                onSubmit={handleSubmit}
+                title="Confirmation Dialog"
+                description="Are you sure, you want to reject this order?"
             />
         </Box>
     );
