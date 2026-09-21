@@ -15,7 +15,7 @@ export const useAuth = () => {
     /**  This variable contains the registered users from the redux store. */
     const registeredUsers = useAppSelector((state) => state.auth.users);
 
-    //  Fetch data only when restaurantId or dispatch changes
+    //  Fetch data only when dispatch changes
     useEffect(() => {
         const fetchUsers = async () => {
             try {

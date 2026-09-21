@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
-import { addNewOrder } from 'store/slices/Order/orderSlice';
+import { addNewOrder, setOrderLoading } from 'store/slices/Order/orderSlice';
 
 import { CurrencyRupee } from '@mui/icons-material';
 import { Box, Button, Divider, Stack, Typography } from '@mui/material';
@@ -15,11 +15,12 @@ import {
     NullStateCard,
     Snackbar,
 } from '@components';
+import { ORDER_STATUS } from '@constant';
 import { useAuth, useCart } from '@hooks';
 import { ROUTES } from '@routes';
-import { useAppDispatch } from '@store';
+import { useAppDispatch, useAppSelector } from '@store';
 import { theme } from '@theme';
-import { CartItem, ORDER_STATUS, SnackbarConfig } from '@types';
+import { CartItem, SnackbarConfig } from '@types';
 
 import { ActionWrapper, EmptyCart, StyledCardMedia } from './Cart.styles';
 
@@ -112,45 +113,61 @@ export const Cart = () => {
 
     const dispatch = useAppDispatch();
     const currentUser = fetchCurrentUser();
+    const orderLoading = useAppSelector((state) => state.order.orderLoading);
 
     /**
      * Function to handle place order functionality from cart.
      * @param items- takes the cart items and create the new order, for cart items.
      */
-    const handlePlaceOrder = (orderItems: CartItem[]) => {
-        //Create the new order only if customer data and restaurant data is accurate.
-        if (restaurant && currentUser) {
-            const newOrder = {
-                orderId: crypto.randomUUID(),
-                orderStatus: ORDER_STATUS[0],
-                createdAt: new Date().toISOString(),
-                customerDetails: {
-                    ...currentUser,
-                    address: '123 Maple Street, New York, NY 10001',
-                },
-                restaurantDetails: restaurant,
-                items: orderItems,
-                billDetails: billDetails,
-            };
+    const handlePlaceOrder = useCallback(
+        (orderItems: CartItem[]) => {
+            if (orderLoading) return;
+            //Create the new order only if customer data and restaurant data is accurate.
+            if (restaurant && currentUser) {
+                dispatch(setOrderLoading(true));
+                const newOrder = {
+                    orderId: crypto.randomUUID(),
+                    orderStatus: ORDER_STATUS[0],
+                    createdAt: new Date().toISOString(),
+                    customerDetails: {
+                        ...currentUser,
+                        address: '123 Maple Street, New York, NY 10001',
+                    },
+                    restaurantDetails: restaurant,
+                    items: orderItems,
+                    billDetails: billDetails,
+                };
 
-            setSnackBarConfig({
-                open: true,
-                message: 'Order placed successfully.',
-                variant: 'success',
-            });
-            try {
-                dispatch(addNewOrder(newOrder));
-                handleClearCart();
-                void navigate(ROUTES.ORDER_PORTAl);
-            } catch {
                 setSnackBarConfig({
                     open: true,
-                    message: 'Order is not placed, try again later.',
-                    variant: 'error',
+                    message: 'Order placed successfully.',
+                    variant: 'success',
                 });
+                try {
+                    dispatch(addNewOrder(newOrder));
+                    handleClearCart();
+                    void navigate(ROUTES.ORDER_PORTAl);
+                } catch {
+                    setSnackBarConfig({
+                        open: true,
+                        message: 'Order is not placed, try again later.',
+                        variant: 'error',
+                    });
+                } finally {
+                    dispatch(setOrderLoading(false));
+                }
             }
-        }
-    };
+        },
+        [
+            dispatch,
+            orderLoading,
+            restaurant,
+            currentUser,
+            billDetails,
+            navigate,
+            handleClearCart
+        ],
+    );
 
 
     //  Loads the current active restaurant's image when the restaurant change
@@ -390,7 +407,9 @@ export const Cart = () => {
                         variant="contained"
                         onClick={() => handlePlaceOrder(items)}
                     >
-                        <Typography variant="button">Proceed to pay</Typography>
+                        <Typography variant="button">
+                            {orderLoading ? 'processing...' : 'Proceed to buy'}
+                        </Typography>
                     </Button>
                 </ActionWrapper>
             )}

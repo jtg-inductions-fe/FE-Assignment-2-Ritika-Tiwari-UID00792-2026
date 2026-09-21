@@ -7,8 +7,8 @@ import {
     useMediaQuery,
 } from '@mui/material';
 
+import { ORDER_STATUS } from '@constant';
 import { theme } from '@theme';
-import { ORDER_STATUS } from '@types';
 
 import { OrderStatusTrackerProps } from './OrderStatusTracker.types';
 

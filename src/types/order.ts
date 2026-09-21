@@ -1,3 +1,4 @@
+import { ORDER_STATUS } from '@constant';
 import { User } from '@types';
 
 import { BillDetails, CartItem } from './cart';
@@ -13,16 +14,6 @@ export interface Order {
     items: CartItem[];
     billDetails: BillDetails;
 }
-
-// Define the array as a read-only tuple using 'as const'
-export const ORDER_STATUS = [
-    'Pending',
-    'Accepted',
-    'Preparing',
-    'Out for delivery',
-    'Delivered',
-    'Rejected',
-];
 
 // The types specify the values that can be assigned to order status. e.g. 'Pending' | 'Accepted' | 'Preparing' | 'Out for delivery' | 'Delivered' | 'Rejected'
 export type OrderStatus = (typeof ORDER_STATUS)[number];

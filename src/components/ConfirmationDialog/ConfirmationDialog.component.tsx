@@ -47,7 +47,7 @@ export const ConfirmationDialog = React.memo(function ConfirmationDialog({
      * Handle confirm event of the Confirmation Dialog Component
      */
     const handleConfirmation = () => {
-        onSubmit(true);
+        onSubmit();
         onClose();
     };
 
@@ -55,7 +55,6 @@ export const ConfirmationDialog = React.memo(function ConfirmationDialog({
      * Handle cancel event of the Confirmation Dialog Component
      */
     const handleCancel = () => {
-        onSubmit(false);
         onClose();
     };
 

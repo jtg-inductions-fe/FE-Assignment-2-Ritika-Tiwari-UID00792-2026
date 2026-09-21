@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { fetchOrderData } from 'services/order.services';
 import {
@@ -20,10 +20,11 @@ import {
 import { useAuth } from '@hooks';
 import { useAppDispatch, useAppSelector } from '@store';
 import { theme } from '@theme';
-import { OrderStatus, SnackbarConfig, User } from '@types';
+import { Order, OrderStatus, SnackbarConfig, User } from '@types';
 
 /**
  * Renders order container.
+
  * Provide the business logic for the order portal page like display the orders, order status update, order reject and canceled by the owner.
  */
 export const OrderPortal = () => {
@@ -76,6 +77,25 @@ export const OrderPortal = () => {
         };
     }, [dispatch]);
 
+    // Fetching the current registered user data from the auth hook.
+    const { fetchCurrentUser } = useAuth();
+    const user = fetchCurrentUser() as User;
+
+    // Compute the filtered list dynamically.
+    const filteredOrders = useMemo(() => {
+        if (!user || !orders) return [];
+        // Filter based on user role if they are an owner
+        if (user?.role === 'owner') {
+            return orders.filter(
+                (order: Order) => order.restaurantDetails.ownerId === user.id,
+            );
+        } else {
+            return orders.filter(
+                (order: Order) => order.customerDetails.id === user.id,
+            );
+        }
+    }, [user, orders]);
+
     const [pendingUpdate, setPendingUpdate] = useState<{
         id: string;
         status: OrderStatus;
@@ -118,10 +138,6 @@ export const OrderPortal = () => {
         setIsDialogOpen(false);
         setPendingUpdate(null);
     }, []);
-
-    // Fetching the current registered user data from the auth hook.
-    const { fetchCurrentUser } = useAuth();
-    const user = fetchCurrentUser() as User;
 
     /**
      * Function to handle the status change event by owner.
@@ -166,20 +182,21 @@ export const OrderPortal = () => {
                         <LoadingCardSkeleton width="100%" />
                     </>
                 )}
-                {!orderLoading && (orderError || orders.length === 0) && (
-                    <NullStateCard
-                        title=""
-                        description={
-                            orderError
-                                ? 'Failed to load data of orders.'
-                                : 'No orders are available.'
-                        }
-                    />
-                )}
+                {!orderLoading &&
+                    (orderError || filteredOrders.length === 0) && (
+                        <NullStateCard
+                            title=""
+                            description={
+                                orderError
+                                    ? 'Failed to load data of orders.'
+                                    : 'No orders are available.'
+                            }
+                        />
+                    )}
 
                 {!orderLoading &&
                     !orderError &&
-                    orders.map((order) => (
+                    filteredOrders.map((order) => (
                         <OrderAccordion
                             key={order.orderId}
                             data={order}
