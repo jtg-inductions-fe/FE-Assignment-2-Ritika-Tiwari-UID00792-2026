@@ -71,8 +71,7 @@ export const useCart = () => {
      */
     const handleAddToCart = useCallback(
         (item: CartItem) => {
-            if (!item || item.stock) return;
-
+            if (!item || !item.stock) return;
             dispatch(
                 addItemToCart({
                     item: {

@@ -49,7 +49,7 @@ export const Cart = () => {
         billDetails,
         cartLoading,
         cartError,
-        handleRemoveItemCompletely,
+        handleRemoveFromCart,
         handleClearCart,
         handleAddToCart,
     } = useCart();
@@ -69,12 +69,7 @@ export const Cart = () => {
      */
     const handleRemoveItem = (id: string) => {
         try {
-            handleRemoveItemCompletely(id);
-            setSnackBarConfig({
-                open: true,
-                message: 'Item is removed from cart.',
-                variant: 'success',
-            });
+            handleRemoveFromCart(id);
         } catch {
             setSnackBarConfig({
                 open: true,
@@ -153,7 +148,7 @@ export const Cart = () => {
                     </>
                 )}
 
-                {!cartLoading && items.length > 0 && (
+                {!cartLoading && items.length>0 && (
                     <Box
                         width="100%"
                         display="flex"
@@ -225,7 +220,7 @@ export const Cart = () => {
                 </Box>
 
                 {/* Bill details of  order */}
-                {!cartLoading && items.length > 0 && (
+                {!cartLoading && items.length>0 && (
                     <Box
                         display="flex"
                         flexDirection="column"
@@ -338,7 +333,7 @@ export const Cart = () => {
             />
 
             {/* Clear cart and place order actions button wrapper */}
-            {items.length > 0 && !cartLoading && (
+            {items.length>0 && !cartLoading && (
                 <ActionWrapper
                     display="flex"
                     flexDirection="row"

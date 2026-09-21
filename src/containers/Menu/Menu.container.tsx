@@ -193,6 +193,7 @@ export const Menu = () => {
         checkCurrentActiveRestaurant,
         handleClearCart,
         handleNewCart,
+        handleRemoveFromCart,
     } = useCart();
 
     /** Handle on add to cart functionality.
@@ -204,7 +205,6 @@ export const Menu = () => {
         setCurrentItem(item);
         const restaurantStatus: RestaurantStatus =
             checkCurrentActiveRestaurant(restaurantId);
-
         if (restaurantStatus === 'CONFLICT') {
             // Show the warning dialog if they are switching restaurants
             setIsDialogOpen(true);
@@ -402,6 +402,9 @@ export const Menu = () => {
                                     itemSubtotal: 0,
                                 });
                             }}
+                            onRemove={() =>
+                                handleRemoveFromCart(menuItem.itemId)
+                            }
                             onDecrease={() => {
                                 handleOnDecreaseStock(menuItem.itemId);
                             }}

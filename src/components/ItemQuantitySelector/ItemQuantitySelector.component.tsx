@@ -32,7 +32,7 @@ export const ItemQuantitySelector = ({
     };
 
     const handleDecrement = () => {
-        if (quantity > 0) {
+        if (quantity) {
             setQuantities((prev) => ({
                 ...prev,
                 [itemId]: quantity - 1,

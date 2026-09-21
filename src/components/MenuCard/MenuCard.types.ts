@@ -17,6 +17,8 @@ export interface MenuCardProps {
     onDelete: () => void;
     /** Callback function to handle the add to cart functionality. */
     onPrimaryAction: () => void;
+    /** Callback function to handle the remove item from cart functionality. */
+    onRemove: () => void;
     /** Callback function to handle increase stock quantity functionality. */
     onIncrease: () => void;
     /** Callback function to handle decrease stock quantity functionality. */

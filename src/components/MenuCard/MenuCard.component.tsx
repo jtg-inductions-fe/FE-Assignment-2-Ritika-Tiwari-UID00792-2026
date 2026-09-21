@@ -19,7 +19,6 @@ import {
 import FALLBACK_IMAGE from '@assets/images/fallback-image.webp';
 import nonVegIndicator from '@assets/images/non-veg-indicator.webp';
 import vegIndicator from '@assets/images/veg-indicator.webp';
-import { useCart } from '@hooks';
 import { theme } from '@theme';
 
 import {
@@ -45,6 +44,7 @@ export function MenuCard({
     onEdit,
     onDelete,
     onPrimaryAction,
+    onRemove,
     onIncrease,
     onDecrease,
     confirmationType,
@@ -53,7 +53,6 @@ export function MenuCard({
 
     const [imgSrc, setImgSrc] = useState(item.imageUrl || FALLBACK_IMAGE);
 
-    const { handleRemoveFromCart } = useCart();
     return (
         <StyledCard>
             <StyledCardMedia
@@ -132,7 +131,7 @@ export function MenuCard({
                                 ? `${item.stock} in Stock`
                                 : `Out of Stock`
                         }
-                        color={item.stock > 0 ? 'success' : 'error'}
+                        color={item.stock ? 'success' : 'error'}
                     />
                 )}
                 <Box
@@ -172,7 +171,7 @@ export function MenuCard({
                         setQuantities={setQuantities}
                         maxQuantity={item.stock}
                         onIncrease={onPrimaryAction}
-                        onDecrease={() => handleRemoveFromCart(item.itemId)}
+                        onDecrease={onRemove}
                     />
                 ) : (
                     <Button

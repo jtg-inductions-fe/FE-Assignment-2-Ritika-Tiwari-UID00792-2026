@@ -6,7 +6,6 @@ export const StyledCard = styled(Card)(({ theme }) => ({
     display: 'flex',
     boxSizing: 'border-box',
     flexDirection: 'row',
-    alignItems: 'start',
     gap: theme.spacing(4),
     padding: theme.spacing(2),
     justifyContent: 'space-between',
@@ -49,10 +48,9 @@ export const PriceWrapper = styled(Box)({
     flexDirection: 'row',
     alignItems: 'center',
 });
-export const StyledTitle = styled(Typography)(({ theme }) => ({
-    maxWidth: 150,
-
-    [theme.breakpoints.up('sm')]: {
-        maxWidth: '100%',
-    },
-}));
+export const StyledTitle = styled(Typography)({
+  maxWidth: 150,
+  wordBreak: 'break-word', 
+  whiteSpace: 'normal',    
+  overflowWrap: 'anywhere',  
+});
