@@ -1,0 +1,199 @@
+import { useState } from 'react';
+
+import { ItemQuantitySelector } from 'components/ItemQuantitySelector/ItemQuantitySelector.component';
+
+import { CurrencyRupee } from '@mui/icons-material';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import BlockIcon from '@mui/icons-material/Block';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import {
+    Box,
+    Button,
+    Chip,
+    IconButton,
+    Stack,
+    Typography,
+    useMediaQuery,
+} from '@mui/material';
+
+import FALLBACK_IMAGE from '@assets/images/fallback-image.webp';
+import nonVegIndicator from '@assets/images/non-veg-indicator.webp';
+import vegIndicator from '@assets/images/veg-indicator.webp';
+import { theme } from '@theme';
+
+import {
+    StyledCard,
+    StyledCardContent,
+    StyledCardMedia,
+    StyledDescription,
+    StyledImageIndicator,
+    StyledTitle,
+} from './MenuCard.styles';
+import { MenuCardProps } from './MenuCard.types';
+
+/**
+ * A menu card that displays the details of menu.
+ * @param MenuProps - the configuration property to render the card component for menu.
+ * @returns The structured and styled menu card.
+ */
+export function MenuCard({
+    item,
+    userRole,
+    quantities,
+    setQuantities,
+    onEdit,
+    onDelete,
+    onPrimaryAction,
+    onIncrease,
+    onDecrease,
+}: MenuCardProps) {
+    // Returns true if screen width is smaller than the 'md' breakpoint.
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+    const [imgSrc, setImgSrc] = useState(item.imageUrl || FALLBACK_IMAGE);
+
+    return (
+        <StyledCard>
+            <StyledCardMedia
+                color={
+                    item.stock === 0
+                        ? theme.palette.action.disabledBackground
+                        : theme.palette.background.default
+                }
+                component="img"
+                image={imgSrc}
+                onError={() => {
+                    if (imgSrc !== FALLBACK_IMAGE) {
+                        setImgSrc(FALLBACK_IMAGE);
+                    }
+                }}
+            />
+            <StyledImageIndicator
+                component="img"
+                image={
+                    item.dietaryCategory === 'veg'
+                        ? vegIndicator
+                        : nonVegIndicator
+                }
+            />
+            <StyledCardContent>
+                <StyledTitle gutterBottom variant="subtitle1">
+                    {item.name}
+                </StyledTitle>
+                <StyledDescription variant="body2" gutterBottom>
+                    {item.description}
+                </StyledDescription>
+                {/* owner controls on the stock quantity */}
+                {userRole === 'owner' ? (
+                    <Stack
+                        direction="row"
+                        alignItems="center"
+                        spacing={theme.spacing(1)}
+                        border={`1px dashed ${theme.palette.divider}`}
+                        borderRadius={theme.shape.borderRadius}
+                        padding={theme.spacing(2)}
+                        marginBlock={theme.spacing(4)}
+                    >
+                        <Typography variant="caption" color="text.secondary">
+                            Stock Quantity:
+                        </Typography>
+
+                        {/* Decrement stock quantity (-1) */}
+                        <IconButton
+                            size="small"
+                            color="warning"
+                            disabled={item.stock <= 0}
+                            onClick={onDecrease}
+                        >
+                            <RemoveCircleOutlineIcon fontSize="small" />
+                        </IconButton>
+
+                        {/* Display current stock value */}
+                        <Typography variant="body2" fontWeight="bold">
+                            {item.stock}
+                        </Typography>
+
+                        {/* Increment stock quantity (+1) */}
+                        <IconButton
+                            size="small"
+                            color="primary"
+                            onClick={onIncrease}
+                        >
+                            <AddCircleOutlineIcon fontSize="small" />
+                        </IconButton>
+                    </Stack>
+                ) : (
+                    <Stack
+                        minHeight={isMobile ? 100 : 'initial'}
+                        direction={isMobile ? 'column' : 'row'}
+                        spacing={theme.spacing(4)}
+                        alignItems="start"
+                        marginTop={theme.spacing(4)}
+                    >
+                        <Chip
+                            icon={
+                                item.stock ? <CheckCircleIcon /> : <BlockIcon />
+                            }
+                            label={
+                                item.stock
+                                    ? `${item.stock} in Stock`
+                                    : `Out of Stock`
+                            }
+                            color={item.stock > 0 ? 'success' : 'error'}
+                        />
+                        {item.stock > 0 && (
+                            <ItemQuantitySelector
+                                key={item.itemId}
+                                quantity={quantities[item.itemId] ?? 1}
+                                setQuantity={(newQty: number) => {
+                                    setQuantities((prev) => ({
+                                        ...prev,
+                                        [item.itemId]: newQty,
+                                    }));
+                                }}
+                                maxQuantity={item.stock}
+                            />
+                        )}
+                    </Stack>
+                )}
+                <Box
+                    display="flex"
+                    alignItems="center"
+                    marginBlock={theme.spacing(4)}
+                >
+                    <CurrencyRupee color="primary" />
+                    <Typography variant="h6">{item.price}</Typography>
+                </Box>
+
+                {/* Show the edit and delete buttons only to the owners */}
+                {userRole === 'owner' ? (
+                    <Box
+                        display="flex"
+                        gap={theme.spacing(4)}
+                        alignSelf="end"
+                        width="100%"
+                    >
+                        <Button variant="outlined" onClick={onEdit}>
+                            <Typography variant="button">Edit</Typography>
+                        </Button>
+                        <Button
+                            variant="outlined"
+                            color="error"
+                            onClick={onDelete}
+                        >
+                            <Typography variant="button">Delete</Typography>
+                        </Button>
+                    </Box>
+                ) : (
+                    <Button
+                        variant="contained"
+                        onClick={onPrimaryAction}
+                        disabled={item.stock === 0}
+                    >
+                        <Typography variant="button">Add to cart</Typography>
+                    </Button>
+                )}
+            </StyledCardContent>
+        </StyledCard>
+    );
+}

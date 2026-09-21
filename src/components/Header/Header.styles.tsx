@@ -2,24 +2,24 @@ import { NavLinkProps } from 'react-router-dom';
 
 import { Avatar, Box, IconButton, styled, Toolbar } from '@mui/material';
 
+import { HEADER_HEIGHT } from '@constant';
+
 export const StyledAppBar = styled('header')(({ theme }) => ({
     position: 'sticky',
     top: 0,
     zIndex: 100,
+    height: HEADER_HEIGHT,
+    minHeight: HEADER_HEIGHT,
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[4],
 }));
 
-export const StyledToolbar = styled(Toolbar)(({ theme }) => ({
+export const StyledToolbar = styled(Toolbar)({
+    width: '100%',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-
-    [theme.breakpoints.down('sm')]: {
-        paddingLeft: theme.spacing(0.5),
-        paddingRight: theme.spacing(0.5),
-    },
-}));
+});
 
 // Left branding alignment setup
 export const LogoContainer = styled('div')({
@@ -37,15 +37,14 @@ export const LogoContainer = styled('div')({
 export const ActionsContainer = styled('nav')(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
-    gap: theme.spacing(2),
-    [theme.breakpoints.down('sm')]: {
-        gap: theme.spacing(1),
+    [theme.breakpoints.up('md')]: {
+        gap: theme.spacing(4),
     },
 }));
 
 export const StyledIconButton = styled(IconButton)<NavLinkProps>(
     ({ theme }) => ({
-        padding: theme.spacing(0.5),
+        padding: theme.spacing(4),
         textDecoration: 'none',
         textAlign: 'center',
         display: 'flex',
@@ -59,10 +58,10 @@ export const PopoverProfileBox = styled(Box)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: theme.spacing(1.5),
+    padding: theme.spacing(4),
     textAlign: 'center',
     minWidth: 250,
-    gap: theme.spacing(2),
+    gap: theme.spacing(4),
 }));
 
 export const UserAvatar = styled(Avatar)(({ theme }) => ({

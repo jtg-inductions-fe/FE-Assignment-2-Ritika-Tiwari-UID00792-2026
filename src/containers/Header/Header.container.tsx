@@ -1,7 +1,6 @@
-import users from '@mock/users.json';
-import { User } from '@types';
-
 import { Header as HeaderComponent } from '@components';
+import { useAuth } from '@hooks';
+import { User } from '@types';
 
 /**
  * Header Container
@@ -10,9 +9,17 @@ import { Header as HeaderComponent } from '@components';
  * @returns The rendered global application header component.
  */
 export const Header = () => {
-    // For the demo purposes only
-    const mockUser: User = users[1];
+    const { fetchCurrentUser, isLoggedIn } = useAuth();
+    const registeredUser = fetchCurrentUser() as User;
+
+    // TODO: This will be remove and actual cartCount will be used here after cart section.
     const cartCount = 4;
 
-    return <HeaderComponent user={mockUser} cartCount={cartCount} />;
+    return (
+        <HeaderComponent
+            user={registeredUser}
+            cartCount={cartCount}
+            isLoggedIn={isLoggedIn}
+        />
+    );
 };

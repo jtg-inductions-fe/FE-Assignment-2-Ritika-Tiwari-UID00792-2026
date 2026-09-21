@@ -12,7 +12,9 @@ import {
  * Create a custom responsive wrapper around the MUI Container wrapper.
  */
 export const StyledContainer = styled(Container)(({ theme }) => ({
-    paddingInline: theme.spacing(1.6),
+    paddingInline: theme.spacing(4),
+    display: 'flex',
+    flexGrow: 1,
 
     // Container styles for the mobile screens and up
     [theme.breakpoints.up('sm')]: {
@@ -21,19 +23,19 @@ export const StyledContainer = styled(Container)(({ theme }) => ({
 
     // Container styles for the tablet screens and up
     [theme.breakpoints.up('md')]: {
-        paddingInline: theme.spacing(2.4),
+        paddingInline: theme.spacing(6),
         maxWidth: MAX_WIDTH_MD,
     },
 
     // Container styles for desktop screens and up
     [theme.breakpoints.up('lg')]: {
-        paddingInline: theme.spacing(3.2),
+        paddingInline: theme.spacing(8),
         maxWidth: MAX_WIDTH_LG,
     },
 
     // Container styles for Large desktop screens and up
     [theme.breakpoints.up('xl')]: {
-        paddingInline: theme.spacing(6.4),
+        paddingInline: theme.spacing(16),
         maxWidth: MAX_WIDTH_XL,
     },
 }));

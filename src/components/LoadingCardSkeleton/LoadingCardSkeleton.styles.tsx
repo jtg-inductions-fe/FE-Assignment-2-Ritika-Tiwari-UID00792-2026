@@ -4,25 +4,22 @@ import { Box, BoxProps, Skeleton, SkeletonProps, styled } from '@mui/material';
 export const CardContainer = styled(Box)<BoxProps>(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
-    gap: theme.spacing(2),
-    padding: theme.spacing(2),
-    maxWidth: 245,
+    gap: theme.spacing(4),
+    padding: theme.spacing(4),
     border: `1px solid ${theme.palette.divider}`,
-    borderRadius: theme.shape.borderRadius || 8,
-    backgroundColor: theme.palette.background.paper,
+    borderRadius: theme.shape.borderRadius,
 }));
 
 // Structural container holding text lines below the header/media section
 export const CardBody = styled(Box)<BoxProps>(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
-    gap: theme.spacing(1),
-    width: '100%',
+    gap: theme.spacing(4),
 }));
 
 // Base skeleton styling for consistent shimmer tinting
 export const BaseSkeleton = styled(Skeleton)<SkeletonProps>(({ theme }) => ({
-    backgroundColor: theme.palette.background.default,
+    borderRadius: theme.shape.borderRadius,
     '&::after': {
         background: `linear-gradient(90deg, transparent, ${theme.palette.background.default}, transparent)`,
     },
