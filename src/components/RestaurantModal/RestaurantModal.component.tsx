@@ -58,7 +58,7 @@ export const RestaurantModal = ({
         reset,
         formState: { isSubmitting, errors },
     } = useForm<Restaurant>({
-        defaultValues: RESTAURANT_FORM_DEFAULT_VALUES,
+        defaultValues: RESTAURANT_FORM_DEFAULT_VALUES as Restaurant,
         values: formValues as Restaurant,
     });
 

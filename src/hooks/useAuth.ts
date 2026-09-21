@@ -58,7 +58,7 @@ export const useAuth = () => {
     const fetchCurrentUser = () => {
         const user: string = localStorage.getItem('currentUser') || '';
         try {
-const currentRegisteredUser = JSON.parse(user) as User;
+            const currentRegisteredUser = JSON.parse(user) as User;
             return currentRegisteredUser;
         } catch {
             return null;

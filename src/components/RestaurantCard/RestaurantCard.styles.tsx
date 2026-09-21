@@ -17,12 +17,14 @@ export const StyledCard = styled(Card)(({ theme }) => ({
         maxWidth: 240,
     },
 }));
-export const StyledCardMedia = styled(CardMedia)<CardMediaProps>(({ theme }) => ({
-    position: 'relative',
-    height: 200,
-    minHeight: 200,
-    borderRadius: theme.shape.borderRadius,
-}));
+export const StyledCardMedia = styled(CardMedia)<CardMediaProps>(
+    ({ theme }) => ({
+        position: 'relative',
+        height: 200,
+        minHeight: 200,
+        borderRadius: theme.shape.borderRadius,
+    }),
+);
 
 export const StyledImageIndicator = styled(CardMedia)<CardMediaProps>({
     width: 20,

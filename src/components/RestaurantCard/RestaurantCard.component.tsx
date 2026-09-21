@@ -55,9 +55,7 @@ export const RestaurantCard = ({
                     }
                 />
                 {isClosed && (
-                    <StyledClosedTag
-                        component="img"
-                        image={closedTag}                    />
+                    <StyledClosedTag component="img" image={closedTag} />
                 )}
 
                 <StyledCardContent>
