@@ -164,7 +164,7 @@ export const MenuCard = React.memo(function MenuCard({
                         </Button>
                     </Box>
                 ) : /* For customers: swap between ItemQuantitySelector and Add to Cart button */
-                quantities[item.itemId] && confirmationType !== 'change' ? (
+                quantities[item.itemId] && confirmationType !== 'CHANGE' ? (
                     <ItemQuantitySelector
                         key={item.itemId}
                         itemId={item.itemId}

@@ -20,6 +20,12 @@ import { StyledBoxOuter, StyledImage } from './SignUp.styles';
  * @returns The rendered signupForm.
  */
 export const SignUp = () => {
+    const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+
+    // Custom hook to handle the signup form submission.
+    const { registeredUsers, findUserByEmail } = useAuth();
+
     // State to manage the configuration (visibility,message and state) of the snackbar.
     const [snackbarConfig, setSnackBarConfig] = useState<SnackbarConfig>({
         open: false,
@@ -61,10 +67,6 @@ export const SignUp = () => {
 
     const watchPassword = useWatch({ control, name: 'password' });
 
-    const dispatch = useAppDispatch();
-
-    // Custom hook to handle the signup form submission.
-    const { registeredUsers, findUserByEmail } = useAuth();
     /**
      * Function handles the authentication logic after the user submit the SignUp credentials.
      * @param data - SignUp form data after user submit SignUp form
@@ -90,7 +92,6 @@ export const SignUp = () => {
         }
     };
 
-    const navigate = useNavigate();
     /**
      * Handle form submit state
      * @param data - signup form data after user submit signup form

@@ -10,8 +10,9 @@ import { User } from '@types';
  */
 export const Header = () => {
     const { fetchCurrentUser, isLoggedIn } = useAuth();
-    const registeredUser = fetchCurrentUser() as User;
     const { cartCount } = useCart();
+
+    const registeredUser = fetchCurrentUser() as User;
 
     return (
         <HeaderComponent

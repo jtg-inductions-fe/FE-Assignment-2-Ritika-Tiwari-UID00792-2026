@@ -20,6 +20,12 @@ import { StyledBoxOuter, StyledImage } from './Login.styles';
  * @returns The rendered loginForm.
  */
 export const Login = () => {
+    const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+
+    // Custom hook to handle the login form submission.
+    const { registeredUsers, findUserByEmail } = useAuth();
+
     // State to manage the configuration (visibility,message and state) of the snackbar.
     const [snackbarConfig, setSnackBarConfig] = useState<SnackbarConfig>({
         open: false,
@@ -39,11 +45,6 @@ export const Login = () => {
             password: '',
         },
     });
-
-    const dispatch = useAppDispatch();
-
-    // Custom hook to handle the login form submission.
-    const { registeredUsers, findUserByEmail } = useAuth();
 
     /**
      * Function handles the authentication logic after the user submit the login credentials.
@@ -79,7 +80,6 @@ export const Login = () => {
         }
     };
 
-    const navigate = useNavigate();
     /**
      * Function to handle form submission
      * if user is authenticated successfully , navigate to the dashboard else show the error message snackbar.

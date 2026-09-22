@@ -34,12 +34,7 @@ const recalculateTotals = (state: CartState) => {
         state.billDetails.grandTotal = subTotal + deliveryFee;
     } else {
         // Explicitly clear bill details when cart becomes empty
-        state.billDetails = {
-            itemsSubtotal: 0,
-            deliveryFee: 20,
-            grandTotal: 0,
-            itemsCount: 0,
-        };
+        state.billDetails = DEFAULT_BILL_DETAILS;
     }
 };
 

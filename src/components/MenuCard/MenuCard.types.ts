@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 
-import { Menu } from '@types';
+import { DialogType, Menu } from '@types';
 /** Interface defining the types of properties that can be passed to restaurant card */
 export interface MenuCardProps {
     /** Store the detail of the Menu Item. */
@@ -24,5 +24,5 @@ export interface MenuCardProps {
     /** Callback function to handle decrease stock quantity functionality. */
     onDecrease: () => void;
     /** Store the specific action status when a customer change their restaurant choice mid order. */
-    confirmationType: string | null;
+    confirmationType: DialogType;
 }

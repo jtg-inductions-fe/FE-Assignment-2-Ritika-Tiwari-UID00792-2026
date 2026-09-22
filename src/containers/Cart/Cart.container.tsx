@@ -27,22 +27,7 @@ import { ActionWrapper, EmptyCart, StyledCardMedia } from './Cart.styles';
  * @returns JSX.Element - The rendered cart page components.
  */
 export const Cart = () => {
-    // State to manage the configuration (visibility, message and state) of the snackbar.
-    const [snackbarConfig, setSnackBarConfig] = useState<SnackbarConfig>({
-        open: false,
-        message: '',
-        variant: 'success',
-    });
-
-    const [quantities, setQuantities] = useState<Record<string, number>>({});
-
     const navigate = useNavigate();
-    /** Function to handle the back navigation from cart page to menu page.
-     */
-    const handleBackNavigation = () => {
-        void navigate(-1);
-    };
-
     const {
         items,
         restaurant,
@@ -53,6 +38,25 @@ export const Cart = () => {
         handleClearCart,
         handleAddToCart,
     } = useCart();
+
+    // State to manage the configuration (visibility, message and state) of the snackbar.
+    const [snackbarConfig, setSnackBarConfig] = useState<SnackbarConfig>({
+        open: false,
+        message: '',
+        variant: 'success',
+    });
+    const [quantities, setQuantities] = useState<Record<string, number>>({});
+    const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+    // Handling of image load error and show the fallback image.
+    const [imgSrc, setImgSrc] = useState(
+        restaurant?.imageUrl || FALLBACK_IMAGE,
+    );
+
+    /** Function to handle the back navigation from cart page to menu page.
+     */
+    const handleBackNavigation = () => {
+        void navigate(-1);
+    };
 
     /**
      * Function to handle place order functionality from cart.
@@ -82,8 +86,6 @@ export const Cart = () => {
         [handleRemoveFromCart],
     );
 
-    const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-
     /**
      * Handles the confirmation event from the confirmation dialog.
      */
@@ -112,11 +114,6 @@ export const Cart = () => {
     const handleClose = useCallback(() => {
         setIsDialogOpen(false);
     }, []);
-
-    // Handling of image load error and show the fallback image.
-    const [imgSrc, setImgSrc] = useState(
-        restaurant?.imageUrl || FALLBACK_IMAGE,
-    );
 
     //  Loads the current active restaurant's image when the restaurant change
     useEffect(() => {
@@ -210,9 +207,7 @@ export const Cart = () => {
                     {items.map((item) => (
                         <CartCard
                             key={item.itemId}
-                            data={restaurant}
                             item={item}
-                            details={billDetails}
                             quantities={quantities}
                             setQuantities={setQuantities}
                             onAdd={() => handleAddToCart(item)}
