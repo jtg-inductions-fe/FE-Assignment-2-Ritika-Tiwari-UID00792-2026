@@ -71,7 +71,11 @@ export const RestaurantCard = React.memo(function RestaurantCard({
 
             {/* Show the edit and delete buttons only to the owners */}
             {userRole === 'owner' && (
-                <Box display="flex" gap={theme.spacing(4)}>
+                <Box
+                    display="flex"
+                    gap={theme.spacing(4)}
+                    padding={theme.spacing(4)}
+                >
                     <Button variant="text" onClick={onEdit} fullWidth>
                         <Typography variant="button">Edit</Typography>
                     </Button>

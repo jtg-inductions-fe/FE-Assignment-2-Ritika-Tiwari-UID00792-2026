@@ -7,7 +7,7 @@ export interface ConfirmationDialogProps {
     /** Callback function triggers when the requests to close or cancel the dialog. */
     onClose: () => void;
     /** Callback function triggers when user successfully confirms the action. */
-    onSubmit: (value: boolean) => void;
+    onSubmit: () => void;
     /** Title shown on the confirmation dialog. */
     title: string;
     /** Description body guides the user on what action they are confirming. */

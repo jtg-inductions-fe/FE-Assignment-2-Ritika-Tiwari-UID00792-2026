@@ -50,17 +50,21 @@ export const CartCard = React.memo(function CartCard({
 
             {/* Shows the cart item quantity selector and sub total of the item. */}
             <InteractiveControlsGroup>
-                {item.stock && (
-                    <ItemQuantitySelector
-                        key={item.itemId}
-                        itemId={item.itemId}
-                        quantity={quantities[item.itemId] ?? item.quantity}
-                        setQuantities={setQuantities}
-                        maxQuantity={item.stock}
-                        onIncrease={onAdd}
-                        onDecrease={onRemove}
-                    />
-                )}
+                {item.stock &&
+                    quantities &&
+                    setQuantities &&
+                    onAdd &&
+                    onRemove && (
+                        <ItemQuantitySelector
+                            key={item.itemId}
+                            itemId={item.itemId}
+                            quantity={quantities[item.itemId] ?? item.quantity}
+                            setQuantities={setQuantities}
+                            maxQuantity={item.stock}
+                            onIncrease={onAdd}
+                            onDecrease={onRemove}
+                        />
+                    )}
 
                 <PriceWrapper>
                     <CurrencyRupee color="primary" fontSize="small" />

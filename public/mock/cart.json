@@ -3,7 +3,9 @@
     "restaurant": {
         "restaurant_id": "8f3b2c1a-4d6e-4a7b-8c9d-0e1f2a3b4c5d",
         "name": "The Green Garden",
-        "image_url": "/res-image/res-image1.webp"
+        "image_url": "/res-image/res-image1.webp",
+        "opening_time": "08:00:00Z",
+        "closing_time": "17:32:00Z"
     },
     "items": [
         {

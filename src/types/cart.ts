@@ -1,6 +1,7 @@
 import { DietaryCategory } from './menu';
 import { Restaurant } from './restaurant';
 
+/** Interface defining the configuration properties of cart items. */
 export interface CartItem {
     itemId: string;
     name: string;
@@ -12,6 +13,7 @@ export interface CartItem {
     itemSubtotal: number;
 }
 
+/** Interface defining the configuration properties of the bill details. */
 export interface BillDetails {
     itemsSubtotal: number;
     deliveryFee?: number;
@@ -19,6 +21,7 @@ export interface BillDetails {
     itemsCount: number;
 }
 
+/** Interface defining configuration properties for the cart data including cart id, cart items, restaurant data and bill details. */
 export interface Cart {
     cartId: string;
     restaurant: Restaurant | null;

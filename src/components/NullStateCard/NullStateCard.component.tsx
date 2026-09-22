@@ -3,6 +3,7 @@ import { CardContent, Typography } from '@mui/material';
 import { DESCRIPTION, TITLE } from './NullStateCard.constants';
 import { StyledNullStateCard } from './NullStateCard.styles';
 import { NullStateCardProps } from './NullStateCard.types';
+
 /**
  * Null State component to show the Null State when data is not available.
  *

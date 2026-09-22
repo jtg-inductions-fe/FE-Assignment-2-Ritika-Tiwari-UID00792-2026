@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
+import { addNewOrder, setOrderLoading } from 'store/slices/Order/orderSlice';
 
 import { CurrencyRupee } from '@mui/icons-material';
 import { Box, Button, Divider, Stack, Typography } from '@mui/material';
@@ -14,10 +15,12 @@ import {
     NullStateCard,
     Snackbar,
 } from '@components';
-import { useCart } from '@hooks';
+import { ORDER_STATUS } from '@constant';
+import { useAuth, useCart, useRestaurant } from '@hooks';
 import { ROUTES } from '@routes';
+import { useAppDispatch, useAppSelector } from '@store';
 import { theme } from '@theme';
-import { SnackbarConfig } from '@types';
+import { CartItem, SnackbarConfig } from '@types';
 
 import { ActionWrapper, EmptyCart, StyledCardMedia } from './Cart.styles';
 
@@ -39,6 +42,8 @@ export const Cart = () => {
         handleAddToCart,
     } = useCart();
 
+    const { fetchCurrentUser } = useAuth();
+    const { isRestaurantClosed } = useRestaurant();
     // State to manage the configuration (visibility, message and state) of the snackbar.
     const [snackbarConfig, setSnackBarConfig] = useState<SnackbarConfig>({
         open: false,
@@ -56,15 +61,6 @@ export const Cart = () => {
      */
     const handleBackNavigation = () => {
         void navigate(-1);
-    };
-
-    /**
-     * Function to handle place order functionality from cart.
-     */
-    const handlePlaceOrder = () => {
-        //TODO - This will be handled properly in the order portal.
-        handleClearCart();
-        void navigate(ROUTES.ORDER_PORTAl);
     };
 
     /**
@@ -114,6 +110,79 @@ export const Cart = () => {
     const handleClose = useCallback(() => {
         setIsDialogOpen(false);
     }, []);
+
+    const dispatch = useAppDispatch();
+    const currentUser = fetchCurrentUser();
+    const orderLoading = useAppSelector((state) => state.order.orderLoading);
+
+    /**
+     * Function to handle place order functionality from cart.
+     * @param orderItems- takes the cart items and create the new order, for cart items.
+     */
+    const handlePlaceOrder = useCallback(
+        (orderItems: CartItem[]) => {
+            if (orderLoading) return;
+            //Create the new order only if customer data and restaurant data is accurate.
+            if (restaurant && currentUser && orderItems) {
+                // customer can place order only if the restaurant is opened.
+                if (
+                    isRestaurantClosed(
+                        restaurant.openingTime,
+                        restaurant.closingTime,
+                    )
+                ) {
+                    setSnackBarConfig({
+                        open: true,
+                        message:
+                            'Restaurant is closed, please try again later.',
+                        variant: 'error',
+                    });
+                    return;
+                }
+                dispatch(setOrderLoading(true));
+                const newOrder = {
+                    orderId: crypto.randomUUID(),
+                    orderStatus: ORDER_STATUS[0],
+                    createdAt: new Date().toISOString(),
+                    customerDetails: {
+                        ...currentUser,
+                        address: '123 Maple Street, New York, NY 10001',
+                    },
+                    restaurantDetails: restaurant,
+                    items: orderItems,
+                    billDetails: billDetails,
+                };
+                try {
+                    dispatch(addNewOrder(newOrder));
+                    handleClearCart();
+                    setSnackBarConfig({
+                        open: true,
+                        message: 'Order placed successfully.',
+                        variant: 'success',
+                    });
+                    void navigate(ROUTES.ORDER_PORTAl);
+                } catch {
+                    setSnackBarConfig({
+                        open: true,
+                        message: 'Order is not placed, try again later.',
+                        variant: 'error',
+                    });
+                } finally {
+                    dispatch(setOrderLoading(false));
+                }
+            }
+        },
+        [
+            dispatch,
+            orderLoading,
+            restaurant,
+            currentUser,
+            billDetails,
+            navigate,
+            handleClearCart,
+            isRestaurantClosed,
+        ],
+    );
 
     //  Loads the current active restaurant's image when the restaurant change
     useEffect(() => {
@@ -204,7 +273,7 @@ export const Cart = () => {
                     alignItems="center"
                     justifyContent="start"
                 >
-                    {items.map((item) => (
+                    {items.map((item: CartItem) => (
                         <CartCard
                             key={item.itemId}
                             item={item}
@@ -348,8 +417,13 @@ export const Cart = () => {
                     >
                         <Typography variant="button">Clear cart</Typography>
                     </Button>
-                    <Button variant="contained" onClick={handlePlaceOrder}>
-                        <Typography variant="button">Proceed to pay</Typography>
+                    <Button
+                        variant="contained"
+                        onClick={() => handlePlaceOrder(items)}
+                    >
+                        <Typography variant="button">
+                            {orderLoading ? 'processing...' : 'Proceed to buy'}
+                        </Typography>
                     </Button>
                 </ActionWrapper>
             )}

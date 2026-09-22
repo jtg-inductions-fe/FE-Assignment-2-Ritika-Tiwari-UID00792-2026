@@ -1,1 +1,3 @@
-export const OrderPortal = () => <h1>Order Portal</h1>;
+import { OrderPortal as OrderPortalContainer } from '@containers';
+
+export const OrderPortal = () => <OrderPortalContainer />;

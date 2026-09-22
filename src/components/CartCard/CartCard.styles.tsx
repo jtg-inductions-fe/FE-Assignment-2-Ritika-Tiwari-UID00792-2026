@@ -24,7 +24,7 @@ export const StyledImage = styled('img')(({ theme }) => ({
 export const ItemDetailsGroup = styled(Box)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'start',
     justifyItems: 'space-between',
     gap: theme.spacing(2),
     flexShrink: 0,
@@ -34,10 +34,12 @@ export const InteractiveControlsGroup = styled(Box)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'end',
-    gap: theme.spacing(3),
+    justifyContent: 'center',
+    maxWidth: 100,
+    gap: theme.spacing(4),
     flexWrap: 'wrap',
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('sm')]: {
+        minWidth: 150,
         flexDirection: 'row',
         gap: theme.spacing(1),
     },
