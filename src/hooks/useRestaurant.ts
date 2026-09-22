@@ -14,7 +14,6 @@ import { Restaurant } from '@types';
 /**Custom hook to manage and provide restaurant data. */
 export const useRestaurant = () => {
     const dispatch = useAppDispatch();
-
     // Extract values from Redux state (removed filteredRestaurants)
     const { restaurants, loading, error } = useAppSelector(
         (state) => state.restaurant,

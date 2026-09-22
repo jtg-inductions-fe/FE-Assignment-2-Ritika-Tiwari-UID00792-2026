@@ -1,4 +1,5 @@
 import { JSX } from 'react';
+import React from 'react';
 
 import { FormTextField } from 'components/FormTextField/FormTextField.component';
 import { useForm } from 'react-hook-form';
@@ -30,14 +31,14 @@ import { restaurantValidation } from './RestaurantModal.validations';
  * @props RestaurantModalProps - configuration properties to show a modal to add and edit the restaurant.
  *
  */
-export const RestaurantModal = ({
+export const RestaurantModal = React.memo(function RestaurantModal({
     open,
     onClose,
     ownerId,
     restaurantToEdit,
     onEdit,
     onAdd,
-}: RestaurantModalProps): JSX.Element => {
+}: RestaurantModalProps): JSX.Element {
     // Prepare the incoming values for the form by cleaning up UTC string dependencies
     const formValues = restaurantToEdit
         ? {
@@ -268,4 +269,4 @@ export const RestaurantModal = ({
             </StyledModal>
         </Modal>
     );
-};
+});

@@ -33,7 +33,39 @@ import { FilterContainer, OuterContainer } from './Restaurant.styles';
  * @returns The rendered restaurant page components.
  */
 export const Restaurant = () => {
+    const navigate = useNavigate();
     const dispatch = useAppDispatch();
+
+    const {
+        filteredRestaurants,
+        loading,
+        error,
+        activeCategory,
+        setSearchTerm,
+        handleFilterToggle,
+        userRole,
+        ownerId,
+        isRestaurantClosed,
+    } = useRestaurant();
+
+    // State to manage the configuration (visibility,message and state) of the snackbar.
+    const [snackbarConfig, setSnackBarConfig] = useState<SnackbarConfig>({
+        open: false,
+        message: '',
+        variant: 'success',
+    });
+
+    /** State to control the Add and edit modals. */
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [editingRestaurant, setEditingRestaurant] =
+        useState<RestaurantData | null>(null);
+
+    /** States to control the visibility of confirmation dialog */
+    const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+
+    /** State to store the user selected restaurant to delete */
+    const [selectedRestaurantID, setSelectedRestaurantID] =
+        useState<string>('');
 
     /** Function to handle add new restaurant in the redux store.
      * @param data- takes the restaurant data.
@@ -71,60 +103,31 @@ export const Restaurant = () => {
         [dispatch],
     );
 
-    const {
-        filteredRestaurants,
-        loading,
-        error,
-        activeCategory,
-        setSearchTerm,
-        handleFilterToggle,
-        userRole,
-        ownerId,
-        isRestaurantClosed,
-    } = useRestaurant();
-
-    // State to manage the configuration (visibility,message and state) of the snackbar.
-    const [snackbarConfig, setSnackBarConfig] = useState<SnackbarConfig>({
-        open: false,
-        message: '',
-        variant: 'success',
-    });
-
-    /** State to control the Add and edit modals. */
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [editingRestaurant, setEditingRestaurant] =
-        useState<RestaurantData | null>(null);
-
     /** Handle Add restaurant modal open state. */
-    const handleOpenAddModal = () => {
+    const handleOpenAddModal = useCallback(() => {
         setEditingRestaurant(null);
         setIsModalOpen(true);
-    };
+    }, []);
 
     /** Handle Edit restaurant modal open state. */
-    const handleOpenEditModal = (restaurant: RestaurantData) => {
-        setEditingRestaurant(restaurant);
-        setIsModalOpen(true);
-    };
+    const handleOpenEditModal = useCallback(
+        (restaurant: RestaurantData) => {
+            setEditingRestaurant(restaurant);
+            setIsModalOpen(true);
+        },
+        [setEditingRestaurant],
+    );
 
     /** Handle edit and add restaurant modal closing state */
-    const handleCloseModal = () => {
+    const handleCloseModal = useCallback(() => {
         setIsModalOpen(false);
         setEditingRestaurant(null);
-    };
-
-    /** States to control the visibility of confirmation dialog */
-    const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-
-    /** State to store the user selected restaurant to delete */
-    const [selectedRestaurantID, setSelectedRestaurantID] =
-        useState<string>('');
+    }, []);
 
     /**
      * Handles the confirmation event from the confirmation dialog.
-     * @param confirmation - A boolean value defining user confirmation from the dialog.
      */
-    const handleSubmit = () => {
+    const handleSubmit = useCallback(() => {
         if (selectedRestaurantID) {
             try {
                 handleDeleteRestaurant(selectedRestaurantID);
@@ -144,14 +147,14 @@ export const Restaurant = () => {
         } else {
             setSelectedRestaurantID('');
         }
-    };
+    }, [selectedRestaurantID, handleDeleteRestaurant]);
 
     /**
      * Function to handle close event of confirmation dialog.
      */
-    const handleClose = () => {
+    const handleClose = useCallback(() => {
         setIsDialogOpen(false);
-    };
+    }, []);
 
     /**
      * Function to handle delete restaurant event.
@@ -161,8 +164,6 @@ export const Restaurant = () => {
         setIsDialogOpen(true);
         setSelectedRestaurantID(restaurantId);
     }, []);
-
-    const navigate = useNavigate();
 
     /**
      * Function to handle click event on the restaurant card.

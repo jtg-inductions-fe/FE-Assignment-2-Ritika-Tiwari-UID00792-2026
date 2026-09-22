@@ -82,7 +82,6 @@ export const Header = ({
 
     /**
      * Handles the confirmation event from the confirmation dialog.
-     * @param confirmation - A boolean value defining user confirmation from the dialog.
      */
     const handleSubmit = () => {
         setIsDialogOpen(false);

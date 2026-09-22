@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import React from 'react';
 
 import { Box, Button, CardActionArea, Typography } from '@mui/material';
 
@@ -24,14 +25,14 @@ import { RestaurantProps } from './RestaurantCard.types';
  * @param RestaurantProps - the configuration property to render the card component for restaurant.
  * @returns The structured and styled restaurant card.
  */
-export const RestaurantCard = ({
+export const RestaurantCard = React.memo(function RestaurantCard({
     data,
     userRole,
     onEdit,
     onDelete,
     onClick,
     isClosed,
-}: RestaurantProps) => {
+}: RestaurantProps) {
     // Handle the fallback case, if image is null or url is wrong.
     const [imgSrc, setImgSrc] = useState(data.imageUrl || FALLBACK_IMAGE);
     return (
@@ -81,4 +82,4 @@ export const RestaurantCard = ({
             )}
         </StyledCard>
     );
-};
+});

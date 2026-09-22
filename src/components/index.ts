@@ -13,3 +13,4 @@ export * from './RestaurantCard/RestaurantCard.component';
 export * from './RestaurantModal/RestaurantModal.component';
 export * from './MenuCard/MenuCard.component';
 export * from './ItemQuantitySelector/ItemQuantitySelector.component';
+export * from './CartCard/CartCard.component';

@@ -52,7 +52,7 @@ const menuSlice = createSlice({
         ) => {
             const { id, quantity = 1 } = action.payload;
             const menuItem = state.menuItems.find((item) => item.itemId === id);
-            if (menuItem && menuItem.stock > 0) {
+            if (menuItem && menuItem.stock) {
                 menuItem.stock -= quantity;
             }
         },

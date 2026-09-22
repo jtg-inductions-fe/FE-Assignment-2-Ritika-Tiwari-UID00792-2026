@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { MenuItemModal } from 'components/MenuItemModal/MenuItemModal.component';
 import { useParams } from 'react-router-dom';
@@ -21,7 +21,8 @@ import {
     NullStateCard,
     Snackbar,
 } from '@components';
-import { useMenu, useRestaurant } from '@hooks';
+import { DELIVERY_FEE } from '@constant';
+import { useCart, useMenu, useRestaurant } from '@hooks';
 import {
     addMenuItems,
     deleteMenuItems,
@@ -29,7 +30,13 @@ import {
     useAppDispatch,
 } from '@store';
 import { theme } from '@theme';
-import { Menu as MenuData, SnackbarConfig } from '@types';
+import {
+    CartItem,
+    DialogType,
+    Menu as MenuData,
+    RestaurantStatus,
+    SnackbarConfig,
+} from '@types';
 
 import { StyledImage, StyledRestaurantBanner } from './Menu.styles';
 
@@ -40,31 +47,6 @@ import { StyledImage, StyledRestaurantBanner } from './Menu.styles';
  */
 export const Menu = () => {
     const dispatch = useAppDispatch();
-
-    /** Function to handle adding a new menu item in the redux store.
-     * @param data - new item's data
-     * @returns void
-     */
-    const handleAddMenuItem = (data: MenuData) => {
-        if (data) dispatch(addMenuItems(data));
-    };
-
-    /** Function to handle editing an existing MenuItem in the redux store.
-     * @param data - updated item's data
-     * @returns void
-     */
-    const handleEditMenuItem = (data: MenuData) => {
-        if (data) dispatch(editMenuItems(data));
-    };
-
-    /** Function to handle deleting a MenuItem in the redux store.
-     * @param itemId - item id of the item
-     * @returns void
-     */
-    const handleDeleteMenuItem = (itemId: string) => {
-        if (itemId) dispatch(deleteMenuItems(itemId));
-    };
-
     const { restaurantId } = useParams();
     const { filteredRestaurants } = useRestaurant();
 
@@ -73,10 +55,21 @@ export const Menu = () => {
         menuError,
         userRole,
         filteredMenuItems,
-        handleAddToCart,
         handleIncrease,
         handleDecrease,
     } = useMenu(restaurantId);
+
+    /** State for tracking the confirmation dialog , either it is for deleting the menu item or for switching the restaurant for placing the order in the cart. */
+    const {
+        handleAddToCart,
+        checkCurrentActiveRestaurant,
+        handleClearCart,
+        handleNewCart,
+        handleRemoveFromCart,
+    } = useCart();
+
+    // Returns true if screen width is smaller than the 'md' breakpoint.
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
     // State to manage the configuration (visibility,message and state) of the snackbar.
     const [snackbarConfig, setSnackBarConfig] = useState<SnackbarConfig>({
@@ -84,7 +77,6 @@ export const Menu = () => {
         message: '',
         variant: 'success',
     });
-
     /** State to control the Add and edit modals. */
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -92,24 +84,7 @@ export const Menu = () => {
     const [editingMenuItem, setEditingMenuItem] = useState<MenuData | null>(
         null,
     );
-
-    /** Handle Add restaurant modal open state. */
-    const handleOpenAddModal = () => {
-        setEditingMenuItem(null);
-        setIsModalOpen(true);
-    };
-
-    /** Handle Edit restaurant modal open state. */
-    const handleOpenEditModal = (menu: MenuData) => {
-        setEditingMenuItem(menu);
-        setIsModalOpen(true);
-    };
-
-    /** Handle edit and add restaurant modal closing state */
-    const handleCloseModal = () => {
-        setIsModalOpen(false);
-        setEditingMenuItem(null);
-    };
+    const [currentItem, setCurrentItem] = useState<CartItem>();
 
     // Track the item Id currently Selected for deletion.
     const [itemSelectedForDeletion, setItemSelectedForDeletion] = useState<
@@ -117,17 +92,129 @@ export const Menu = () => {
     >(null);
 
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+
+    const [dialogType, setDialogType] = useState<DialogType>(null);
+
+    /** State to control the quantity of a menu item. */
+    const [quantities, setQuantities] = useState<Record<string, number>>({});
+
+    // Find the restaurant data from the filtered restaurants.
+    const restaurantData = filteredRestaurants.find(
+        (restaurant) => restaurant.restaurantId === restaurantId,
+    );
+
+    // handle the fallback state of the banner image.
+    const [restImgSrc, setRestImgSrc] = useState(
+        restaurantData?.imageUrl || FALLBACK_IMAGE,
+    );
+
+    /** Function to handle adding a new menu item in the redux store.
+     * @param data - new item's data
+     * @returns void
+     */
+    const handleAddMenuItem = useCallback(
+        (data: MenuData) => {
+            if (data) dispatch(addMenuItems(data));
+        },
+        [dispatch],
+    );
+
+    /** Function to handle editing an existing MenuItem in the redux store.
+     * @param data - updated item's data
+     * @returns void
+     */
+    const handleEditMenuItem = useCallback(
+        (data: MenuData) => {
+            if (data) dispatch(editMenuItems(data));
+        },
+        [dispatch],
+    );
+
+    /** Function to handle deleting a MenuItem in the redux store.
+     * @param itemId - item id of the item
+     * @returns void
+     */
+    const handleDeleteMenuItem = useCallback(
+        (itemId: string) => {
+            if (itemId) dispatch(deleteMenuItems(itemId));
+        },
+        [dispatch],
+    );
+
+    /** Handle Add restaurant modal open state. */
+    const handleOpenAddModal = useCallback(() => {
+        setEditingMenuItem(null);
+        setIsModalOpen(true);
+    }, []);
+
+    /** Handle Edit restaurant modal open state. */
+    const handleOpenEditModal = useCallback((menu: MenuData) => {
+        setEditingMenuItem(menu);
+        setIsModalOpen(true);
+    }, []);
+
+    /** Handle edit and add restaurant modal closing state */
+    const handleCloseModal = useCallback(() => {
+        setIsModalOpen(false);
+        setEditingMenuItem(null);
+    }, []);
+
+    /**
+     * Function to create the new cart in case of user wants to switch the restaurant or the cart is empty.
+     */
+    const createNewCart = useCallback(() => {
+        // Give the fallback values so undefined will not go to the cart.
+        const menuItem: CartItem = {
+            itemId: currentItem?.itemId ?? '',
+            name: currentItem?.name ?? 'Unknown Item',
+            imageUrl: currentItem?.imageUrl ?? 'default-placeholder.png',
+            dietaryCategory: currentItem?.dietaryCategory ?? 'veg',
+            price: currentItem?.price ?? 0,
+            stock: currentItem?.stock ?? 0,
+            quantity: 1,
+            itemSubtotal: currentItem?.price ?? 0,
+        };
+
+        // Build the new cart structure
+        const newCart = {
+            cartId: crypto.randomUUID(),
+            restaurant: restaurantData ?? null,
+            items: [menuItem],
+            billDetails: {
+                itemsSubtotal: menuItem.itemSubtotal,
+                deliveryFee: DELIVERY_FEE,
+                grandTotal: menuItem.itemSubtotal + DELIVERY_FEE,
+                itemsCount: 1,
+            },
+        };
+        try {
+            // Add the new cart.
+            handleNewCart(newCart);
+            setSnackBarConfig({
+                open: true,
+                message: 'New cart created successfully.',
+                variant: 'success',
+            });
+        } catch {
+            setSnackBarConfig({
+                open: true,
+                message: 'Some error occurred, try again later.',
+                variant: 'error',
+            });
+        }
+    }, [handleNewCart, currentItem, restaurantData]);
+
     /**
      * Handles the confirmation event from the confirmation dialog.
-     * @param confirmation - A boolean value defining user confirmation from the dialog.
      */
-    const handleSubmit = () => {
+    const handleSubmit = useCallback(() => {
         setIsDialogOpen(false);
 
-        if (itemSelectedForDeletion) {
+        if (dialogType === 'DELETE' && itemSelectedForDeletion) {
             try {
                 // Execute the deletion only after confirmation
                 handleDeleteMenuItem(itemSelectedForDeletion);
+
                 setSnackBarConfig({
                     open: true,
                     message: 'Item deleted successfully',
@@ -140,71 +227,123 @@ export const Menu = () => {
                     message: 'Some error occurred, Try again later.',
                     variant: 'error',
                 });
+            } finally {
+                setDialogType(null);
             }
         }
-    };
+        if (dialogType === 'CHANGE') {
+            try {
+                handleClearCart();
+                createNewCart();
+                setSnackBarConfig({
+                    open: true,
+                    message:
+                        'Restaurant changed successfully, now you can add more items to cart.',
+                    variant: 'success',
+                });
+            } catch {
+                setSnackBarConfig({
+                    open: true,
+                    message: 'Failed to change restaurant.',
+                    variant: 'error',
+                });
+            } finally {
+                setDialogType(null);
+            }
+        }
+    }, [
+        dialogType,
+        itemSelectedForDeletion,
+        handleDeleteMenuItem,
+        handleClearCart,
+        createNewCart,
+    ]);
 
     /**
      * Function to handle close event of confirmation dialog.
      */
-    const handleClose = () => {
+    const handleClose = useCallback(() => {
         setIsDialogOpen(false);
+        setDialogType(null);
         setItemSelectedForDeletion(null);
-    };
-
-    // Find the restaurant data from the filtered restaurants.
-    const restaurantData = filteredRestaurants.find(
-        (restaurant) => restaurant.restaurantId === restaurantId,
-    );
+    }, []);
 
     /** Handle on add to cart functionality.
      * @param itemId - menu item id used to add the item in the cart.
      * @param quantity - quantity of the selected item added in the cart.
      * @returns void
      */
-    const handleOnAddToCart = (itemId: string, quantity: number) => {
-        handleAddToCart(itemId, quantity);
-        setSnackBarConfig({
-            open: true,
-            message: 'Item added to cart successfully',
-            variant: 'success',
-        });
-    };
+    const handleOnAddToCart = useCallback(
+        (item: CartItem) => {
+            setCurrentItem(item);
+            const restaurantStatus: RestaurantStatus =
+                checkCurrentActiveRestaurant(restaurantId);
+            if (restaurantStatus === 'CONFLICT') {
+                // Show the warning dialog if they are switching restaurants
+                setIsDialogOpen(true);
+                setDialogType('CHANGE');
+                return;
+            }
+
+            if (restaurantStatus === 'EMPTY') {
+                // Create the new cart when the cart is empty and add the current selected item to the cart.
+                createNewCart();
+            } else {
+                try {
+                    handleAddToCart(item);
+                    setSnackBarConfig({
+                        open: true,
+                        message: 'Item added to cart Successfully',
+                        variant: 'success',
+                    });
+                } catch {
+                    setSnackBarConfig({
+                        open: true,
+                        message: 'Some error occurred, try again later.',
+                        variant: 'error',
+                    });
+                }
+            }
+        },
+        [
+            restaurantId,
+            checkCurrentActiveRestaurant,
+            createNewCart,
+            handleAddToCart,
+        ],
+    );
 
     /**
      * Function to handle selecting a menu item for deletion.
      * @param itemId - menu item id used to stage the deletion.
      * @returns void
      */
-    const handleOnDelete = (itemId: string) => {
+    const handleOnDelete = useCallback((itemId: string) => {
         setItemSelectedForDeletion(itemId);
+        setDialogType('DELETE');
         setIsDialogOpen(true);
-    };
-
-    /** State to control the quantity of a menu item. */
-    const [quantities, setQuantities] = useState<Record<string, number>>({});
+    }, []);
 
     /** Handle on increment the count of items in the stock.
      * @param itemId - id of the item whose stock quantity will be decreased.
      * @returns void
      */
-    const handleOnIncreaseStock = (itemId: string) => {
-        handleIncrease(itemId);
-    };
+    const handleOnIncreaseStock = useCallback(
+        (itemId: string) => {
+            handleIncrease(itemId);
+        },
+        [handleIncrease],
+    );
+
     /** Handle on decrement the count of items in the stock.
      * @param itemId - id of the item whose stock quantity will be decreased.
      * @returns void
      */
-    const handleOnDecreaseStock = (itemId: string) => {
-        handleDecrease(itemId);
-    };
-
-    // Returns true if screen width is smaller than the 'md' breakpoint.
-    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-
-    // handle the fallback state of the banner image.
-    const [restImgSrc, setRestImgSrc] = useState(
-        restaurantData?.imageUrl || FALLBACK_IMAGE,
+    const handleOnDecreaseStock = useCallback(
+        (itemId: string) => {
+            handleDecrease(itemId);
+        },
+        [handleDecrease],
     );
 
     return (
@@ -308,17 +447,22 @@ export const Menu = () => {
                                 handleOnDelete(menuItem.itemId);
                             }}
                             onPrimaryAction={() => {
-                                handleOnAddToCart(
-                                    menuItem.itemId,
-                                    quantities[menuItem.itemId],
-                                );
+                                handleOnAddToCart({
+                                    ...menuItem,
+                                    quantity: 0,
+                                    itemSubtotal: 0,
+                                });
                             }}
+                            onRemove={() =>
+                                handleRemoveFromCart(menuItem.itemId)
+                            }
                             onDecrease={() => {
                                 handleOnDecreaseStock(menuItem.itemId);
                             }}
                             onIncrease={() => {
                                 handleOnIncreaseStock(menuItem.itemId);
                             }}
+                            confirmationType={dialogType}
                         />
                     ))}
             </Box>
@@ -337,7 +481,11 @@ export const Menu = () => {
                 onClose={handleClose}
                 onSubmit={handleSubmit}
                 title="Confirmation Dialog"
-                description="Are you sure you want to Delete?"
+                description={
+                    dialogType === 'DELETE'
+                        ? 'Are you sure you want to Delete?'
+                        : "Are you sure you want to order from this and remove the previous restaurant's items from the cart?"
+                }
             />
             <Snackbar
                 open={snackbarConfig.open}

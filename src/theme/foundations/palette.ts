@@ -48,4 +48,5 @@ export const palette: PaletteOptions = {
         main: COLORS.SYSTEM.INFO,
         light: COLORS.SYSTEM.INFO_BG,
     },
+    divider: COLORS.DIVIDER.LIGHT,
 };
