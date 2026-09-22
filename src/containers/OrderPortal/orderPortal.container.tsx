@@ -26,8 +26,16 @@ import { Order, OrderStatus, SnackbarConfig, User } from '@types';
  * Renders order container.
 
  * Provide the business logic for the order portal page like display the orders, order status update, order reject and canceled by the owner.
- */
+*/
 export const OrderPortal = () => {
+    const dispatch = useAppDispatch();
+    const { orders, orderLoading, orderError } = useAppSelector(
+        (state) => state.order,
+    );
+    // Fetching the current registered user data from the auth hook.
+    const { fetchCurrentUser } = useAuth();
+    const user = fetchCurrentUser() as User;
+
     // State to manage the configuration (visibility, message and state) of the snackbar.
     const [snackbarConfig, setSnackBarConfig] = useState<SnackbarConfig>({
         open: false,
@@ -35,10 +43,14 @@ export const OrderPortal = () => {
         variant: 'success',
     });
 
-    const dispatch = useAppDispatch();
-    const { orders, orderLoading, orderError } = useAppSelector(
-        (state) => state.order,
-    );
+    const [pendingUpdate, setPendingUpdate] = useState<{
+        id: string;
+        status: OrderStatus;
+    } | null>(null);
+    const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+
+    // expandablePanel state for the accordion panels.
+    const [expandedPanel, setExpandedPanel] = useState<string | false>(false);
 
     /**
      * Automatically fetches the user's cart data from the server
@@ -77,10 +89,6 @@ export const OrderPortal = () => {
         };
     }, [dispatch]);
 
-    // Fetching the current registered user data from the auth hook.
-    const { fetchCurrentUser } = useAuth();
-    const user = fetchCurrentUser() as User;
-
     // Compute the filtered list dynamically.
     const filteredOrders = useMemo(() => {
         if (!user || !orders) return [];
@@ -96,15 +104,8 @@ export const OrderPortal = () => {
         }
     }, [user, orders]);
 
-    const [pendingUpdate, setPendingUpdate] = useState<{
-        id: string;
-        status: OrderStatus;
-    } | null>(null);
-    const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-
     /**
      * Handles the confirmation event from the confirmation dialog.
-     * @param confirmation - A boolean value defining user confirmation from the dialog.
      */
     const handleSubmit = useCallback(() => {
         if (!pendingUpdate) return;
@@ -141,6 +142,7 @@ export const OrderPortal = () => {
 
     /**
      * Function to handle the status change event by owner.
+     * @param orderId - takes the order id of the order to change its status.
      * @param newStatus - take the new status of order.
      */
     const handleStatusChange = useCallback(
@@ -154,9 +156,6 @@ export const OrderPortal = () => {
         },
         [dispatch],
     );
-
-    // expandablePanel state for the accordion panels.
-    const [expandedPanel, setExpandedPanel] = useState<string | false>(false);
 
     // Handle the accordions change, e.g. opened accordion should be closed when other will open.
     const handleAccordionChange =

@@ -16,7 +16,7 @@ import {
     Snackbar,
 } from '@components';
 import { ORDER_STATUS } from '@constant';
-import { useAuth, useCart } from '@hooks';
+import { useAuth, useCart, useRestaurant } from '@hooks';
 import { ROUTES } from '@routes';
 import { useAppDispatch, useAppSelector } from '@store';
 import { theme } from '@theme';
@@ -42,8 +42,8 @@ export const Cart = () => {
         handleAddToCart,
     } = useCart();
 
-    const {fetchCurrentUser}= useAuth();
-
+    const { fetchCurrentUser } = useAuth();
+    const { isRestaurantClosed } = useRestaurant();
     // State to manage the configuration (visibility, message and state) of the snackbar.
     const [snackbarConfig, setSnackBarConfig] = useState<SnackbarConfig>({
         open: false,
@@ -117,13 +117,28 @@ export const Cart = () => {
 
     /**
      * Function to handle place order functionality from cart.
-     * @param items- takes the cart items and create the new order, for cart items.
+     * @param orderItems- takes the cart items and create the new order, for cart items.
      */
     const handlePlaceOrder = useCallback(
         (orderItems: CartItem[]) => {
             if (orderLoading) return;
             //Create the new order only if customer data and restaurant data is accurate.
-            if (restaurant && currentUser) {
+            if (restaurant && currentUser && orderItems) {
+                // customer can place order only if the restaurant is opened.
+                if (
+                    isRestaurantClosed(
+                        restaurant.openingTime,
+                        restaurant.closingTime,
+                    )
+                ) {
+                    setSnackBarConfig({
+                        open: true,
+                        message:
+                            'Restaurant is closed, please try again later.',
+                        variant: 'error',
+                    });
+                    return;
+                }
                 dispatch(setOrderLoading(true));
                 const newOrder = {
                     orderId: crypto.randomUUID(),
@@ -137,15 +152,14 @@ export const Cart = () => {
                     items: orderItems,
                     billDetails: billDetails,
                 };
-
-                setSnackBarConfig({
-                    open: true,
-                    message: 'Order placed successfully.',
-                    variant: 'success',
-                });
                 try {
                     dispatch(addNewOrder(newOrder));
                     handleClearCart();
+                    setSnackBarConfig({
+                        open: true,
+                        message: 'Order placed successfully.',
+                        variant: 'success',
+                    });
                     void navigate(ROUTES.ORDER_PORTAl);
                 } catch {
                     setSnackBarConfig({
@@ -165,10 +179,10 @@ export const Cart = () => {
             currentUser,
             billDetails,
             navigate,
-            handleClearCart
+            handleClearCart,
+            isRestaurantClosed,
         ],
     );
-
 
     //  Loads the current active restaurant's image when the restaurant change
     useEffect(() => {

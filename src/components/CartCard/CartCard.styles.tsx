@@ -24,7 +24,7 @@ export const StyledImage = styled('img')(({ theme }) => ({
 export const ItemDetailsGroup = styled(Box)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'start',
     justifyItems: 'space-between',
     gap: theme.spacing(2),
     flexShrink: 0,
@@ -51,7 +51,7 @@ export const PriceWrapper = styled(Box)({
     alignItems: 'center',
 });
 export const StyledTitle = styled(Typography)({
-    maxWidth: 120,
+    maxWidth: 150,
     wordBreak: 'break-word',
     whiteSpace: 'normal',
     overflowWrap: 'anywhere',

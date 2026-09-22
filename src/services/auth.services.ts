@@ -10,8 +10,8 @@ export const fetchRegisteredUsers = async () => {
         if (!response.ok) {
             throw new Error('Failed to fetch users');
         }
-        const data = await response.json() as User[];
-        const camelCaseData:User[] = camelcaseKeys(data, {
+        const data = (await response.json()) as User[];
+        const camelCaseData: User[] = camelcaseKeys(data, {
             deep: true,
         });
 

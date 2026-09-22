@@ -1,3 +1,5 @@
+import React from 'react';
+
 import {
     Box,
     Button,
@@ -18,12 +20,12 @@ import { OrderStatusTrackerProps } from './OrderStatusTracker.types';
  * @param OrderStatusTracker -  The configuration properties for the rendering of OrderStatusTracker.
  * @returns returns the JSX.Element
  */
-export const OrderStatusTracker = ({
+export const OrderStatusTracker = React.memo(function OrderStatusTracker({
     orderId,
     userRole,
     orderStatus,
     onStatusChange,
-}: OrderStatusTrackerProps) => {
+}: OrderStatusTrackerProps) {
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
     // Derive the active index from the incoming status prop
@@ -120,4 +122,4 @@ export const OrderStatusTracker = ({
             )}
         </Box>
     );
-};
+});
