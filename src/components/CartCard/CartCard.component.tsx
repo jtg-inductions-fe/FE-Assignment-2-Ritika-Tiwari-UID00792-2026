@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { CurrencyRupee } from '@mui/icons-material';
 import { Typography } from '@mui/material';
 
@@ -21,7 +23,7 @@ import { CartItemProps } from './CartCard.types';
  * @param cartItemProps - the configuration property to render the card component for cart.
  * @returns The structured and styled cart card.
  */
-export function CartCard({
+export const CartCard = React.memo(function CartCard({
     item,
     quantities,
     setQuantities,
@@ -73,4 +75,4 @@ export function CartCard({
             </InteractiveControlsGroup>
         </StyledCard>
     );
-}
+});

@@ -23,7 +23,7 @@ const recalculateTotals = (state: CartState) => {
         totalCount += item.quantity;
     });
 
-    if (subTotal>0) {
+    if (subTotal > 0) {
         const onePercentOfCost = subTotal * PERCENT_OF_COST;
         let deliveryFee = Math.max(DELIVERY_FEE, onePercentOfCost);
         deliveryFee = Math.round(deliveryFee * 100) / 100;

@@ -1,7 +1,5 @@
-import { useCart } from 'hooks/useCart';
-
 import { Header as HeaderComponent } from '@components';
-import { useAuth } from '@hooks';
+import { useAuth, useCart } from '@hooks';
 import { User } from '@types';
 
 /**

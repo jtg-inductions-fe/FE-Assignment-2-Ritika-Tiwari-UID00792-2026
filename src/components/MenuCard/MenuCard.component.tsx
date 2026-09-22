@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import React from 'react';
 
 import { ItemQuantitySelector } from 'components/ItemQuantitySelector/ItemQuantitySelector.component';
 
@@ -36,7 +37,7 @@ import { MenuCardProps } from './MenuCard.types';
  * @param MenuProps - the configuration property to render the card component for menu.
  * @returns The structured and styled menu card.
  */
-export function MenuCard({
+export const MenuCard = React.memo(function MenuCard({
     item,
     userRole,
     quantities,
@@ -191,4 +192,4 @@ export function MenuCard({
             </StyledCardContent>
         </StyledCard>
     );
-}
+});

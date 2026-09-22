@@ -96,22 +96,25 @@ export const Restaurant = () => {
         useState<RestaurantData | null>(null);
 
     /** Handle Add restaurant modal open state. */
-    const handleOpenAddModal = () => {
+    const handleOpenAddModal = useCallback(() => {
         setEditingRestaurant(null);
         setIsModalOpen(true);
-    };
+    }, []);
 
     /** Handle Edit restaurant modal open state. */
-    const handleOpenEditModal = (restaurant: RestaurantData) => {
-        setEditingRestaurant(restaurant);
-        setIsModalOpen(true);
-    };
+    const handleOpenEditModal = useCallback(
+        (restaurant: RestaurantData) => {
+            setEditingRestaurant(restaurant);
+            setIsModalOpen(true);
+        },
+        [setEditingRestaurant],
+    );
 
     /** Handle edit and add restaurant modal closing state */
-    const handleCloseModal = () => {
+    const handleCloseModal = useCallback(() => {
         setIsModalOpen(false);
         setEditingRestaurant(null);
-    };
+    }, []);
 
     /** States to control the visibility of confirmation dialog */
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
@@ -124,7 +127,7 @@ export const Restaurant = () => {
      * Handles the confirmation event from the confirmation dialog.
      * @param confirmation - A boolean value defining user confirmation from the dialog.
      */
-    const handleSubmit = () => {
+    const handleSubmit = useCallback(() => {
         if (selectedRestaurantID) {
             try {
                 handleDeleteRestaurant(selectedRestaurantID);
@@ -144,14 +147,14 @@ export const Restaurant = () => {
         } else {
             setSelectedRestaurantID('');
         }
-    };
+    }, [selectedRestaurantID, handleDeleteRestaurant]);
 
     /**
      * Function to handle close event of confirmation dialog.
      */
-    const handleClose = () => {
+    const handleClose = useCallback(() => {
         setIsDialogOpen(false);
-    };
+    }, []);
 
     /**
      * Function to handle delete restaurant event.

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { MenuItemModal } from 'components/MenuItemModal/MenuItemModal.component';
 import { useParams } from 'react-router-dom';
@@ -52,25 +52,34 @@ export const Menu = () => {
      * @param data - new item's data
      * @returns void
      */
-    const handleAddMenuItem = (data: MenuData) => {
-        if (data) dispatch(addMenuItems(data));
-    };
+    const handleAddMenuItem = useCallback(
+        (data: MenuData) => {
+            if (data) dispatch(addMenuItems(data));
+        },
+        [dispatch],
+    );
 
     /** Function to handle editing an existing MenuItem in the redux store.
      * @param data - updated item's data
      * @returns void
      */
-    const handleEditMenuItem = (data: MenuData) => {
-        if (data) dispatch(editMenuItems(data));
-    };
+    const handleEditMenuItem = useCallback(
+        (data: MenuData) => {
+            if (data) dispatch(editMenuItems(data));
+        },
+        [dispatch],
+    );
 
     /** Function to handle deleting a MenuItem in the redux store.
      * @param itemId - item id of the item
      * @returns void
      */
-    const handleDeleteMenuItem = (itemId: string) => {
-        if (itemId) dispatch(deleteMenuItems(itemId));
-    };
+    const handleDeleteMenuItem = useCallback(
+        (itemId: string) => {
+            if (itemId) dispatch(deleteMenuItems(itemId));
+        },
+        [dispatch],
+    );
 
     const { restaurantId } = useParams();
     const { filteredRestaurants } = useRestaurant();
@@ -100,38 +109,93 @@ export const Menu = () => {
     );
 
     /** Handle Add restaurant modal open state. */
-    const handleOpenAddModal = () => {
+    const handleOpenAddModal = useCallback(() => {
         setEditingMenuItem(null);
         setIsModalOpen(true);
-    };
+    }, []);
 
     /** Handle Edit restaurant modal open state. */
-    const handleOpenEditModal = (menu: MenuData) => {
+    const handleOpenEditModal = useCallback((menu: MenuData) => {
         setEditingMenuItem(menu);
         setIsModalOpen(true);
-    };
+    }, []);
 
+    /** State for tracking the confirmation dialog , either it is for deleting the menu item or for switching the restaurant for placing the order in the cart. */
+    const {
+        handleAddToCart,
+        checkCurrentActiveRestaurant,
+        handleClearCart,
+        handleNewCart,
+        handleRemoveFromCart,
+    } = useCart();
     /** Handle edit and add restaurant modal closing state */
-    const handleCloseModal = () => {
+    const handleCloseModal = useCallback(() => {
         setIsModalOpen(false);
         setEditingMenuItem(null);
-    };
+    }, []);
+
+    const [currentItem, setCurrentItem] = useState<CartItem>();
+    // Find the restaurant data from the filtered restaurants.
+    const restaurantData = filteredRestaurants.find(
+        (restaurant) => restaurant.restaurantId === restaurantId,
+    );
+    /**
+     * Function to create the new cart in case of user wants to switch the restaurant or the cart is empty.
+     */
+    const createNewCart = useCallback(() => {
+        // Give the fallback values so undefined will not go to the cart.
+        const menuItem: CartItem = {
+            itemId: currentItem?.itemId ?? '',
+            name: currentItem?.name ?? 'Unknown Item',
+            imageUrl: currentItem?.imageUrl ?? 'default-placeholder.png',
+            dietaryCategory: currentItem?.dietaryCategory ?? 'veg',
+            price: currentItem?.price ?? 0,
+            stock: currentItem?.stock ?? 0,
+            quantity: 1,
+            itemSubtotal: currentItem?.price ?? 0,
+        };
+
+        // Build the new cart structure
+        const newCart = {
+            cartId: crypto.randomUUID(),
+            restaurant: restaurantData ?? null,
+            items: [menuItem],
+            billDetails: {
+                itemsSubtotal: menuItem.itemSubtotal,
+                deliveryFee: DELIVERY_FEE,
+                grandTotal: menuItem.itemSubtotal + DELIVERY_FEE,
+                itemsCount: 1,
+            },
+        };
+        try {
+            // Add the new cart.
+            handleNewCart(newCart);
+            setSnackBarConfig({
+                open: true,
+                message: 'New cart created successfully.',
+                variant: 'success',
+            });
+        } catch {
+            setSnackBarConfig({
+                open: true,
+                message: 'Some error occurred, try again later.',
+                variant: 'error',
+            });
+        }
+    }, [handleNewCart, currentItem, restaurantData]);
 
     // Track the item Id currently Selected for deletion.
     const [itemSelectedForDeletion, setItemSelectedForDeletion] = useState<
         string | null
     >(null);
 
-    const [currentItem, setCurrentItem] = useState<CartItem>();
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-    /** State for tracking the confirmation dialog , either it is for deleting the menu item or for switching the restaurant for placing the order in the cart. */
-    const [dialogType, setIsDialogType] = useState<DialogType>(null);
 
+    const [dialogType, setIsDialogType] = useState<DialogType>(null);
     /**
      * Handles the confirmation event from the confirmation dialog.
-     * @param confirmation - A boolean value defining user confirmation from the dialog.
      */
-    const handleSubmit = () => {
+    const handleSubmit = useCallback(() => {
         setIsDialogOpen(false);
 
         if (dialogType === 'DELETE' && itemSelectedForDeletion) {
@@ -173,101 +237,77 @@ export const Menu = () => {
                 setIsDialogType(null);
             }
         }
-    };
+    }, [
+        dialogType,
+        itemSelectedForDeletion,
+        handleDeleteMenuItem,
+        handleClearCart,
+        createNewCart,
+    ]);
 
     /**
      * Function to handle close event of confirmation dialog.
      */
-    const handleClose = () => {
+    const handleClose = useCallback(() => {
         setIsDialogOpen(false);
         setItemSelectedForDeletion(null);
-    };
-
-    // Find the restaurant data from the filtered restaurants.
-    const restaurantData = filteredRestaurants.find(
-        (restaurant) => restaurant.restaurantId === restaurantId,
-    );
-
-    const {
-        handleAddToCart,
-        checkCurrentActiveRestaurant,
-        handleClearCart,
-        handleNewCart,
-        handleRemoveFromCart,
-    } = useCart();
+    }, []);
 
     /** Handle on add to cart functionality.
      * @param itemId - menu item id used to add the item in the cart.
      * @param quantity - quantity of the selected item added in the cart.
      * @returns void
      */
-    const handleOnAddToCart = (item: CartItem) => {
-        setCurrentItem(item);
-        const restaurantStatus: RestaurantStatus =
-            checkCurrentActiveRestaurant(restaurantId);
-        if (restaurantStatus === 'CONFLICT') {
-            // Show the warning dialog if they are switching restaurants
-            setIsDialogOpen(true);
-            setIsDialogType('CHANGE');
-            return;
-        }
+    const handleOnAddToCart = useCallback(
+        (item: CartItem) => {
+            setCurrentItem(item);
+            const restaurantStatus: RestaurantStatus =
+                checkCurrentActiveRestaurant(restaurantId);
+            if (restaurantStatus === 'CONFLICT') {
+                // Show the warning dialog if they are switching restaurants
+                setIsDialogOpen(true);
+                setIsDialogType('CHANGE');
+                return;
+            }
 
-        if (restaurantStatus === 'EMPTY') {
-            // Create the new cart when the cart is empty and add the current selected item to the cart.
-            createNewCart();
-        } else {
-            // Add the item the existing cart.
-            handleAddToCart(item);
-        }
-
-        setSnackBarConfig({
-            open: true,
-            message: 'Item added to cart     Successfully',
-            variant: 'success',
-        });
-    };
-
-    /**
-     * Function to create the new cart in case of user wants to switch the restaurant or the cart is empty.
-     */
-    const createNewCart = () => {
-        // Give the fallback values so undefined will not go to the cart.
-        const menuItem: CartItem = {
-            itemId: currentItem?.itemId ?? '',
-            name: currentItem?.name ?? 'Unknown Item',
-            imageUrl: currentItem?.imageUrl ?? 'default-placeholder.png',
-            dietaryCategory: currentItem?.dietaryCategory ?? 'veg',
-            price: currentItem?.price ?? 0,
-            stock: currentItem?.stock ?? 0,
-            quantity: 1,
-            itemSubtotal: currentItem?.price ?? 0,
-        };
-
-        // Build the new cart structure
-        const newCart = {
-            cartId: crypto.randomUUID(),
-            restaurant: restaurantData ?? null,
-            items: [menuItem],
-            billDetails: {
-                itemsSubtotal: menuItem.itemSubtotal,
-                deliveryFee: DELIVERY_FEE,
-                grandTotal: menuItem.itemSubtotal + DELIVERY_FEE,
-                itemsCount: 1,
-            },
-        };
-        handleNewCart(newCart);
-    };
+            if (restaurantStatus === 'EMPTY') {
+                // Create the new cart when the cart is empty and add the current selected item to the cart.
+                createNewCart();
+            } else {
+                try {
+                    handleAddToCart(item);
+                    setSnackBarConfig({
+                        open: true,
+                        message: 'Item added to cart Successfully',
+                        variant: 'success',
+                    });
+                } catch {
+                    setSnackBarConfig({
+                        open: true,
+                        message: 'Some error occurred, try again later.',
+                        variant: 'error',
+                    });
+                }
+            }
+        },
+        [
+            restaurantId,
+            checkCurrentActiveRestaurant,
+            createNewCart,
+            handleAddToCart,
+        ],
+    );
 
     /**
      * Function to handle selecting a menu item for deletion.
      * @param itemId - menu item id used to stage the deletion.
      * @returns void
      */
-    const handleOnDelete = (itemId: string) => {
+    const handleOnDelete = useCallback((itemId: string) => {
         setItemSelectedForDeletion(itemId);
         setIsDialogType('DELETE');
         setIsDialogOpen(true);
-    };
+    }, []);
 
     /** State to control the quantity of a menu item. */
     const [quantities, setQuantities] = useState<Record<string, number>>({});
@@ -276,16 +316,23 @@ export const Menu = () => {
      * @param itemId - id of the item whose stock quantity will be decreased.
      * @returns void
      */
-    const handleOnIncreaseStock = (itemId: string) => {
-        handleIncrease(itemId);
-    };
+    const handleOnIncreaseStock = useCallback(
+        (itemId: string) => {
+            handleIncrease(itemId);
+        },
+        [handleIncrease],
+    );
+
     /** Handle on decrement the count of items in the stock.
      * @param itemId - id of the item whose stock quantity will be decreased.
      * @returns void
      */
-    const handleOnDecreaseStock = (itemId: string) => {
-        handleDecrease(itemId);
-    };
+    const handleOnDecreaseStock = useCallback(
+        (itemId: string) => {
+            handleDecrease(itemId);
+        },
+        [handleDecrease],
+    );
 
     // Returns true if screen width is smaller than the 'md' breakpoint.
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));

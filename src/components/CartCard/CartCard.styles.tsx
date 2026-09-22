@@ -49,8 +49,8 @@ export const PriceWrapper = styled(Box)({
     alignItems: 'center',
 });
 export const StyledTitle = styled(Typography)({
-  maxWidth: 150,
-  wordBreak: 'break-word', 
-  whiteSpace: 'normal',    
-  overflowWrap: 'anywhere',  
+    maxWidth: 150,
+    wordBreak: 'break-word',
+    whiteSpace: 'normal',
+    overflowWrap: 'anywhere',
 });

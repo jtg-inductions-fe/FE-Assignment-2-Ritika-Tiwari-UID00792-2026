@@ -33,13 +33,13 @@ const Transition = React.forwardRef(function Transition(
  * @return A React functional component rendering the animated confirmation modal.
  *
  */
-export const ConfirmationDialog = ({
+export const ConfirmationDialog = React.memo(function ConfirmationDialog({
     open,
     onClose,
     onSubmit,
     title = 'Enter Value',
     description = 'Please enter the required information below.',
-}: ConfirmationDialogProps) => {
+}: ConfirmationDialogProps) {
     /**
      * Handle confirm event of the Confirmation Dialog Component
      */
@@ -104,4 +104,4 @@ export const ConfirmationDialog = ({
             </DialogActions>
         </Dialog>
     );
-};
+});

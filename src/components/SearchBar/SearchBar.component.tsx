@@ -13,10 +13,10 @@ import { SearchBarProps } from './SearchBar.types';
  * @props SearchBarProps - configuration properties to show and handle the searching functionality.
  *
  */
-export const SearchBar = ({
+export const SearchBar = React.memo(function SearchBar({
     placeholder = 'Search...',
     onSearch,
-}: SearchBarProps) => {
+}: SearchBarProps) {
     const [query, setQuery] = useState<string>('');
 
     /** Function triggers when the input changes in the text field for query. */
@@ -67,4 +67,4 @@ export const SearchBar = ({
             }}
         />
     );
-};
+});

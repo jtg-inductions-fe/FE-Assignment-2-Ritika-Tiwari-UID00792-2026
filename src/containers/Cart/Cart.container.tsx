@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import { CartCard } from 'components/CartCard/CartCard.component';
 import { useNavigate } from 'react-router-dom';
 
 import { CurrencyRupee } from '@mui/icons-material';
@@ -9,6 +8,7 @@ import { Box, Button, Divider, Stack, Typography } from '@mui/material';
 import emptyCartImage from '@assets/images/empty-cart.webp';
 import FALLBACK_IMAGE from '@assets/images/fallback-image.webp';
 import {
+    CartCard,
     ConfirmationDialog,
     LoadingCardSkeleton,
     NullStateCard,
@@ -67,23 +67,25 @@ export const Cart = () => {
      * Function to handle the remove items functionality from the cart
      * @param id - takes the id of the cart item.
      */
-    const handleRemoveItem = (id: string) => {
-        try {
-            handleRemoveFromCart(id);
-        } catch {
-            setSnackBarConfig({
-                open: true,
-                message: 'Failed to remove item.',
-                variant: 'error',
-            });
-        }
-    };
+    const handleRemoveItem = useCallback(
+        (id: string) => {
+            try {
+                handleRemoveFromCart(id);
+            } catch {
+                setSnackBarConfig({
+                    open: true,
+                    message: 'Failed to remove item.',
+                    variant: 'error',
+                });
+            }
+        },
+        [handleRemoveFromCart],
+    );
 
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
     /**
      * Handles the confirmation event from the confirmation dialog.
-     * @param confirmation - A boolean value defining user confirmation from the dialog.
      */
     const handleSubmit = useCallback(() => {
         try {
@@ -148,7 +150,7 @@ export const Cart = () => {
                     </>
                 )}
 
-                {!cartLoading && items.length>0 && (
+                {!cartLoading && items.length > 0 && (
                     <Box
                         width="100%"
                         display="flex"
@@ -220,7 +222,7 @@ export const Cart = () => {
                 </Box>
 
                 {/* Bill details of  order */}
-                {!cartLoading && items.length>0 && (
+                {!cartLoading && items.length > 0 && (
                     <Box
                         display="flex"
                         flexDirection="column"
@@ -333,7 +335,7 @@ export const Cart = () => {
             />
 
             {/* Clear cart and place order actions button wrapper */}
-            {items.length>0 && !cartLoading && (
+            {items.length > 0 && !cartLoading && (
                 <ActionWrapper
                     display="flex"
                     flexDirection="row"

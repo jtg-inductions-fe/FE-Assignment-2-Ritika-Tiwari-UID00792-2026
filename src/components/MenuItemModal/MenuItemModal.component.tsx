@@ -1,4 +1,5 @@
 import { JSX } from 'react';
+import React from 'react';
 
 import { FormTextField } from 'components/FormTextField/FormTextField.component';
 import { useForm } from 'react-hook-form';
@@ -29,14 +30,14 @@ import { menuItemValidation } from './MenuItemModal.validations';
  * @props MenuItemModalProps - configuration properties to show a modal to add and edit the MenuItem.
  *
  */
-export const MenuItemModal = ({
+export const MenuItemModal = React.memo(function MenuItemModal({
     open,
     onClose,
     id,
     itemToEdit,
     onEdit,
     onAdd,
-}: MenuItemModalProps): JSX.Element => {
+}: MenuItemModalProps): JSX.Element {
     // Initialize form controls, error states, and validation tracking via react-hook-form
     const {
         control,
@@ -242,4 +243,4 @@ export const MenuItemModal = ({
             </StyledModal>
         </Modal>
     );
-};
+});

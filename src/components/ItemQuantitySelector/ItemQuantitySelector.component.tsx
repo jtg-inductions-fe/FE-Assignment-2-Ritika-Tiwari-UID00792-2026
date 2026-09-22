@@ -1,3 +1,5 @@
+import React from 'react';
+
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { Box, IconButton, Typography } from '@mui/material';
@@ -13,14 +15,14 @@ import { ItemQuantitySelectorProps } from './ItemQuantitySelector.types';
  * @props QuantityDropdownProps - configuration properties to manage the quantity.
  * @return - a rendered quantity controller with plus and minus buttons.
  */
-export const ItemQuantitySelector = ({
+export const ItemQuantitySelector = React.memo(function ItemQuantitySelector({
     itemId,
     quantity,
     setQuantities,
     maxQuantity = 10,
     onIncrease,
     onDecrease,
-}: ItemQuantitySelectorProps) => {
+}: ItemQuantitySelectorProps) {
     const handleIncrement = () => {
         if (quantity < maxQuantity) {
             setQuantities((prev) => ({
@@ -71,4 +73,4 @@ export const ItemQuantitySelector = ({
             </IconButton>
         </Box>
     );
-};
+});
