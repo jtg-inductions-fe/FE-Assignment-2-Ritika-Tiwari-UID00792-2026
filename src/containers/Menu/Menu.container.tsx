@@ -8,6 +8,7 @@ import {
     Box,
     Button,
     CardContent,
+    Chip,
     Fab,
     Typography,
     useMediaQuery,
@@ -19,6 +20,7 @@ import {
     LoadingCardSkeleton,
     MenuCard,
     NullStateCard,
+    SearchBar,
     Snackbar,
 } from '@components';
 import { DELIVERY_FEE } from '@constant';
@@ -38,7 +40,12 @@ import {
     SnackbarConfig,
 } from '@types';
 
-import { StyledImage, StyledRestaurantBanner } from './Menu.styles';
+import {
+    FilterContainer,
+    OuterContainer,
+    StyledImage,
+    StyledRestaurantBanner,
+} from './Menu.styles';
 
 /**
  * Menu Container
@@ -57,6 +64,9 @@ export const Menu = () => {
         filteredMenuItems,
         handleIncrease,
         handleDecrease,
+        handleFilterToggle,
+        setSearchTerm,
+        activeCategory,
     } = useMenu(restaurantId);
 
     /** State for tracking the confirmation dialog , either it is for deleting the menu item or for switching the restaurant for placing the order in the cart. */
@@ -162,47 +172,51 @@ export const Menu = () => {
     /**
      * Function to create the new cart in case of user wants to switch the restaurant or the cart is empty.
      */
-    const createNewCart = useCallback(() => {
-        // Give the fallback values so undefined will not go to the cart.
-        const menuItem: CartItem = {
-            itemId: currentItem?.itemId ?? '',
-            name: currentItem?.name ?? 'Unknown Item',
-            imageUrl: currentItem?.imageUrl ?? 'default-placeholder.png',
-            dietaryCategory: currentItem?.dietaryCategory ?? 'veg',
-            price: currentItem?.price ?? 0,
-            stock: currentItem?.stock ?? 0,
-            quantity: 1,
-            itemSubtotal: currentItem?.price ?? 0,
-        };
+    const createNewCart = useCallback(
+        (item: CartItem) => {
+            if (!item) return;
 
-        // Build the new cart structure
-        const newCart = {
-            cartId: crypto.randomUUID(),
-            restaurant: restaurantData ?? null,
-            items: [menuItem],
-            billDetails: {
-                itemsSubtotal: menuItem.itemSubtotal,
-                deliveryFee: DELIVERY_FEE,
-                grandTotal: menuItem.itemSubtotal + DELIVERY_FEE,
-                itemsCount: 1,
-            },
-        };
-        try {
-            // Add the new cart.
-            handleNewCart(newCart);
-            setSnackBarConfig({
-                open: true,
-                message: 'New cart created successfully.',
-                variant: 'success',
-            });
-        } catch {
-            setSnackBarConfig({
-                open: true,
-                message: 'Some error occurred, try again later.',
-                variant: 'error',
-            });
-        }
-    }, [handleNewCart, currentItem, restaurantData]);
+            const menuItem: CartItem = {
+                itemId: item?.itemId,
+                name: item?.name,
+                imageUrl: item?.imageUrl,
+                dietaryCategory: item?.dietaryCategory,
+                price: item?.price,
+                stock: item?.stock,
+                quantity: 1,
+                itemSubtotal: item?.price,
+            };
+
+            // Build the new cart structure
+            const newCart = {
+                cartId: crypto.randomUUID(),
+                restaurant: restaurantData ?? null,
+                items: [menuItem],
+                billDetails: {
+                    itemsSubtotal: menuItem.itemSubtotal,
+                    deliveryFee: DELIVERY_FEE,
+                    grandTotal: menuItem.itemSubtotal + DELIVERY_FEE,
+                    itemsCount: 1,
+                },
+            };
+            try {
+                // Add the new cart.
+                handleNewCart(newCart);
+                setSnackBarConfig({
+                    open: true,
+                    message: 'New cart created successfully.',
+                    variant: 'success',
+                });
+            } catch {
+                setSnackBarConfig({
+                    open: true,
+                    message: 'Some error occurred, try again later.',
+                    variant: 'error',
+                });
+            }
+        },
+        [handleNewCart, restaurantData],
+    );
 
     /**
      * Handles the confirmation event from the confirmation dialog.
@@ -234,7 +248,9 @@ export const Menu = () => {
         if (dialogType === 'CHANGE') {
             try {
                 handleClearCart();
-                createNewCart();
+                if (currentItem) {
+                    createNewCart(currentItem);
+                }
                 setSnackBarConfig({
                     open: true,
                     message:
@@ -256,6 +272,7 @@ export const Menu = () => {
         itemSelectedForDeletion,
         handleDeleteMenuItem,
         handleClearCart,
+        currentItem,
         createNewCart,
     ]);
 
@@ -275,7 +292,8 @@ export const Menu = () => {
      */
     const handleOnAddToCart = useCallback(
         (item: CartItem) => {
-            setCurrentItem(item);
+            const newItem = item;
+            setCurrentItem(newItem);
             const restaurantStatus: RestaurantStatus =
                 checkCurrentActiveRestaurant(restaurantId);
             if (restaurantStatus === 'CONFLICT') {
@@ -287,7 +305,7 @@ export const Menu = () => {
 
             if (restaurantStatus === 'EMPTY') {
                 // Create the new cart when the cart is empty and add the current selected item to the cart.
-                createNewCart();
+                createNewCart(item);
             } else {
                 try {
                     handleAddToCart(item);
@@ -345,7 +363,6 @@ export const Menu = () => {
         },
         [handleDecrease],
     );
-
     return (
         <Box width="100%">
             <StyledRestaurantBanner>
@@ -377,6 +394,48 @@ export const Menu = () => {
                     )}
                 </CardContent>
             </StyledRestaurantBanner>
+
+            <OuterContainer>
+                <SearchBar onSearch={setSearchTerm} />
+                <FilterContainer
+                    aria-label="Menu Item category filters"
+                    role="group"
+                >
+                    {/* Vegetarian Category Selector */}
+                    <Chip
+                        label="Veg"
+                        onClick={() => handleFilterToggle('veg')}
+                        onDelete={
+                            activeCategory === 'veg'
+                                ? () => handleFilterToggle('veg')
+                                : undefined
+                        }
+                        variant={
+                            activeCategory === 'veg' ? 'filled' : 'outlined'
+                        }
+                        color={activeCategory === 'veg' ? 'primary' : 'default'}
+                        clickable
+                    />
+
+                    {/* Non-Vegetarian Category Selector */}
+                    <Chip
+                        label="Non-veg"
+                        onClick={() => handleFilterToggle('non-veg')}
+                        onDelete={
+                            activeCategory === 'non-veg'
+                                ? () => handleFilterToggle('non-veg')
+                                : undefined
+                        }
+                        variant={
+                            activeCategory === 'non-veg' ? 'filled' : 'outlined'
+                        }
+                        color={
+                            activeCategory === 'non-veg' ? 'primary' : 'default'
+                        }
+                        clickable
+                    />
+                </FilterContainer>
+            </OuterContainer>
 
             {/* Add Menu Item option will only show to owners */}
             {userRole === 'owner' && isMobile && (
@@ -427,7 +486,7 @@ export const Menu = () => {
                             description={
                                 menuError
                                     ? 'Failed to load data.'
-                                    : 'No items found for this restaurant.'
+                                    : 'No Items found, matching your criteria.'
                             }
                         />
                     )}

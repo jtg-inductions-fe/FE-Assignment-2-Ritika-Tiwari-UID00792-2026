@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { useAuth } from '@hooks';
+import { useAuth, useDebounce } from '@hooks';
 import { fetchMenuItemsByRestaurantId } from '@services';
 import {
     decrementStock,
@@ -22,6 +22,13 @@ export const useMenu = (restaurantId: string | undefined) => {
     const { menuItems, menuLoading, menuError } = useAppSelector(
         (state) => state.menu,
     );
+
+    // Local state for UI search terms and active filter categories.
+    const [searchTerm, setSearchTerm] = useState('');
+    const [activeCategory, setActiveCategory] = useState('');
+
+    // Use the debouncing on the searchTerm to prevent multiple search request.
+    const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
     //  Fetch data only when restaurantId or dispatch changes
     useEffect(() => {
@@ -50,6 +57,31 @@ export const useMenu = (restaurantId: string | undefined) => {
         void fetchData();
     }, [dispatch, restaurantId]);
 
+    // Compute the filtered list dynamically.
+    const filteredMenuItems = useMemo(() => {
+        const menuList = menuItems;
+
+        // Apply search and category filters on the resulting list
+        return menuList.filter((item) => {
+            const matchesSearch = item.name
+                .toLowerCase()
+                .includes(debouncedSearchTerm.toLowerCase().trim());
+
+            const matchesCategory = activeCategory
+                ? item.dietaryCategory === activeCategory
+                : true;
+
+            return matchesSearch && matchesCategory;
+        });
+    }, [menuItems, debouncedSearchTerm, activeCategory]);
+
+    /** Callback hook to handle filter toggle (veg/non-veg).
+     * @param category- take the category type (veg/non-veg).
+     */
+    const handleFilterToggle = useCallback((category: string) => {
+        setActiveCategory((prev) => (prev === category ? '' : category));
+    }, []);
+
     /** Function to handle restock a MenuItem in the redux store.
      *  @param id - id of the item
      *  @returns void
@@ -70,7 +102,11 @@ export const useMenu = (restaurantId: string | undefined) => {
         userRole: registeredUser?.role,
         menuLoading,
         menuError,
-        filteredMenuItems: menuItems,
+        searchTerm,
+        setSearchTerm,
+        activeCategory,
+        handleFilterToggle,
+        filteredMenuItems,
         handleIncrease,
         handleDecrease,
     };

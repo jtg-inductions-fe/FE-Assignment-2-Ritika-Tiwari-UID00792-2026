@@ -1,6 +1,6 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 
-import { fetchCartData } from '@services';
+// import { fetchCartData } from '@services';
 import {
     addItemToCart,
     clearCart,
@@ -27,43 +27,6 @@ export const useCart = () => {
     // Extract cart state from the global Redux store
     const { items, billDetails, cartId, restaurant, cartLoading, cartError } =
         useAppSelector((state) => state.cart);
-
-    /**
-     * Automatically fetches the user's cart data from the server
-     * when the component using this hook mounts.
-     */
-    useEffect(() => {
-        const controller = new AbortController();
-        const fetchData = async () => {
-            try {
-                dispatch(setCartLoading(true));
-                dispatch(setCartError(null));
-
-                const cartData = await fetchCartData({
-                    signal: controller.signal,
-                });
-                dispatch(setCart(cartData));
-            } catch (err) {
-                if (err instanceof Error && err.name === 'AbortError') return;
-
-                dispatch(
-                    setCartError(
-                        err instanceof Error
-                            ? err.message
-                            : 'An error occurred',
-                    ),
-                );
-            } finally {
-                dispatch(setCartLoading(false));
-            }
-        };
-
-        void fetchData();
-
-        return () => {
-            controller.abort();
-        };
-    }, [dispatch]);
 
     /**
      * Adds an item to the shopping cart if it is in stock.

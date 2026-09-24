@@ -127,11 +127,7 @@ export const MenuCard = React.memo(function MenuCard({
                 ) : (
                     <Chip
                         icon={item.stock ? <CheckCircleIcon /> : <BlockIcon />}
-                        label={
-                            item.stock
-                                ? `${item.stock} in Stock`
-                                : `Out of Stock`
-                        }
+                        label={item.stock ? `In Stock` : `Out of Stock`}
                         color={item.stock ? 'success' : 'error'}
                     />
                 )}

@@ -7,5 +7,6 @@ export const StyledNullStateCard = styled(Card)(({ theme }) => ({
     textAlign: 'center',
     alignItems: 'center',
     justifyContent: 'center',
+    flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
 }));

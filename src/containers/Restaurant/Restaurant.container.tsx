@@ -250,7 +250,7 @@ export const Restaurant = () => {
                 flexWrap="wrap"
                 gap={theme.spacing(4)}
                 alignItems="center"
-                justifyContent="center"
+                justifyContent="start"
                 marginBlock={theme.spacing(8)}
             >
                 {loading && (
@@ -266,7 +266,6 @@ export const Restaurant = () => {
 
                 {!loading && (error || filteredRestaurants.length === 0) && (
                     <NullStateCard
-                        title=""
                         description={
                             error
                                 ? 'Failed to load data.'
@@ -277,7 +276,7 @@ export const Restaurant = () => {
 
                 {!loading &&
                     !error &&
-                    filteredRestaurants.map((restaurant) => (
+                    filteredRestaurants.map((restaurant: RestaurantData) => (
                         <RestaurantCard
                             key={restaurant.restaurantId}
                             data={restaurant}
