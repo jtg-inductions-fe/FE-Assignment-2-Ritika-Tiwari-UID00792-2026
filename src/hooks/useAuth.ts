@@ -16,7 +16,7 @@ export const useAuth = () => {
     const registeredUsers = useAppSelector((state) => state.auth.users);
     //  Fetch data only when dispatch changes
     useEffect(() => {
-        if (registeredUsers.length > 0) return;
+        if (registeredUsers && registeredUsers.length > 0) return;
         const fetchUsers = async () => {
             try {
                 const users: User[] = (await fetchRegisteredUsers()) ?? [];
@@ -31,7 +31,7 @@ export const useAuth = () => {
         };
 
         void fetchUsers();
-    }, [dispatch]);
+    }, [dispatch, registeredUsers]);
 
     /**
      * Helper function to locate a user by their email address.

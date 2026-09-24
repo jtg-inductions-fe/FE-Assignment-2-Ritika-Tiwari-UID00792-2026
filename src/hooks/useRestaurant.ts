@@ -69,7 +69,7 @@ export const useRestaurant = () => {
         return () => {
             controller.abort();
         };
-    }, [dispatch, registeredUser?.id, registeredUser?.role]);
+    }, [dispatch, restaurants, registeredUser?.id, registeredUser?.role]);
 
     // Compute the filtered list dynamically.
     const filteredRestaurants = useMemo(() => {

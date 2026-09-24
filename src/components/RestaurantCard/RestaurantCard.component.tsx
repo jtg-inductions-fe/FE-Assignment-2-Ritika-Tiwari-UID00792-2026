@@ -2,11 +2,13 @@ import { useState } from 'react';
 import React from 'react';
 
 import { Box, Button, CardActionArea, Chip, Typography } from '@mui/material';
+
 import closedTag from '@assets/images/closed-restaurant.webp';
 import FALLBACK_IMAGE from '@assets/images/fallback-image.webp';
 import nonVegIndicator from '@assets/images/non-veg-indicator.webp';
 import vegIndicator from '@assets/images/veg-indicator.webp';
 import { theme } from '@theme';
+import { formatUTCToLocal12h } from '@utils';
 
 import {
     StyledBox,
@@ -20,7 +22,6 @@ import {
     StyledTitle,
 } from './RestaurantCard.styles';
 import { RestaurantProps } from './RestaurantCard.types';
-import { formatUTCToLocal12h } from '@utils';
 
 /**
  * A Restaurant card that displays the details of restaurant.

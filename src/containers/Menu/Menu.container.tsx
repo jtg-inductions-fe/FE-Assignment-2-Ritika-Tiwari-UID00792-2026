@@ -41,6 +41,7 @@ import {
     RestaurantStatus,
     SnackbarConfig,
 } from '@types';
+import { formatUTCToLocal12h } from '@utils';
 
 import {
     FilterContainer,
@@ -48,7 +49,6 @@ import {
     StyledImage,
     StyledRestaurantBanner,
 } from './Menu.styles';
-import { formatUTCToLocal12h } from '@utils';
 
 /**
  * Menu Container

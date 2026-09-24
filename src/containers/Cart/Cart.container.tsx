@@ -44,6 +44,9 @@ export const Cart = () => {
 
     const { fetchCurrentUser } = useAuth();
     const { isRestaurantClosed } = useRestaurant();
+    const dispatch = useAppDispatch();
+    const orderLoading = useAppSelector((state) => state.order.orderLoading);
+
     // State to manage the configuration (visibility, message and state) of the snackbar.
     const [snackbarConfig, setSnackBarConfig] = useState<SnackbarConfig>({
         open: false,
@@ -83,58 +86,7 @@ export const Cart = () => {
         [handleRemoveFromCart],
     );
 
-    /**
-     * Handles the confirmation event from the confirmation dialog.
-     */
-    const handleSubmit = useCallback(() => {
-        if (isPlacingOrder) {
-            try {
-                handlePlaceOrder();
-                setSnackBarConfig({
-                    open: true,
-                    message: 'Ordered placed successfully.',
-                    variant: 'success',
-                });
-            } catch {
-                setSnackBarConfig({
-                    open: true,
-                    message: 'Some error occurred, Try again later.',
-                    variant: 'error',
-                });
-            } finally {
-                setIsDialogOpen(false);
-                setIsPlacingOrder(false);
-            }
-        } else {
-            try {
-                handleClearCart();
-                setSnackBarConfig({
-                    open: true,
-                    message: 'Cart cleared successfully.',
-                    variant: 'success',
-                });
-            } catch {
-                setSnackBarConfig({
-                    open: true,
-                    message: 'Some error occurred, Try again later.',
-                    variant: 'error',
-                });
-            } finally {
-                setIsDialogOpen(false);
-            }
-        }
-    }, [handleClearCart, isPlacingOrder]);
-
-    /**
-     * Function to handle close event of confirmation dialog.
-     */
-    const handleClose = useCallback(() => {
-        setIsDialogOpen(false);
-    }, []);
-
-    const dispatch = useAppDispatch();
     const currentUser = fetchCurrentUser();
-    const orderLoading = useAppSelector((state) => state.order.orderLoading);
 
     /**
      * Function to handle place order functionality from cart.
@@ -199,7 +151,57 @@ export const Cart = () => {
         navigate,
         handleClearCart,
         isRestaurantClosed,
+        items,
     ]);
+
+    /**
+     * Handles the confirmation event from the confirmation dialog.
+     */
+    const handleSubmit = useCallback(() => {
+        if (isPlacingOrder) {
+            try {
+                handlePlaceOrder();
+                setSnackBarConfig({
+                    open: true,
+                    message: 'Ordered placed successfully.',
+                    variant: 'success',
+                });
+            } catch {
+                setSnackBarConfig({
+                    open: true,
+                    message: 'Some error occurred, Try again later.',
+                    variant: 'error',
+                });
+            } finally {
+                setIsDialogOpen(false);
+                setIsPlacingOrder(false);
+            }
+        } else {
+            try {
+                handleClearCart();
+                setSnackBarConfig({
+                    open: true,
+                    message: 'Cart cleared successfully.',
+                    variant: 'success',
+                });
+            } catch {
+                setSnackBarConfig({
+                    open: true,
+                    message: 'Some error occurred, Try again later.',
+                    variant: 'error',
+                });
+            } finally {
+                setIsDialogOpen(false);
+            }
+        }
+    }, [handleClearCart, isPlacingOrder, handlePlaceOrder]);
+
+    /**
+     * Function to handle close event of confirmation dialog.
+     */
+    const handleClose = useCallback(() => {
+        setIsDialogOpen(false);
+    }, []);
 
     //  Loads the current active restaurant's image when the restaurant change
     useEffect(() => {

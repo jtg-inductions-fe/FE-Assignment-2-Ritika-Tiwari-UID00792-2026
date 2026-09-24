@@ -1,13 +1,13 @@
+import StarIcon from '@mui/icons-material/Star';
 import {
+    Box,
     Card,
     CardContent,
     CardMedia,
     CardMediaProps,
     styled,
     Typography,
-    Box,
 } from '@mui/material';
-import StarIcon from '@mui/icons-material/Star';
 
 export const StyledCard = styled(Card)(({ theme }) => ({
     display: 'flex',

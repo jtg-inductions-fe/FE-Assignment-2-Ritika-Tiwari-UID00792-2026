@@ -14,8 +14,8 @@ import { TransitionProps } from '@mui/material/transitions';
 
 import { theme } from '@theme';
 
-import { ConfirmationDialogProps } from './ConfirmationDialog.types';
 import { StyledDialogContent } from './ConfirmationDialog.styles';
+import { ConfirmationDialogProps } from './ConfirmationDialog.types';
 
 /**
  * MUI transition props used to animate the the confirmation dialog from the bottom up.
