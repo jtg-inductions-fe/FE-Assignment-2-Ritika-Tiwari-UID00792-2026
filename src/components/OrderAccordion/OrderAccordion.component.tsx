@@ -123,6 +123,32 @@ export const OrderAccordion = React.memo(function OrderAccordion({
                                 variant="subtitle2"
                                 color={theme.palette.text.secondary}
                             >
+                                Total cost of items
+                            </Typography>
+                            <Box display="flex" alignItems="center">
+                                <CurrencyRupee
+                                    color="primary"
+                                    fontSize="small"
+                                />
+                                <Typography
+                                    variant="subtitle2"
+                                    color={theme.palette.text.secondary}
+                                >
+                                    {data.billDetails.itemsSubtotal}
+                                </Typography>
+                            </Box>
+                        </Box>
+
+                        <Box
+                            display="flex"
+                            flexDirection="row"
+                            justifyContent="space-between"
+                            width="100%"
+                        >
+                            <Typography
+                                variant="subtitle2"
+                                color={theme.palette.text.secondary}
+                            >
                                 Total Items
                             </Typography>
                             <Typography

@@ -148,7 +148,11 @@ export const MenuCard = React.memo(function MenuCard({
                         alignSelf="end"
                         width="100%"
                     >
-                        <Button variant="text" onClick={onEdit}>
+                        <Button
+                            variant="outlined"
+                            color="primary"
+                            onClick={onEdit}
+                        >
                             <Typography variant="button">Edit</Typography>
                         </Button>
                         <Button

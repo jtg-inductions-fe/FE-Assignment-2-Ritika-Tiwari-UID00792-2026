@@ -5,7 +5,6 @@ import {
     Button,
     Dialog,
     DialogActions,
-    DialogContent,
     DialogContentText,
     DialogTitle,
     Slide,
@@ -16,6 +15,7 @@ import { TransitionProps } from '@mui/material/transitions';
 import { theme } from '@theme';
 
 import { ConfirmationDialogProps } from './ConfirmationDialog.types';
+import { StyledDialogContent } from './ConfirmationDialog.styles';
 
 /**
  * MUI transition props used to animate the the confirmation dialog from the bottom up.
@@ -69,20 +69,19 @@ export const ConfirmationDialog = React.memo(function ConfirmationDialog({
             aria-describedby="alert-dialog-slide-description"
             role="alertdialog"
         >
-            <DialogTitle variant="h6" color="text.primary" gutterBottom>
+            <DialogTitle variant="h6" color="text.primary">
                 {title}
             </DialogTitle>
-
-            <DialogContent>
+            <StyledDialogContent>
                 <DialogContentText
                     id="alert-dialog-slide-description"
                     variant="body2"
                     color="text.secondary"
-                    gutterBottom
+                    padding={theme.spacing(4)}
                 >
                     {description}
                 </DialogContentText>
-            </DialogContent>
+            </StyledDialogContent>
 
             <DialogActions>
                 <Box
@@ -90,7 +89,11 @@ export const ConfirmationDialog = React.memo(function ConfirmationDialog({
                     display="flex"
                     gap={theme.spacing(4)}
                 >
-                    <Button variant="text" onClick={handleCancel}>
+                    <Button
+                        variant="outlined"
+                        color="error"
+                        onClick={handleCancel}
+                    >
                         <Typography
                             variant="button"
                             component="span"

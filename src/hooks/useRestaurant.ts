@@ -30,6 +30,7 @@ export const useRestaurant = () => {
 
     // Fetch data from mock json on mount and convert the variables to camel case.
     useEffect(() => {
+        if (restaurants && restaurants.length > 0) return;
         const controller = new AbortController();
         const { signal } = controller;
 

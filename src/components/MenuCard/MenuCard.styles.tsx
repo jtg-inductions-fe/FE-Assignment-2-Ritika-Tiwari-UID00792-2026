@@ -15,7 +15,7 @@ export const StyledCard = styled(Card)(({ theme }) => ({
     alignItems: 'center',
     minWidth: 220,
     width: '40%',
-    maxWidth: 300,
+    maxWidth: 240,
     flexGrow: 1,
     padding: theme.spacing(4),
     boxShadow: theme.shadows[10],
@@ -48,6 +48,7 @@ export const StyledImageIndicator = styled(CardMedia)<CardMediaProps>({
 
 export const StyledCardContent = styled(CardContent)(({ theme }) => ({
     backgroundColor: theme.palette.background.default,
+    minHeight: 200,
     [theme.breakpoints.up('md')]: {
         width: '50%',
     },

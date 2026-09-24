@@ -5,7 +5,9 @@ import {
     CardMediaProps,
     styled,
     Typography,
+    Box,
 } from '@mui/material';
+import StarIcon from '@mui/icons-material/Star';
 
 export const StyledCard = styled(Card)(({ theme }) => ({
     display: 'flex',
@@ -49,7 +51,10 @@ export const StyledClosedTag = styled(CardMedia)<CardMediaProps>({
 
 export const StyledCardContent = styled(CardContent)(({ theme }) => ({
     width: '100%',
-    minHeight: 150,
+    minHeight: 200,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: theme.spacing(2),
     backgroundColor: theme.palette.background.default,
 }));
 
@@ -58,4 +63,14 @@ export const StyledTitle = styled(Typography)(({ theme }) => ({
 }));
 export const StyledDescription = styled(Typography)(({ theme }) => ({
     ...theme.mixins.lineClamp(2),
+}));
+export const StyledBox = styled(Box)({
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+});
+
+export const StyledStarIcon = styled(StarIcon)(({ theme }) => ({
+    fontSize: theme.typography.pxToRem(16),
+    color: theme.palette.primary.dark,
 }));

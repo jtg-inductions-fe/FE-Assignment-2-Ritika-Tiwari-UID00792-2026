@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import React from 'react';
 
-import { Box, Button, CardActionArea, Typography } from '@mui/material';
-
+import { Box, Button, CardActionArea, Chip, Typography } from '@mui/material';
 import closedTag from '@assets/images/closed-restaurant.webp';
 import FALLBACK_IMAGE from '@assets/images/fallback-image.webp';
 import nonVegIndicator from '@assets/images/non-veg-indicator.webp';
@@ -10,15 +9,18 @@ import vegIndicator from '@assets/images/veg-indicator.webp';
 import { theme } from '@theme';
 
 import {
+    StyledBox,
     StyledCard,
     StyledCardContent,
     StyledCardMedia,
     StyledClosedTag,
     StyledDescription,
     StyledImageIndicator,
+    StyledStarIcon,
     StyledTitle,
 } from './RestaurantCard.styles';
 import { RestaurantProps } from './RestaurantCard.types';
+import { formatUTCToLocal12h } from '@utils';
 
 /**
  * A Restaurant card that displays the details of restaurant.
@@ -60,12 +62,40 @@ export const RestaurantCard = React.memo(function RestaurantCard({
                 )}
 
                 <StyledCardContent>
-                    <StyledTitle gutterBottom variant="subtitle1">
+                    <StyledBox>
+                        <Chip
+                            color="primary"
+                            icon={<StyledStarIcon />}
+                            label={data.rating}
+                        />
+                    </StyledBox>
+                    <StyledTitle
+                        gutterBottom
+                        variant="subtitle1"
+                        marginBottom={0}
+                    >
                         {data.name}
                     </StyledTitle>
+
                     <StyledDescription variant="body2">
                         {data.description}
                     </StyledDescription>
+                    {!isClosed ? (
+                        <Typography
+                            variant="body2"
+                            color={theme.palette.error.main}
+                        >
+                            Will close at{' '}
+                            {formatUTCToLocal12h(data.closingTime)}{' '}
+                        </Typography>
+                    ) : (
+                        <Typography
+                            variant="body2"
+                            color={theme.palette.primary.main}
+                        >
+                            Will open at {formatUTCToLocal12h(data.openingTime)}{' '}
+                        </Typography>
+                    )}
                 </StyledCardContent>
             </CardActionArea>
 
@@ -76,7 +106,12 @@ export const RestaurantCard = React.memo(function RestaurantCard({
                     gap={theme.spacing(4)}
                     padding={theme.spacing(4)}
                 >
-                    <Button variant="text" onClick={onEdit} fullWidth>
+                    <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={onEdit}
+                        fullWidth
+                    >
                         <Typography variant="button">Edit</Typography>
                     </Button>
                     <Button variant="error" onClick={onDelete} fullWidth>

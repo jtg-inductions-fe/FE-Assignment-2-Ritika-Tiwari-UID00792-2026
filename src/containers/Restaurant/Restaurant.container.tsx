@@ -315,7 +315,7 @@ export const Restaurant = () => {
                 open={isDialogOpen}
                 onClose={handleClose}
                 onSubmit={handleSubmit}
-                title="Confirmation Dialog"
+                title="Confirmation"
                 description="Are you sure you want to Delete?"
             />
             <Snackbar

@@ -56,11 +56,12 @@ export const Cart = () => {
     const [imgSrc, setImgSrc] = useState(
         restaurant?.imageUrl || FALLBACK_IMAGE,
     );
+    const [isPlacingOrder, setIsPlacingOrder] = useState<boolean>(false);
 
     /** Function to handle the back navigation from cart page to menu page.
      */
     const handleBackNavigation = () => {
-        void navigate(-1);
+        void navigate(ROUTES.ROOT);
     };
 
     /**
@@ -86,23 +87,43 @@ export const Cart = () => {
      * Handles the confirmation event from the confirmation dialog.
      */
     const handleSubmit = useCallback(() => {
-        try {
-            handleClearCart();
-            setSnackBarConfig({
-                open: true,
-                message: 'Cart cleared successfully.',
-                variant: 'success',
-            });
-        } catch {
-            setSnackBarConfig({
-                open: true,
-                message: 'Some error occurred, Try again later.',
-                variant: 'error',
-            });
-        } finally {
-            setIsDialogOpen(false);
+        if (isPlacingOrder) {
+            try {
+                handlePlaceOrder();
+                setSnackBarConfig({
+                    open: true,
+                    message: 'Ordered placed successfully.',
+                    variant: 'success',
+                });
+            } catch {
+                setSnackBarConfig({
+                    open: true,
+                    message: 'Some error occurred, Try again later.',
+                    variant: 'error',
+                });
+            } finally {
+                setIsDialogOpen(false);
+                setIsPlacingOrder(false);
+            }
+        } else {
+            try {
+                handleClearCart();
+                setSnackBarConfig({
+                    open: true,
+                    message: 'Cart cleared successfully.',
+                    variant: 'success',
+                });
+            } catch {
+                setSnackBarConfig({
+                    open: true,
+                    message: 'Some error occurred, Try again later.',
+                    variant: 'error',
+                });
+            } finally {
+                setIsDialogOpen(false);
+            }
         }
-    }, [handleClearCart]);
+    }, [handleClearCart, isPlacingOrder]);
 
     /**
      * Function to handle close event of confirmation dialog.
@@ -119,70 +140,66 @@ export const Cart = () => {
      * Function to handle place order functionality from cart.
      * @param orderItems- takes the cart items and create the new order, for cart items.
      */
-    const handlePlaceOrder = useCallback(
-        (orderItems: CartItem[]) => {
-            if (orderLoading) return;
-            //Create the new order only if customer data and restaurant data is accurate.
-            if (restaurant && currentUser && orderItems) {
-                // customer can place order only if the restaurant is opened.
-                if (
-                    isRestaurantClosed(
-                        restaurant.openingTime,
-                        restaurant.closingTime,
-                    )
-                ) {
-                    setSnackBarConfig({
-                        open: true,
-                        message:
-                            'Restaurant is closed, please try again later.',
-                        variant: 'error',
-                    });
-                    return;
-                }
-                dispatch(setOrderLoading(true));
-                const newOrder = {
-                    orderId: crypto.randomUUID(),
-                    orderStatus: ORDER_STATUS[0],
-                    createdAt: new Date().toISOString(),
-                    customerDetails: {
-                        ...currentUser,
-                        address: '123 Maple Street, New York, NY 10001',
-                    },
-                    restaurantDetails: restaurant,
-                    items: orderItems,
-                    billDetails: billDetails,
-                };
-                try {
-                    dispatch(addNewOrder(newOrder));
-                    handleClearCart();
-                    setSnackBarConfig({
-                        open: true,
-                        message: 'Order placed successfully.',
-                        variant: 'success',
-                    });
-                    void navigate(ROUTES.ORDER_PORTAl);
-                } catch {
-                    setSnackBarConfig({
-                        open: true,
-                        message: 'Order is not placed, try again later.',
-                        variant: 'error',
-                    });
-                } finally {
-                    dispatch(setOrderLoading(false));
-                }
+    const handlePlaceOrder = useCallback(() => {
+        if (orderLoading) return;
+        //Create the new order only if customer data and restaurant data is accurate.
+        if (restaurant && currentUser) {
+            // customer can place order only if the restaurant is opened.
+            if (
+                isRestaurantClosed(
+                    restaurant.openingTime,
+                    restaurant.closingTime,
+                )
+            ) {
+                setSnackBarConfig({
+                    open: true,
+                    message: 'Restaurant is closed, please try again later.',
+                    variant: 'error',
+                });
+                return;
             }
-        },
-        [
-            dispatch,
-            orderLoading,
-            restaurant,
-            currentUser,
-            billDetails,
-            navigate,
-            handleClearCart,
-            isRestaurantClosed,
-        ],
-    );
+            dispatch(setOrderLoading(true));
+            const newOrder = {
+                orderId: crypto.randomUUID(),
+                orderStatus: ORDER_STATUS[0],
+                createdAt: new Date().toISOString(),
+                customerDetails: {
+                    ...currentUser,
+                    address: '123 Maple Street, New York, NY 10001',
+                },
+                restaurantDetails: restaurant,
+                items: items,
+                billDetails: billDetails,
+            };
+            try {
+                dispatch(addNewOrder(newOrder));
+                handleClearCart();
+                setSnackBarConfig({
+                    open: true,
+                    message: 'Order placed successfully.',
+                    variant: 'success',
+                });
+                void navigate(ROUTES.ORDER_PORTAl);
+            } catch {
+                setSnackBarConfig({
+                    open: true,
+                    message: 'Order is not placed, try again later.',
+                    variant: 'error',
+                });
+            } finally {
+                dispatch(setOrderLoading(false));
+            }
+        }
+    }, [
+        dispatch,
+        orderLoading,
+        restaurant,
+        currentUser,
+        billDetails,
+        navigate,
+        handleClearCart,
+        isRestaurantClosed,
+    ]);
 
     //  Loads the current active restaurant's image when the restaurant change
     useEffect(() => {
@@ -257,12 +274,6 @@ export const Cart = () => {
                     </Box>
                 )}
 
-                {!cartLoading && cartError && (
-                    <NullStateCard
-                        title=""
-                        description="Failed to load data."
-                    />
-                )}
                 {/* Cart card wrapper */}
                 <Box
                     display="flex"
@@ -273,6 +284,9 @@ export const Cart = () => {
                     alignItems="center"
                     justifyContent="start"
                 >
+                    {!cartLoading && cartError && (
+                        <NullStateCard description="Failed to load data." />
+                    )}
                     {items.map((item: CartItem) => (
                         <CartCard
                             key={item.itemId}
@@ -295,6 +309,31 @@ export const Cart = () => {
                         marginTop={theme.spacing(8)}
                     >
                         <Typography variant="h6">Bill Details</Typography>
+                        <Box
+                            display="flex"
+                            flexDirection="row"
+                            justifyContent="space-between"
+                            width="100%"
+                        >
+                            <Typography
+                                variant="subtitle2"
+                                color={theme.palette.text.secondary}
+                            >
+                                Total cost of items
+                            </Typography>
+                            <Box display="flex" alignItems="center">
+                                <CurrencyRupee
+                                    color="primary"
+                                    fontSize="small"
+                                />
+                                <Typography
+                                    variant="subtitle2"
+                                    color={theme.palette.text.secondary}
+                                >
+                                    {billDetails.itemsSubtotal}
+                                </Typography>
+                            </Box>
+                        </Box>
 
                         <Box
                             display="flex"
@@ -385,8 +424,12 @@ export const Cart = () => {
                 open={isDialogOpen}
                 onClose={handleClose}
                 onSubmit={handleSubmit}
-                title="Confirmation Dialog"
-                description="Are you sure you clear the cart?"
+                title="Confirmation"
+                description={
+                    isPlacingOrder
+                        ? 'Are you sure you want to place order?'
+                        : 'Are you sure you clear the cart?'
+                }
             />
             <Snackbar
                 open={snackbarConfig.open}
@@ -419,7 +462,10 @@ export const Cart = () => {
                     </Button>
                     <Button
                         variant="contained"
-                        onClick={() => handlePlaceOrder(items)}
+                        onClick={() => {
+                            setIsPlacingOrder(true);
+                            setIsDialogOpen(true);
+                        }}
                     >
                         <Typography variant="button">
                             {orderLoading ? 'processing...' : 'Proceed to buy'}

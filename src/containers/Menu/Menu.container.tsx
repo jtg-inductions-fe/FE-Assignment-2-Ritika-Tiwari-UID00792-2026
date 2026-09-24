@@ -9,7 +9,9 @@ import {
     Button,
     CardContent,
     Chip,
+    Divider,
     Fab,
+    Stack,
     Typography,
     useMediaQuery,
 } from '@mui/material';
@@ -46,6 +48,7 @@ import {
     StyledImage,
     StyledRestaurantBanner,
 } from './Menu.styles';
+import { formatUTCToLocal12h } from '@utils';
 
 /**
  * Menu Container
@@ -112,7 +115,6 @@ export const Menu = () => {
     const restaurantData = filteredRestaurants.find(
         (restaurant) => restaurant.restaurantId === restaurantId,
     );
-
     // handle the fallback state of the banner image.
     const [restImgSrc, setRestImgSrc] = useState(
         restaurantData?.imageUrl || FALLBACK_IMAGE,
@@ -381,6 +383,31 @@ export const Menu = () => {
                     <Typography variant="body2" gutterBottom>
                         {restaurantData?.description}
                     </Typography>
+                    <Stack
+                        display="flex"
+                        flexDirection="row"
+                        alignItems="center"
+                        gap={theme.spacing(2)}
+                        marginBlock={theme.spacing(4)}
+                    >
+                        <Typography
+                            variant="body2"
+                            color={theme.palette.primary.main}
+                        >
+                            Opening Time:{' '}
+                            {formatUTCToLocal12h(restaurantData?.openingTime)}
+                        </Typography>
+
+                        <Divider orientation="vertical" flexItem />
+
+                        <Typography
+                            variant="body2"
+                            color={theme.palette.error.main}
+                        >
+                            Closing Time:{' '}
+                            {formatUTCToLocal12h(restaurantData?.closingTime)}
+                        </Typography>
+                    </Stack>
                     {userRole === 'owner' && !isMobile && (
                         <Button
                             variant="contained"
@@ -454,7 +481,7 @@ export const Menu = () => {
                 flexWrap="wrap"
                 gap={theme.spacing(4)}
                 alignItems="center"
-                justifyContent="center"
+                justifyContent="start"
                 marginBlock={theme.spacing(8)}
             >
                 {menuLoading && (
@@ -539,7 +566,7 @@ export const Menu = () => {
                 open={isDialogOpen}
                 onClose={handleClose}
                 onSubmit={handleSubmit}
-                title="Confirmation Dialog"
+                title="Confirmation"
                 description={
                     dialogType === 'DELETE'
                         ? 'Are you sure you want to Delete?'

@@ -8,6 +8,7 @@
         "closing_time": "17:32:00Z",
         "address": "123 Maple Street, Downtown District",
         "image_url": "/res-image/res-image1.webp",
+        "rating": "5",
         "dietary_category": "veg"
     },
     {
@@ -19,6 +20,7 @@
         "closing_time": "23:00:00Z",
         "address": "742 Evergreen Terrace, Westside",
         "image_url": "/res-image/res-image22.webp",
+        "rating": "4",
         "dietary_category": "non-veg"
     },
     {
@@ -30,6 +32,7 @@
         "closing_time": "22:00:00Z",
         "address": "88 Spice Boulevard, Old Town",
         "image_url": "/res-image/res-image3.webp",
+        "rating": "3",
         "dietary_category": "non-veg"
     },
     {
@@ -41,6 +44,7 @@
         "closing_time": "20:00:00Z",
         "address": "45 Baker Lane, Midtown",
         "image_url": "/res-image/res-image4.webp",
+        "rating": "2",
         "dietary_category": "veg"
     },
     {
@@ -52,6 +56,7 @@
         "closing_time": "16:00:00Z",
         "address": "502 Broadway Avenue, Theater District",
         "image_url": "/res-image/res-image5.webp",
+        "rating": "3.5",
         "dietary_category": "non-veg"
     },
     {
@@ -63,6 +68,7 @@
         "closing_time": "22:30:00Z",
         "address": "12 Curry Lane, Little India",
         "image_url": "/res-image/res-image6.webp",
+        "rating": "3.5",
         "dietary_category": "veg"
     },
     {
@@ -74,6 +80,7 @@
         "closing_time": "22:00:00Z",
         "address": "99 Harbor View Wharf, Marina Marina",
         "image_url": "/res-image/res-image7.webp",
+        "rating": "4",
         "dietary_category": "non-veg"
     },
     {
@@ -85,6 +92,7 @@
         "closing_time": "20:30:00Z",
         "address": "214 Wellness Way, Eco Park",
         "image_url": "/res-image/res-image8.webp",
+        "rating": "3",
         "dietary_category": "veg"
     },
     {
@@ -96,6 +104,7 @@
         "closing_time": "02:00:00Z",
         "address": "88 Stadium Road, Sports Village",
         "image_url": "/res-image/res-image9.webp",
+        "rating": "4",
         "dietary_category": "non-veg"
     },
     {
@@ -107,6 +116,7 @@
         "closing_time": "02:00:00Z",
         "address": "7 Sunrise Street, Morning Valley",
         "image_url": "/res-image/res-image10.webp",
+        "rating": "3",
         "dietary_category": "veg"
     }
 ]

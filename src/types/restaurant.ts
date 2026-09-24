@@ -28,6 +28,9 @@ export interface Restaurant {
     /** URL of the restaurant's cover or profile image. */
     imageUrl: string;
 
+    /** Display the rating of the restaurant. */
+    rating: number;
+
     /** The category or cuisine type of the restaurant. veg/non-veg */
     dietaryCategory: DietaryCategory;
 }
