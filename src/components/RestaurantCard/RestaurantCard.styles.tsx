@@ -21,7 +21,7 @@ export const StyledCard = styled(Card)(({ theme }) => ({
         maxWidth: 280,
     },
 }));
-export const StyledCardMedia = styled(CardMedia)<CardMediaProps>(
+export const StyledCardMedia = styled(CardMedia)<CardMediaProps<'img'>>(
     ({ theme }) => ({
         position: 'relative',
         height: 200,
@@ -34,14 +34,14 @@ export const StyledCardMedia = styled(CardMedia)<CardMediaProps>(
     }),
 );
 
-export const StyledImageIndicator = styled(CardMedia)<CardMediaProps>({
+export const StyledImageIndicator = styled(CardMedia)<CardMediaProps<'img'>>({
     width: 20,
     height: 20,
     right: 20,
     top: 20,
     position: 'absolute',
 });
-export const StyledClosedTag = styled(CardMedia)<CardMediaProps>({
+export const StyledClosedTag = styled(CardMedia)<CardMediaProps<'img'>>({
     width: 100,
     height: 100,
     right: 0,

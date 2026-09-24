@@ -370,6 +370,7 @@ export const Menu = () => {
             <StyledRestaurantBanner>
                 <StyledImage
                     src={restImgSrc}
+                    alt={restaurantData?.name}
                     onError={() => {
                         if (restImgSrc !== FALLBACK_IMAGE) {
                             setRestImgSrc(FALLBACK_IMAGE);
@@ -380,7 +381,7 @@ export const Menu = () => {
                     <Typography variant="h4" gutterBottom>
                         {restaurantData?.name}
                     </Typography>
-                    <Typography variant="body2" gutterBottom>
+                    <Typography variant="body2" component="p" gutterBottom>
                         {restaurantData?.description}
                     </Typography>
                     <Stack

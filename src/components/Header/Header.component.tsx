@@ -115,11 +115,7 @@ export const Header = ({
                             to={ROUTES.ROOT}
                             title="Go to Home"
                         >
-                            <img
-                                src={logo}
-                                alt="Brand logo"
-                                role="presentation"
-                            />
+                            <img src={logo} alt="Brand logo" />
                         </Link>
                         <Typography
                             variant="h6"

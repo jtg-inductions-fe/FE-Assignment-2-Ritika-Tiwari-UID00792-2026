@@ -45,7 +45,7 @@ export default defineConfig(({ mode }): UserConfig => {
                 /* Image optimization for production build */
                 ViteImageOptimizer({
                     test: /\.(jpe?g|webp|png)$/i,
-                    includePublic: false,
+                    includePublic: true,
                     logStats: true,
                     jpg: {
                         quality: 90,

@@ -26,7 +26,7 @@ export const StyledCard = styled(Card)(({ theme }) => ({
     },
 }));
 
-export const StyledCardMedia = styled(CardMedia)<CardMediaProps>(
+export const StyledCardMedia = styled(CardMedia)<CardMediaProps<'img'>>(
     ({ theme }) => ({
         height: 30,
         minHeight: 200,
@@ -38,7 +38,7 @@ export const StyledCardMedia = styled(CardMedia)<CardMediaProps>(
     }),
 );
 
-export const StyledImageIndicator = styled(CardMedia)<CardMediaProps>({
+export const StyledImageIndicator = styled(CardMedia)<CardMediaProps<'img'>>({
     width: 20,
     height: 20,
     right: 30,
@@ -57,6 +57,7 @@ export const StyledCardContent = styled(CardContent)(({ theme }) => ({
 export const StyledTitle = styled(Typography)(({ theme }) => ({
     ...theme.mixins.lineClamp(1),
 }));
+
 export const StyledDescription = styled(Typography)(({ theme }) => ({
     ...theme.mixins.lineClamp(2),
 }));

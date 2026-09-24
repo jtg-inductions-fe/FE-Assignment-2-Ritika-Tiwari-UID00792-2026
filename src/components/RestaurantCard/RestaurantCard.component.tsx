@@ -44,6 +44,8 @@ export const RestaurantCard = React.memo(function RestaurantCard({
                 <StyledCardMedia
                     component="img"
                     image={imgSrc}
+                    alt={data.name}
+                    loading="lazy"
                     onError={() => {
                         if (imgSrc !== FALLBACK_IMAGE) {
                             setImgSrc(FALLBACK_IMAGE);
@@ -52,6 +54,8 @@ export const RestaurantCard = React.memo(function RestaurantCard({
                 />
                 <StyledImageIndicator
                     component="img"
+                    alt={data.dietaryCategory}
+                    loading="lazy"
                     image={
                         data.dietaryCategory === 'veg'
                             ? vegIndicator
@@ -59,7 +63,12 @@ export const RestaurantCard = React.memo(function RestaurantCard({
                     }
                 />
                 {isClosed && (
-                    <StyledClosedTag component="img" image={closedTag} />
+                    <StyledClosedTag
+                        component="img"
+                        alt="Restaurant is closed"
+                        loading="lazy"
+                        image={closedTag}
+                    />
                 )}
 
                 <StyledCardContent>

@@ -62,6 +62,7 @@ export const MenuCard = React.memo(function MenuCard({
                         ? theme.palette.action.disabledBackground
                         : theme.palette.background.default
                 }
+                alt={item.name}
                 component="img"
                 image={imgSrc}
                 onError={() => {
@@ -72,6 +73,8 @@ export const MenuCard = React.memo(function MenuCard({
             />
             <StyledImageIndicator
                 component="img"
+                alt={item.dietaryCategory}
+                loading="lazy"
                 image={
                     item.dietaryCategory === 'veg'
                         ? vegIndicator
@@ -79,7 +82,7 @@ export const MenuCard = React.memo(function MenuCard({
                 }
             />
             <StyledCardContent>
-                <StyledTitle gutterBottom variant="subtitle1">
+                <StyledTitle variant="h6" gutterBottom>
                     {item.name}
                 </StyledTitle>
                 <StyledDescription variant="body2" gutterBottom>
@@ -96,7 +99,11 @@ export const MenuCard = React.memo(function MenuCard({
                         padding={theme.spacing(2)}
                         marginBlock={theme.spacing(4)}
                     >
-                        <Typography variant="caption" color="text.secondary">
+                        <Typography
+                            variant="caption"
+                            component="span"
+                            color="text.secondary"
+                        >
                             Stock Quantity:
                         </Typography>
 
@@ -111,7 +118,11 @@ export const MenuCard = React.memo(function MenuCard({
                         </IconButton>
 
                         {/* Display current stock value */}
-                        <Typography variant="body2" fontWeight="bold">
+                        <Typography
+                            variant="body2"
+                            component="span"
+                            fontWeight="bold"
+                        >
                             {item.stock}
                         </Typography>
 
@@ -137,7 +148,9 @@ export const MenuCard = React.memo(function MenuCard({
                     marginBlock={theme.spacing(4)}
                 >
                     <CurrencyRupee color="primary" />
-                    <Typography variant="h6">{item.price}</Typography>
+                    <Typography variant="subtitle1" component="span">
+                        {item.price}
+                    </Typography>
                 </Box>
 
                 {/* Show the edit and delete buttons only to the owners */}

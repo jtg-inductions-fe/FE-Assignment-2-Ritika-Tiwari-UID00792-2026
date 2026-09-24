@@ -310,7 +310,9 @@ export const Cart = () => {
                         width="100%"
                         marginTop={theme.spacing(8)}
                     >
-                        <Typography variant="h6">Bill Details</Typography>
+                        <Typography variant="h6" component="h3">
+                            Bill Details
+                        </Typography>
                         <Box
                             display="flex"
                             flexDirection="row"
@@ -319,6 +321,7 @@ export const Cart = () => {
                         >
                             <Typography
                                 variant="subtitle2"
+                                component="span"
                                 color={theme.palette.text.secondary}
                             >
                                 Total cost of items
@@ -330,6 +333,7 @@ export const Cart = () => {
                                 />
                                 <Typography
                                     variant="subtitle2"
+                                    component="span"
                                     color={theme.palette.text.secondary}
                                 >
                                     {billDetails.itemsSubtotal}
@@ -345,12 +349,14 @@ export const Cart = () => {
                         >
                             <Typography
                                 variant="subtitle2"
+                                component="span"
                                 color={theme.palette.text.secondary}
                             >
                                 Total Items
                             </Typography>
                             <Typography
                                 variant="subtitle2"
+                                component="span"
                                 color={theme.palette.text.secondary}
                             >
                                 {billDetails.itemsCount}
@@ -364,6 +370,7 @@ export const Cart = () => {
                         >
                             <Typography
                                 variant="subtitle2"
+                                component="span"
                                 color={theme.palette.text.secondary}
                             >
                                 Delivery Charges
@@ -375,6 +382,7 @@ export const Cart = () => {
                                 />
                                 <Typography
                                     variant="subtitle2"
+                                    component="span"
                                     color={theme.palette.text.secondary}
                                 >
                                     {billDetails.deliveryFee}
@@ -389,6 +397,7 @@ export const Cart = () => {
                         >
                             <Typography
                                 variant="subtitle2"
+                                component="span"
                                 color={theme.palette.text.secondary}
                             >
                                 Grand Total
@@ -400,6 +409,7 @@ export const Cart = () => {
                                 />
                                 <Typography
                                     variant="subtitle2"
+                                    component="span"
                                     color={theme.palette.text.secondary}
                                 >
                                     {billDetails.grandTotal}
@@ -415,7 +425,7 @@ export const Cart = () => {
                         src={emptyCartImage}
                         alt="Cart is empty"
                         width={500}
-                        height={500}
+                        height={375}
                     />
                     <Button variant="contained" onClick={handleBackNavigation}>
                         <Typography variant="button">Add Items</Typography>

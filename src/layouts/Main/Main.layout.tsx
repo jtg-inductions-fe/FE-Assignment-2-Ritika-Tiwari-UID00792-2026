@@ -10,7 +10,7 @@ export const Main = () => (
         <ErrorBoundary title="Something is wrong, we are fixing this.">
             <Header />
         </ErrorBoundary>
-        <StyledMain>
+        <StyledMain role="main">
             {/* Child routes render here */}
             <ResponsiveContainer>
                 <ErrorBoundary title="Something is wrong, we are fixing this.">

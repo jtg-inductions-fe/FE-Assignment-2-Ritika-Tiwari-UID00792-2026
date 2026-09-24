@@ -50,7 +50,11 @@ export const OrderAccordion = React.memo(function OrderAccordion({
                         flexDirection="column"
                         justifyContent="space-between"
                     >
-                        <Typography variant="h6" color="text.primary">
+                        <Typography
+                            variant="h6"
+                            component="h3"
+                            color="text.primary"
+                        >
                             {data.restaurantDetails.name}
                         </Typography>
                         <Typography variant="body2">
@@ -83,6 +87,7 @@ export const OrderAccordion = React.memo(function OrderAccordion({
                             <CurrencyRupee color="primary" fontSize="small" />
                             <Typography
                                 variant="subtitle2"
+                                component="span"
                                 color={theme.palette.text.secondary}
                             >
                                 {data.billDetails.grandTotal}
@@ -111,7 +116,9 @@ export const OrderAccordion = React.memo(function OrderAccordion({
                         width="100%"
                         marginTop={theme.spacing(4)}
                     >
-                        <Typography variant="h6">Bill Details</Typography>
+                        <Typography variant="h6" component="h4">
+                            Bill Details
+                        </Typography>
 
                         <Box
                             display="flex"
@@ -147,12 +154,14 @@ export const OrderAccordion = React.memo(function OrderAccordion({
                         >
                             <Typography
                                 variant="subtitle2"
+                                component="span"
                                 color={theme.palette.text.secondary}
                             >
                                 Total Items
                             </Typography>
                             <Typography
                                 variant="subtitle2"
+                                component="span"
                                 color={theme.palette.text.secondary}
                             >
                                 {data.billDetails.itemsCount}
@@ -166,6 +175,7 @@ export const OrderAccordion = React.memo(function OrderAccordion({
                         >
                             <Typography
                                 variant="subtitle2"
+                                component="span"
                                 color={theme.palette.text.secondary}
                             >
                                 Delivery Charges
@@ -177,6 +187,7 @@ export const OrderAccordion = React.memo(function OrderAccordion({
                                 />
                                 <Typography
                                     variant="subtitle2"
+                                    component="span"
                                     color={theme.palette.text.secondary}
                                 >
                                     {data.billDetails.deliveryFee}
@@ -191,6 +202,7 @@ export const OrderAccordion = React.memo(function OrderAccordion({
                         >
                             <Typography
                                 variant="subtitle2"
+                                component="span"
                                 color={theme.palette.text.secondary}
                             >
                                 Grand Total
@@ -202,6 +214,7 @@ export const OrderAccordion = React.memo(function OrderAccordion({
                                 />
                                 <Typography
                                     variant="subtitle2"
+                                    component="span"
                                     color={theme.palette.text.secondary}
                                 >
                                     {data.billDetails.grandTotal}
