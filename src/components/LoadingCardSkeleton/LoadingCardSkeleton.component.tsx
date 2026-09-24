@@ -8,22 +8,18 @@ import {
 import { LoadingCardSkeletonProps } from './LoadingCardSkeleton.types';
 
 export const LoadingCardSkeleton = ({
-    width = '100%',
-    height,
+    variant = 'column',
 }: LoadingCardSkeletonProps) => (
-    <CardContainer width={width} height={height}>
-        {/* Card skeleton showing the food items or restaurant cards */}
+    <CardContainer variant={variant}>
         <BaseSkeleton
             variant="rectangular"
-            width="100%"
+            layoutVariant={variant}
             height={140}
             animation="wave"
         />
 
-        {/* Card Content Text Block stacked directly below */}
         <CardBody>
-            {/* Title */}
-            <Typography variant="h4">
+            <Typography variant="h4" component="div">
                 <Skeleton
                     variant="text"
                     width="80%"
@@ -31,9 +27,7 @@ export const LoadingCardSkeleton = ({
                     animation="wave"
                 />
             </Typography>
-
-            {/* Description */}
-            <Typography variant="body2">
+            <Typography variant="body2" component="div">
                 <Skeleton
                     variant="text"
                     width="100%"
@@ -41,7 +35,7 @@ export const LoadingCardSkeleton = ({
                     animation="wave"
                 />
             </Typography>
-            <Typography variant="body2">
+            <Typography variant="body2" component="div">
                 <Skeleton
                     variant="text"
                     width="100%"

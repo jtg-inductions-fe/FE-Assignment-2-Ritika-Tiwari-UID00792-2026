@@ -12,13 +12,19 @@ import {
 export const StyledCard = styled(Card)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
-    minWidth: 220,
-    width: '40%',
+    minWidth: 200,
     maxWidth: 300,
     flexGrow: 1,
     borderRadius: theme.shape.borderRadius,
     [theme.breakpoints.up('sm')]: {
-        maxWidth: 280,
+        minWidth: 250,
+        width: '25%',
+        maxWidth: '50%',
+    },
+    [theme.breakpoints.up('lg')]: {
+        width: '20%',
+        maxWidth: 300,
+
     },
 }));
 export const StyledCardMedia = styled(CardMedia)<CardMediaProps<'img'>>(
@@ -27,6 +33,7 @@ export const StyledCardMedia = styled(CardMedia)<CardMediaProps<'img'>>(
         height: 200,
         minHeight: 200,
         minWidth: 300,
+        objectFit: 'cover',
         borderRadius: theme.shape.borderRadius,
         [theme.breakpoints.up('sm')]: {
             minWidth: 200,

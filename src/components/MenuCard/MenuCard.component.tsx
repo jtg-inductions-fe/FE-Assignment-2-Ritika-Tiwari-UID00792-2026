@@ -63,6 +63,7 @@ export const MenuCard = React.memo(function MenuCard({
                         : theme.palette.background.default
                 }
                 alt={item.name}
+                fetchPriority="high"
                 component="img"
                 image={imgSrc}
                 onError={() => {

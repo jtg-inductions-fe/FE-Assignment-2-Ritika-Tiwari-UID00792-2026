@@ -45,7 +45,7 @@ export const RestaurantCard = React.memo(function RestaurantCard({
                     component="img"
                     image={imgSrc}
                     alt={data.name}
-                    loading="lazy"
+                    fetchPriority="high"
                     onError={() => {
                         if (imgSrc !== FALLBACK_IMAGE) {
                             setImgSrc(FALLBACK_IMAGE);
@@ -76,7 +76,7 @@ export const RestaurantCard = React.memo(function RestaurantCard({
                         <Chip
                             color="primary"
                             icon={<StyledStarIcon />}
-                            label={data.rating}
+                            label={data.rating ?? 5}
                         />
                     </StyledBox>
                     <StyledTitle

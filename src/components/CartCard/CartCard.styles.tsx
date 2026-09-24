@@ -27,10 +27,10 @@ export const ItemDetailsGroup = styled(Box)(({ theme }) => ({
     alignItems: 'center',
     justifyItems: 'space-between',
     gap: theme.spacing(2),
-    width: '60%',
 }));
 
 export const InteractiveControlsGroup = styled(Box)(({ theme }) => ({
+    maxWidth: 120,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
@@ -38,6 +38,7 @@ export const InteractiveControlsGroup = styled(Box)(({ theme }) => ({
     gap: theme.spacing(4),
     flexWrap: 'wrap',
     [theme.breakpoints.up('sm')]: {
+        maxWidth: 'initial',
         flexDirection: 'row',
         gap: theme.spacing(1),
     },

@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import ClearIcon from '@mui/icons-material/Clear';
 import SearchIcon from '@mui/icons-material/Search';
 import { IconButton, InputAdornment, TextField } from '@mui/material';
+
+import { useDebounce } from '@hooks'; // Assuming your hook is here
 
 import { SearchBarProps } from './SearchBar.types';
 
@@ -18,17 +20,20 @@ export const SearchBar = React.memo(function SearchBar({
     onSearch,
 }: SearchBarProps) {
     const [query, setQuery] = useState<string>('');
+    const debouncedQuery = useDebounce(query, 300);
+
+    useEffect(() => {
+        onSearch(debouncedQuery);
+    }, [debouncedQuery, onSearch]);
 
     /** Function triggers when the input changes in the text field for query. */
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setQuery(event.target.value);
-        onSearch(event.target.value);
     };
 
     /** Handle clear functionality of the textfield . */
     const handleClear = () => {
         setQuery('');
-        onSearch('');
     };
     /** Handle the typing query event for the search filed */
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {

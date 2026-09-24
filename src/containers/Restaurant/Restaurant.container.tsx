@@ -74,6 +74,11 @@ export const Restaurant = () => {
         (data: RestaurantData) => {
             if (data) {
                 dispatch(addRestaurant(data));
+                   setSnackBarConfig({
+                    open: true,
+                    message: 'Restaurant Edited successfully',
+                    variant: 'success',
+                });
             }
         },
         [dispatch],
@@ -86,6 +91,11 @@ export const Restaurant = () => {
         (data: RestaurantData) => {
             if (data) {
                 dispatch(editRestaurant(data));
+                  setSnackBarConfig({
+                    open: true,
+                    message: 'Restaurant Added successfully',
+                    variant: 'success',
+                });
             }
         },
         [dispatch],
@@ -255,12 +265,9 @@ export const Restaurant = () => {
             >
                 {loading && (
                     <>
-                        <LoadingCardSkeleton width={isMobile ? '40%' : '30%'} />
-                        <LoadingCardSkeleton width={isMobile ? '40%' : '30%'} />
-                        <LoadingCardSkeleton width={isMobile ? '40%' : '30%'} />
-                        <LoadingCardSkeleton width={isMobile ? '40%' : '30%'} />
-                        <LoadingCardSkeleton width={isMobile ? '40%' : '30%'} />
-                        <LoadingCardSkeleton width={isMobile ? '40%' : '30%'} />
+                        {Array.from({ length: 6 }).map((_, i) => (
+                            <LoadingCardSkeleton key={i} variant="column" />
+                        ))}
                     </>
                 )}
 

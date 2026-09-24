@@ -3,13 +3,13 @@ import { useCallback, useState } from 'react';
 import { MenuItemModal } from 'components/MenuItemModal/MenuItemModal.component';
 import { useParams } from 'react-router-dom';
 
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import AddIcon from '@mui/icons-material/Add';
 import {
     Box,
     Button,
     CardContent,
     Chip,
-    Divider,
     Fab,
     Stack,
     Typography,
@@ -127,6 +127,11 @@ export const Menu = () => {
     const handleAddMenuItem = useCallback(
         (data: MenuData) => {
             if (data) dispatch(addMenuItems(data));
+             setSnackBarConfig({
+                        open: true,
+                        message: 'Item added to menu successfully.',
+                        variant: 'success',
+                    });
         },
         [dispatch],
     );
@@ -138,6 +143,11 @@ export const Menu = () => {
     const handleEditMenuItem = useCallback(
         (data: MenuData) => {
             if (data) dispatch(editMenuItems(data));
+             setSnackBarConfig({
+                        open: true,
+                        message: 'Item edited successfully.',
+                        variant: 'success',
+                    });
         },
         [dispatch],
     );
@@ -376,6 +386,7 @@ export const Menu = () => {
                             setRestImgSrc(FALLBACK_IMAGE);
                         }
                     }}
+                    fetchPriority="high"
                 />
                 <CardContent>
                     <Typography variant="h4" gutterBottom>
@@ -388,24 +399,15 @@ export const Menu = () => {
                         display="flex"
                         flexDirection="row"
                         alignItems="center"
-                        gap={theme.spacing(2)}
+                        gap={theme.spacing(1)}
                         marginBlock={theme.spacing(4)}
                     >
+                        <AccessTimeIcon fontSize="small" color="primary" />
                         <Typography
                             variant="body2"
-                            color={theme.palette.primary.main}
+                            color={theme.palette.text.primary}
                         >
-                            Opening Time:{' '}
-                            {formatUTCToLocal12h(restaurantData?.openingTime)}
-                        </Typography>
-
-                        <Divider orientation="vertical" flexItem />
-
-                        <Typography
-                            variant="body2"
-                            color={theme.palette.error.main}
-                        >
-                            Closing Time:{' '}
+                            {formatUTCToLocal12h(restaurantData?.openingTime)} –{' '}
                             {formatUTCToLocal12h(restaurantData?.closingTime)}
                         </Typography>
                     </Stack>
@@ -487,24 +489,9 @@ export const Menu = () => {
             >
                 {menuLoading && (
                     <>
-                        <LoadingCardSkeleton
-                            width={isMobile ? '40%' : '100%'}
-                        />
-                        <LoadingCardSkeleton
-                            width={isMobile ? '40%' : '100%'}
-                        />
-                        <LoadingCardSkeleton
-                            width={isMobile ? '40%' : '100%'}
-                        />
-                        <LoadingCardSkeleton
-                            width={isMobile ? '40%' : '100%'}
-                        />
-                        <LoadingCardSkeleton
-                            width={isMobile ? '40%' : '100%'}
-                        />
-                        <LoadingCardSkeleton
-                            width={isMobile ? '40%' : '100%'}
-                        />
+                        {Array.from({ length: 6 }).map((_, i) => (
+                            <LoadingCardSkeleton key={i} variant="responsive" />
+                        ))}
                     </>
                 )}
 

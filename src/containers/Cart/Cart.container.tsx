@@ -161,11 +161,6 @@ export const Cart = () => {
         if (isPlacingOrder) {
             try {
                 handlePlaceOrder();
-                setSnackBarConfig({
-                    open: true,
-                    message: 'Ordered placed successfully.',
-                    variant: 'success',
-                });
             } catch {
                 setSnackBarConfig({
                     open: true,
@@ -226,12 +221,9 @@ export const Cart = () => {
                 {/* Show the loading state of the cart page. */}
                 {cartLoading && (
                     <>
-                        <LoadingCardSkeleton width="100%" />
-                        <LoadingCardSkeleton width="100%" />
-                        <LoadingCardSkeleton width="100%" />
-                        <LoadingCardSkeleton width="100%" />
-                        <LoadingCardSkeleton width="100%" />
-                        <LoadingCardSkeleton width="100%" />
+                        {Array.from({ length: 6 }).map((_, i) => (
+  <LoadingCardSkeleton key={i} variant="responsive" />
+))}
                     </>
                 )}
 

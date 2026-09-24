@@ -175,10 +175,9 @@ export const OrderPortal = () => {
             >
                 {orderLoading && (
                     <>
-                        <LoadingCardSkeleton width="100%" />
-                        <LoadingCardSkeleton width="100%" />
-                        <LoadingCardSkeleton width="100%" />
-                        <LoadingCardSkeleton width="100%" />
+                        {Array.from({ length: 6 }).map((_, i) => (
+                            <LoadingCardSkeleton key={i} variant="row" />
+                        ))}
                     </>
                 )}
                 {!orderLoading &&
