@@ -24,22 +24,21 @@ export const StyledImage = styled('img')(({ theme }) => ({
 export const ItemDetailsGroup = styled(Box)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'start',
+    alignItems: 'center',
     justifyItems: 'space-between',
     gap: theme.spacing(2),
-    flexShrink: 0,
 }));
 
 export const InteractiveControlsGroup = styled(Box)(({ theme }) => ({
+    maxWidth: 120,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    maxWidth: 100,
+    justifyContent: 'end',
     gap: theme.spacing(4),
     flexWrap: 'wrap',
     [theme.breakpoints.up('sm')]: {
-        minWidth: 150,
+        maxWidth: 'initial',
         flexDirection: 'row',
         gap: theme.spacing(1),
     },
@@ -51,7 +50,6 @@ export const PriceWrapper = styled(Box)({
     alignItems: 'center',
 });
 export const StyledTitle = styled(Typography)({
-    maxWidth: 150,
     wordBreak: 'break-word',
     whiteSpace: 'normal',
     overflowWrap: 'anywhere',

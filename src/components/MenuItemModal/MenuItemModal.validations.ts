@@ -14,8 +14,8 @@ export const menuItemValidation = {
     description: {
         required: 'Description is required',
         minLength: {
-            value: 10,
-            message: 'Description must be at least 10 characters',
+            value: 50,
+            message: 'Description must be at least 50 characters',
         },
         maxLength: {
             value: 300,

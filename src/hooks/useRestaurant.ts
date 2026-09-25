@@ -30,6 +30,7 @@ export const useRestaurant = () => {
 
     // Fetch data from mock json on mount and convert the variables to camel case.
     useEffect(() => {
+        if (restaurants && restaurants.length > 0) return;
         const controller = new AbortController();
         const { signal } = controller;
 
@@ -68,7 +69,7 @@ export const useRestaurant = () => {
         return () => {
             controller.abort();
         };
-    }, [dispatch, registeredUser?.id, registeredUser?.role]);
+    }, [dispatch, restaurants, registeredUser?.id, registeredUser?.role]);
 
     // Compute the filtered list dynamically.
     const filteredRestaurants = useMemo(() => {

@@ -74,6 +74,11 @@ export const Restaurant = () => {
         (data: RestaurantData) => {
             if (data) {
                 dispatch(addRestaurant(data));
+                   setSnackBarConfig({
+                    open: true,
+                    message: 'Restaurant Edited successfully',
+                    variant: 'success',
+                });
             }
         },
         [dispatch],
@@ -86,6 +91,11 @@ export const Restaurant = () => {
         (data: RestaurantData) => {
             if (data) {
                 dispatch(editRestaurant(data));
+                  setSnackBarConfig({
+                    open: true,
+                    message: 'Restaurant Added successfully',
+                    variant: 'success',
+                });
             }
         },
         [dispatch],
@@ -250,23 +260,19 @@ export const Restaurant = () => {
                 flexWrap="wrap"
                 gap={theme.spacing(4)}
                 alignItems="center"
-                justifyContent="center"
+                justifyContent="start"
                 marginBlock={theme.spacing(8)}
             >
                 {loading && (
                     <>
-                        <LoadingCardSkeleton width={isMobile ? '40%' : '30%'} />
-                        <LoadingCardSkeleton width={isMobile ? '40%' : '30%'} />
-                        <LoadingCardSkeleton width={isMobile ? '40%' : '30%'} />
-                        <LoadingCardSkeleton width={isMobile ? '40%' : '30%'} />
-                        <LoadingCardSkeleton width={isMobile ? '40%' : '30%'} />
-                        <LoadingCardSkeleton width={isMobile ? '40%' : '30%'} />
+                        {Array.from({ length: 6 }).map((_, i) => (
+                            <LoadingCardSkeleton key={i} variant="column" />
+                        ))}
                     </>
                 )}
 
                 {!loading && (error || filteredRestaurants.length === 0) && (
                     <NullStateCard
-                        title=""
                         description={
                             error
                                 ? 'Failed to load data.'
@@ -277,7 +283,7 @@ export const Restaurant = () => {
 
                 {!loading &&
                     !error &&
-                    filteredRestaurants.map((restaurant) => (
+                    filteredRestaurants.map((restaurant: RestaurantData) => (
                         <RestaurantCard
                             key={restaurant.restaurantId}
                             data={restaurant}
@@ -316,7 +322,7 @@ export const Restaurant = () => {
                 open={isDialogOpen}
                 onClose={handleClose}
                 onSubmit={handleSubmit}
-                title="Confirmation Dialog"
+                title="Confirmation"
                 description="Are you sure you want to Delete?"
             />
             <Snackbar

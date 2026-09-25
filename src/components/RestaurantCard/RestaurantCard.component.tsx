@@ -1,21 +1,24 @@
 import { useState } from 'react';
 import React from 'react';
 
-import { Box, Button, CardActionArea, Typography } from '@mui/material';
+import { Box, Button, CardActionArea, Chip, Typography } from '@mui/material';
 
 import closedTag from '@assets/images/closed-restaurant.webp';
 import FALLBACK_IMAGE from '@assets/images/fallback-image.webp';
 import nonVegIndicator from '@assets/images/non-veg-indicator.webp';
 import vegIndicator from '@assets/images/veg-indicator.webp';
 import { theme } from '@theme';
+import { formatUTCToLocal12h } from '@utils';
 
 import {
+    StyledBox,
     StyledCard,
     StyledCardContent,
     StyledCardMedia,
     StyledClosedTag,
     StyledDescription,
     StyledImageIndicator,
+    StyledStarIcon,
     StyledTitle,
 } from './RestaurantCard.styles';
 import { RestaurantProps } from './RestaurantCard.types';
@@ -41,6 +44,8 @@ export const RestaurantCard = React.memo(function RestaurantCard({
                 <StyledCardMedia
                     component="img"
                     image={imgSrc}
+                    alt={data.name}
+                    fetchPriority="high"
                     onError={() => {
                         if (imgSrc !== FALLBACK_IMAGE) {
                             setImgSrc(FALLBACK_IMAGE);
@@ -49,6 +54,8 @@ export const RestaurantCard = React.memo(function RestaurantCard({
                 />
                 <StyledImageIndicator
                     component="img"
+                    alt={data.dietaryCategory}
+                    loading="lazy"
                     image={
                         data.dietaryCategory === 'veg'
                             ? vegIndicator
@@ -56,16 +63,49 @@ export const RestaurantCard = React.memo(function RestaurantCard({
                     }
                 />
                 {isClosed && (
-                    <StyledClosedTag component="img" image={closedTag} />
+                    <StyledClosedTag
+                        component="img"
+                        alt="Restaurant is closed"
+                        loading="lazy"
+                        image={closedTag}
+                    />
                 )}
 
                 <StyledCardContent>
-                    <StyledTitle gutterBottom variant="subtitle1">
+                    <StyledBox>
+                        <Chip
+                            color="primary"
+                            icon={<StyledStarIcon />}
+                            label={data.rating ?? 5}
+                        />
+                    </StyledBox>
+                    <StyledTitle
+                        gutterBottom
+                        variant="subtitle1"
+                        marginBottom={0}
+                    >
                         {data.name}
                     </StyledTitle>
+
                     <StyledDescription variant="body2">
                         {data.description}
                     </StyledDescription>
+                    {!isClosed ? (
+                        <Typography
+                            variant="body2"
+                            color={theme.palette.error.main}
+                        >
+                            Will close at{' '}
+                            {formatUTCToLocal12h(data.closingTime)}{' '}
+                        </Typography>
+                    ) : (
+                        <Typography
+                            variant="body2"
+                            color={theme.palette.primary.main}
+                        >
+                            Will open at {formatUTCToLocal12h(data.openingTime)}{' '}
+                        </Typography>
+                    )}
                 </StyledCardContent>
             </CardActionArea>
 
@@ -76,7 +116,12 @@ export const RestaurantCard = React.memo(function RestaurantCard({
                     gap={theme.spacing(4)}
                     padding={theme.spacing(4)}
                 >
-                    <Button variant="text" onClick={onEdit} fullWidth>
+                    <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={onEdit}
+                        fullWidth
+                    >
                         <Typography variant="button">Edit</Typography>
                     </Button>
                     <Button variant="error" onClick={onDelete} fullWidth>

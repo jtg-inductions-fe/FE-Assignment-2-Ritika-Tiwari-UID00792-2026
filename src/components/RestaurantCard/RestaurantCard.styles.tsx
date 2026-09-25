@@ -1,4 +1,6 @@
+import StarIcon from '@mui/icons-material/Star';
 import {
+    Box,
     Card,
     CardContent,
     CardMedia,
@@ -10,30 +12,43 @@ import {
 export const StyledCard = styled(Card)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
-    gap: theme.spacing(8),
-    maxWidth: 200,
+    minWidth: 200,
+    maxWidth: 300,
+    flexGrow: 1,
     borderRadius: theme.shape.borderRadius,
     [theme.breakpoints.up('sm')]: {
-        maxWidth: 240,
+        minWidth: 250,
+        width: '25%',
+        maxWidth: '50%',
+    },
+    [theme.breakpoints.up('lg')]: {
+        width: '20%',
+        maxWidth: 300,
+
     },
 }));
-export const StyledCardMedia = styled(CardMedia)<CardMediaProps>(
+export const StyledCardMedia = styled(CardMedia)<CardMediaProps<'img'>>(
     ({ theme }) => ({
         position: 'relative',
         height: 200,
         minHeight: 200,
+        minWidth: 300,
+        objectFit: 'cover',
         borderRadius: theme.shape.borderRadius,
+        [theme.breakpoints.up('sm')]: {
+            minWidth: 200,
+        },
     }),
 );
 
-export const StyledImageIndicator = styled(CardMedia)<CardMediaProps>({
+export const StyledImageIndicator = styled(CardMedia)<CardMediaProps<'img'>>({
     width: 20,
     height: 20,
     right: 20,
     top: 20,
     position: 'absolute',
 });
-export const StyledClosedTag = styled(CardMedia)<CardMediaProps>({
+export const StyledClosedTag = styled(CardMedia)<CardMediaProps<'img'>>({
     width: 100,
     height: 100,
     right: 0,
@@ -43,6 +58,10 @@ export const StyledClosedTag = styled(CardMedia)<CardMediaProps>({
 
 export const StyledCardContent = styled(CardContent)(({ theme }) => ({
     width: '100%',
+    minHeight: 200,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: theme.spacing(2),
     backgroundColor: theme.palette.background.default,
 }));
 
@@ -51,4 +70,14 @@ export const StyledTitle = styled(Typography)(({ theme }) => ({
 }));
 export const StyledDescription = styled(Typography)(({ theme }) => ({
     ...theme.mixins.lineClamp(2),
+}));
+export const StyledBox = styled(Box)({
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+});
+
+export const StyledStarIcon = styled(StarIcon)(({ theme }) => ({
+    fontSize: theme.typography.pxToRem(16),
+    color: theme.palette.primary.dark,
 }));

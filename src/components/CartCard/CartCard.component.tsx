@@ -42,6 +42,7 @@ export const CartCard = React.memo(function CartCard({
                             : nonVegIndicator
                     }
                     alt={item.dietaryCategory}
+                    loading="lazy"
                 />
                 <StyledTitle variant="body2" fontWeight={500}>
                     {item.name}

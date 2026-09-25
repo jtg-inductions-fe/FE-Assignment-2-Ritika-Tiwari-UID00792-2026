@@ -107,7 +107,7 @@ export const Header = ({
     return (
         <StyledAppBar>
             <ResponsiveContainer>
-                <StyledToolbar>
+                <StyledToolbar disableGutters>
                     {/* Branding / logo */}
                     <LogoContainer aria-label="Brand name and logo">
                         <Link
@@ -115,11 +115,7 @@ export const Header = ({
                             to={ROUTES.ROOT}
                             title="Go to Home"
                         >
-                            <img
-                                src={logo}
-                                alt="Brand logo"
-                                role="presentation"
-                            />
+                            <img src={logo} alt="Brand logo" />
                         </Link>
                         <Typography
                             variant="h6"
@@ -232,7 +228,7 @@ export const Header = ({
                     open={isDialogOpen}
                     onClose={handleClose}
                     onSubmit={handleSubmit}
-                    title="Confirmation Dialog"
+                    title="Confirmation"
                     description="Are you sure you want to logout?"
                 />
             </ResponsiveContainer>

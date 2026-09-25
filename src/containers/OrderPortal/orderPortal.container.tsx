@@ -175,16 +175,14 @@ export const OrderPortal = () => {
             >
                 {orderLoading && (
                     <>
-                        <LoadingCardSkeleton width="100%" />
-                        <LoadingCardSkeleton width="100%" />
-                        <LoadingCardSkeleton width="100%" />
-                        <LoadingCardSkeleton width="100%" />
+                        {Array.from({ length: 6 }).map((_, i) => (
+                            <LoadingCardSkeleton key={i} variant="row" />
+                        ))}
                     </>
                 )}
                 {!orderLoading &&
                     (orderError || filteredOrders.length === 0) && (
                         <NullStateCard
-                            title=""
                             description={
                                 orderError
                                     ? 'Failed to load data of orders.'
@@ -219,7 +217,7 @@ export const OrderPortal = () => {
                 open={isDialogOpen}
                 onClose={handleClose}
                 onSubmit={handleSubmit}
-                title="Confirmation Dialog"
+                title="Confirmation"
                 description="Are you sure, you want to reject this order?"
             />
         </Box>

@@ -14,8 +14,8 @@ export const StyledCard = styled(Card)(({ theme }) => ({
     gap: theme.spacing(4),
     alignItems: 'center',
     minWidth: 220,
-    width: '40%',
-    maxWidth: 300,
+    width: '30%',
+    maxWidth: 260,
     flexGrow: 1,
     padding: theme.spacing(4),
     boxShadow: theme.shadows[10],
@@ -26,7 +26,7 @@ export const StyledCard = styled(Card)(({ theme }) => ({
     },
 }));
 
-export const StyledCardMedia = styled(CardMedia)<CardMediaProps>(
+export const StyledCardMedia = styled(CardMedia)<CardMediaProps<'img'>>(
     ({ theme }) => ({
         height: 30,
         minHeight: 200,
@@ -38,7 +38,7 @@ export const StyledCardMedia = styled(CardMedia)<CardMediaProps>(
     }),
 );
 
-export const StyledImageIndicator = styled(CardMedia)<CardMediaProps>({
+export const StyledImageIndicator = styled(CardMedia)<CardMediaProps<'img'>>({
     width: 20,
     height: 20,
     right: 30,
@@ -48,6 +48,7 @@ export const StyledImageIndicator = styled(CardMedia)<CardMediaProps>({
 
 export const StyledCardContent = styled(CardContent)(({ theme }) => ({
     backgroundColor: theme.palette.background.default,
+    minHeight: 200,
     [theme.breakpoints.up('md')]: {
         width: '50%',
     },
@@ -56,6 +57,7 @@ export const StyledCardContent = styled(CardContent)(({ theme }) => ({
 export const StyledTitle = styled(Typography)(({ theme }) => ({
     ...theme.mixins.lineClamp(1),
 }));
+
 export const StyledDescription = styled(Typography)(({ theme }) => ({
     ...theme.mixins.lineClamp(2),
 }));

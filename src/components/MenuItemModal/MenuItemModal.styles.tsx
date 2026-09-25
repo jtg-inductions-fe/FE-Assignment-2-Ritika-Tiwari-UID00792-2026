@@ -11,7 +11,4 @@ export const StyledModal = styled(Box)(({ theme }) => ({
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[24],
     padding: theme.spacing(8),
-    [theme.breakpoints.up('md')]: {
-        padding: theme.spacing(12),
-    },
 }));

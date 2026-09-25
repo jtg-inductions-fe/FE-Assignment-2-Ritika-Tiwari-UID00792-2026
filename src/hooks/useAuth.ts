@@ -14,9 +14,9 @@ export const useAuth = () => {
 
     /**  This variable contains the registered users from the redux store. */
     const registeredUsers = useAppSelector((state) => state.auth.users);
-
     //  Fetch data only when dispatch changes
     useEffect(() => {
+        if (registeredUsers && registeredUsers.length > 0) return;
         const fetchUsers = async () => {
             try {
                 const users: User[] = (await fetchRegisteredUsers()) ?? [];
@@ -31,7 +31,7 @@ export const useAuth = () => {
         };
 
         void fetchUsers();
-    }, [dispatch]);
+    }, [dispatch, registeredUsers]);
 
     /**
      * Helper function to locate a user by their email address.

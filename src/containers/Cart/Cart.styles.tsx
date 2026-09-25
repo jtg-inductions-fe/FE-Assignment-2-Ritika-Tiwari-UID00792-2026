@@ -1,6 +1,6 @@
 import { Box, CardMedia, CardMediaProps, styled } from '@mui/material';
 
-export const StyledCardMedia = styled(CardMedia)<CardMediaProps>({
+export const StyledCardMedia = styled(CardMedia)<CardMediaProps<'img'>>({
     width: 100,
     height: 50,
     objectFit: 'cover',
@@ -16,8 +16,11 @@ export const ActionWrapper = styled(Box)(({ theme }) => ({
 }));
 
 export const EmptyCart = styled(Box)(({ theme }) => ({
+    width: '100%',
+    flexGrow: 1,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    justifyContent: 'center',
     padding: theme.spacing(8),
 }));
